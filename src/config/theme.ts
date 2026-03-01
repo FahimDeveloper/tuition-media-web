@@ -2,21 +2,27 @@ import type {ThemeConfig} from 'antd';
 
 export const appTheme: ThemeConfig = {
   token: {
-    colorPrimary: '#6D8C85',
+    colorPrimary: '#3F72AF',
+    colorInfo: '#3F72AF',
+    colorTextBase: '#112D4E',
+    colorBgBase: '#F9F7F7',
+    colorBorder: '#DBE2EF',
     fontFamily: 'Manrope',
   },
   components: {
     Layout: {
-      headerBg: '#FFFFFF',
-      bodyBg: '#F5F8F7',
-      footerBg: '#FFFFFF',
+      headerBg: '#F9F7F7',
+      bodyBg: '#F9F7F7',
+      footerBg: '#F9F7F7',
     },
     Button: {
-      colorPrimary: '#6D8C85',
+      colorPrimary: '#3F72AF',
+      colorPrimaryHover: '#355F92',
+      colorPrimaryActive: '#2A4B74',
     },
     Typography: {
-      colorText: '#07133D',
-      colorTextSecondary: '#9CB7B0',
+      colorText: '#112D4E',
+      colorTextSecondary: '#3F72AF',
     },
   },
 };
