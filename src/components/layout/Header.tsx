@@ -46,20 +46,21 @@ const navigation: NavigationItem[] = [
   },
 ];
 
-const mobileLinkBaseClass =
-  'flex min-h-11 items-center rounded-xl px-4 py-3 text-base font-semibold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50';
+const mobileLinkBaseClasses =
+  'flex min-h-12 items-center rounded-xl px-4 py-3 text-base font-semibold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70';
 
-const mobileLinkActiveClass = 'bg-primary text-white';
-const mobileLinkInactiveClass =
-  'text-neutral hover:bg-secondary/20 hover:text-primary';
+const mobileLinkActiveClasses =
+  'bg-brand-600 text-text-on-brand shadow-sm shadow-brand-600/20';
+const mobileLinkInactiveClasses =
+  'text-neutral hover:bg-brand-50 hover:text-brand-700 active:bg-brand-100';
 
-const desktopLinkBaseClass =
-  "group relative flex items-center gap-2 px-2 py-2 text-sm font-semibold transition-all duration-300 before:content-['>'] before:text-primary before:transition-all before:duration-300";
+const desktopLinkBaseClasses =
+  "group relative flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-neutral transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70 before:content-['>'] before:text-base before:font-bold before:text-brand-600 before:transition-all before:duration-300";
 
-const desktopLinkActiveClass =
-  'text-primary before:translate-x-0 before:opacity-100';
-const desktopLinkInactiveClass =
-  'text-neutral before:-translate-x-1 before:opacity-0 hover:text-primary hover:before:translate-x-0 hover:before:opacity-100';
+const desktopLinkActiveClasses =
+  'font-bold text-brand-700 before:translate-x-0 before:opacity-100';
+const desktopLinkInactiveClasses =
+  'before:-translate-x-1 before:opacity-0 hover:bg-brand-50 hover:text-brand-700 hover:before:translate-x-0 hover:before:opacity-100';
 
 const MobileNavLink = ({item, onNavigate}: MobileNavLinkProps) => {
   return (
@@ -67,8 +68,8 @@ const MobileNavLink = ({item, onNavigate}: MobileNavLinkProps) => {
       to={item.href}
       onClick={onNavigate}
       className={({isActive}) =>
-        `${mobileLinkBaseClass} ${
-          isActive ? mobileLinkActiveClass : mobileLinkInactiveClass
+        `${mobileLinkBaseClasses} ${
+          isActive ? mobileLinkActiveClasses : mobileLinkInactiveClasses
         }`
       }
     >
@@ -82,8 +83,8 @@ const DesktopNavLink = ({item}: DesktopNavLinkProps) => {
     <NavLink
       to={item.href}
       className={({isActive}) =>
-        `${desktopLinkBaseClass} ${
-          isActive ? desktopLinkActiveClass : desktopLinkInactiveClass
+        `${desktopLinkBaseClasses} ${
+          isActive ? desktopLinkActiveClasses : desktopLinkInactiveClasses
         }`
       }
     >
@@ -93,6 +94,7 @@ const DesktopNavLink = ({item}: DesktopNavLinkProps) => {
 };
 
 const MobileNavbar = ({navigation, isOpen, onNavigate}: MobileNavbarProps) => {
+  // Keep the current menu animation behavior while improving visibility styles.
   const visibilityClass = isOpen
     ? 'translate-y-0 opacity-100 visible'
     : '-translate-y-2 opacity-0 invisible';
@@ -101,7 +103,10 @@ const MobileNavbar = ({navigation, isOpen, onNavigate}: MobileNavbarProps) => {
     <div
       className={`absolute left-0 top-full w-full px-4 pb-4 pt-2 transition-all duration-300 ease-out md:hidden ${visibilityClass}`}
     >
-      <ul className="space-y-2 rounded-2xl border border-secondary/40 bg-white/95 p-3 shadow-[0_12px_30px_rgba(7,19,61,0.14)] backdrop-blur">
+      <ul
+        aria-label="Primary navigation"
+        className="space-y-2 rounded-2xl border border-brand-200/70 bg-surface/95 p-3 shadow-[0_12px_30px_rgba(17,45,78,0.12)] backdrop-blur"
+      >
         {navigation.map((item) => (
           <li key={item.name}>
             <MobileNavLink item={item} onNavigate={onNavigate} />
@@ -114,7 +119,7 @@ const MobileNavbar = ({navigation, isOpen, onNavigate}: MobileNavbarProps) => {
 
 const DesktopNavbar = ({navigation}: DesktopNavbarProps) => {
   return (
-    <div className="hidden md:flex">
+    <nav aria-label="Primary navigation" className="hidden md:flex">
       <ul className="flex items-center gap-2">
         {navigation.map((item) => (
           <li key={item.name}>
@@ -122,7 +127,7 @@ const DesktopNavbar = ({navigation}: DesktopNavbarProps) => {
           </li>
         ))}
       </ul>
-    </div>
+    </nav>
   );
 };
 
@@ -132,7 +137,7 @@ const ToggleButton = ({onClick, isOpen}: ToggleButtonProps) => {
       onClick={onClick}
       aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
       aria-expanded={isOpen}
-      className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-secondary/40 bg-white text-neutral shadow-sm transition-colors duration-300 hover:border-primary hover:text-primary md:hidden"
+      className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-brand-200/70 bg-surface text-neutral shadow-sm transition-all duration-300 hover:border-brand-500 hover:text-brand-700 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70 md:hidden"
     >
       {isOpen ? <FiX size={20} /> : <FiMenu size={20} />}
     </button>
@@ -151,13 +156,13 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-secondary/35 bg-white/80 backdrop-blur-lg">
+    <header className="sticky top-0 z-50 border-b border-brand-200/60 bg-surface/90 shadow-[0_4px_16px_rgba(17,45,78,0.06)] backdrop-blur-lg">
       <nav className="relative mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         <NavLink
           to="/"
-          className="font-poppins text-xl font-extrabold tracking-tight text-neutral"
+          className="font-poppins text-xl font-extrabold tracking-tight text-neutral transition-colors duration-200 hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70"
         >
-          Tuition <span className="text-primary">Media</span>
+          Tuition <span className="text-brand-600">Media</span>
         </NavLink>
         <DesktopNavbar navigation={navigation} />
         <ToggleButton onClick={handleToggle} isOpen={isOpen} />
