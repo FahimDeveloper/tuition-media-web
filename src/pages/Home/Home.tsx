@@ -1,4 +1,5 @@
 import BecomeTutor from '../../components/layout/BecomeTutor';
+import FeaturedTeacher from '../../components/layout/featuredTeacher/FeaturedTeacher';
 import Hero from '../../components/layout/Hero';
 import TuitionCategory from '../../components/layout/TuitionCategory';
 
@@ -8,6 +9,7 @@ const Home = () => {
       <Hero />
       <TuitionCategory />
       <BecomeTutor />
+      <FeaturedTeacher />
     </div>
   );
 };
