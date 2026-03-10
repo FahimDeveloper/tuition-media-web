@@ -1,69 +1,56 @@
-const trustedCommunityImages = [
-  {
-    src: 'https://readymadeui.com/team-1.webp',
-    alt: 'Experienced tutor smiling',
-  },
-  {
-    src: 'https://readymadeui.com/team-2.webp',
-    alt: 'Guardian profile photo',
-  },
-  {
-    src: 'https://readymadeui.com/team-3.webp',
-    alt: 'Student profile photo',
-  },
-];
-
 const Hero = () => {
   return (
-    <div className="bg-radial-[at_50%_5%] from-surface via-surface to-brand-100">
-      <div className="px-4 py-10 sm:px-10 lg:py-16 lg:pt-32">
-        <div className="mx-auto max-w-7xl">
-          <div className="relative z-10 mx-auto max-w-4xl text-center">
-            <h1 className="mb-6 text-4xl font-bold leading-tight! text-text-strong md:text-5xl">
-              Find the Right Tutor.
-              <span className="block text-brand-600">
-                Build Academic Confidence.
-              </span>
+    <section
+      id="home"
+      className="bg-brand-50 min-h-screen flex items-center pt-16"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="fade-in">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-text-strong mb-4">
+              Find <span className="text-brand-700">Tuition Opportunities</span>
             </h1>
-
-            <p className="text-base leading-relaxed text-text-strong/80">
-              Tuition Media connects guardians, students, and verified tutors in
-              one trusted marketplace so you can find the best learning match
-              quickly and confidently.
+            <p className="text-xl md:text-2xl text-text-strong/80 mb-8">
+              Built for Tutors Across Bangladesh
             </p>
-
-            <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
-              <button className="cursor-pointer rounded-full border border-brand-600 bg-brand-600 px-5 py-2.5 text-base font-medium tracking-wide text-text-on-brand transition-all hover:bg-brand-700">
-                Find Tuitions
-              </button>
-              <button className="cursor-pointer rounded-full border border-brand-600 bg-transparent px-5 py-2.5 text-base font-medium tracking-wide text-brand-700 transition-all hover:bg-brand-50">
-                Become a Tutor
-              </button>
+            <p className="text-text-strong/80 mb-8 leading-relaxed">
+              Tuition Media helps you discover relevant tuition leads, apply
+              quickly, and connect with guardians through a simple, trusted
+              flow.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <a
+                href="/tuition"
+                className="bg-brand-600 text-text-on-brand px-8 py-3 rounded-lg hover:bg-brand-700 transition shadow-lg hover:shadow-xl"
+              >
+                Find Tuition Jobs
+              </a>
+              <a
+                href="/signup"
+                className="border-2 border-brand-600 text-brand-700 px-8 py-3 rounded-lg hover:bg-brand-600 hover:text-text-on-brand transition"
+              >
+                Join as a Tutor
+              </a>
             </div>
-
-            <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
-              <div className="flex -space-x-2">
-                {trustedCommunityImages.map((image) => (
+          </div>
+          <div className="flex justify-center fade-in">
+            <div className="relative">
+              <div className="w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 bg-gradient-to-br from-brand-700 to-brand-500 rounded-full shadow-2xl flex items-center justify-center">
+                <div className="w-60 h-60 md:w-72 md:h-72 lg:w-88 lg:h-88 bg-white rounded-full flex items-center justify-center text-8xl">
                   <img
-                    key={image.src}
-                    className="h-10 w-10 rounded-full border-2 border-surface"
-                    src={image.src}
-                    alt={image.alt}
+                    src="/call-center-illustration.jpg"
+                    className="object-cover w-full h-full rounded-full"
+                    alt=""
                   />
-                ))}
+                </div>
               </div>
-
-              <div className="text-base text-text-strong/75">
-                <span className="font-semibold text-text-strong">
-                  Over 10,000
-                </span>{' '}
-                tutors and guardians trust us.
-              </div>
+              <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-brand-700 rounded-full opacity-20 animate-pulse"></div>
+              <div className="absolute -top-4 -left-4 w-16 h-16 bg-brand-500 rounded-full opacity-20 animate-pulse"></div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
