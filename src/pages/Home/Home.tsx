@@ -1,7 +1,7 @@
-import BecomeTutor from '../../components/layout/BecomeTutor';
-import FeaturedTeacher from '../../components/layout/featuredTeacher/FeaturedTeacher';
-import Hero from '../../components/layout/Hero';
-import TuitionCategory from '../../components/layout/TuitionCategory';
+import BecomeTutor from '../../components/layout/home/BecomeTutor';
+import FeaturedTeacher from '../../components/layout/home/featuredTeacher/FeaturedTeacher';
+import Hero from '../../components/layout/home/Hero';
+import TuitionCategory from '../../components/layout/home/TuitionCategory';
 
 const Home = () => {
   return (
