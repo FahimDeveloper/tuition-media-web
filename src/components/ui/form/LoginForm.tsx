@@ -8,37 +8,18 @@ import {
 import {Alert, Button, Checkbox, Form, Input} from 'antd';
 import type {FormProps} from 'antd';
 import {Link} from 'react-router-dom';
+import {
+  isMockAuthError,
+  loginWithMockAuth,
+  type MockLoginPayload,
+} from './mockAuth';
 
-type LoginFormValues = {
-  email: string;
-  password: string;
-  remember: boolean;
-};
-
-type DemoLoginResponse = {
-  success: true;
-  user: {
-    id: number;
-    email: string;
-    name: string;
-  };
-  remember: boolean;
-};
-
-type LoginError = Error & {
-  status?: number;
-};
+type LoginFormValues = MockLoginPayload;
 
 type LoginErrorAlertProps = {
   message: string;
 };
 
-const DEMO_CREDENTIALS = {
-  email: 'demo@example.com',
-  password: 'Demo@123',
-} as const;
-
-const DEMO_REQUEST_DELAY_MS = 1200;
 const EMAIL_MAX_LENGTH = 100;
 const PASSWORD_MIN_LENGTH = 6;
 const PASSWORD_MAX_LENGTH = 128;
@@ -139,38 +120,6 @@ const linkClasses =
 
 const actionLinkClasses = `${linkClasses} inline-flex min-h-11 items-center justify-center rounded-lg px-3`;
 
-const createLoginError = (message: string, status?: number): LoginError => {
-  const error = new Error(message) as LoginError;
-  error.status = status;
-  return error;
-};
-
-// Local demo request until the real auth API is wired.
-async function loginRequest({
-  email,
-  password,
-  remember,
-}: LoginFormValues): Promise<DemoLoginResponse> {
-  await new Promise((resolve) => setTimeout(resolve, DEMO_REQUEST_DELAY_MS));
-
-  if (
-    email !== DEMO_CREDENTIALS.email ||
-    password !== DEMO_CREDENTIALS.password
-  ) {
-    throw createLoginError(VALIDATION_TEXT.invalidCredentials, 401);
-  }
-
-  return {
-    success: true,
-    user: {
-      id: 1,
-      email: DEMO_CREDENTIALS.email,
-      name: 'Demo User',
-    },
-    remember,
-  };
-}
-
 const normalizeEmail = (value: unknown) => {
   if (typeof value !== 'string') return '';
   return value.trim().toLowerCase();
@@ -214,16 +163,8 @@ const validatePassword = async (_: unknown, value?: string) => {
   }
 };
 
-const isUnauthorizedLoginError = (error: unknown) => {
-  if (typeof error !== 'object' || error === null || !('status' in error)) {
-    return false;
-  }
-
-  return error.status === 401;
-};
-
 const getLoginErrorMessage = (error: unknown) => {
-  if (isUnauthorizedLoginError(error)) {
+  if (isMockAuthError(error) && error.status === 401) {
     return VALIDATION_TEXT.invalidCredentials;
   }
 
@@ -396,7 +337,7 @@ export default function LoginForm() {
     setIsSubmitting(true);
 
     try {
-      await loginRequest(payload);
+      await loginWithMockAuth(payload);
       form.resetFields(['password']);
     } catch (error) {
       setAuthErrorMessage(getLoginErrorMessage(error));
