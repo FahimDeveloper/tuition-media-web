@@ -1,0 +1,71 @@
+.featured-teacher-carousel {
+  position: relative;
+}
+
+/* Keep each slide wrapper full height so card heights stay aligned */
+.featured-teacher-carousel .slick-slide > div {
+  height: 100%;
+}
+
+.featured-teacher-carousel .slick-list {
+  margin-inline: -0.25rem;
+  padding-block: 0.25rem 0.75rem;
+}
+
+/* Arrow placement */
+.featured-teacher-carousel .slick-prev {
+  left: 0.25rem !important;
+}
+
+.featured-teacher-carousel .slick-next {
+  right: 0.25rem !important;
+}
+
+/* Custom arrow button style */
+.featured-teacher-carousel .featured-teacher-arrow {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem !important;
+  height: 2.75rem !important;
+  border-radius: 9999px;
+  border: 1px solid var(--color-brand-300) !important;
+  background-color: var(--color-surface) !important;
+  color: var(--color-text-strong) !important;
+  box-shadow: 0 10px 24px rgba(17, 45, 78, 0.16);
+  transition:
+    border-color 200ms ease,
+    color 200ms ease;
+  z-index: 5;
+}
+
+.featured-teacher-carousel .featured-teacher-arrow:hover {
+  border-color: var(--color-brand-500) !important;
+  color: var(--color-brand-700) !important;
+}
+
+.featured-teacher-carousel .featured-teacher-arrow:focus-visible {
+  outline: 2px solid var(--color-brand-400);
+  outline-offset: 2px;
+}
+
+/* Hide slick default pseudo-icons since we render custom icons */
+.featured-teacher-carousel .slick-arrow::before,
+.featured-teacher-carousel .slick-arrow::after {
+  content: '' !important;
+  display: none !important;
+}
+
+.featured-teacher-carousel .slick-arrow.slick-disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+/* Pagination dots */
+.featured-teacher-carousel .slick-dots li button {
+  background-color: var(--color-brand-500) !important;
+}
+
+.featured-teacher-carousel .slick-dots li.slick-active::after {
+  background-color: var(--color-brand-700) !important;
+}
