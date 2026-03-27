@@ -1,6 +1,8 @@
-import {FiBriefcase, FiLayout, FiSearch} from 'react-icons/fi';
+import Input from 'antd/es/input/Input';
 import type {TuitionData} from '../../../pages/Tuition/tuitionDemoData';
 import TuitionCard from './TuitionCard';
+import {Button} from 'antd';
+import {MdOutlineManageSearch} from 'react-icons/md';
 
 type TuitionListingsSectionProps = {
   tuitions: TuitionData[];
@@ -14,10 +16,26 @@ const TuitionListingsSection = ({tuitions}: TuitionListingsSectionProps) => {
         aria-hidden="true"
       />
 
-      <div></div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-6 flex justify-between items-center">
+          <p className="flex items-center gap-1">
+            <MdOutlineManageSearch className="text-2xl text-primary" />
+            <span>100 results found</span>
+          </p>
+          <Button type="primary">Filter Button</Button>
+        </div>
+        <div className="grid grid-cols-[3fr_2fr_1fr] gap-4">
+          {/* Address */}
+          <Input placeholder="Basic usage" />
+          {/* Range */}
+          <Input placeholder="Basic usage" />
+          {/* Search Button */}
+          <Button type="primary">Search</Button>
+        </div>
+      </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-2">
+        <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {tuitions.map((tuition) => (
             <TuitionCard key={tuition.id} tuition={tuition} />
           ))}

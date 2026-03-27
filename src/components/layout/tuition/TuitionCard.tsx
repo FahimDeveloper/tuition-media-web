@@ -6,6 +6,7 @@ import {
   FiTag,
   FiUser,
 } from 'react-icons/fi';
+
 import type {IconType} from 'react-icons';
 import type {TuitionData} from '../../../pages/Tuition/tuitionDemoData';
 
