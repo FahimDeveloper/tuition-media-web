@@ -81,8 +81,8 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-16 border-t border-brand-200/70 bg-linear-to-b from-surface to-brand-50/70">
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+    <footer className="border-t border-brand-200/70 bg-linear-to-b from-surface to-brand-50/70">
+      <div className="mx-auto max-w-7xl px-4 pt-16 pb-10 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           <section>
             <h2 className="font-poppins text-2xl font-extrabold tracking-tight text-text-strong">
