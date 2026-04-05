@@ -1,4 +1,4 @@
-import {isCityName, isLocationForCity, type CityName} from './signupLocationData';
+import {isCityName, isLocationForCity, type CityName} from '@/components/ui/form/signupLocationData';
 
 export type MockLoginPayload = {
   email: string;

@@ -2,13 +2,15 @@
 
 ## Overview
 
-Tuition Media Web is the public client application for the Tuition Media marketplace flow. It is intended for public-facing user journeys such as:
+Tuition Media Web is the client application for the Tuition Media marketplace flow. It includes the public-facing marketplace experience and the currently active dashboard/demo route tree.
+
+Primary public journeys include:
 
 - home page and marketing sections
 - teacher registration and login entry points
 - tuition browsing and related discovery flows
 
-This repository does not cover internal CRM workflows, tele-sales dashboards, backoffice operations, or internal commission tooling.
+This repository does not cover internal CRM workflows, tele-sales operations tooling, backoffice operations systems, or internal commission tooling.
 
 The codebase is currently in an early implementation stage. The structure and conventions are already established, but some pages are still placeholders and some files are present without being wired into the active route tree. New contributors should treat this guide as the source of truth for how to extend the app safely.
 
@@ -40,7 +42,10 @@ Routing currently comes from `src/routers/index.tsx`, not from `src/App.tsx`. `s
 
 ## Current Route Map
 
-The active route tree uses `MainLayout` as the shell for the public site.
+The active route tree has two layout shells:
+
+- `MainLayout` for the public site
+- `DashboardLayout` for the dashboard route tree
 
 Current registered routes:
 
@@ -48,12 +53,24 @@ Current registered routes:
 - `/login` -> `Login`
 - `/signup` -> `Signup`
 - `/tuition` -> `Tuition`
+- `/dashboard` -> dashboard home
+- `/dashboard/profile` -> user profile
+- `/dashboard/calendar` -> calendar
+- `/dashboard/blank` -> blank page
+- `/dashboard/form-elements` -> form demo
+- `/dashboard/basic-tables` -> basic tables demo
+- `/dashboard/alerts` -> alerts demo
+- `/dashboard/avatars` -> avatars demo
+- `/dashboard/badge` -> badges demo
+- `/dashboard/buttons` -> buttons demo
+- `/dashboard/images` -> images demo
+- `/dashboard/videos` -> videos demo
+- `/dashboard/line-chart` -> line chart demo
+- `/dashboard/bar-chart` -> bar chart demo
+- `/dashboard/error-404` -> 404 demo
+- `/dashboard/signin` -> dashboard sign-in
+- `/dashboard/signup` -> dashboard sign-up
 - `*` -> simple `404` fallback
-
-Files currently present but not wired into the router:
-
-- `src/pages/Dashboard/Dashboard.tsx`
-- `src/pages/Profile/Profile.tsx`
 
 When adding a new screen, update the router explicitly. Creating a page file alone does not make it available in the app.
 
@@ -63,6 +80,7 @@ Top-level folders you will work with most often:
 
 - `src/pages/`: route-level screens
 - `src/components/`: reusable UI and composed layout blocks
+- `src/context/`: React context providers, including dashboard sidebar state
 - `src/redux/`: store setup, feature reducers, and API helpers
 - `src/routers/`: route definitions
 - `src/hooks/`: typed and reusable hooks
@@ -73,6 +91,12 @@ Top-level folders you will work with most often:
 - `public/`: public static files served directly
 
 There is also an `others/` folder in the repository root. It appears to contain draft, reference, or experimental files and is not part of the current runtime app structure. Do not treat it as a source folder for production code.
+
+## Import Conventions
+
+- Use `@/` for internal imports under `src`
+- Example: `@/components/layout/home/Hero`
+- Avoid introducing new deep relative imports such as `../../..`
 
 ## Component Architecture
 
@@ -119,6 +143,8 @@ Current layout groupings:
 
 - `shared/`: app-shell level components such as `MainLayout`, `Header`, `Footer`, and `ProfileDropdown`
 - `home/`: home page sections and their local children
+- `tuition/`: tuition listing composition
+- `dashboard/`: dashboard shell, header, auth, home, and profile composition
 
 Rules for this layer:
 
@@ -135,6 +161,7 @@ Current examples:
 - data table wrapper
 - pagination wrapper
 - shared loading block
+- dashboard reusable charts, tables, and form/demo helpers in `src/components/common/dashboard/`
 
 If a component is still only a low-level primitive, it belongs in `ui`, not `common`.
 

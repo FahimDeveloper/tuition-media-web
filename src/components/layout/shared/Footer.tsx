@@ -34,7 +34,7 @@ const quickLinks: FooterLink[] = [
 ];
 
 const supportLinks: FooterLink[] = [
-  {label: 'Teacher Profile', href: '/profile'},
+  {label: 'Teacher Profile', href: '/dashboard/profile'},
   {label: 'Dashboard', href: '/dashboard'},
   {label: 'Privacy Policy', href: '/'},
   {label: 'Terms & Conditions', href: '/'},
@@ -75,18 +75,18 @@ const socialLinks: SocialLink[] = [
 ];
 
 const navLinkClassName =
-  'inline-flex min-h-11 items-center rounded-lg px-3 py-2 text-sm font-medium text-text-strong transition-colors duration-200 hover:bg-brand-50 hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400';
+  'inline-flex min-h-11 items-center rounded-lg px-3 py-2 text-sm font-medium text-text-strong transition-colors duration-200 hover:bg-brand-50 hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white/90';
 
 const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-brand-200/70 bg-linear-to-b from-surface to-brand-50/70">
+    <footer className="border-t border-brand-200/70 bg-linear-to-b from-surface to-brand-50/70 transition-colors duration-300 dark:border-gray-800 dark:from-gray-950 dark:to-gray-900">
       <div className="mx-auto max-w-7xl px-4 pt-16 pb-10 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           <section>
             <h2 className="font-poppins text-2xl font-extrabold tracking-tight text-text-strong">
-              Tuition <span className="text-brand-600">Media</span>
+              Tuition <span className="text-brand-600 dark:text-brand-300">Media</span>
             </h2>
             <p className="mt-3 max-w-xs text-sm leading-6 text-text-strong/85">
               Connect students, guardians, and tutors in one trusted
@@ -101,7 +101,7 @@ const Footer = () => {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={link.label}
-                  className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-brand-200 bg-white text-brand-700 transition-colors duration-200 hover:border-brand-400 hover:text-brand-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+                  className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-brand-200 bg-white text-brand-700 transition-colors duration-200 hover:border-brand-400 hover:text-brand-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 dark:border-gray-800 dark:bg-white/[0.03] dark:text-brand-300 dark:hover:border-brand-400 dark:hover:bg-white/[0.06] dark:hover:text-brand-200"
                 >
                   {link.icon}
                 </a>
@@ -160,9 +160,9 @@ const Footer = () => {
                     href={item.href}
                     target={item.label === 'Address' ? '_blank' : undefined}
                     rel={item.label === 'Address' ? 'noreferrer' : undefined}
-                    className="flex min-h-11 items-center gap-3 rounded-lg px-3 py-2 text-sm text-text-strong transition-colors duration-200 hover:bg-brand-50 hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+                    className="flex min-h-11 items-center gap-3 rounded-lg px-3 py-2 text-sm text-text-strong transition-colors duration-200 hover:bg-brand-50 hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white/90"
                   >
-                    <span className="text-brand-600">{item.icon}</span>
+                    <span className="text-brand-600 dark:text-brand-300">{item.icon}</span>
                     <span>{item.value}</span>
                   </a>
                 </li>
@@ -171,7 +171,7 @@ const Footer = () => {
           </section>
         </div>
 
-        <div className="mt-8 flex flex-col items-start justify-between gap-3 border-t border-brand-200/70 pt-5 text-sm text-text-strong/80 sm:flex-row sm:items-center">
+        <div className="mt-8 flex flex-col items-start justify-between gap-3 border-t border-brand-200/70 pt-5 text-sm text-text-strong/80 sm:flex-row sm:items-center dark:border-gray-800 dark:text-gray-400">
           <p>&copy; {year} Tuition Media. All rights reserved.</p>
           <div className="flex flex-wrap items-center gap-3">
             <NavLink to="/" className={navLinkClassName}>

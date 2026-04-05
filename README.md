@@ -1,6 +1,6 @@
 # Tuition Media Web
 
-Public client application for the Tuition Media marketplace flow. This repository contains the teacher-facing and public browsing experience, including home, authentication entry points, and tuition discovery screens.
+Client application for the Tuition Media marketplace flow. This repository contains the teacher-facing public browsing experience plus the currently active dashboard/demo route tree.
 
 ## Stack
 
@@ -31,5 +31,6 @@ npm run dev
 
 ## Notes
 
-- This repository is for the public client app, not internal CRM or backoffice tooling.
+- This repository is for the marketplace client app and its current dashboard/demo surface, not internal CRM or backoffice tooling.
 - Some pages and flows are still placeholders. See `PROJECT_GUIDE.md` for the current implementation state and architecture details.
+- Internal source imports use the `@/` alias for `src/*`.

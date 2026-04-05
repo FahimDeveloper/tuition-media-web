@@ -12,7 +12,7 @@ import {
   isMockAuthError,
   loginWithMockAuth,
   type MockLoginPayload,
-} from './mockAuth';
+} from '@/components/ui/form/mockAuth';
 
 type LoginFormValues = MockLoginPayload;
 
@@ -70,19 +70,19 @@ const VALIDATION_TEXT = {
 } as const;
 
 const sectionClasses =
-  'relative overflow-hidden bg-[linear-gradient(180deg,rgba(242,247,252,0.98)_0%,rgba(249,247,247,1)_100%)] px-4 pb-20 pt-28 sm:px-6 sm:pb-24 sm:pt-32 lg:px-8';
+  'relative overflow-hidden bg-[linear-gradient(180deg,rgba(242,247,252,0.98)_0%,rgba(249,247,247,1)_100%)] px-4 pb-20 pt-28 transition-colors duration-300 dark:bg-[linear-gradient(180deg,rgba(12,17,29,0.98)_0%,rgba(16,24,40,1)_100%)] sm:px-6 sm:pb-24 sm:pt-32 lg:px-8';
 
 const backgroundGlowClasses =
   'pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top_left,rgba(102,153,207,0.18),transparent_42%),radial-gradient(circle_at_top_right,rgba(63,114,175,0.12),transparent_32%)]';
 
 const cardShellClasses =
-  'overflow-hidden rounded-[30px] border border-brand-100/80 bg-surface shadow-[0_24px_60px_rgba(17,45,78,0.12)]';
+  'overflow-hidden rounded-[30px] border border-brand-100/80 bg-surface shadow-[0_24px_60px_rgba(17,45,78,0.12)] dark:border-gray-800 dark:bg-gray-dark dark:shadow-[0_28px_70px_rgba(3,7,18,0.4)]';
 
 const formColumnClasses = 'lg:w-1/2 xl:w-5/12';
 const formColumnInnerClasses = 'px-6 py-8 sm:px-10 sm:py-12 lg:px-12 lg:py-14';
 
 const brandBadgeClasses =
-  'mx-auto inline-flex items-center gap-3 rounded-full border border-brand-200/70 bg-brand-50/80 px-4 py-2 text-sm font-semibold text-brand-700 transition-all duration-200 hover:border-brand-300 hover:bg-brand-100/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70 lg:mx-0';
+  'mx-auto inline-flex items-center gap-3 rounded-full border border-brand-200/70 bg-brand-50/80 px-4 py-2 text-sm font-semibold text-brand-700 transition-all duration-200 hover:border-brand-300 hover:bg-brand-100/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70 dark:border-gray-800 dark:bg-white/[0.03] dark:text-brand-300 dark:hover:border-brand-400 dark:hover:bg-white/[0.06] lg:mx-0';
 
 const introClasses = 'mt-8 text-center lg:text-left';
 
@@ -90,12 +90,12 @@ const formWrapperClasses =
   'mt-8 mx-auto w-full max-w-sm text-center sm:max-w-md lg:mx-0 lg:max-w-sm lg:text-left';
 
 const dividerClasses = 'my-8 flex items-center gap-4';
-const dividerLineClasses = 'h-px flex-1 bg-brand-200/80';
+const dividerLineClasses = 'h-px flex-1 bg-brand-200/80 dark:bg-gray-800';
 const dividerLabelClasses =
-  'font-poppins text-[11px] font-semibold uppercase tracking-[0.18em] text-text-strong/55';
+  'font-poppins text-[11px] font-semibold uppercase tracking-[0.18em] text-text-strong/55 dark:text-white/50';
 
 const errorAlertClasses =
-  'mb-5! rounded-xl! border! border-red-200! bg-red-50/90! [&_.ant-alert-content]:text-center lg:[&_.ant-alert-content]:text-left';
+  'mb-5! rounded-xl! border! border-red-200! bg-red-50/90! [&_.ant-alert-content]:text-center dark:border-red-500/30! dark:bg-red-500/12! dark:[&_.ant-alert-icon]:text-red-300 lg:[&_.ant-alert-content]:text-left';
 
 const legalTextClasses =
   'mt-6 text-center text-sm leading-6 text-text-strong/70 lg:text-left';
@@ -104,19 +104,19 @@ const signupTextClasses =
   'mt-5 text-center text-sm text-text-strong/70 lg:text-left';
 
 const formClasses =
-  '[&_.ant-form-item]:mb-5 [&_.ant-form-item-explain-error]:!mt-2 [&_.ant-form-item-explain-error]:!text-xs [&_.ant-form-item-explain-error]:!font-medium [&_.ant-form-item-extra]:!mt-2 [&_.ant-form-item-extra]:!text-center lg:[&_.ant-form-item-extra]:!text-left [&_.ant-form-item-label>label]:!mx-auto [&_.ant-form-item-label>label]:!pb-2 [&_.ant-form-item-label>label]:!text-center [&_.ant-form-item-label>label]:!font-semibold [&_.ant-form-item-label>label]:!text-text-strong lg:[&_.ant-form-item-label>label]:!mx-0 lg:[&_.ant-form-item-label>label]:!text-left [&_.ant-checkbox-wrapper]:!text-sm [&_.ant-checkbox-wrapper]:!font-medium [&_.ant-checkbox-wrapper]:!text-text-strong';
+  '[&_.ant-form-item]:mb-5 [&_.ant-form-item-explain-error]:!mt-2 [&_.ant-form-item-explain-error]:!text-xs [&_.ant-form-item-explain-error]:!font-medium [&_.ant-form-item-extra]:!mt-2 [&_.ant-form-item-extra]:!text-center lg:[&_.ant-form-item-extra]:!text-left [&_.ant-form-item-label>label]:!mx-auto [&_.ant-form-item-label>label]:!pb-2 [&_.ant-form-item-label>label]:!text-center [&_.ant-form-item-label>label]:!font-semibold [&_.ant-form-item-label>label]:!text-text-strong dark:[&_.ant-form-item-label>label]:!text-white/90 lg:[&_.ant-form-item-label>label]:!mx-0 lg:[&_.ant-form-item-label>label]:!text-left [&_.ant-checkbox-wrapper]:!text-sm [&_.ant-checkbox-wrapper]:!font-medium [&_.ant-checkbox-wrapper]:!text-text-strong dark:[&_.ant-checkbox-wrapper]:!text-gray-300';
 
 const inputClasses =
-  '!h-12 !rounded-xl !border-brand-200/80 !bg-brand-50/70 !px-3 !text-text-strong !shadow-none transition-all duration-200 hover:!border-brand-400 focus-within:!border-brand-500 focus-within:!bg-white focus-within:!shadow-[0_0_0_4px_rgba(63,114,175,0.12)]';
+  '!h-12 !rounded-xl !border-brand-200/80 !bg-brand-50/70 !px-3 !text-text-strong !shadow-none transition-all duration-200 hover:!border-brand-400 focus-within:!border-brand-500 focus-within:!bg-white focus-within:!shadow-[0_0_0_4px_rgba(63,114,175,0.12)] dark:!border-gray-700 dark:!bg-white/[0.03] dark:!text-white/90 dark:hover:!border-brand-400 dark:focus-within:!bg-gray-900';
 
 const secondaryButtonClasses =
-  '!h-12 !rounded-xl !border !border-brand-200 !bg-brand-50/80 !font-semibold !text-text-strong !shadow-none transition-all duration-200 hover:!border-brand-400 hover:!bg-white hover:!text-brand-700 focus-visible:!outline-none focus-visible:!ring-4 focus-visible:!ring-brand-200/80';
+  '!h-12 !rounded-xl !border !border-brand-200 !bg-brand-50/80 !font-semibold !text-text-strong !shadow-none transition-all duration-200 hover:!border-brand-400 hover:!bg-white hover:!text-brand-700 focus-visible:!outline-none focus-visible:!ring-4 focus-visible:!ring-brand-200/80 dark:!border-gray-700 dark:!bg-white/[0.03] dark:!text-white/90 dark:hover:!border-brand-400 dark:hover:!bg-white/[0.06] dark:hover:!text-brand-200';
 
 const primaryButtonClasses =
   '!h-12 !rounded-xl !border-0 !bg-brand-600 !font-semibold !text-text-on-brand !shadow-lg !shadow-brand-600/20 transition-all duration-200 hover:!bg-brand-700 focus-visible:!outline-none focus-visible:!ring-4 focus-visible:!ring-brand-200/80';
 
 const linkClasses =
-  'font-semibold text-brand-700 underline-offset-4 transition-colors duration-200 hover:text-brand-800 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70';
+  'font-semibold text-brand-700 underline-offset-4 transition-colors duration-200 hover:text-brand-800 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70 dark:text-brand-300 dark:hover:text-brand-200';
 
 const actionLinkClasses = `${linkClasses} inline-flex min-h-11 items-center justify-center rounded-lg px-3`;
 
@@ -203,10 +203,12 @@ const LoginBrandBadge = () => {
     <Link to="/" className={brandBadgeClasses}>
       <span className="font-poppins text-base font-extrabold tracking-tight text-text-strong">
         {LOGIN_TEXT.brandPrimary}{' '}
-        <span className="text-brand-600">{LOGIN_TEXT.brandAccent}</span>
+        <span className="text-brand-600 dark:text-brand-300">
+          {LOGIN_TEXT.brandAccent}
+        </span>
       </span>
       <span className="h-2 w-2 rounded-full bg-brand-500" />
-      <span className="text-[11px] uppercase tracking-[0.18em] text-brand-700/80">
+      <span className="text-[11px] uppercase tracking-[0.18em] text-brand-700/80 dark:text-brand-300/80">
         {LOGIN_TEXT.loginLabel}
       </span>
     </Link>
@@ -216,7 +218,7 @@ const LoginBrandBadge = () => {
 const LoginIntro = () => {
   return (
     <div className={introClasses}>
-      <span className="font-poppins text-xs font-semibold uppercase tracking-[0.18em] text-brand-700">
+      <span className="font-poppins text-xs font-semibold uppercase tracking-[0.18em] text-brand-700 dark:text-brand-300">
         {LOGIN_TEXT.eyebrow}
       </span>
       <h1 className="mt-3 font-poppins text-3xl font-extrabold leading-tight text-text-strong sm:text-4xl">

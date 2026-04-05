@@ -2,13 +2,16 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="bg-brand-50 min-h-screen flex items-center pt-16"
+      className="flex min-h-screen items-center bg-brand-50 pt-16 transition-colors duration-300 dark:bg-gray-950"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="fade-in">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-text-strong mb-4">
-              Find <span className="text-brand-700">Tuition Opportunities</span>
+              Find{' '}
+              <span className="text-brand-700 dark:text-brand-300">
+                Tuition Opportunities
+              </span>
             </h1>
             <p className="text-xl md:text-2xl text-text-strong/80 mb-8">
               Built for Tutors Across Bangladesh
@@ -21,13 +24,13 @@ const Hero = () => {
             <div className="flex flex-wrap gap-4">
               <a
                 href="/tuition"
-                className="bg-brand-600 text-text-on-brand px-8 py-3 rounded-lg hover:bg-brand-700 transition shadow-lg hover:shadow-xl"
+                className="rounded-lg bg-brand-600 px-8 py-3 text-text-on-brand shadow-lg transition hover:bg-brand-700 hover:shadow-xl"
               >
                 Find Tuition Jobs
               </a>
               <a
                 href="/signup"
-                className="border-2 border-brand-600 text-brand-700 px-8 py-3 rounded-lg hover:bg-brand-600 hover:text-text-on-brand transition"
+                className="rounded-lg border-2 border-brand-600 px-8 py-3 text-brand-700 transition hover:bg-brand-600 hover:text-text-on-brand dark:border-brand-400 dark:text-brand-300 dark:hover:bg-brand-500 dark:hover:text-white"
               >
                 Join as a Tutor
               </a>
@@ -36,7 +39,7 @@ const Hero = () => {
           <div className="flex justify-center fade-in">
             <div className="relative">
               <div className="w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 bg-gradient-to-br from-brand-700 to-brand-500 rounded-full shadow-2xl flex items-center justify-center">
-                <div className="w-60 h-60 md:w-72 md:h-72 lg:w-88 lg:h-88 bg-white rounded-full flex items-center justify-center text-8xl">
+                <div className="flex h-60 w-60 items-center justify-center rounded-full bg-white text-8xl shadow-[0_16px_40px_rgba(17,45,78,0.14)] dark:bg-white/[0.05] dark:shadow-[0_18px_44px_rgba(3,7,18,0.36)] md:h-72 md:w-72 lg:h-88 lg:w-88">
                   <img
                     src="/call-center-illustration.jpg"
                     className="object-cover w-full h-full rounded-full"

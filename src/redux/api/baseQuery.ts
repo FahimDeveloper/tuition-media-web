@@ -7,9 +7,9 @@ import {
   type FetchArgs,
 } from "@reduxjs/toolkit/query/react";
 
-import { baseUrl } from "../../config";
-import type { RootState } from "../store";
-import { loggedInUser, loggedOutUser } from "../features/auth/authSlice";
+import { baseUrl } from "@/config";
+import type { RootState } from "@/redux/store";
+import { loggedInUser, loggedOutUser } from "@/redux/features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: baseUrl.BASE_URL,

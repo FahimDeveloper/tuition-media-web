@@ -44,6 +44,18 @@
   color: var(--color-brand-700) !important;
 }
 
+.dark .featured-teacher-carousel .featured-teacher-arrow {
+  border-color: #1f2937 !important;
+  background-color: rgba(255, 255, 255, 0.03) !important;
+  box-shadow: 0 18px 44px rgba(3, 7, 18, 0.32);
+}
+
+.dark .featured-teacher-carousel .featured-teacher-arrow:hover {
+  border-color: var(--color-brand-400) !important;
+  color: var(--color-brand-300) !important;
+  background-color: rgba(255, 255, 255, 0.06) !important;
+}
+
 .featured-teacher-carousel .featured-teacher-arrow:focus-visible {
   outline: 2px solid var(--color-brand-400);
   outline-offset: 2px;
@@ -68,4 +80,12 @@
 
 .featured-teacher-carousel .slick-dots li.slick-active::after {
   background-color: var(--color-brand-700) !important;
+}
+
+.dark .featured-teacher-carousel .slick-dots li button {
+  background-color: rgba(143, 182, 222, 0.45) !important;
+}
+
+.dark .featured-teacher-carousel .slick-dots li.slick-active::after {
+  background-color: var(--color-brand-300) !important;
 }

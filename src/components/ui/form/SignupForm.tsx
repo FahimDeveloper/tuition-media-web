@@ -14,13 +14,13 @@ import {
   isLocationForCity,
   SIGNUP_CITY_OPTIONS,
   type CityName,
-} from './signupLocationData';
+} from '@/components/ui/form/signupLocationData';
 
 import {
   isMockAuthError,
   signupWithMockAuth,
   type MockSignupPayload,
-} from './mockAuth';
+} from '@/components/ui/form/mockAuth';
 
 type GenderValue = 'male' | 'female' | 'other' | 'prefer_not_to_say';
 
@@ -148,37 +148,37 @@ const VALIDATION = {
 } as const;
 
 const sectionClasses =
-  'relative overflow-hidden bg-[linear-gradient(180deg,rgba(242,247,252,0.98)_0%,rgba(249,247,247,1)_100%)] px-4 pb-20 pt-28 sm:px-6 sm:pb-24 sm:pt-32 lg:px-8';
+  'relative overflow-hidden bg-[linear-gradient(180deg,rgba(242,247,252,0.98)_0%,rgba(249,247,247,1)_100%)] px-4 pb-20 pt-28 transition-colors duration-300 dark:bg-[linear-gradient(180deg,rgba(12,17,29,0.98)_0%,rgba(16,24,40,1)_100%)] sm:px-6 sm:pb-24 sm:pt-32 lg:px-8';
 
 const backgroundGlowClasses =
   'pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top_left,rgba(102,153,207,0.18),transparent_42%),radial-gradient(circle_at_top_right,rgba(63,114,175,0.12),transparent_32%)]';
 
 const cardShellClasses =
-  'overflow-hidden rounded-[30px] border border-brand-100/80 bg-surface shadow-[0_24px_60px_rgba(17,45,78,0.12)]';
+  'overflow-hidden rounded-[30px] border border-brand-100/80 bg-surface shadow-[0_24px_60px_rgba(17,45,78,0.12)] dark:border-gray-800 dark:bg-gray-dark dark:shadow-[0_28px_70px_rgba(3,7,18,0.4)]';
 
 const brandBadgeClasses =
-  'inline-flex items-center gap-3 rounded-full border border-brand-200/70 bg-brand-50/80 px-4 py-2 text-sm font-semibold text-brand-700 transition-all duration-200 hover:border-brand-300 hover:bg-brand-100/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70';
+  'inline-flex items-center gap-3 rounded-full border border-brand-200/70 bg-brand-50/80 px-4 py-2 text-sm font-semibold text-brand-700 transition-all duration-200 hover:border-brand-300 hover:bg-brand-100/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70 dark:border-gray-800 dark:bg-white/[0.03] dark:text-brand-300 dark:hover:border-brand-400 dark:hover:bg-white/[0.06]';
 
 const inputClasses =
-  '!h-12 !rounded-xl !border-brand-200/80 !bg-brand-50/70 !px-3 !text-text-strong !shadow-none transition-all duration-200 hover:!border-brand-400 focus-within:!border-brand-500 focus-within:!bg-white focus-within:!shadow-[0_0_0_4px_rgba(63,114,175,0.12)]';
+  '!h-12 !rounded-xl !border-brand-200/80 !bg-brand-50/70 !px-3 !text-text-strong !shadow-none transition-all duration-200 hover:!border-brand-400 focus-within:!border-brand-500 focus-within:!bg-white focus-within:!shadow-[0_0_0_4px_rgba(63,114,175,0.12)] dark:!border-gray-700 dark:!bg-white/[0.03] dark:!text-white/90 dark:hover:!border-brand-400 dark:focus-within:!bg-gray-900';
 
 const selectClasses =
-  '[&_.ant-select-selector]:!h-12 [&_.ant-select-selector]:!rounded-xl [&_.ant-select-selector]:!border-brand-200/80 [&_.ant-select-selector]:!bg-brand-50/70 [&_.ant-select-selector]:!px-3 [&_.ant-select-selector]:!shadow-none [&_.ant-select-selection-item]:!text-text-strong [&_.ant-select-selection-placeholder]:!text-text-strong/45 [&_.ant-select-arrow]:!text-brand-500 transition-all duration-200 hover:[&_.ant-select-selector]:!border-brand-400 focus-within:[&_.ant-select-selector]:!border-brand-500 focus-within:[&_.ant-select-selector]:!bg-white focus-within:[&_.ant-select-selector]:!shadow-[0_0_0_4px_rgba(63,114,175,0.12)]';
+  '[&_.ant-select-selector]:!h-12 [&_.ant-select-selector]:!rounded-xl [&_.ant-select-selector]:!border-brand-200/80 [&_.ant-select-selector]:!bg-brand-50/70 [&_.ant-select-selector]:!px-3 [&_.ant-select-selector]:!shadow-none [&_.ant-select-selection-item]:!text-text-strong [&_.ant-select-selection-placeholder]:!text-text-strong/45 [&_.ant-select-arrow]:!text-brand-500 transition-all duration-200 hover:[&_.ant-select-selector]:!border-brand-400 focus-within:[&_.ant-select-selector]:!border-brand-500 focus-within:[&_.ant-select-selector]:!bg-white focus-within:[&_.ant-select-selector]:!shadow-[0_0_0_4px_rgba(63,114,175,0.12)] dark:[&_.ant-select-selector]:!border-gray-700 dark:[&_.ant-select-selector]:!bg-white/[0.03] dark:[&_.ant-select-selection-item]:!text-white/90 dark:[&_.ant-select-selection-placeholder]:!text-white/30 dark:[&_.ant-select-arrow]:!text-brand-300 dark:hover:[&_.ant-select-selector]:!border-brand-400 dark:focus-within:[&_.ant-select-selector]:!bg-gray-900';
 
 const primaryButtonClasses =
   '!h-12 !rounded-xl !border-0 !bg-brand-600 !font-semibold !text-text-on-brand !shadow-lg !shadow-brand-600/20 transition-all duration-200 hover:!bg-brand-700 focus-visible:!outline-none focus-visible:!ring-4 focus-visible:!ring-brand-200/80';
 
 const formClasses =
-  '[&_.ant-form-item]:mb-0 [&_.ant-form-item-explain-error]:!mt-2 [&_.ant-form-item-explain-error]:!text-xs [&_.ant-form-item-explain-error]:!font-medium [&_.ant-form-item-extra]:!mt-2 [&_.ant-form-item-extra]:!text-sm [&_.ant-form-item-extra]:!leading-5 [&_.ant-form-item-extra]:!text-text-strong/70 [&_.ant-form-item-label>label]:!pb-2 [&_.ant-form-item-label>label]:!font-semibold [&_.ant-form-item-label>label]:!text-text-strong';
+  '[&_.ant-form-item]:mb-0 [&_.ant-form-item-explain-error]:!mt-2 [&_.ant-form-item-explain-error]:!text-xs [&_.ant-form-item-explain-error]:!font-medium [&_.ant-form-item-extra]:!mt-2 [&_.ant-form-item-extra]:!text-sm [&_.ant-form-item-extra]:!leading-5 [&_.ant-form-item-extra]:!text-text-strong/70 dark:[&_.ant-form-item-extra]:!text-gray-400 [&_.ant-form-item-label>label]:!pb-2 [&_.ant-form-item-label>label]:!font-semibold [&_.ant-form-item-label>label]:!text-text-strong dark:[&_.ant-form-item-label>label]:!text-white/90';
 
 const successAlertClasses =
-  'rounded-xl! border! border-brand-200/80! bg-brand-50/90! [&_.ant-alert-content]:text-left';
+  'rounded-xl! border! border-brand-200/80! bg-brand-50/90! [&_.ant-alert-content]:text-left dark:border-brand-500/30! dark:bg-brand-500/12!';
 
 const errorAlertClasses =
-  'rounded-xl! border! border-red-200! bg-red-50/90! [&_.ant-alert-content]:text-left';
+  'rounded-xl! border! border-red-200! bg-red-50/90! [&_.ant-alert-content]:text-left dark:border-red-500/30! dark:bg-red-500/12!';
 
 const linkClasses =
-  'font-semibold text-brand-700 underline-offset-4 transition-colors duration-200 hover:text-brand-800 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70';
+  'font-semibold text-brand-700 underline-offset-4 transition-colors duration-200 hover:text-brand-800 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70 dark:text-brand-300 dark:hover:text-brand-200';
 
 const normalizeWhitespace = (value: string) =>
   value.trim().replace(/\s+/g, ' ');
@@ -348,10 +348,12 @@ const SignupBrandBadge = () => (
   <Link to="/" className={brandBadgeClasses}>
     <span className="font-poppins text-base font-extrabold tracking-tight text-text-strong">
       {TEXT.brandPrimary}{' '}
-      <span className="text-brand-600">{TEXT.brandAccent}</span>
+      <span className="text-brand-600 dark:text-brand-300">
+        {TEXT.brandAccent}
+      </span>
     </span>
     <span className="h-2 w-2 rounded-full bg-brand-500" />
-    <span className="text-[11px] uppercase tracking-[0.18em] text-brand-700/80">
+    <span className="text-[11px] uppercase tracking-[0.18em] text-brand-700/80 dark:text-brand-300/80">
       {TEXT.badgeLabel}
     </span>
   </Link>
@@ -456,7 +458,7 @@ export default function SignupForm() {
                 <SignupBrandBadge />
 
                 <div className="mt-8">
-                  <span className="font-poppins text-xs font-semibold uppercase tracking-[0.18em] text-brand-700">
+                  <span className="font-poppins text-xs font-semibold uppercase tracking-[0.18em] text-brand-700 dark:text-brand-300">
                     {TEXT.eyebrow}
                   </span>
                   <h1 className="mt-3 font-poppins text-3xl font-extrabold leading-tight text-text-strong sm:text-4xl">

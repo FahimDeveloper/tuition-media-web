@@ -40,20 +40,20 @@ const trustPointCardClasses =
 const trustPointIconClasses =
   'inline-flex h-10 w-10 items-center justify-center rounded-full border border-brand-300/30 bg-brand-50/10 text-brand-100';
 const formShellClasses =
-  'rounded-[28px] border border-brand-200/20 bg-surface/95 p-5 shadow-[0_20px_50px_rgba(17,45,78,0.22)] backdrop-blur-sm sm:p-6 lg:p-7';
+  'rounded-[28px] border border-brand-200/20 bg-surface/95 p-5 shadow-[0_20px_50px_rgba(17,45,78,0.22)] backdrop-blur-sm dark:border-gray-800 dark:bg-gray-dark/95 dark:shadow-[0_24px_60px_rgba(3,7,18,0.4)] sm:p-6 lg:p-7';
 const formPanelClasses =
-  'rounded-2xl border border-brand-100/80 bg-white/80 p-5 sm:p-6';
+  'rounded-2xl border border-brand-100/80 bg-white/80 p-5 dark:border-gray-800 dark:bg-white/[0.04] sm:p-6';
 const phoneInputBaseClasses =
-  'min-h-14 w-full rounded-xl border bg-surface px-4 text-base text-text-strong placeholder:text-text-strong/45 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70';
+  'min-h-14 w-full rounded-xl border bg-surface px-4 text-base text-text-strong placeholder:text-text-strong/45 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70 dark:border-gray-700 dark:bg-white/[0.03] dark:text-white/90 dark:placeholder:text-white/30 dark:focus-visible:bg-gray-900';
 const phoneInputDefaultClasses =
-  'border-brand-200/80 hover:border-brand-300 focus-visible:border-brand-400';
+  'border-brand-200/80 hover:border-brand-300 focus-visible:border-brand-400 dark:hover:border-brand-400';
 const phoneInputErrorClasses = 'border-red-300';
 const submitButtonClasses =
   'inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-xl bg-brand-600 px-6 text-base font-semibold text-text-on-brand shadow-[0_10px_24px_rgba(63,114,175,0.28)] transition-all duration-200 hover:bg-brand-700 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70';
 const errorFeedbackClasses =
-  'rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700';
+  'rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700 dark:border-red-500/30 dark:bg-red-500/12 dark:text-red-200';
 const successFeedbackClasses =
-  'flex items-start gap-3 rounded-xl border border-brand-200 bg-brand-50 px-4 py-3 text-sm text-brand-800';
+  'flex items-start gap-3 rounded-xl border border-brand-200 bg-brand-50 px-4 py-3 text-sm text-brand-800 dark:border-brand-500/30 dark:bg-brand-500/12 dark:text-brand-100';
 
 type TrustPoint = {
   title: string;
@@ -144,7 +144,7 @@ const FeedbackMessage = ({feedback, id}: FeedbackMessageProps) => {
     >
       <FiCheckCircle
         size={18}
-        className="mt-0.5 shrink-0 text-brand-700"
+        className="mt-0.5 shrink-0 text-brand-700 dark:text-brand-300"
         aria-hidden="true"
       />
       <p className="leading-relaxed">{feedback.message}</p>
@@ -219,7 +219,7 @@ const LookingForATeacherCta = () => {
           <div className={formShellClasses}>
             <div className={formPanelClasses}>
               <div className="flex items-start gap-3">
-                <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-50 text-brand-700">
+                <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-50 text-brand-700 dark:bg-brand-500/15 dark:text-brand-300">
                   <FiPhoneCall size={20} />
                 </div>
 
