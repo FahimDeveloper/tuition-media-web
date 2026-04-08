@@ -1,10 +1,10 @@
 const version = {
-  development: "DEVELOPMENT",
-  live: "LIVE_PRODUCTION",
-  test: "TEST_PRODUCTION",
+  development: 'DEVELOPMENT',
+  live: 'LIVE_PRODUCTION',
+  test: 'TEST_PRODUCTION',
 };
 
-const activeEnv: string = version.live;
+const activeEnv: string = version.development;
 
 const envKeys: Record<
   string,

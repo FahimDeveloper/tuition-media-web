@@ -3,6 +3,7 @@ import {FiMenu, FiMoon, FiSun, FiX} from 'react-icons/fi';
 import {NavLink, useLocation} from 'react-router-dom';
 import ProfileDropdown from '@/components/layout/shared/ProfileDropdown';
 import {useTheme} from '@/hooks/useTheme';
+import {useAppSelector} from '@/hooks/useAppHooks';
 
 type NavigationItem = {
   name: string;
@@ -43,7 +44,12 @@ const Header = () => {
     theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
 
   // UI-only toggle for now. Replace with real auth state later.
-  const isLoggedIn = true;
+  let isLoggedIn = false;
+
+  const {user, accessToken} = useAppSelector((state) => state.auth);
+  if (user && accessToken) {
+    isLoggedIn = true;
+  }
 
   const visibleNavItems = isLoggedIn
     ? navigationItems.filter((item) => !item.guestOnly)

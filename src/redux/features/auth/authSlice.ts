@@ -1,16 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { RootState } from "@/redux/store";
+import {createSlice} from '@reduxjs/toolkit';
+import type {RootState} from '@/redux/store';
 
 interface TState {
   user: null | {
     _id: string;
-    full_name: string;
-    image: string;
+    first_name: string;
+    last_name: string;
     email: string;
-    role: string;
+    password: string;
     phone: string;
-    gender: string;
-    date_of_birth: string;
+    gender: 'male' | 'female' | 'other';
+    date_of_birth: string; // ISO string
+    years_of_experience: number;
+    will_teach_online: boolean;
+    isProfileCompleted: boolean;
+    createdAt: string;
+    updatedAt: string;
   };
   accessToken: null | string;
   refreshToken: null | string;
@@ -22,11 +27,11 @@ const initialState: TState = {
   refreshToken: null,
 };
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
     loggedInUser: (state, action) => {
-      const { user, accessToken, refreshToken } = action.payload;
+      const {user, accessToken, refreshToken} = action.payload;
       state.user = user;
       state.accessToken = accessToken;
       state.refreshToken = refreshToken;
@@ -39,7 +44,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { loggedInUser, loggedOutUser } = authSlice.actions;
+export const {loggedInUser, loggedOutUser} = authSlice.actions;
 export const selectCurrentUser = (state: RootState) => state.auth.user;
 export const selectCurrentToken = (state: RootState) => state.auth.accessToken;
 export default authSlice.reducer;

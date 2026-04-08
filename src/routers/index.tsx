@@ -22,6 +22,7 @@ import Buttons from '@/pages/Dashboard/UiElements/Buttons';
 import Images from '@/pages/Dashboard/UiElements/Images';
 import Videos from '@/pages/Dashboard/UiElements/Videos';
 import UserProfiles from '@/pages/Dashboard/Profile';
+import PrivetRoute from './PrivateRoute';
 
 const dashboardChildren = [
   {index: true, element: <DashboardHome />},
@@ -54,7 +55,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/dashboard',
-    element: <AppLayout />,
+    element: (
+      <PrivetRoute>
+        <AppLayout />
+      </PrivetRoute>
+    ),
     children: dashboardChildren,
   },
   {

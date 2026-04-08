@@ -1,3 +1,8 @@
+import {useAppSelector} from '@/hooks/useAppHooks';
+import {
+  loggedOutUser,
+  selectCurrentUser,
+} from '@/redux/features/auth/authSlice';
 import {type ReactNode, useEffect, useId, useRef, useState} from 'react';
 import {
   FiChevronDown,
@@ -7,7 +12,9 @@ import {
   FiSettings,
   FiUser,
 } from 'react-icons/fi';
+import {useDispatch, useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 type ProfileAction = {
   label: string;
@@ -54,6 +61,10 @@ const profileActions: ProfileAction[] = [
 ];
 
 const ProfileDropdown = () => {
+  const dispatch = useDispatch();
+  const currentUser = useAppSelector(selectCurrentUser);
+  console.log(currentUser);
+
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
@@ -118,6 +129,20 @@ const ProfileDropdown = () => {
     });
   }, [isOpen]);
 
+  const handleLogout = () => {
+    // TODO: Add logout logic
+    closeMenu(true);
+    dispatch(loggedOutUser());
+    Swal.fire({
+      title: 'Success',
+      text: 'You have successfully logged out.',
+      icon: 'success',
+      showConfirmButton: false,
+      timer: 1500,
+      iconColor: '#355F92',
+    });
+  };
+
   return (
     <div ref={containerRef} className="relative">
       <button
@@ -141,7 +166,7 @@ const ProfileDropdown = () => {
         />
 
         <span className="hidden max-w-32 truncate text-sm font-semibold md:block">
-          {mockUser.fullName}
+          {currentUser?.first_name}
         </span>
         <FiChevronDown
           size={16}
@@ -214,7 +239,7 @@ const ProfileDropdown = () => {
             <button
               type="button"
               role="menuitem"
-              onClick={() => closeMenu(true)}
+              onClick={handleLogout}
               className="flex min-h-11 w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm font-semibold text-neutral transition-colors duration-200 hover:bg-brand-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70 dark:text-white/90 dark:hover:bg-white/5"
             >
               <FiLogOut
