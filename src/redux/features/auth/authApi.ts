@@ -10,9 +10,9 @@ const authApi = authApiSlice.injectEndpoints({
       }),
     }),
 
-    register: builder.mutation({
+    registration: builder.mutation({
       query: (credentials) => ({
-        url: '/auth/teacher/register',
+        url: '/auth/teacher/registration',
         method: 'POST',
         body: credentials,
       }),
@@ -20,4 +20,4 @@ const authApi = authApiSlice.injectEndpoints({
   }),
 });
 
-export const {useLoginMutation, useRegisterMutation} = authApi;
+export const {useLoginMutation, useRegistrationMutation} = authApi;
