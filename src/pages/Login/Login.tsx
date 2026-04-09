@@ -32,7 +32,7 @@ const Login = () => {
         confirmButtonColor: '#355F92',
       });
     }
-  }, [isError, isSuccess, error, data, dispatch]);
+  }, [isError, isSuccess, error, data, dispatch, navigate]);
   const onFinish = (values: any) => {
     login(values);
   };
