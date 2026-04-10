@@ -14,13 +14,7 @@ import {
   isLocationForCity,
   SIGNUP_CITY_OPTIONS,
   type CityName,
-} from '@/components/ui/form/signupLocationData';
-
-import {
-  isMockAuthError,
-  signupWithMockAuth,
-  type MockSignupPayload,
-} from '@/components/ui/form/mockAuth';
+} from '@/components/ui/form/signup/signupLocationData';
 
 type GenderValue = 'male' | 'female' | 'other' | 'prefer_not_to_say';
 
@@ -243,7 +237,7 @@ function assertCompleteSignupValues(
   }
 }
 
-const buildSignupPayload = (values: SignupFormValues): MockSignupPayload => {
+const buildSignupPayload = (values: SignupFormValues): any => {
   assertCompleteSignupValues(values);
 
   return {
