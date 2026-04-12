@@ -1,210 +1,348 @@
 # Repository Guidelines
 
-## Purpose
+## Project Overview
 
-This repository is the public client application for Tuition Media. It covers public marketplace flows such as:
+This repository is the public client application for Tuition Media.
 
-- home and marketing pages
-- teacher login/signup entry points
-- tuition browsing and related public-facing discovery flows
+Primary product surface in this repo:
+
+- public marketplace and marketing pages
+- teacher/tutor sign-in and sign-up
+- tuition discovery/listing UI
+- the currently wired dashboard/demo route tree
 
 Out of scope here:
 
-- internal CRM and backoffice tools
-- tele-sales or internal operations dashboards
+- internal CRM or backoffice tooling
+- tele-sales operations tools
 - private internal workflows
 
 ## Source of Truth
 
-- `AGENTS.md`: compact Codex operating guide for implementation decisions
-- `PROJECT_GUIDE.md`: full onboarding and architecture reference for developers
+- `AGENTS.md`: compact execution guide for repo-aware edits
+- `PROJECT_GUIDE.md`: broader onboarding and architecture reference
+- the codebase: final authority when docs disagree
 
-Use `PROJECT_GUIDE.md` for broader context. Use this file for day-to-day execution rules and UI consistency.
+Prefer the codebase over older documentation if you find drift.
 
-## Current Project State
+## Current Runtime State
 
-Work against the real app state, not the intended future state.
+Work from the current implementation, not the intended future product state.
 
-- Active app startup comes from `src/main.tsx` and `src/routers/index.tsx`.
-- `src/App.tsx` exists but is not the active routing composition entry.
-- `Login`, `Signup`, and `Tuition` are still placeholder screens.
-- `Dashboard` and `Profile` page files exist but are not routed.
-- Header auth behavior is currently mocked with a hardcoded logged-in state.
-- `ProfileDropdown` uses mock user data.
-- `others/` contains scratch/reference files and is not part of the runtime source structure.
-- `src/config/index.ts` currently hardcodes the live environment selection.
+- The active app entrypoint is `src/main.tsx`.
+- Routing comes from `src/routers/index.tsx`.
+- `src/App.tsx` exists but is not part of the active router composition.
+- Public routes are `/`, `/tuition`, `/login`, and `/signup`.
+- `/dashboard/*` is an active private route tree behind `src/routers/PrivateRoute.tsx`.
+- Auth forms are implemented and wired to RTK Query auth endpoints.
+- Tuition listing UI is still driven by local demo data from `src/pages/Tuition/tuitionDemoData.ts`.
+- Tuition search/filter controls are placeholder UI right now.
+- Much of the dashboard surface is template/demo-oriented and still contains TailAdmin copy/metadata.
+- `src/config/index.ts` currently hardcodes `activeEnv` to `DEVELOPMENT`.
+- `others/` is scratch/reference material, not runtime source.
+- No test suite or CI config was detected in the repo.
 
-Do not copy placeholder logic or mock data patterns into production-oriented work unless the task is explicitly scaffolding.
+Important current-state corrections to preserve:
 
-## Project Structure
+- Header auth visibility is derived from Redux auth state, not a hardcoded logged-in mock.
+- `ProfileDropdown` reads the persisted auth user and falls back only when fields are missing.
+- `ProfileDropdown` includes a `/dashboard/settings` link, but that route is not registered yet.
 
-This project uses a layered frontend structure. Extend the current structure instead of introducing a feature-first model.
+## Tech Stack
 
-- `src/pages/`: route-level screens
-- `src/components/`: reusable UI, split into `layout`, `common`, and `ui`
-- `src/redux/`: store setup, auth state, and API helpers
-- `src/routers/`: route configuration
-- `src/hooks/`, `src/config/`, `src/types/`, `src/utils/`: shared app logic
-- `public/` and `src/assets/`: static assets
+- React 19
+- TypeScript with `strict` mode enabled
+- Vite 7
+- React Router DOM 7 using `createBrowserRouter`
+- Redux Toolkit
+- RTK Query
+- Redux Persist
+- Tailwind CSS v4
+- Ant Design 6
+- `react-helmet-async` for page metadata
+- `sweetalert2` for logout feedback
 
-## Layered Component Placement
+Also present, mostly in dashboard/demo areas:
 
-Use this placement order for all new UI work:
-
-1. Route/screen composition -> `src/pages/*`
-2. App shell and section composition -> `src/components/layout/*`
-3. Cross-page composed blocks -> `src/components/common/*`
-4. Low-level reusable primitives -> `src/components/ui/*`
-
-Current layout conventions:
-
-- `src/components/layout/shared/*`: shell components such as `MainLayout`, `Header`, `Footer`, `ProfileDropdown`
-- `src/components/layout/home/*`: home page sections
-- `src/components/layout/home/featuredTeacher/*`: multi-file section module
-
-Home section rule:
-
-- keep simple sections as single files
-- create a folder only when local complexity grows through child components, styles, constants, hooks, types, or tests
-
-Dependency direction:
-
-- `pages` can import from `layout`, `common`, `ui`, hooks, utils, types, redux
-- `layout` can import from `common`, `ui`, hooks, utils, types
-- `common` can import from `ui`, hooks, utils, types
-- `ui` must not import from `layout` or `pages`
-- `redux` must not import UI components
+- FullCalendar
+- ApexCharts
+- Swiper
+- `@react-jvectormap`
 
 ## Development Commands
 
-- `npm run dev`: start Vite locally
-- `npm run build`: run TypeScript build and production bundle
+- `npm run dev`: start the Vite dev server
+- `npm run build`: TypeScript build plus production bundle
 - `npm run preview`: preview the production build
 - `npm run lint`: run ESLint
 
-## Coding Conventions
+Use `npm`, not `yarn`, for commands unless the user asks otherwise.
 
-- Use TypeScript with React functional components.
-- Keep components, pages, and layouts in PascalCase.
-- Use `useX` naming for custom hooks.
-- Keep shared barrels as `index.ts` where that pattern already exists.
-- Follow nearby code style before introducing a new local pattern.
-- Keep documentation updated when changing architecture, setup, or environment configuration.
+## Environment and Config
 
-## Communication
+- `.env` exists in-repo; no `.env.example` was found.
+- Runtime config lives in `src/config/index.ts`.
+- Current environment keys:
+  - `VITE_APP_LOCAL_API_URL`
+  - `VITE_APP_LOCAL_AUTH_REFRESH_URL`
+  - `VITE_APP_TEST_API_URL`
+  - `VITE_APP_TEST_AUTH_REFRESH_URL`
+  - `VITE_APP_LIVE_API_URL`
+  - `VITE_APP_LIVE_AUTH_REFRESH_URL`
+- Do not assume automatic env switching. `activeEnv` is manually set in code right now.
+- If you change environment selection logic, update docs in the same task.
 
-When answering the user:
+Build config details worth preserving:
 
-- be concise and practical by default
-- summarize what changed and why in a few lines
-- mention validation performed or clearly say when tests were not run
-- avoid long explanations unless the user asks for depth
+- `vite.config.ts` defines the `@/` alias for `src/*`
+- SVGs can be imported as React components through `vite-plugin-svgr` named export `ReactComponent`
 
-## UI Style Guide
+## Project Structure
 
-Follow the existing design direction already established in `Header`, `Footer`, `Hero`, `BecomeTutor`, and the featured teacher section.
+- `src/pages/`: route-level pages
+- `src/components/layout/`: page sections and shell composition
+- `src/components/common/`: reusable composed/shared blocks
+- `src/components/ui/`: low-level reusable primitives
+- `src/redux/`: store setup, slices, and RTK Query
+- `src/context/`: theme and dashboard sidebar contexts
+- `src/routers/`: route tree and route guards
+- `src/hooks/`: typed/shared hooks
+- `src/config/`: runtime config and Ant Design theme setup
+- `src/types/`: shared TypeScript types
+- `src/utils/`: shared utilities
+- `src/icons/`: SVG icon exports
+- `public/`: public static assets and brand images
+- `src/assets/`: bundled static assets
 
-### Visual Direction
+Layout groupings currently in use:
 
-- Clean, trustworthy, editorial SaaS feel
-- Blue-led brand palette with soft light surfaces
-- Rounded, polished UI with subtle depth
-- Bold display typography for headings, restrained supporting copy
+- `src/components/layout/shared/*`: public shell pieces like `Header`, `Footer`, `MainLayout`, `ProfileDropdown`
+- `src/components/layout/home/*`: home page sections
+- `src/components/layout/home/featuredTeacher/*`: a more complex section module with local CSS
+- `src/components/layout/auth/*`: auth shell, form styles, and auth forms
+- `src/components/layout/tuition/*`: tuition listing composition
+- `src/components/layout/dashboard/*`: dashboard shell and demo/dashboard sections
 
-Do not introduce a different visual language unless the task explicitly requires it.
+## Layering Rules
 
-### Colors and Tokens
+Keep the existing layered structure. Do not introduce a feature-first architecture unless the user explicitly asks for it.
 
-- Use Tailwind theme tokens from `src/index.css`
-- Prefer `brand-50` to `brand-900`, `surface`, `surface-subtle`, `text-strong`, and `text-on-brand`
-- Prefer semantic classes such as `bg-surface`, `text-text-strong`, `bg-brand-600`
-- Use existing aliases like `text-neutral` only when matching nearby code
-- Avoid new hardcoded hex colors when an existing token already fits
+Placement order:
+
+1. route composition -> `src/pages/*`
+2. page/app-shell composition -> `src/components/layout/*`
+3. shared composed blocks -> `src/components/common/*`
+4. low-level primitives -> `src/components/ui/*`
+
+Dependency direction:
+
+- `pages` may import from `layout`, `common`, `ui`, hooks, utils, types, redux, config
+- `layout` may import from `common`, `ui`, hooks, utils, types, config
+- `common` may import from `ui`, hooks, utils, types
+- `ui` must not import from `layout` or `pages`
+- `redux` must not import UI
+
+Folder strategy:
+
+- Keep simple sections as single files.
+- Create a local folder only when a section needs child components, local CSS, constants, hooks, types, or tests.
+- Follow the home page pattern: simple sections stay single-file, more complex ones get a folder.
+
+## Routing and Layout Patterns
+
+Active route shells:
+
+- `MainLayout` for public pages
+- `AuthLayout` for `/login` and `/signup`
+- `DashboardLayout` -> re-export of `src/components/layout/dashboard/shell/AppLayout.tsx`
+
+Dashboard shell behavior:
+
+- uses `SidebarProvider` from `src/context/dashboard/SidebarContext.tsx`
+- wraps nested dashboard routes with `AppHeader`, `AppSidebar`, and `Backdrop`
+
+Route guard behavior:
+
+- `PrivateRoute` redirects to `/login`
+- the current guard considers the user authenticated only when both `user` and `accessToken` are missing
+
+When adding or moving pages:
+
+- update `src/routers/index.tsx` explicitly
+- do not assume a page file becomes reachable on its own
+- update `PageMeta` on route pages when user-facing titles/descriptions change
+
+## State, Auth, and API Patterns
+
+Global state lives in `src/redux/store.ts`.
+
+Current state/data setup:
+
+- `rootReducers` and `rootMiddlewares` are assembled in `src/redux/features/rootFeatures.ts`
+- `auth` is the only persisted feature slice
+- persistence uses `redux-persist/lib/storage`
+- typed hooks live in `src/hooks/useAppHooks.ts`
+- RTK Query base API is `authApiSlice` in `src/redux/api/httpSlice.ts`
+
+API/auth behavior to preserve:
+
+- `baseQueryWithRefreshToken` adds `Authorization: Bearer <token>` when an access token exists
+- requests use `credentials: 'include'`
+- a `401` triggers refresh via `baseUrl.AUTH_REFRESH_URL`
+- refresh success dispatches `loggedInUser`
+- refresh failure dispatches `loggedOutUser`
+
+Current auth endpoints:
+
+- `POST /auth/teacher/login`
+- `POST /auth/teacher/registration`
+
+Backend field naming is mixed and should be preserved where already established:
+
+- request payloads use snake_case keys like `first_name` and `last_name`
+- auth user data also includes fields like `isProfileCompleted`, `profile_image`, and `profileImage`
+
+Do not "clean up" backend naming conventions in API types unless you are doing a deliberate adapter refactor.
+
+## Styling and UI Conventions
+
+The repo uses Tailwind utilities for most UI and Ant Design for forms/themeable components.
+
+### Tailwind and Tokens
+
+- Design tokens are defined in `src/index.css` with Tailwind v4 `@theme`
+- Prefer semantic tokens first:
+  - `brand-50` to `brand-950`
+  - `surface`
+  - `surface-subtle`
+  - `text-strong`
+  - `text-on-brand`
+- Backward-compatible aliases such as `primary`, `secondary`, and `neutral` still exist
+- Avoid introducing new hardcoded hex colors when an existing token fits
 
 ### Typography
 
 - Base font: `Manrope`
-- Display, section headings, and brand-led labels: `font-poppins`
-- Headings should usually be bold or extrabold
-- Supporting copy should stay readable with moderate line-height
-- Eyebrow labels should be small, uppercase, and slightly tracked
+- Display/brand headings: `font-poppins`
 
-### Layout and Spacing
+### Dark Mode
 
-- Prefer `max-w-7xl px-4 sm:px-6 lg:px-8` for major section containers
-- Use mobile-first layouts
-- Favor consistent spacing rhythms over arbitrary values
-- Keep section padding generous and content blocks well separated
+- theme state lives in `src/context/ThemeContext.tsx`
+- current preference is stored in `localStorage` under `theme`
+- the app toggles the `dark` class on `document.documentElement`
+- Ant Design theme values are derived from the same mode in `src/config/theme.ts`
 
-### Shape, Border, and Depth
+### Public Site Visual Direction
 
-- Prefer `rounded-lg`, `rounded-xl`, and `rounded-2xl`
-- Use `rounded-full` for avatars, pills, and circular icon treatments
-- Keep borders in the `brand-100/200/300` family
-- Use soft shadows and light elevation, not heavy dramatic effects
-- Blur and elevated dropdown/card treatments are acceptable when subtle
+Match the established public styling in:
 
-### Buttons, Links, and Interactive Elements
+- `src/components/layout/shared/Header.tsx`
+- `src/components/layout/shared/Footer.tsx`
+- `src/components/layout/home/Hero.tsx`
+- `src/components/layout/home/BecomeTutor.tsx`
+- `src/components/layout/home/featuredTeacher/*`
 
-- Primary actions: filled brand button
-- Secondary actions: bordered or tinted brand treatment
-- Navigation and dropdown items should use soft hover backgrounds and stronger brand text on hover
-- Always keep `focus-visible` rings visible, typically with `ring-brand-400`
-- Keep transitions moderate: usually `duration-200` or `duration-300`
+Characteristics already in use:
 
-### Sections and Content Patterns
+- blue-led brand palette
+- soft light surfaces
+- rounded corners and soft shadows
+- bold editorial headings
+- visible `focus-visible` rings
+- mobile-first layouts with `max-w-7xl px-4 sm:px-6 lg:px-8`
 
-- Prefer section intros with:
-  - a small eyebrow label
-  - a bold heading
-  - a short supporting paragraph
-- Use chips, badges, and small metric pills for supporting metadata
-- Dark brand sections should be used sparingly for emphasis, like the current `BecomeTutor` section
-- Cards should feel clean and elevated, with token-based borders and backgrounds
+### Ant Design Usage
 
-### Motion
+- `ThemedConfigProvider` wraps the app in `main.tsx`
+- Auth forms are built with Ant Design `Form`, `Input`, `Select`, and `Button`
+- Shared auth form styling lives in `src/components/layout/auth/formStyles.ts`
+- When touching auth UI, prefer reusing those shared class constants instead of restyling fields ad hoc
 
-- Use meaningful motion only
-- Hover lift, carousel controls, marquee motion, and subtle menu transitions are acceptable
-- Respect reduced-motion behavior when animation is added
-- Do not add motion that makes the page feel noisy
+### Dashboard Styling
 
-### Accessibility
+- Dashboard/demo screens still use many gray token utilities and TailAdmin-derived patterns
+- Do not force public-marketplace styling onto the dashboard unless the task is explicitly productizing it
 
-- Prefer semantic HTML elements
-- Add `aria-label` for icon-only controls
-- Preserve keyboard focus visibility
-- Keep contrast strong enough across light and dark brand sections
+## Naming and Code Conventions
 
-### Do Not Propagate Current Inconsistencies
+- Use TypeScript functional components
+- Components/pages/layouts: PascalCase
+- Hooks: `useX`
+- Reuse existing `index.ts` barrels where they already exist
+- Prefer `@/` imports over deep relative paths
 
-- Do not treat mocked auth logic as the real auth pattern
-- Do not copy scratch-file experiments from `others/` into production code
-- Do not spread ad hoc placeholder routes like `/dashboard` or `/profile` without wiring them properly
-- Do not copy obvious implementation artifacts forward when touching existing UI
+Formatting expectations:
 
-## Frontend Checklist
+- No Prettier config was found
+- The codebase has mixed quote/semicolon style between files
+- Follow the surrounding file's formatting instead of reformatting broadly
+- Keep edits minimal and avoid style-only churn
 
-Before finalizing frontend work, verify:
+Component implementation patterns already used:
 
-- correct folder placement
-- consistent use of project tokens and typography
-- visible focus styles on interactive elements
-- responsive behavior across `sm`, `md`, and `lg`
-- `npm run lint` and `npm run build` for code changes
-- relevant docs updated if structure or config changed
+- larger components often extract long Tailwind strings into local constants
+- page-level metadata uses `PageMeta`
+- brand assets are wrapped through `BrandLogo`
 
-## Anti-Patterns
+## Product Terminology to Preserve
 
-- Do not create a new architecture model inside this repo.
-- Do not place every new component in `layout` by default.
-- Do not create folder-per-component for simple sections.
-- Do not hardcode off-theme colors when project tokens exist.
-- Do not remove focus-visible styles from interactive controls.
-- Do not overfit new UI to placeholder data or temporary mocked behavior.
+The repository name is Tuition Media, but the current user-facing brand copy is mostly `TutoriumBD`.
 
-## Security and Configuration
+Preserve current product language unless the task is explicitly rebranding:
 
-- Never commit secrets or credentials.
-- Do not expose private or internal-only data in public UI flows.
-- Document new environment variables in project docs.
+- tutor / teacher account
+- tuition opportunities / tuition leads
+- guardians and students
+- Bangladesh-specific locations and phone numbers
+
+Repo-specific domain details already encoded in the app:
+
+- sign-up validates Bangladeshi mobile numbers (`01...` or `+8801...`)
+- sign-up city/location options are Bangladesh-specific
+- auth endpoints are teacher-focused
+
+Be careful not to mix internal wording, placeholder dashboard wording, and public marketplace copy.
+
+## Demo and Placeholder Areas
+
+Treat these areas carefully:
+
+- `src/pages/Tuition/tuitionDemoData.ts` is demo content, not production data
+- tuition filter/search controls are placeholder UI
+- many dashboard pages still contain TailAdmin page titles/descriptions and demo content
+- `others/` is not a production source folder
+
+Do not copy demo/template strings or data into product-facing features unless the task is explicitly scaffolding or converting them.
+
+## Safe Editing Guidance
+
+- Keep changes tightly scoped to the user's request
+- Update docs when architecture, environment behavior, or workflow expectations change
+- Preserve route wiring, auth persistence, and refresh-token behavior unless the task is specifically about changing them
+- If you refactor auth-related code, inspect `Header`, `ProfileDropdown`, and `PrivateRoute` together
+- If you touch page metadata in dashboard routes, check whether TailAdmin placeholder copy should be replaced as part of the task
+- Do not add new routes such as `/dashboard/settings` without wiring them properly
+- Do not use `others/` as a source of truth for implementation patterns
+- Do not propagate placeholder tuition/demo data into real flows
+
+## Validation Expectations
+
+For code changes, prefer running:
+
+- `npm run lint`
+- `npm run build`
+
+Notes:
+
+- there is no separate `test` script
+- there is no dedicated `typecheck` script; `npm run build` is the effective type check
+- for docs-only edits, call out if runtime validation was not necessary or not run
+
+## Communication Expectations
+
+When reporting back to the user:
+
+- summarize what changed and why
+- mention validation performed, or say clearly when it was not run
+- call out uncertainties instead of inventing conventions
+- keep explanations concise unless the user asks for more depth
