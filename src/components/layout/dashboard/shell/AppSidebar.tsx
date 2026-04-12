@@ -2,6 +2,7 @@
 
 import {useCallback, useEffect, useRef, useState} from 'react';
 import {Link, useLocation} from 'react-router-dom';
+import BrandLogo from '@/components/common/BrandLogo';
 
 // Assume these icons are imported from an icon library
 import {
@@ -277,29 +278,17 @@ const AppSidebar: React.FC = () => {
           !isExpanded && !isHovered ? 'lg:justify-center' : 'justify-start'
         }`}
       >
-        {/* Change the logo later */}
-        <Link to="/">
+        <Link
+          to="/"
+          aria-label="TutoriumBD home"
+          className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+        >
           {isExpanded || isHovered || isMobileOpen ? (
-            <>
-              <img
-                className="dark:hidden"
-                src="/images/logo/logo.svg"
-                alt="Logo"
-                width={150}
-                height={40}
-              />
-              <img
-                className="hidden dark:block"
-                src="/images/logo/logo-dark.svg"
-                alt="Logo"
-                width={150}
-                height={40}
-              />
-            </>
+            <BrandLogo imgClassName="h-10 w-auto" width={150} height={40} />
           ) : (
-            <img
-              src="/images/logo/logo-icon.svg"
-              alt="Logo"
+            <BrandLogo
+              variant="icon"
+              imgClassName="h-8 w-8 rounded-lg object-cover"
               width={32}
               height={32}
             />

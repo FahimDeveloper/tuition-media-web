@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import {FiMenu, FiMoon, FiSun, FiX} from 'react-icons/fi';
-import {NavLink, useLocation} from 'react-router-dom';
+import {Link, NavLink, useLocation} from 'react-router-dom';
+import BrandLogo from '@/components/common/BrandLogo';
 import ProfileDropdown from '@/components/layout/shared/ProfileDropdown';
 import {useTheme} from '@/hooks/useTheme';
 import {useAppSelector} from '@/hooks/useAppHooks';
@@ -96,13 +97,13 @@ const Header = () => {
       }`}
     >
       <nav className="relative mx-auto flex max-w-7xl items-center px-4 py-3 sm:px-6 lg:px-8">
-        <NavLink
+        <Link
           to="/"
-          className="font-poppins text-xl font-extrabold tracking-tight text-neutral transition-colors duration-200 hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70 dark:text-white/90 dark:hover:text-brand-300"
+          aria-label="TutoriumBD home"
+          className="shrink-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70"
         >
-          Tuition{' '}
-          <span className="text-brand-600 dark:text-brand-300">Media</span>
-        </NavLink>
+          <BrandLogo imgClassName="h-10 w-auto" />
+        </Link>
 
         <ul className="ml-auto hidden items-center gap-2 md:flex">
           {visibleNavItems.map((item) => (

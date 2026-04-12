@@ -1,3 +1,5 @@
+import {Link} from 'react-router-dom';
+
 const Hero = () => {
   return (
     <section
@@ -17,23 +19,23 @@ const Hero = () => {
               Built for Tutors Across Bangladesh
             </p>
             <p className="text-text-strong/80 mb-8 leading-relaxed">
-              Tuition Media helps you discover relevant tuition leads, apply
+              TutoriumBD helps you discover relevant tuition leads, apply
               quickly, and connect with guardians through a simple, trusted
               flow.
             </p>
             <div className="flex flex-wrap gap-4">
-              <a
-                href="/tuition"
-                className="rounded-lg bg-brand-600 px-8 py-3 text-text-on-brand shadow-lg transition hover:bg-brand-700 hover:shadow-xl"
+              <Link
+                to="/tuition"
+                className="rounded-lg bg-brand-600 px-8 py-3 text-text-on-brand shadow-lg transition hover:bg-brand-700 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-50 dark:focus-visible:ring-offset-gray-950"
               >
                 Find Tuition Jobs
-              </a>
-              <a
-                href="/signup"
-                className="rounded-lg border-2 border-brand-600 px-8 py-3 text-brand-700 transition hover:bg-brand-600 hover:text-text-on-brand dark:border-brand-400 dark:text-brand-300 dark:hover:bg-brand-500 dark:hover:text-white"
+              </Link>
+              <Link
+                to="/signup"
+                className="rounded-lg border-2 border-brand-600 px-8 py-3 text-brand-700 transition hover:bg-brand-600 hover:text-text-on-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-50 dark:border-brand-400 dark:text-brand-300 dark:hover:bg-brand-500 dark:hover:text-white dark:focus-visible:ring-offset-gray-950"
               >
                 Join as a Tutor
-              </a>
+              </Link>
             </div>
           </div>
           <div className="flex justify-center fade-in">
@@ -44,6 +46,7 @@ const Hero = () => {
                     src="/call-center-illustration.jpg"
                     className="object-cover w-full h-full rounded-full"
                     alt=""
+                    aria-hidden="true"
                   />
                 </div>
               </div>

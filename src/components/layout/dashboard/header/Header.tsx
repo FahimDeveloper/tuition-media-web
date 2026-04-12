@@ -1,15 +1,16 @@
-import { useState } from "react";
-import { ThemeToggleButton } from "@/components/common/ThemeToggleButton";
-import NotificationDropdown from "@/components/layout/dashboard/header/NotificationDropdown";
-import UserDropdown from "@/components/layout/dashboard/header/UserDropdown";
-import { Link } from "react-router-dom";
+import {useState} from 'react';
+import BrandLogo from '@/components/common/BrandLogo';
+import {ThemeToggleButton} from '@/components/common/ThemeToggleButton';
+import NotificationDropdown from '@/components/layout/dashboard/header/NotificationDropdown';
+import ProfileDropdown from '@/components/layout/shared/ProfileDropdown';
+import {Link} from 'react-router-dom';
 
 // Define the interface for the props
 interface HeaderProps {
   onClick?: () => void; // Optional function that takes no arguments and returns void
   onToggle: () => void;
 }
-const Header: React.FC<HeaderProps> = ({ onClick, onToggle }) => {
+const Header: React.FC<HeaderProps> = ({onClick, onToggle}) => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
 
   const toggleApplicationMenu = () => {
@@ -78,17 +79,12 @@ const Header: React.FC<HeaderProps> = ({ onClick, onToggle }) => {
             </svg>
           </button>
 
-          <Link to="/" className="lg:hidden">
-            <img
-              className="dark:hidden"
-              src="./images/logo/logo.svg"
-              alt="Logo"
-            />
-            <img
-              className="hidden dark:block"
-              src="./images/logo/logo-dark.svg"
-              alt="Logo"
-            />
+          <Link
+            to="/"
+            aria-label="TutoriumBD home"
+            className="lg:hidden rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+          >
+            <BrandLogo imgClassName="h-9 w-auto" />
           </Link>
 
           <button
@@ -147,7 +143,7 @@ const Header: React.FC<HeaderProps> = ({ onClick, onToggle }) => {
         </div>
         <div
           className={`${
-            isApplicationMenuOpen ? "flex" : "hidden"
+            isApplicationMenuOpen ? 'flex' : 'hidden'
           } items-center justify-between w-full gap-4 px-5 py-4 lg:flex shadow-theme-md lg:justify-end lg:px-0 lg:shadow-none`}
         >
           <div className="flex items-center gap-2 2xsm:gap-3">
@@ -158,7 +154,7 @@ const Header: React.FC<HeaderProps> = ({ onClick, onToggle }) => {
             {/* <!-- Notification Menu Area --> */}
           </div>
           {/* <!-- User Area --> */}
-          <UserDropdown />
+          <ProfileDropdown />
         </div>
       </div>
     </header>

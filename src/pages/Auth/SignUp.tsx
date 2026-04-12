@@ -6,8 +6,8 @@ export default function SignUp() {
   return (
     <>
       <PageMeta
-        title="Teacher Sign Up | Tuition Media"
-        description="Create a teacher account on Tuition Media."
+        title="Teacher Sign Up | TutoriumBD"
+        description="Create a teacher account on TutoriumBD."
       />
       <AuthLayout>
         <SignUpForm />

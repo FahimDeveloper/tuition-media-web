@@ -6,8 +6,8 @@ export default function SignIn() {
   return (
     <>
       <PageMeta
-        title="Teacher Sign In | Tuition Media"
-        description="Sign in to Tuition Media to manage your teacher dashboard."
+        title="Teacher Sign In | TutoriumBD"
+        description="Sign in to TutoriumBD to manage your teacher dashboard."
       />
       <AuthLayout>
         <SignInForm />

@@ -1,6 +1,7 @@
 import type {ReactNode} from 'react';
 import GridShape from '@/components/common/GridShape';
 import ThemeTogglerTwo from '@/components/common/ThemeTogglerTwo';
+import BrandLogo from '@/components/common/BrandLogo';
 import {Link} from 'react-router-dom';
 
 type AuthLayoutProps = {
@@ -16,16 +17,15 @@ export default function AuthLayout({children}: AuthLayoutProps) {
           <div className="relative flex items-center justify-center z-1">
             <GridShape />
             <div className="flex flex-col items-center max-w-xs">
-              <Link to="/" className="block mb-4">
-                <img
-                  width={231}
-                  height={48}
-                  src="/images/logo/auth-logo.svg"
-                  alt="Logo"
-                />
+              <Link
+                to="/"
+                aria-label="TutoriumBD home"
+                className="mb-4 block rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-300"
+              >
+                <BrandLogo imgClassName="h-12 w-auto" width={231} height={48} />
               </Link>
               <p className="text-center text-gray-400 dark:text-white/60">
-                Teacher access for Tuition Media. Sign in or create your
+                Teacher access for TutoriumBD. Sign in or create your
                 account to manage tuition opportunities.
               </p>
             </div>

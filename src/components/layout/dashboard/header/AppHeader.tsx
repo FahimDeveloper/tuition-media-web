@@ -1,6 +1,7 @@
 import {useEffect, useRef, useState} from 'react';
 
 import {Link} from 'react-router-dom';
+import BrandLogo from '@/components/common/BrandLogo';
 import {useSidebar} from '@/context/dashboard/SidebarContext';
 import {ThemeToggleButton} from '@/components/common/ThemeToggleButton';
 import NotificationDropdown from '@/components/layout/dashboard/header/NotificationDropdown';
@@ -83,17 +84,12 @@ const AppHeader: React.FC = () => {
             {/* Cross Icon */}
           </button>
 
-          <Link to="/dashboard" className="lg:hidden">
-            <img
-              className="dark:hidden"
-              src="./images/logo/logo.svg"
-              alt="Logo"
-            />
-            <img
-              className="hidden dark:block"
-              src="./images/logo/logo-dark.svg"
-              alt="Logo"
-            />
+          <Link
+            to="/"
+            aria-label="TutoriumBD home"
+            className="lg:hidden rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+          >
+            <BrandLogo imgClassName="h-9 w-auto" />
           </Link>
 
           <button
