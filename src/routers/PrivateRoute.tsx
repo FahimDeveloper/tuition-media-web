@@ -1,11 +1,11 @@
 import type {ReactNode} from 'react';
-import {useAppSelector} from '../hooks/useAppHooks';
+import {useAppSelector} from '@/hooks/useAppHooks';
 import {Navigate} from 'react-router-dom';
 
 const PrivetRoute = ({children}: {children: ReactNode}) => {
   const {user, accessToken} = useAppSelector((state) => state.auth);
   if (!user && !accessToken) {
-    return <Navigate to="/" replace={true} />;
+    return <Navigate to="/login" replace={true} />;
   } else {
     return children;
   }
