@@ -1,9 +1,17 @@
+import type {AuthGender} from '@/redux/features/auth/auth.types';
+
+export const GENDER_OPTIONS: {label: string; value: AuthGender}[] = [
+  {label: 'Male', value: 'male'},
+  {label: 'Female', value: 'female'},
+  {label: 'Other', value: 'other'},
+];
+
 type SelectOption<T extends string> = {
   label: T;
   value: T;
 };
 
-export const SIGNUP_CITY_LOCATION_MAP = {
+const CITY_LOCATION_MAP = {
   Dhaka: [
     'Dhanmondi',
     'Gulshan',
@@ -108,36 +116,21 @@ export const SIGNUP_CITY_LOCATION_MAP = {
   ],
 } as const;
 
-export type CityName = keyof typeof SIGNUP_CITY_LOCATION_MAP;
+type CityName = keyof typeof CITY_LOCATION_MAP;
+type LocationName<TCity extends CityName = CityName> =
+  (typeof CITY_LOCATION_MAP)[TCity][number];
+type CityOption = SelectOption<CityName>;
+type LocationOption = SelectOption<LocationName>;
 
-export type LocationName<TCity extends CityName = CityName> =
-  (typeof SIGNUP_CITY_LOCATION_MAP)[TCity][number];
-
-export type CityOption = SelectOption<CityName>;
-export type LocationOption = SelectOption<LocationName>;
-
-const cityNames = Object.keys(SIGNUP_CITY_LOCATION_MAP) as CityName[];
-
-export const SIGNUP_CITY_OPTIONS: CityOption[] = cityNames.map((city) => ({
+export const SIGNUP_CITY_OPTIONS: CityOption[] = (
+  Object.keys(CITY_LOCATION_MAP) as CityName[]
+).map((city) => ({
   label: city,
   value: city,
 }));
 
 export const isCityName = (value: unknown): value is CityName =>
-  typeof value === 'string' && value in SIGNUP_CITY_LOCATION_MAP;
-
-export const getLocationOptionsForCity = (
-  city?: CityName,
-): LocationOption[] => {
-  if (!city) {
-    return [];
-  }
-
-  return SIGNUP_CITY_LOCATION_MAP[city].map((location) => ({
-    label: location,
-    value: location,
-  }));
-};
+  typeof value === 'string' && value in CITY_LOCATION_MAP;
 
 export const isLocationForCity = (
   city: CityName,
@@ -147,5 +140,18 @@ export const isLocationForCity = (
     return false;
   }
 
-  return (SIGNUP_CITY_LOCATION_MAP[city] as readonly string[]).includes(location);
+  return (CITY_LOCATION_MAP[city] as readonly string[]).includes(location);
+};
+
+export const getLocationOptionsForCity = (
+  city?: CityName,
+): LocationOption[] => {
+  if (!city) {
+    return [];
+  }
+
+  return CITY_LOCATION_MAP[city].map((location) => ({
+    label: location,
+    value: location,
+  }));
 };
