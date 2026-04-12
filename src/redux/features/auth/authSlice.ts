@@ -1,36 +1,18 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
 import type {RootState} from '@/redux/store';
+import type {AuthSession, AuthState} from '@/redux/features/auth/auth.types';
 
-interface TState {
-  user: null | {
-    _id: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    password: string;
-    phone: string;
-    gender: 'male' | 'female' | 'other';
-    date_of_birth: string; // ISO string
-    years_of_experience: number;
-    will_teach_online: boolean;
-    isProfileCompleted: boolean;
-    createdAt: string;
-    updatedAt: string;
-  };
-  accessToken: null | string;
-  refreshToken: null | string;
-}
-
-const initialState: TState = {
+const initialState: AuthState = {
   user: null,
   accessToken: null,
   refreshToken: null,
 };
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    loggedInUser: (state, action) => {
+    loggedInUser: (state, action: PayloadAction<AuthSession>) => {
       const {user, accessToken, refreshToken} = action.payload;
       state.user = user;
       state.accessToken = accessToken;
