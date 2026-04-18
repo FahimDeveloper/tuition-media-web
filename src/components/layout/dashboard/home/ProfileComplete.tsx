@@ -156,7 +156,7 @@ export default function ProfileComplete() {
   };
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-theme-sm dark:border-gray-800 dark:bg-white/[0.03]">
+    <div className="overflow-hidden min-h-full rounded-2xl border border-gray-200 bg-white shadow-theme-sm dark:border-gray-800 dark:bg-white/[0.03]">
       <div className="rounded-2xl px-4 pt-4 pb-6 sm:px-5 sm:pt-5 sm:pb-8 lg:px-6 lg:pt-6 lg:pb-11">
         <div className="flex justify-between gap-4">
           <div className="min-w-0">

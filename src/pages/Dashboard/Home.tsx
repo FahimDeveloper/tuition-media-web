@@ -1,18 +1,19 @@
 import ProfileSummary from '@/components/layout/dashboard/home/ProfileSummary';
-import RecentOrders from '@/components/layout/dashboard/home/RecentOrders';
+import Stats from '@/components/layout/dashboard/home/Stats';
 import PageMeta from '@/components/common/PageMeta';
 import WelcomeMessage from '@/components/layout/dashboard/home/WelcomeMessage';
-import MonthlyTarget from '@/components/layout/dashboard/home/ProfileComplete';
+import ProfileComplete from '@/components/layout/dashboard/home/ProfileComplete';
+import StatusStatsCards from '@/components/layout/dashboard/home/StatusStatsCards';
 
 export default function Home() {
   return (
     <>
       <PageMeta
-        title="React.js Ecommerce Dashboard | TailAdmin - React.js Admin Dashboard Template"
-        description="This is React.js Ecommerce Dashboard page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
+        title="Tutor Dashboard | TutoriumBD"
+        description="Track profile progress, review tutor activity, and explore new tuition opportunities from your TutoriumBD dashboard."
       />
       <div className="grid grid-cols-12 gap-4 md:gap-6">
-        <div className="col-span-12 space-y-6 xl:col-span-7">
+        <div className="col-span-12 xl:col-span-7">
           <WelcomeMessage />
         </div>
 
@@ -20,14 +21,15 @@ export default function Home() {
           <ProfileSummary />
         </div>
 
-        <div className="col-span-12"></div>
-
         <div className="col-span-12 xl:col-span-5">
-          <MonthlyTarget />
+          <ProfileComplete />
         </div>
 
-        <div className="col-span-12 xl:col-span-7">
-          <RecentOrders />
+        <div className="col-span-12 h-full xl:col-span-7">
+          <Stats />
+        </div>
+        <div className="col-span-12">
+          <StatusStatsCards />
         </div>
       </div>
     </>

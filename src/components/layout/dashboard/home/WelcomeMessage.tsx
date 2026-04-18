@@ -64,7 +64,7 @@ export default function WelcomeMessage() {
   return (
     <section
       aria-labelledby="dashboard-welcome-name"
-      className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/3 sm:p-6 lg:p-7"
+      className="rounded-2xl border min-h-full border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/3 sm:p-6 lg:p-7"
     >
       <div className="max-w-3xl">
         <p className="text-sm font-semibold uppercase tracking-[0.16em] text-brand-700 dark:text-brand-300">

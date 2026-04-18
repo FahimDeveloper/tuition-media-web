@@ -162,7 +162,7 @@ const ProfileSummary = () => {
   const avatarAlt = `${displayName} profile`;
 
   return (
-    <div className="w-full max-w-full whitespace-normal wrap-break-word rounded-lg border border-gray-200 bg-white p-4 text-sm font-normal text-gray-600 shadow-theme-sm focus:outline-none dark:border-gray-800 dark:bg-white/3 dark:text-gray-400 xl:max-w-[24rem]">
+    <div className="w-full max-w-full whitespace-normal wrap-break-word rounded-lg border border-gray-200 bg-white p-4 text-sm font-normal text-gray-600 shadow-theme-sm focus:outline-none dark:border-gray-800 dark:bg-white/3 dark:text-gray-400">
       <div className="mb-2 flex items-center justify-between gap-4">
         <ProfileAvatar
           avatarSrc={avatarSrc}
