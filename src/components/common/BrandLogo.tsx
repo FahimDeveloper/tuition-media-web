@@ -18,7 +18,7 @@ const BrandLogo = ({
   if (variant === 'icon') {
     return (
       <img
-        src="/tutoriumBdLogo.png"
+        src="/images/logo/tutoriumBdLogo.png"
         alt={alt}
         width={width}
         height={height}
@@ -31,14 +31,14 @@ const BrandLogo = ({
     <span className={['inline-flex', className].filter(Boolean).join(' ')}>
       <img
         className={['dark:hidden', imgClassName].filter(Boolean).join(' ')}
-        src="/finalLogoLight.png"
+        src="/images/logo/finalLogoLight.png"
         alt={alt}
         width={width}
         height={height}
       />
       <img
         className={['hidden dark:block', imgClassName].filter(Boolean).join(' ')}
-        src="/finalLogoDark.png"
+        src="/images/logo/finalLogoDark.png"
         alt={alt}
         width={width}
         height={height}

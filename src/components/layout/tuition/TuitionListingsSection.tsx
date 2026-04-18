@@ -1,5 +1,5 @@
 import Input from 'antd/es/input/Input';
-import type {TuitionData} from '@/pages/Tuition/tuitionDemoData';
+import type {TuitionData} from '@/mocks/tuition/tuitionListings';
 import TuitionCard from '@/components/layout/tuition/TuitionCard';
 import {Button} from 'antd';
 import {MdOutlineManageSearch} from 'react-icons/md';

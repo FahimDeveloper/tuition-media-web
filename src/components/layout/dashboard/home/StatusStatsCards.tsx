@@ -1,5 +1,5 @@
-import type {CompactStatItem} from '@/components/common/dashboard/stats/CompactStatsGrid';
-import CompactStatsGrid from '@/components/common/dashboard/stats/CompactStatsGrid';
+import type {CompactStatItem} from '@/components/layout/dashboard/shared/stats/CompactStatsGrid';
+import CompactStatsGrid from '@/components/layout/dashboard/shared/stats/CompactStatsGrid';
 import {
   HiOutlineBriefcase,
   HiOutlineCheckBadge,

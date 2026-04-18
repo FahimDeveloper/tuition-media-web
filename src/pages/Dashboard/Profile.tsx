@@ -1,4 +1,4 @@
-import PageBreadcrumb from '@/components/common/PageBreadCrumb';
+import PageBreadcrumb from '@/components/layout/dashboard/shared/PageBreadcrumb';
 import UserMetaCard from '@/components/layout/dashboard/profile/UserMetaCard';
 import UserInfoCard from '@/components/layout/dashboard/profile/UserInfoCard';
 import UserAddressCard from '@/components/layout/dashboard/profile/UserAddressCard';

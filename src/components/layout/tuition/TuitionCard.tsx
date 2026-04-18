@@ -8,7 +8,7 @@ import {
 } from 'react-icons/fi';
 
 import type {IconType} from 'react-icons';
-import type {TuitionData} from '@/pages/Tuition/tuitionDemoData';
+import type {TuitionData} from '@/mocks/tuition/tuitionListings';
 
 type TuitionCardProps = {
   tuition: TuitionData;

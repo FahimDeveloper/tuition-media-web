@@ -38,7 +38,7 @@ Startup flow:
 5. Wrap with `PersistGate` so persisted auth state can rehydrate.
 6. Render the router through `RouterProvider`.
 
-Routing currently comes from `src/routers/index.tsx`, not from `src/App.tsx`. `src/App.tsx` exists in the repository but is not the active routing composition entry at the moment.
+Routing currently comes from `src/routers/index.tsx` through `RouterProvider` in `src/main.tsx`.
 
 ## Current Route Map
 
@@ -68,8 +68,6 @@ Current registered routes:
 - `/dashboard/line-chart` -> line chart demo
 - `/dashboard/bar-chart` -> bar chart demo
 - `/dashboard/error-404` -> 404 demo
-- `/dashboard/signin` -> dashboard sign-in
-- `/dashboard/signup` -> dashboard sign-up
 - `*` -> simple `404` fallback
 
 When adding a new screen, update the router explicitly. Creating a page file alone does not make it available in the app.
@@ -83,11 +81,11 @@ Top-level folders you will work with most often:
 - `src/context/`: React context providers, including dashboard sidebar state
 - `src/redux/`: store setup, feature reducers, and API helpers
 - `src/routers/`: route definitions
+- `src/mocks/`: explicit mock and demo data
 - `src/hooks/`: typed and reusable hooks
 - `src/config/`: runtime configuration and theme setup
 - `src/types/`: shared TypeScript definitions
 - `src/utils/`: app-wide utility functions
-- `src/assets/`: bundled static assets
 - `public/`: public static files served directly
 
 There is also an `others/` folder in the repository root. It appears to contain draft, reference, or experimental files and is not part of the current runtime app structure. Do not treat it as a source folder for production code.
@@ -105,7 +103,7 @@ The component layer follows a strict layered model. Keep new components inside t
 ### Layer Responsibilities
 
 - `src/components/layout/`: page composition, shared shell sections, and page-specific section blocks
-- `src/components/common/`: reusable composed components shared by multiple pages
+- `src/components/common/`: reusable cross-app composed components shared by multiple pages
 - `src/components/ui/`: low-level reusable UI primitives
 
 ### Placement Rules
@@ -158,12 +156,12 @@ Use `src/components/common/` for reusable composed blocks that are shared across
 
 Current examples:
 
-- data table wrapper
-- pagination wrapper
-- shared loading block
-- dashboard reusable charts, tables, and form/demo helpers in `src/components/common/dashboard/`
+- brand/logo rendering
+- page metadata helpers
+- theme/provider wrappers
+- cross-app decorative or shared helpers
 
-If a component is still only a low-level primitive, it belongs in `ui`, not `common`.
+If a component is dashboard-only or demo-only, keep it under `src/components/layout/dashboard/*`, not `common`. If a component is still only a low-level primitive, it belongs in `ui`, not `common`.
 
 ### UI Component Conventions
 
@@ -202,7 +200,7 @@ The repository also includes `src/redux/api/baseQuery.ts`, which implements a `f
 
 Important current-state note:
 
-- configuration in `src/config/index.ts` currently hardcodes `activeEnv` to the live environment
+- configuration in `src/config/index.ts` currently hardcodes `activeEnv` to the development environment
 
 That means local development depends on the current config behavior and available environment variables. If environment handling is changed later, the documentation should be updated with the new selection rules.
 
@@ -306,9 +304,9 @@ For documentation-only changes, those commands are optional unless the change al
 These details are useful during onboarding because they explain what is intentional versus what is still in progress:
 
 - `README.md` at the repo root was originally Vite boilerplate and has been replaced with project-specific guidance.
-- `src/App.tsx` exists but is not the active app composition entry for routing.
-- `Login`, `Signup`, and `Tuition` pages are currently placeholders.
-- `Dashboard` and `Profile` page files exist but are not connected to the router.
+- `Home.tsx` and `Tuition.tsx` now live as flattened single-file public route screens under `src/pages/`.
+- dashboard showcase/template pages live under `src/pages/Dashboard/Demo/`.
+- the `Tuition` page still renders local mock data from `src/mocks/tuition/tuitionListings.ts`.
 - `others/` is not part of the active source structure.
 - There is no dedicated automated test setup in the repository yet.
 

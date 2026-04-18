@@ -31,11 +31,10 @@ Work from the current implementation, not the intended future product state.
 
 - The active app entrypoint is `src/main.tsx`.
 - Routing comes from `src/routers/index.tsx`.
-- `src/App.tsx` exists but is not part of the active router composition.
 - Public routes are `/`, `/tuition`, `/login`, and `/signup`.
 - `/dashboard/*` is an active private route tree behind `src/routers/PrivateRoute.tsx`.
 - Auth forms are implemented and wired to RTK Query auth endpoints.
-- Tuition listing UI is still driven by local demo data from `src/pages/Tuition/tuitionDemoData.ts`.
+- Tuition listing UI is still driven by local demo data from `src/mocks/tuition/tuitionListings.ts`.
 - Tuition search/filter controls are placeholder UI right now.
 - Much of the dashboard surface is template/demo-oriented and still contains TailAdmin copy/metadata.
 - `src/config/index.ts` currently hardcodes `activeEnv` to `DEVELOPMENT`.
@@ -106,13 +105,13 @@ Build config details worth preserving:
 - `src/redux/`: store setup, slices, and RTK Query
 - `src/context/`: theme and dashboard sidebar contexts
 - `src/routers/`: route tree and route guards
+- `src/mocks/`: explicit local mock/demo data
 - `src/hooks/`: typed/shared hooks
 - `src/config/`: runtime config and Ant Design theme setup
 - `src/types/`: shared TypeScript types
 - `src/utils/`: shared utilities
 - `src/icons/`: SVG icon exports
 - `public/`: public static assets and brand images
-- `src/assets/`: bundled static assets
 
 Layout groupings currently in use:
 
@@ -121,7 +120,7 @@ Layout groupings currently in use:
 - `src/components/layout/home/featuredTeacher/*`: a more complex section module with local CSS
 - `src/components/layout/auth/*`: auth shell, form styles, and auth forms
 - `src/components/layout/tuition/*`: tuition listing composition
-- `src/components/layout/dashboard/*`: dashboard shell and demo/dashboard sections
+- `src/components/layout/dashboard/*`: dashboard shell, dashboard-only shared blocks, and demo/dashboard sections
 
 ## Layering Rules
 
@@ -147,6 +146,7 @@ Folder strategy:
 - Keep simple sections as single files.
 - Create a local folder only when a section needs child components, local CSS, constants, hooks, types, or tests.
 - Follow the home page pattern: simple sections stay single-file, more complex ones get a folder.
+- Keep `src/components/common/*` limited to genuinely cross-app shared pieces; dashboard-only helpers belong under `src/components/layout/dashboard/*`.
 
 ## Routing and Layout Patterns
 
@@ -307,7 +307,7 @@ Be careful not to mix internal wording, placeholder dashboard wording, and publi
 
 Treat these areas carefully:
 
-- `src/pages/Tuition/tuitionDemoData.ts` is demo content, not production data
+- `src/mocks/tuition/tuitionListings.ts` is demo content, not production data
 - tuition filter/search controls are placeholder UI
 - many dashboard pages still contain TailAdmin page titles/descriptions and demo content
 - `others/` is not a production source folder

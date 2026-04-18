@@ -1,5 +1,5 @@
-import type {DashboardStatCardProps} from '@/components/common/dashboard/stats/DashboardStatCard';
-import DashboardStatCard from '@/components/common/dashboard/stats/DashboardStatCard';
+import type {DashboardStatCardProps} from '@/components/layout/dashboard/shared/stats/DashboardStatCard';
+import DashboardStatCard from '@/components/layout/dashboard/shared/stats/DashboardStatCard';
 import {IoLocationSharp, IoPulseSharp} from 'react-icons/io5';
 
 type DashboardHomeStat = Omit<DashboardStatCardProps, 'className'> & {
