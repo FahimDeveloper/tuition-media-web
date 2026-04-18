@@ -1,16 +1,18 @@
-import { useModal } from "@/hooks/useModal";
-import { Modal } from "@/components/ui/modal";
-import Button from "@/components/ui/button/Button";
-import Input from "@/components/layout/dashboard/shared/forms/input/InputField";
-import Label from "@/components/layout/dashboard/shared/forms/Label";
+import {useModal} from '@/hooks/useModal';
+import {Modal} from '@/components/ui/modal';
+import Button from '@/components/ui/button/Button';
+import Input from '@/components/layout/dashboard/shared/forms/input/InputField';
+import Label from '@/components/layout/dashboard/shared/forms/Label';
 
 export default function UserInfoCard() {
-  const { isOpen, openModal, closeModal } = useModal();
+  const {isOpen, openModal, closeModal} = useModal();
+
   const handleSave = () => {
     // Handle save logic here
-    console.log("Saving changes...");
+    console.log('Saving changes...');
     closeModal();
   };
+
   return (
     <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
@@ -69,7 +71,7 @@ export default function UserInfoCard() {
 
         <button
           onClick={openModal}
-          className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto"
+          className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/3 dark:hover:text-gray-200 lg:inline-flex lg:w-auto"
         >
           <svg
             className="fill-current"
@@ -90,8 +92,8 @@ export default function UserInfoCard() {
         </button>
       </div>
 
-      <Modal isOpen={isOpen} onClose={closeModal} className="max-w-[700px] m-4">
-        <div className="no-scrollbar relative w-full max-w-[700px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
+      <Modal isOpen={isOpen} onClose={closeModal} className="max-w-175 m-4">
+        <div className="no-scrollbar relative w-full max-w-175 overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
           <div className="px-2 pr-14">
             <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
               Edit Personal Information
@@ -101,7 +103,7 @@ export default function UserInfoCard() {
             </p>
           </div>
           <form className="flex flex-col">
-            <div className="custom-scrollbar h-[450px] overflow-y-auto px-2 pb-3">
+            <div className="custom-scrollbar h-112.5 overflow-y-auto px-2 pb-3">
               <div>
                 <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
                   Social Links

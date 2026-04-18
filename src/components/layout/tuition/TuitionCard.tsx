@@ -61,16 +61,25 @@ const TuitionCard = ({tuition}: TuitionCardProps) => {
     <article className="group flex h-full flex-col rounded-2xl border border-brand-200/70 bg-surface p-6 shadow-[0_10px_30px_rgba(17,45,78,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-brand-400/70 hover:shadow-[0_16px_36px_rgba(17,45,78,0.12)] dark:border-gray-800 dark:bg-white/[0.03] dark:shadow-[0_18px_44px_rgba(3,7,18,0.3)] dark:hover:border-brand-400/60 dark:hover:bg-white/[0.04]">
       <div className="flex items-start justify-between gap-4">
         <div className="space-y-3">
-          <span className="inline-flex min-h-8 items-center rounded-full border border-brand-200 bg-brand-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-brand-700 dark:border-brand-500/30 dark:bg-brand-500/12 dark:text-brand-300">
-            Tuition Opportunity
-          </span>
           <div>
             <h3 className="font-poppins text-xl font-bold leading-tight text-text-strong sm:text-2xl">
               {tuition.title}
             </h3>
-            <div className="mt-3 inline-flex min-h-9 items-center gap-2 rounded-full border border-brand-100 bg-surface-subtle/60 px-3 py-1.5 text-sm font-medium text-text-strong dark:border-gray-800 dark:bg-white/[0.04]">
-              <FiCalendar className="text-brand-600 dark:text-brand-300" aria-hidden="true" />
-              <span>Posted {formatPostedDate(tuition.postedDate)}</span>
+            <div className="space-x-4">
+              <div className="mt-3 inline-flex min-h-9 items-center gap-2 rounded-full border border-brand-100 bg-surface-subtle/60 px-3 py-1.5 text-sm font-medium text-text-strong dark:border-gray-800 dark:bg-white/[0.04]">
+                <FiCalendar
+                  className="text-brand-600 dark:text-brand-300"
+                  aria-hidden="true"
+                />
+                <span>Posted {formatPostedDate(tuition.postedDate)}</span>
+              </div>
+              <div className="mt-3 inline-flex min-h-9 items-center gap-2 rounded-full border border-brand-100 bg-surface-subtle/60 px-3 py-1.5 text-sm font-medium text-text-strong dark:border-gray-800 dark:bg-white/[0.04]">
+                <FiCalendar
+                  className="text-brand-600 dark:text-brand-300"
+                  aria-hidden="true"
+                />
+                <span>Posted {formatPostedDate(tuition.postedDate)}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -81,9 +90,6 @@ const TuitionCard = ({tuition}: TuitionCardProps) => {
           <FiMapPin aria-hidden="true" />
         </span>
         <div className="min-w-0">
-          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-brand-700 dark:text-brand-300">
-            Location
-          </p>
           <p className="truncate text-sm font-medium text-text-strong sm:text-base">
             {tuition.address}
           </p>
