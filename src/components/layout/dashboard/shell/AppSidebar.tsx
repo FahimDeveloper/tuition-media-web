@@ -6,13 +6,10 @@ import BrandLogo from '@/components/common/BrandLogo';
 
 // Assume these icons are imported from an icon library
 import {
-  CalenderIcon,
   ChevronDownIcon,
   GridIcon,
   HorizontaLDots,
   ListIcon,
-  PageIcon,
-  TableIcon,
   UserCircleIcon,
 } from '@/icons';
 import {useSidebar} from '@/context/dashboard/SidebarContext';
@@ -29,12 +26,17 @@ const navItems: NavItem[] = [
     icon: <GridIcon />,
     name: 'Dashboard',
     // subItems: [{name: 'Ecommerce', path: '/dashboard', pro: false}],
-    path: '/dashboard',
+    path: '/tutor',
   },
   {
     icon: <UserCircleIcon />,
     name: 'User Profile',
-    path: '/dashboard/profile',
+    path: '/tutor/profile',
+  },
+  {
+    icon: <ListIcon />,
+    name: 'Job Board',
+    path: '/tutor/job-board',
   },
 ];
 

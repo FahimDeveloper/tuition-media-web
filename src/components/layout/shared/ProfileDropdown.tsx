@@ -24,19 +24,19 @@ type ProfileAction = {
 const profileActions: ProfileAction[] = [
   {
     label: 'Dashboard',
-    href: '/dashboard',
+    href: '/tutor',
     description: 'Track your activity overview',
     icon: <FiGrid size={18} />,
   },
   {
     label: 'My Profile',
-    href: '/dashboard/profile',
+    href: '/tutor/profile',
     description: 'Update your personal info',
     icon: <FiUser size={18} />,
   },
   {
     label: 'Settings',
-    href: '/dashboard/settings',
+    href: '/tutor/settings',
     description: 'Manage preferences and alerts',
     icon: <FiSettings size={18} />,
   },
