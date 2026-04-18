@@ -1,9 +1,8 @@
-import StatisticsChart from '@/components/layout/dashboard/home/StatisticsChart';
 import ProfileSummary from '@/components/layout/dashboard/home/ProfileSummary';
 import RecentOrders from '@/components/layout/dashboard/home/RecentOrders';
-import DemographicCard from '@/components/layout/dashboard/home/DemographicCard';
 import PageMeta from '@/components/common/PageMeta';
 import WelcomeMessage from '@/components/layout/dashboard/home/WelcomeMessage';
+import MonthlyTarget from '@/components/layout/dashboard/home/ProfileComplete';
 
 export default function Home() {
   return (
@@ -21,12 +20,10 @@ export default function Home() {
           <ProfileSummary />
         </div>
 
-        <div className="col-span-12">
-          <StatisticsChart />
-        </div>
+        <div className="col-span-12"></div>
 
         <div className="col-span-12 xl:col-span-5">
-          <DemographicCard />
+          <MonthlyTarget />
         </div>
 
         <div className="col-span-12 xl:col-span-7">
