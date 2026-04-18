@@ -9,10 +9,11 @@ import NotFound from '@/pages/Errors/NotFound';
 import Tuition from '@/pages/Tuition';
 import UserProfiles from '@/pages/Dashboard/Profile';
 import PrivetRoute from './PrivateRoute';
+import CurrentStatus from '@/pages/Dashboard/history/CurrentStatus';
 
 const historyChildren = [
-  {index: true, element: <h1>History</h1>},
-  {path: 'applied', element: <h1>Tuition Jobs</h1>},
+  {index: true, element: <CurrentStatus />},
+  {path: 'applied', element: <h1>Applied Jobs</h1>},
   {path: 'shortlisted', element: <h1>Tuition Opportunities</h1>},
   {path: 'appointed', element: <h1>Tuition Opportunities</h1>},
   {path: 'confirmed', element: <h1>Tuition Opportunities</h1>},
@@ -26,7 +27,7 @@ const dashboardChildren = [
   {index: true, element: <DashboardHome />},
   {path: 'profile', element: <UserProfiles />},
   {path: 'job-board', element: <h1>Tuition Jobs</h1>},
-  {path: 'history', element: <h1>Tuition Jobs</h1>, children: historyChildren},
+  {path: 'history', children: historyChildren},
   {path: 'verification', element: <h1>Tuition Jobs</h1>},
   {path: 'settings', element: <h1>Tuition Jobs</h1>},
 ];
