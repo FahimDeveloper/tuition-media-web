@@ -1,131 +1,77 @@
-import {useState} from 'react';
 import {Link} from 'react-router-dom';
+import {Avatar, Button, Card, Space, Typography} from 'antd';
+import {FaRegCalendar} from 'react-icons/fa6';
+
 import {useAppSelector} from '@/hooks/useAppHooks';
 import {selectCurrentUser} from '@/redux/features/auth/authSlice';
 
-const FALLBACK_NAME = 'Account';
-const FALLBACK_BIO =
-  'Add a short bio to help guardians and students understand your teaching background.';
-const FALLBACK_LOCATION = 'Location not available';
-const FALLBACK_MEMBER_SINCE = 'Member since recently';
+const {Text, Paragraph} = Typography;
+
+const FALLBACKS = {
+  name: 'Account',
+  bio: 'Add a short bio to help guardians and students understand your teaching background.',
+  memberSince: 'Member since recently',
+};
 
 type ProfileSummaryStoreUser = NonNullable<
   ReturnType<typeof selectCurrentUser>
 > & {
   bio?: string | null;
-  city?: string | null;
-  location?: string | null;
+  avatar?: string | null;
+  image?: string | null;
+  profileImage?: string | null;
+  profile_image?: string | null;
+  createdAt?: string | null;
+  first_name?: string | null;
+  last_name?: string | null;
+  email?: string | null;
 };
 
-const getTrimmedValue = (value?: string | null) => {
-  const trimmedValue = value?.trim();
+const getText = (value?: string | null) => value?.trim() || null;
 
-  return trimmedValue ? trimmedValue : null;
-};
-
-const getUserDisplayName = (
+const getDisplayName = (
   firstName?: string | null,
   lastName?: string | null,
-  fallbackEmail?: string | null,
+  email?: string | null,
 ) => {
-  const fullName = [firstName, lastName]
-    .map((value) => getTrimmedValue(value))
-    .filter((value): value is string => Boolean(value))
-    .join(' ');
+  const fullName = [firstName, lastName].map(getText).filter(Boolean).join(' ');
 
-  return fullName || getTrimmedValue(fallbackEmail) || FALLBACK_NAME;
+  return fullName || getText(email) || FALLBACKS.name;
 };
 
-const getUserInitials = (
+const getInitials = (
   firstName?: string | null,
   lastName?: string | null,
-  fallbackEmail?: string | null,
+  email?: string | null,
 ) => {
   const initials = [firstName, lastName]
-    .map((value) => getTrimmedValue(value))
-    .filter((value): value is string => Boolean(value))
-    .map((value) => value.charAt(0).toUpperCase())
+    .map(getText)
+    .filter(Boolean)
+    .map((name) => name![0].toUpperCase())
     .join('');
 
-  if (initials) {
-    return initials.slice(0, 2);
-  }
+  if (initials) return initials.slice(0, 2);
 
-  const fallbackCharacter = getTrimmedValue(fallbackEmail)
-    ?.charAt(0)
-    .toUpperCase();
-
-  return fallbackCharacter || 'A';
+  return getText(email)?.[0]?.toUpperCase() || 'A';
 };
 
-const getAvatarSource = (
-  avatar?: string | null,
-  image?: string | null,
-  profileImage?: string | null,
-  legacyProfileImage?: string | null,
-) =>
-  [avatar, image, profileImage, legacyProfileImage].find(
+const getAvatarUrl = (user?: ProfileSummaryStoreUser | null) =>
+  [user?.avatar, user?.image, user?.profileImage, user?.profile_image].find(
     (value) => typeof value === 'string' && value.trim().length > 0,
-  ) ?? null;
+  ) || null;
 
-const getBioText = (bio?: string | null) =>
-  getTrimmedValue(bio) || FALLBACK_BIO;
+const getMemberSince = (createdAt?: string | null) => {
+  const value = getText(createdAt);
 
-const getLocationText = (city?: string | null, location?: string | null) => {
-  const locationParts = [location, city]
-    .map((value) => getTrimmedValue(value))
-    .filter((value): value is string => Boolean(value));
+  if (!value) return FALLBACKS.memberSince;
 
-  return locationParts.length > 0
-    ? locationParts.join(', ')
-    : FALLBACK_LOCATION;
-};
+  const date = new Date(value);
 
-const getMemberSinceLabel = (createdAt?: string | null) => {
-  const joinedDate = getTrimmedValue(createdAt);
-
-  if (!joinedDate) {
-    return FALLBACK_MEMBER_SINCE;
+  if (Number.isNaN(date.getTime())) {
+    return FALLBACKS.memberSince;
   }
 
-  const parsedDate = new Date(joinedDate);
-
-  if (Number.isNaN(parsedDate.getTime())) {
-    return FALLBACK_MEMBER_SINCE;
-  }
-
-  return `Member since ${parsedDate.getFullYear()}`;
-};
-
-type ProfileAvatarProps = {
-  avatarSrc: string | null;
-  alt: string;
-  initials: string;
-};
-
-const ProfileAvatar = ({avatarSrc, alt, initials}: ProfileAvatarProps) => {
-  const [failedAvatarSrc, setFailedAvatarSrc] = useState<string | null>(null);
-  const shouldRenderImage = Boolean(avatarSrc && avatarSrc !== failedAvatarSrc);
-
-  if (shouldRenderImage && avatarSrc) {
-    return (
-      <img
-        src={avatarSrc}
-        alt={alt}
-        className="relative inline-block h-12 w-12 rounded-full object-cover object-center ring-1 ring-brand-200"
-        onError={() => setFailedAvatarSrc(avatarSrc)}
-      />
-    );
-  }
-
-  return (
-    <span
-      aria-hidden="true"
-      className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-brand-100 font-poppins text-sm font-bold text-brand-700 ring-1 ring-brand-200"
-    >
-      {initials}
-    </span>
-  );
+  return `Member since ${date.getFullYear()}`;
 };
 
 const ProfileSummary = () => {
@@ -133,91 +79,70 @@ const ProfileSummary = () => {
     selectCurrentUser,
   ) as ProfileSummaryStoreUser | null;
 
-  const displayName = getUserDisplayName(
+  const displayName = getDisplayName(
     currentUser?.first_name,
     currentUser?.last_name,
     currentUser?.email,
   );
 
-  const userInitials = getUserInitials(
+  const initials = getInitials(
     currentUser?.first_name,
     currentUser?.last_name,
     currentUser?.email,
   );
 
-  const avatarSrc = getAvatarSource(
-    currentUser?.avatar,
-    currentUser?.image,
-    currentUser?.profileImage,
-    currentUser?.profile_image,
-  );
-
-  const bioText = getBioText(currentUser?.bio);
-  const memberSinceLabel = getMemberSinceLabel(currentUser?.createdAt);
-  const locationText = getLocationText(
-    currentUser?.city,
-    currentUser?.location,
-  );
-
-  const avatarAlt = `${displayName} profile`;
+  const avatarUrl = getAvatarUrl(currentUser);
+  const bio = getText(currentUser?.bio) || FALLBACKS.bio;
+  const memberSince = getMemberSince(currentUser?.createdAt);
 
   return (
-    <div className="w-full max-w-full whitespace-normal wrap-break-word rounded-lg border border-gray-200 bg-white p-4 text-sm font-normal text-gray-600 shadow-theme-sm focus:outline-none dark:border-gray-800 dark:bg-white/3 dark:text-gray-400">
-      <div className="mb-2 flex items-center justify-between gap-4">
-        <ProfileAvatar
-          avatarSrc={avatarSrc}
-          alt={avatarAlt}
-          initials={userInitials}
-        />
+    <Card className="w-full rounded-2xl border border-gray-200 shadow-sm">
+      <div className="flex flex-col gap-4">
+        <div className="flex items-start justify-between gap-4">
+          <Space size={12} align="center">
+            <Avatar
+              size={56}
+              src={avatarUrl || undefined}
+              className="bg-blue-600 font-semibold"
+            >
+              {!avatarUrl && initials}
+            </Avatar>
 
-        <Link
-          to="/dashboard/profile"
-          className="inline-flex shrink-0 items-center justify-center rounded-lg bg-brand-600 px-3 py-2 text-center text-xs font-bold uppercase tracking-wide text-text-on-brand shadow-theme-xs transition-colors duration-200 hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70 dark:bg-brand-500 dark:hover:bg-brand-400"
-        >
-          Visit Profile
-        </Link>
+            <div className="min-w-0">
+              <div className="flex flex-col gap-1">
+                <Text strong className="!text-base !text-gray-900">
+                  {displayName}
+                </Text>
+
+                <Space size={6} className="text-gray-500">
+                  <FaRegCalendar className="text-xs" />
+                  <Text className="!text-sm !text-gray-500">{memberSince}</Text>
+                </Space>
+              </div>
+            </div>
+          </Space>
+        </div>
+
+        <Paragraph className="!mb-0 !text-sm !leading-6 !text-gray-600">
+          {bio}
+        </Paragraph>
+
+        <div className="flex items-center justify-between border-t border-gray-100 pt-4">
+          <Space size={6} className="text-gray-500">
+            <FaRegCalendar className="text-xs" />
+            <Text className="!text-sm !text-gray-500">{memberSince}</Text>
+          </Space>
+
+          <Text className="!text-gray-300">•</Text>
+
+          <Link to="/dashboard/profile">
+            <Button type="primary" className="!rounded-lg">
+              Visit Profile
+            </Button>
+          </Link>
+        </div>
       </div>
-
-      <h6 className="mb-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-base font-medium leading-relaxed tracking-normal text-gray-900 dark:text-white">
-        <span className="min-w-0 wrap-break-word">{displayName}</span>
-        <span aria-hidden="true" className="text-gray-400 dark:text-gray-500">
-          &bull;
-        </span>
-        <span className="text-sm text-gray-500 dark:text-gray-400">
-          {memberSinceLabel}
-        </span>
-      </h6>
-
-      <p className="block wrap-break-word text-sm leading-6 text-gray-600 dark:text-gray-400">
-        {bioText}
-      </p>
-
-      <div className="mt-6 flex items-center gap-8 border-t border-gray-200 pt-4 dark:border-gray-800">
-        <p className="flex min-w-0 items-start gap-1 wrap-break-word text-xs text-gray-600 dark:text-gray-400">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="2"
-            stroke="currentColor"
-            aria-hidden="true"
-            className="-mt-0.5 h-3.5 w-3.5 shrink-0"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-            />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-            />
-          </svg>
-          <span className="wrap-break-word">{locationText}</span>
-        </p>
-      </div>
-    </div>
+    </Card>
   );
 };
 
