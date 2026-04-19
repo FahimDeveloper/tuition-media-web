@@ -44,7 +44,7 @@ const AppHeader: React.FC = () => {
         <div className="flex flex-col items-center justify-between lg:flex-row">
           <div className="flex w-full items-center justify-between gap-2 border-b border-border px-3 py-3 sm:gap-4 lg:justify-normal lg:border-b-0 lg:px-0 lg:py-4">
             <button
-              className="z-99999 hidden h-11 w-11 items-center justify-center rounded-lg border border-border text-text-muted transition-colors hover:border-brand-400 hover:bg-brand-50 hover:text-brand-700 lg:flex"
+              className="z-99999 flex h-11 w-11 items-center justify-center rounded-lg border border-border text-text-muted transition-colors hover:border-brand-400 hover:bg-brand-50 hover:text-brand-700"
               onClick={handleToggle}
               aria-label="Toggle Sidebar"
             >
@@ -91,7 +91,7 @@ const AppHeader: React.FC = () => {
 
             <button
               onClick={toggleApplicationMenu}
-              className="z-99999 flex h-10 w-10 items-center justify-center rounded-lg text-text-strong transition-colors hover:bg-brand-50 hover:text-brand-700 lg:hidden"
+              className="z-99999  flex h-10 w-10 items-center justify-center rounded-lg text-text-strong transition-colors hover:bg-brand-50 hover:text-brand-700 lg:hidden"
             >
               <svg
                 width="24"
