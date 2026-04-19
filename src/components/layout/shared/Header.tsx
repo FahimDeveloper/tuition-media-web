@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {FiMenu, FiMoon, FiSun, FiX} from 'react-icons/fi';
-import {Link, NavLink, useLocation} from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 import BrandLogo from '@/components/common/BrandLogo';
 import ProfileDropdown from '@/components/layout/shared/ProfileDropdown';
 import {useTheme} from '@/hooks/useTheme';
@@ -23,23 +23,20 @@ const mobileLinkBaseClasses =
 const mobileLinkActiveClasses =
   'bg-brand-600 text-text-on-brand shadow-sm shadow-brand-600/20';
 const mobileLinkInactiveClasses =
-  'text-neutral hover:bg-brand-50 hover:text-brand-700 active:bg-brand-100 dark:hover:bg-white/5 dark:hover:text-brand-300 dark:active:bg-white/8';
+  'text-neutral hover:bg-brand-50 hover:text-brand-700 active:bg-brand-100 dark:hover:bg-brand-500/12 dark:hover:text-brand-300 dark:active:bg-brand-500/16';
 
 const desktopLinkBaseClasses =
-  "group relative flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-neutral transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70 before:content-['>'] before:text-base before:font-bold before:text-brand-600 before:transition-all before:duration-300 dark:text-gray-300 dark:before:text-brand-300";
+  "group relative flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-neutral transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70 before:content-['>'] before:text-base before:font-bold before:text-brand-600 before:transition-all before:duration-300 dark:before:text-brand-300";
 const desktopLinkActiveClasses =
   'font-bold text-brand-700 before:translate-x-0 before:opacity-100 dark:text-brand-300';
 const desktopLinkInactiveClasses =
-  'before:-translate-x-1 before:opacity-0 hover:bg-brand-50 hover:text-brand-700 hover:before:translate-x-0 hover:before:opacity-100 dark:hover:bg-white/5 dark:hover:text-brand-300';
+  'before:-translate-x-1 before:opacity-0 hover:bg-brand-50 hover:text-brand-700 hover:before:translate-x-0 hover:before:opacity-100 dark:hover:bg-brand-500/12 dark:hover:text-brand-300';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const {pathname} = useLocation();
   const {theme, toggleTheme} = useTheme();
-
-  const isHome = pathname === '/';
-  const isTransparent = isHome && !isScrolled;
+  const isTransparent = !isScrolled;
   const ThemeIcon = theme === 'dark' ? FiSun : FiMoon;
   const themeToggleLabel =
     theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
@@ -86,9 +83,9 @@ const Header = () => {
   const headerTransparentClasses =
     'border-b border-transparent bg-transparent shadow-none backdrop-blur-0';
   const headerSolidClasses =
-    'border-b border-brand-200/60 bg-surface/90 shadow-[0_4px_16px_rgba(17,45,78,0.06)] backdrop-blur-lg dark:border-gray-800 dark:bg-gray-900/90 dark:shadow-[0_12px_30px_rgba(3,7,18,0.32)]';
+    'border-b border-border bg-surface-elevated/92 shadow-theme-sm backdrop-blur-lg';
   const publicThemeToggleClasses =
-    'inline-flex h-11 w-11 items-center justify-center rounded-full border border-brand-200/70 bg-surface text-neutral shadow-sm transition-all duration-300 hover:border-brand-500 hover:text-brand-700 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70 dark:border-gray-800 dark:bg-white/[0.03] dark:text-gray-300 dark:hover:border-brand-400 dark:hover:bg-white/[0.06] dark:hover:text-white';
+    'tm-icon-button h-11 w-11 active:scale-[0.98]';
 
   return (
     <header
@@ -169,7 +166,7 @@ const Header = () => {
         >
           <ul
             aria-label="Primary navigation"
-            className="space-y-2 rounded-2xl border border-brand-200/70 bg-surface/95 p-3 shadow-[0_12px_30px_rgba(17,45,78,0.12)] backdrop-blur dark:border-gray-800 dark:bg-gray-dark/95 dark:shadow-[0_16px_40px_rgba(3,7,18,0.35)]"
+            className="space-y-2 rounded-2xl border border-border bg-surface-elevated/95 p-3 shadow-theme-lg backdrop-blur"
           >
             {visibleNavItems.map((item) => (
               <li key={item.name}>

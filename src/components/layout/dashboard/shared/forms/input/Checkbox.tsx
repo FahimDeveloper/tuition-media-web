@@ -1,4 +1,4 @@
-import type React from "react";
+import type React from 'react';
 
 interface CheckboxProps {
   label?: string;
@@ -14,28 +14,27 @@ const Checkbox: React.FC<CheckboxProps> = ({
   checked,
   id,
   onChange,
-  className = "",
+  className = '',
   disabled = false,
 }) => {
   return (
     <label
-      className={`flex items-center space-x-3 group cursor-pointer ${
-        disabled ? "cursor-not-allowed opacity-60" : ""
+      className={`group flex items-center space-x-3 ${
+        disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'
       }`}
     >
-      <div className="relative w-5 h-5">
+      <div className="relative h-5 w-5">
         <input
           id={id}
           type="checkbox"
-          className={`w-5 h-5 appearance-none cursor-pointer dark:border-gray-700 border border-gray-300 checked:border-transparent rounded-md checked:bg-brand-500 disabled:opacity-60 
-          ${className}`}
+          className={`h-5 w-5 appearance-none rounded-md border border-border checked:border-transparent checked:bg-brand-500 disabled:opacity-60 ${className}`}
           checked={checked}
           onChange={(e) => onChange(e.target.checked)}
           disabled={disabled}
         />
-        {checked && (
+        {checked ? (
           <svg
-            className="absolute transform -translate-x-1/2 -translate-y-1/2 pointer-events-none top-1/2 left-1/2"
+            className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform"
             xmlns="http://www.w3.org/2000/svg"
             width="14"
             height="14"
@@ -50,10 +49,10 @@ const Checkbox: React.FC<CheckboxProps> = ({
               strokeLinejoin="round"
             />
           </svg>
-        )}
-        {disabled && (
+        ) : null}
+        {disabled ? (
           <svg
-            className="absolute transform -translate-x-1/2 -translate-y-1/2 pointer-events-none top-1/2 left-1/2"
+            className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform"
             xmlns="http://www.w3.org/2000/svg"
             width="14"
             height="14"
@@ -62,19 +61,15 @@ const Checkbox: React.FC<CheckboxProps> = ({
           >
             <path
               d="M11.6666 3.5L5.24992 9.91667L2.33325 7"
-              stroke="#E4E7EC"
+              stroke="var(--color-border-strong)"
               strokeWidth="2.33333"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
           </svg>
-        )}
+        ) : null}
       </div>
-      {label && (
-        <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
-          {label}
-        </span>
-      )}
+      {label ? <span className="text-sm font-medium text-text-strong">{label}</span> : null}
     </label>
   );
 };

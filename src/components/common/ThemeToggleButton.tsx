@@ -1,16 +1,16 @@
-import { useTheme } from "@/hooks/useTheme";
+import {useTheme} from '@/hooks/useTheme';
 
 export const ThemeToggleButton: React.FC = () => {
-  const { theme, toggleTheme } = useTheme();
+  const {theme, toggleTheme} = useTheme();
 
   return (
     <button
       type="button"
       onClick={toggleTheme}
       aria-label={
-        theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+        theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
       }
-      className="relative flex items-center justify-center text-gray-500 transition-colors bg-white border border-gray-200 rounded-full hover:text-dark-900 h-11 w-11 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
+      className="tm-icon-button relative h-11 w-11"
     >
       <svg
         className="hidden dark:block"

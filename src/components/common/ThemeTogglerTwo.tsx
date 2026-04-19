@@ -1,15 +1,16 @@
-import { useTheme } from "@/hooks/useTheme";
+import {useTheme} from '@/hooks/useTheme';
 
 export default function ThemeTogglerTwo() {
-  const { theme, toggleTheme } = useTheme();
+  const {theme, toggleTheme} = useTheme();
+
   return (
     <button
       type="button"
       onClick={toggleTheme}
       aria-label={
-        theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+        theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
       }
-      className="inline-flex items-center justify-center text-white transition-colors rounded-full size-14 bg-brand-500 hover:bg-brand-600"
+      className="inline-flex size-14 items-center justify-center rounded-full border border-brand-300/40 bg-brand-600 text-text-on-brand shadow-theme-md transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-300"
     >
       <svg
         className="hidden dark:block"

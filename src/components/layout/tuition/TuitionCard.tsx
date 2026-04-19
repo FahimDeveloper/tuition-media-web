@@ -60,7 +60,7 @@ const TuitionCard = ({tuition}: TuitionCardProps) => {
   const subjects = getSubjectList(tuition.subjects);
 
   return (
-    <article className="group flex h-full flex-col rounded-2xl border border-brand-200/70 bg-surface p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-400/70 hover:shadow-md sm:p-5 dark:border-gray-800 dark:bg-white/3 dark:hover:border-brand-400/60">
+    <article className="group flex h-full flex-col rounded-2xl border border-brand-200/70 bg-surface-elevated p-4 shadow-theme-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-400/70 hover:shadow-theme-md sm:p-5 dark:border-border">
       <div className="flex flex-col gap-3">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
@@ -82,7 +82,7 @@ const TuitionCard = ({tuition}: TuitionCardProps) => {
           </div>
         </div>
 
-        <div className="flex items-start gap-2.5 rounded-xl bg-surface-subtle/70 px-3 py-3 dark:bg-white/4">
+        <div className="flex items-start gap-2.5 rounded-xl bg-surface-subtle/70 px-3 py-3 dark:bg-brand-500/[0.06]">
           <FiMapPin
             className="mt-0.5 shrink-0 text-brand-600 dark:text-brand-300"
             size={16}
@@ -101,7 +101,7 @@ const TuitionCard = ({tuition}: TuitionCardProps) => {
           return (
             <div
               key={`${tuition.id}-${item.label}`}
-              className="rounded-xl border border-brand-100/70 bg-brand-50/40 px-3 py-3 dark:border-white/5 dark:bg-white/3"
+              className="rounded-xl border border-brand-100/70 bg-brand-50/40 px-3 py-3 dark:border-border dark:bg-brand-500/[0.06]"
             >
               <div className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-700 dark:text-brand-300">
                 <Icon size={14} aria-hidden="true" />
@@ -134,7 +134,7 @@ const TuitionCard = ({tuition}: TuitionCardProps) => {
         </div>
       </div>
 
-      <div className="mt-6 flex items-center justify-between gap-3 border-t border-brand-100/70 pt-4 dark:border-white/5">
+      <div className="mt-6 flex items-center justify-between gap-3 border-t border-brand-100/70 pt-4 dark:border-border">
         <div className="inline-flex items-center gap-1.5 text-xs text-text-muted sm:text-sm">
           <FiClock size={14} aria-hidden="true" />
           <span>Updated recently</span>
@@ -142,7 +142,7 @@ const TuitionCard = ({tuition}: TuitionCardProps) => {
 
         <button
           type="button"
-          className="inline-flex min-h-10 items-center justify-center rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white transition duration-200 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-400 focus:ring-offset-2 dark:focus:ring-offset-background"
+          className="inline-flex min-h-10 items-center justify-center rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-text-on-brand transition duration-200 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-400 focus:ring-offset-2 focus:ring-offset-page"
         >
           See details
         </button>

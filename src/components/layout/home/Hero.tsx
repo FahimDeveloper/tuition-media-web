@@ -4,7 +4,7 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="flex min-h-screen items-center bg-brand-50 pt-16 transition-colors duration-300 dark:bg-gray-950"
+      className="flex min-h-screen items-center bg-linear-to-b from-brand-50 via-page to-page pt-16 transition-colors duration-300 dark:from-surface-strong dark:via-page dark:to-page"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -26,13 +26,13 @@ const Hero = () => {
             <div className="flex flex-wrap gap-4">
               <Link
                 to="/tuition"
-                className="rounded-lg bg-brand-600 px-8 py-3 text-text-on-brand shadow-lg transition hover:bg-brand-700 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-50 dark:focus-visible:ring-offset-gray-950"
+                className="rounded-lg bg-brand-600 px-8 py-3 text-text-on-brand shadow-theme-md transition hover:bg-brand-700 hover:shadow-theme-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-page"
               >
                 Find Tuition Jobs
               </Link>
               <Link
                 to="/signup"
-                className="rounded-lg border-2 border-brand-600 px-8 py-3 text-brand-700 transition hover:bg-brand-600 hover:text-text-on-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-50 dark:border-brand-400 dark:text-brand-300 dark:hover:bg-brand-500 dark:hover:text-white dark:focus-visible:ring-offset-gray-950"
+                className="rounded-lg border-2 border-brand-600 px-8 py-3 text-brand-700 transition hover:bg-brand-600 hover:text-text-on-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-page dark:border-brand-400 dark:text-brand-300 dark:hover:bg-brand-500 dark:hover:text-white"
               >
                 Join as a Tutor
               </Link>
@@ -41,7 +41,7 @@ const Hero = () => {
           <div className="flex justify-center fade-in">
             <div className="relative">
               <div className="w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 bg-gradient-to-br from-brand-700 to-brand-500 rounded-full shadow-2xl flex items-center justify-center">
-                <div className="flex h-60 w-60 items-center justify-center rounded-full bg-white text-8xl shadow-[0_16px_40px_rgba(17,45,78,0.14)] dark:bg-white/[0.05] dark:shadow-[0_18px_44px_rgba(3,7,18,0.36)] md:h-72 md:w-72 lg:h-88 lg:w-88">
+                <div className="flex h-60 w-60 items-center justify-center rounded-full bg-surface-elevated text-8xl shadow-theme-xl md:h-72 md:w-72 lg:h-88 lg:w-88">
                   <img
                     src="/images/hero/call-center-illustration.jpg"
                     className="object-cover w-full h-full rounded-full"

@@ -1,37 +1,37 @@
-import Chart from "react-apexcharts";
-import type {ApexOptions} from "apexcharts";
+import type {ApexOptions} from 'apexcharts';
+import Chart from 'react-apexcharts';
 
 export default function LineChartOne() {
   const options: ApexOptions = {
     legend: {
       show: false, // Hide legend
-      position: "top",
-      horizontalAlign: "left",
+      position: 'top',
+      horizontalAlign: 'left',
     },
-    colors: ["#465FFF", "#9CB9FF"], // Define line colors
+    colors: ['var(--color-brand-600)', 'var(--color-brand-300)'],
     chart: {
-      fontFamily: "Outfit, sans-serif",
+      fontFamily: 'Manrope, sans-serif',
       height: 310,
-      type: "line", // Set the chart type to 'line'
+      type: 'line',
       toolbar: {
         show: false, // Hide chart toolbar
       },
     },
     stroke: {
-      curve: "straight", // Define the line style (straight, smooth, or step)
-      width: [2, 2], // Line width for each dataset
+      curve: 'straight',
+      width: [2, 2],
     },
 
     fill: {
-      type: "gradient",
+      type: 'gradient',
       gradient: {
         opacityFrom: 0.55,
         opacityTo: 0,
       },
     },
     markers: {
-      size: 0, // Size of the marker points
-      strokeColors: "#fff", // Marker border color
+      size: 0,
+      strokeColors: 'var(--color-surface-elevated)',
       strokeWidth: 2,
       hover: {
         size: 6, // Marker size on hover
@@ -50,29 +50,29 @@ export default function LineChartOne() {
       },
     },
     dataLabels: {
-      enabled: false, // Disable data labels
+      enabled: false,
     },
     tooltip: {
-      enabled: true, // Enable tooltip
+      enabled: true,
       x: {
-        format: "dd MMM yyyy", // Format for x-axis tooltip
+        format: 'dd MMM yyyy',
       },
     },
     xaxis: {
-      type: "category", // Category-based x-axis
+      type: 'category',
       categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
       ],
       axisBorder: {
         show: false, // Hide x-axis border
@@ -81,20 +81,20 @@ export default function LineChartOne() {
         show: false, // Hide x-axis ticks
       },
       tooltip: {
-        enabled: false, // Disable tooltip for x-axis points
+        enabled: false,
       },
     },
     yaxis: {
       labels: {
         style: {
-          fontSize: "12px", // Adjust font size for y-axis labels
-          colors: ["#6B7280"], // Color of the labels
+          fontSize: '12px',
+          colors: ['var(--color-text-muted)'],
         },
       },
       title: {
-        text: "", // Remove y-axis title
+        text: '',
         style: {
-          fontSize: "0px",
+          fontSize: '0px',
         },
       },
     },
@@ -102,11 +102,11 @@ export default function LineChartOne() {
 
   const series = [
     {
-      name: "Sales",
+      name: 'Sales',
       data: [180, 190, 170, 160, 175, 165, 170, 205, 230, 210, 240, 235],
     },
     {
-      name: "Revenue",
+      name: 'Revenue',
       data: [40, 30, 50, 40, 55, 40, 70, 100, 110, 120, 150, 140],
     },
   ];

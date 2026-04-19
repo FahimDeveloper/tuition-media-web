@@ -22,7 +22,7 @@ export default function DashboardStatCard({
 }: DashboardStatCardProps) {
   return (
     <article
-      className={`flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-4 shadow-theme-sm dark:border-gray-800 dark:bg-white/[0.03] sm:p-5 lg:p-6 ${className}`}
+      className={`flex h-full flex-col rounded-2xl border border-border bg-surface-elevated p-4 shadow-theme-sm sm:p-5 lg:p-6 ${className}`}
     >
       <div className="flex flex-1 flex-col gap-5">
         <div className="flex items-start gap-4 sm:gap-5">
@@ -34,13 +34,13 @@ export default function DashboardStatCard({
           </div>
 
           <div className="min-w-0 flex-1">
-            <p className="text-3xl font-semibold leading-none text-gray-900 dark:text-white sm:text-4xl lg:text-[2.75rem]">
+            <p className="text-3xl font-semibold leading-none text-text-strong sm:text-4xl lg:text-[2.75rem]">
               {value}
             </p>
           </div>
         </div>
 
-        <p className="text-sm leading-6 text-gray-600 dark:text-gray-400 sm:text-base">
+        <p className="text-sm leading-6 text-text-muted sm:text-base">
           {description}
         </p>
       </div>

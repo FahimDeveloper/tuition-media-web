@@ -32,7 +32,7 @@
   border: 1px solid var(--color-brand-300) !important;
   background-color: var(--color-surface) !important;
   color: var(--color-text-strong) !important;
-  box-shadow: 0 10px 24px rgba(17, 45, 78, 0.16);
+  box-shadow: var(--shadow-theme-md);
   transition:
     border-color 200ms ease,
     color 200ms ease;
@@ -45,15 +45,15 @@
 }
 
 .dark .featured-teacher-carousel .featured-teacher-arrow {
-  border-color: #1f2937 !important;
-  background-color: rgba(255, 255, 255, 0.03) !important;
-  box-shadow: 0 18px 44px rgba(3, 7, 18, 0.32);
+  border-color: var(--color-border) !important;
+  background-color: var(--color-surface-elevated) !important;
+  box-shadow: var(--shadow-theme-xl);
 }
 
 .dark .featured-teacher-carousel .featured-teacher-arrow:hover {
   border-color: var(--color-brand-400) !important;
   color: var(--color-brand-300) !important;
-  background-color: rgba(255, 255, 255, 0.06) !important;
+  background-color: color-mix(in srgb, var(--color-brand-500) 12%, var(--color-surface-elevated)) !important;
 }
 
 .featured-teacher-carousel .featured-teacher-arrow:focus-visible {
@@ -83,7 +83,7 @@
 }
 
 .dark .featured-teacher-carousel .slick-dots li button {
-  background-color: rgba(143, 182, 222, 0.45) !important;
+  background-color: color-mix(in srgb, var(--color-brand-300) 45%, transparent) !important;
 }
 
 .dark .featured-teacher-carousel .slick-dots li.slick-active::after {

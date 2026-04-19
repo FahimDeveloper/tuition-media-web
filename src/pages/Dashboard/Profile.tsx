@@ -11,7 +11,7 @@ export default function UserProfiles() {
         title="React.js Profile Dashboard | TailAdmin - Next.js Admin Dashboard Template"
         description="This is React.js Profile Dashboard page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
       />
-      <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/3 lg:p-6">
+      <div className="rounded-2xl border border-border bg-surface-elevated p-5 lg:p-6">
         <PageBreadcrumb pageTitle="Profile" />
         <div className="space-y-6">
           <UserMetaCard />

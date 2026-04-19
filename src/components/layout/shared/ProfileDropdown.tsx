@@ -225,7 +225,7 @@ const ProfileDropdown = () => {
       icon: 'success',
       showConfirmButton: false,
       timer: 1500,
-      iconColor: '#355F92',
+      iconColor: 'var(--color-brand-700)',
     });
   };
 
@@ -239,10 +239,10 @@ const ProfileDropdown = () => {
         aria-expanded={isOpen}
         aria-controls={menuId}
         aria-label={isOpen ? 'Close account menu' : 'Open account menu'}
-        className={`inline-flex min-h-11 items-center rounded-full border bg-surface transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70 dark:border-gray-800 dark:bg-white/3 ${
+        className={`inline-flex min-h-11 items-center rounded-full border bg-surface-elevated transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70 ${
           isOpen
             ? 'border-brand-400 text-brand-700 dark:text-brand-300'
-            : 'border-brand-200/70 text-neutral hover:border-brand-500 hover:text-brand-700 dark:text-gray-300 dark:hover:border-brand-400 dark:hover:text-white'
+            : 'border-border text-neutral hover:border-brand-500 hover:text-brand-700 dark:hover:border-brand-400 dark:hover:text-brand-200'
         } px-1.5 md:gap-2 md:rounded-full md:px-2.5`}
       >
         <ProfileAvatar
@@ -271,9 +271,9 @@ const ProfileDropdown = () => {
           id={menuId}
           role="menu"
           aria-label="Account menu"
-          className="absolute right-0 z-1000 mt-2 w-[min(20rem,calc(100vw-1.5rem))] rounded-2xl border border-brand-200/80 bg-surface shadow-[0_12px_30px_rgba(17,45,78,0.18)] dark:border-gray-800 dark:bg-gray-dark dark:shadow-[0_18px_44px_rgba(3,7,18,0.38)]"
+          className="absolute right-0 z-1000 mt-2 w-[min(20rem,calc(100vw-1.5rem))] rounded-2xl border border-border bg-surface-elevated shadow-theme-lg"
         >
-          <div className="flex items-center gap-3 border-b border-brand-100 px-4 py-4 dark:border-gray-800">
+          <div className="flex items-center gap-3 border-b border-border px-4 py-4">
             <ProfileAvatar
               avatarSrc={avatarSrc}
               alt={avatarAlt}
@@ -283,19 +283,19 @@ const ProfileDropdown = () => {
               textClassName="text-sm"
             />
             <div className="min-w-0">
-              <p className="truncate text-sm font-bold text-neutral dark:text-white/90">
+              <p className="truncate text-sm font-bold text-neutral">
                 {displayName}
               </p>
               <p className="mt-0.5 inline-flex rounded-full bg-brand-50 px-2 py-0.5 text-xs font-semibold text-brand-700 dark:bg-brand-500/15 dark:text-brand-300">
                 {profileBadge}
               </p>
               {currentUser?.email ? (
-                <p className="mt-1 truncate text-xs text-neutral/80 dark:text-gray-400">
+                <p className="mt-1 truncate text-xs text-text-muted">
                   {currentUser.email}
                 </p>
               ) : null}
               {currentUser?.phone ? (
-                <p className="truncate text-xs text-neutral/80 dark:text-gray-400">
+                <p className="truncate text-xs text-text-muted">
                   {currentUser.phone}
                 </p>
               ) : null}
@@ -310,7 +310,7 @@ const ProfileDropdown = () => {
                   to={action.href}
                   role="menuitem"
                   onClick={() => closeMenu()}
-                  className="flex min-h-11 items-center gap-3 rounded-xl px-3 py-2 text-left transition-colors duration-200 hover:bg-brand-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70 dark:hover:bg-white/5"
+                  className="flex min-h-11 items-center gap-3 rounded-xl px-3 py-2 text-left transition-colors duration-200 hover:bg-brand-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70 dark:hover:bg-brand-500/12"
                 >
                   <span
                     className="text-brand-700 dark:text-brand-300"
@@ -319,10 +319,10 @@ const ProfileDropdown = () => {
                     {action.icon}
                   </span>
                   <span className="min-w-0">
-                    <span className="block text-sm font-semibold text-neutral dark:text-white/90">
+                    <span className="block text-sm font-semibold text-neutral">
                       {action.label}
                     </span>
-                    <span className="block truncate text-xs text-neutral/75 dark:text-gray-400">
+                    <span className="block truncate text-xs text-text-muted">
                       {action.description}
                     </span>
                   </span>
@@ -331,12 +331,12 @@ const ProfileDropdown = () => {
             ))}
           </ul>
 
-          <div className="border-t border-brand-100 p-2 dark:border-gray-800">
+          <div className="border-t border-border p-2">
             <button
               type="button"
               role="menuitem"
               onClick={handleLogout}
-              className="flex min-h-11 w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm font-semibold text-neutral transition-colors duration-200 hover:bg-brand-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70 dark:text-white/90 dark:hover:bg-white/5"
+              className="flex min-h-11 w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm font-semibold text-neutral transition-colors duration-200 hover:bg-brand-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70 dark:hover:bg-brand-500/12"
             >
               <FiLogOut
                 size={18}

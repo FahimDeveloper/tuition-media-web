@@ -1,4 +1,3 @@
-import React, {Children} from 'react';
 import {AndroidOutlined, AppleOutlined} from '@ant-design/icons';
 import {Tabs} from 'antd';
 import BasicTables from '../Demo/Tables/BasicTables';
@@ -31,7 +30,7 @@ const historyNavs = [
   },
 ];
 
-const CurrentStatus: React.FC = () => (
+const CurrentStatus = () => (
   <Tabs
     className=""
     defaultActiveKey="2"

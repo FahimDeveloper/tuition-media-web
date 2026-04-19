@@ -1,8 +1,8 @@
-import type React from "react";
-import type { FC } from "react";
+import type React from 'react';
+import type {FC} from 'react';
 
 interface InputProps {
-  type?: "text" | "number" | "email" | "password" | "date" | "time" | string;
+  type?: 'text' | 'number' | 'email' | 'password' | 'date' | 'time' | string;
   id?: string;
   name?: string;
   placeholder?: string;
@@ -19,13 +19,13 @@ interface InputProps {
 }
 
 const Input: FC<InputProps> = ({
-  type = "text",
+  type = 'text',
   id,
   name,
   placeholder,
   value,
   onChange,
-  className = "",
+  className = '',
   min,
   max,
   step,
@@ -34,16 +34,16 @@ const Input: FC<InputProps> = ({
   error = false,
   hint,
 }) => {
-  let inputClasses = ` h-11 w-full rounded-lg border appearance-none px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3  dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 ${className}`;
+  let inputClasses = `h-11 w-full rounded-lg border border-border bg-surface-elevated px-4 py-2.5 text-sm text-text-strong shadow-theme-xs placeholder:text-text-soft focus:outline-hidden focus:ring-3 focus:ring-brand-500/20 ${className}`;
 
   if (disabled) {
-    inputClasses += ` text-gray-500 border-gray-300 opacity-40 bg-gray-100 cursor-not-allowed dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700 opacity-40`;
+    inputClasses += ` cursor-not-allowed border-border bg-surface-muted text-text-soft opacity-40`;
   } else if (error) {
-    inputClasses += `  border-error-500 focus:border-error-300 focus:ring-error-500/20 dark:text-error-400 dark:border-error-500 dark:focus:border-error-800`;
+    inputClasses += ` border-error-500 focus:border-error-300 focus:ring-error-500/20`;
   } else if (success) {
-    inputClasses += `  border-success-500 focus:border-success-300 focus:ring-success-500/20 dark:text-success-400 dark:border-success-500 dark:focus:border-success-800`;
+    inputClasses += ` border-success-500 focus:border-success-300 focus:ring-success-500/20`;
   } else {
-    inputClasses += ` bg-transparent text-gray-800 border-gray-300 focus:border-brand-300 focus:ring-brand-500/20 dark:border-gray-700 dark:text-white/90  dark:focus:border-brand-800`;
+    inputClasses += ` focus:border-brand-300`;
   }
 
   return (
@@ -66,11 +66,11 @@ const Input: FC<InputProps> = ({
         <p
           className={`mt-1.5 text-xs ${
             error
-              ? "text-error-500"
+              ? 'text-error-500'
               : success
-              ? "text-success-500"
-              : "text-gray-500"
-          }`}
+              ? 'text-success-500'
+              : 'text-text-muted'
+           }`}
         >
           {hint}
         </p>

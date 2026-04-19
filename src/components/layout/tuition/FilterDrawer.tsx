@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import {useMemo, useState} from 'react';
 import {
   Button,
   Card,
@@ -26,9 +26,11 @@ import {FiSliders} from 'react-icons/fi';
 const {Title, Text} = Typography;
 const {useBreakpoint} = Grid;
 
+type FilterDateValue = unknown;
+
 type FilterFormValues = {
-  postedDateFrom?: any;
-  postedDateTo?: any;
+  postedDateFrom?: FilterDateValue;
+  postedDateTo?: FilterDateValue;
   country?: string;
   city?: string;
   areaLocation?: string;
@@ -65,7 +67,17 @@ const countryOptions = [
   {label: 'Nepal', value: 'nepal'},
 ];
 
-const FilterDrawer: React.FC = ({children}: {children: React.ReactNode}) => {
+const drawerBodyStyles = {
+  padding: 0,
+  background: 'var(--color-surface-muted)',
+  display: 'flex',
+  flexDirection: 'column' as const,
+  height: '100%',
+};
+
+const sectionCardStyles = {body: {padding: 20}};
+
+const FilterDrawer = () => {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm<FilterFormValues>();
   const screens = useBreakpoint();
@@ -96,7 +108,7 @@ const FilterDrawer: React.FC = ({children}: {children: React.ReactNode}) => {
         icon={<FiSliders />}
         size="large"
         onClick={() => setOpen(true)}
-        className="h-[44px] rounded-xl border border-gray-200 dark:border-white/10"
+        className="h-[44px] rounded-xl border-border bg-surface-elevated text-text-strong shadow-none hover:!border-brand-400 hover:!bg-brand-50"
       >
         More Filters
       </Button>
@@ -108,25 +120,17 @@ const FilterDrawer: React.FC = ({children}: {children: React.ReactNode}) => {
         size={drawerWidth}
         destroyOnHidden
         title={null}
-        styles={{
-          body: {
-            padding: 0,
-            background: '#f5f7fb',
-            display: 'flex',
-            flexDirection: 'column',
-            height: '100%',
-          },
-        }}
+        styles={{body: drawerBodyStyles}}
       >
         <div className="flex h-full flex-col">
-          <div className="border-b border-slate-200 bg-white px-5 py-4 sm:px-6">
+          <div className="border-b border-border bg-surface-elevated px-5 py-4 sm:px-6">
             <div className="flex items-start justify-between gap-4">
               <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-600 dark:bg-brand-500/12 dark:text-brand-300">
                   <FilterOutlined style={{fontSize: 18}} />
                 </div>
 
-                <Title level={4} style={{margin: 0}}>
+                <Title level={4} style={{margin: 0, color: 'var(--color-text-strong)'}}>
                   Filter Tuition Jobs
                 </Title>
               </div>
@@ -144,12 +148,12 @@ const FilterDrawer: React.FC = ({children}: {children: React.ReactNode}) => {
             >
               <Card
                 bordered={false}
-                className="mb-4 rounded-2xl shadow-sm"
-                styles={{body: {padding: 20}}}
+                className="mb-4 rounded-2xl border border-border bg-surface-elevated shadow-theme-sm"
+                styles={sectionCardStyles}
               >
                 <div className="mb-4 flex items-center gap-2">
-                  <CalendarOutlined className="text-slate-500" />
-                  <Text strong className="text-base">
+                  <CalendarOutlined className="text-text-muted" />
+                  <Text strong className="text-base !text-text-strong">
                     Posted Date
                   </Text>
                 </div>
@@ -179,12 +183,12 @@ const FilterDrawer: React.FC = ({children}: {children: React.ReactNode}) => {
 
               <Card
                 bordered={false}
-                className="mb-4 rounded-2xl shadow-sm"
-                styles={{body: {padding: 20}}}
+                className="mb-4 rounded-2xl border border-border bg-surface-elevated shadow-theme-sm"
+                styles={sectionCardStyles}
               >
                 <div className="mb-4 flex items-center gap-2">
-                  <EnvironmentOutlined className="text-slate-500" />
-                  <Text strong className="text-base">
+                  <EnvironmentOutlined className="text-text-muted" />
+                  <Text strong className="text-base !text-text-strong">
                     Location
                   </Text>
                 </div>
@@ -218,12 +222,12 @@ const FilterDrawer: React.FC = ({children}: {children: React.ReactNode}) => {
 
               <Card
                 bordered={false}
-                className="rounded-2xl shadow-sm"
-                styles={{body: {padding: 20}}}
+                className="rounded-2xl border border-border bg-surface-elevated shadow-theme-sm"
+                styles={sectionCardStyles}
               >
                 <div className="mb-4 flex items-center gap-2">
-                  <BookOutlined className="text-slate-500" />
-                  <Text strong className="text-base">
+                  <BookOutlined className="text-text-muted" />
+                  <Text strong className="text-base !text-text-strong">
                     Academic Details
                   </Text>
                 </div>
@@ -264,7 +268,7 @@ const FilterDrawer: React.FC = ({children}: {children: React.ReactNode}) => {
             </Form>
           </div>
 
-          <div className="border-t border-slate-200 bg-white px-4 py-4 sm:px-5">
+          <div className="border-t border-border bg-surface-elevated px-4 py-4 sm:px-5">
             <Space size="middle" wrap className="flex w-full justify-end">
               <Button icon={<ReloadOutlined />} size="large" onClick={onReset}>
                 Reset

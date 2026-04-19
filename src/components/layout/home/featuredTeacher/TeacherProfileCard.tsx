@@ -22,12 +22,12 @@ const TeacherProfileCard = ({teacher}: TeacherProfileCardProps) => {
   ];
 
   const metricCardClasses =
-    'rounded-xl border border-brand-200/80 bg-brand-50/70 px-3 py-2 text-center dark:border-gray-800 dark:bg-white/[0.04]';
+    'rounded-xl border border-brand-200/80 bg-brand-50/70 px-3 py-2 text-center dark:border-border dark:bg-brand-500/[0.08]';
   const metricLabelClasses =
     'mt-0.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-brand-700 dark:text-brand-300';
 
   return (
-    <article className="group flex h-full flex-col rounded-2xl border border-brand-200/70 bg-surface p-6 shadow-[0_4px_12px_rgba(17,45,78,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-brand-400/70 hover:shadow-[0_8px_18px_rgba(17,45,78,0.10)] dark:border-gray-800 dark:bg-white/[0.03] dark:shadow-[0_16px_40px_rgba(3,7,18,0.26)] dark:hover:border-brand-400/60 dark:hover:bg-white/[0.04]">
+    <article className="group flex h-full flex-col rounded-2xl border border-brand-200/70 bg-surface-elevated p-6 shadow-theme-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand-400/70 hover:shadow-theme-lg dark:border-border dark:hover:bg-brand-500/[0.04]">
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-center gap-4">
           <img
@@ -62,7 +62,7 @@ const TeacherProfileCard = ({teacher}: TeacherProfileCardProps) => {
         ))}
       </div>
 
-      <div className="mt-5 flex items-center gap-2 rounded-lg border border-brand-100 bg-brand-50/50 px-3 py-2 dark:border-gray-800 dark:bg-white/[0.04]">
+      <div className="mt-5 flex items-center gap-2 rounded-lg border border-brand-100 bg-brand-50/50 px-3 py-2 dark:border-border dark:bg-brand-500/[0.06]">
         <span className="text-xs font-semibold uppercase tracking-[0.08em] text-brand-700 dark:text-brand-300">
           Location
         </span>
@@ -79,7 +79,7 @@ const TeacherProfileCard = ({teacher}: TeacherProfileCardProps) => {
         {teacher.subjects.map((subject) => (
           <span
             key={`${teacher.id}-${subject}`}
-            className="inline-flex min-h-8 items-center rounded-full border border-brand-200 bg-surface-subtle px-3 py-1 text-xs font-semibold text-brand-700 dark:border-gray-800 dark:bg-white/[0.04] dark:text-brand-300"
+              className="inline-flex min-h-8 items-center rounded-full border border-brand-200 bg-surface-subtle px-3 py-1 text-xs font-semibold text-brand-700 dark:border-border dark:bg-brand-500/[0.06] dark:text-brand-300"
           >
             {subject}
           </span>

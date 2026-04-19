@@ -1,12 +1,7 @@
 import {theme as antdTheme, type ThemeConfig} from 'antd';
 import type {Theme} from '@/context/theme-store';
 
-const LIGHT_SURFACE = '#F9F7F7';
-const LIGHT_SURFACE_SUBTLE = '#DBE2EF';
-const LIGHT_TEXT = '#112D4E';
-const DARK_SURFACE = '#101828';
-const DARK_SURFACE_SUBTLE = '#1F2937';
-const DARK_TEXT = '#F3F4F6';
+const colorVar = (name: string) => `var(--color-${name})`;
 
 export const getAntdTheme = (mode: Theme): ThemeConfig => {
   const isDarkMode = mode === 'dark';
@@ -16,47 +11,78 @@ export const getAntdTheme = (mode: Theme): ThemeConfig => {
       ? antdTheme.darkAlgorithm
       : antdTheme.defaultAlgorithm,
     token: {
-      colorPrimary: '#3F72AF',
-      colorInfo: '#3F72AF',
-      colorTextBase: isDarkMode ? DARK_TEXT : LIGHT_TEXT,
-      colorBgBase: isDarkMode ? DARK_SURFACE : LIGHT_SURFACE,
-      colorBorder: isDarkMode ? DARK_SURFACE_SUBTLE : LIGHT_SURFACE_SUBTLE,
-      colorFillSecondary: isDarkMode ? 'rgba(255,255,255,0.08)' : '#F2F7FC',
-      colorTextPlaceholder: isDarkMode
-        ? 'rgba(243, 244, 246, 0.45)'
-        : 'rgba(17, 45, 78, 0.45)',
-      colorTextSecondary: isDarkMode
-        ? 'rgba(243, 244, 246, 0.72)'
-        : 'rgba(17, 45, 78, 0.75)',
-      colorBgContainer: isDarkMode ? 'rgba(255,255,255,0.03)' : LIGHT_SURFACE,
+      colorPrimary: colorVar('brand-600'),
+      colorInfo: colorVar('brand-600'),
+      colorSuccess: colorVar('success-500'),
+      colorWarning: colorVar('warning-500'),
+      colorError: colorVar('error-500'),
+      colorTextBase: colorVar('text-strong'),
+      colorText: colorVar('text-strong'),
+      colorTextSecondary: colorVar('text-muted'),
+      colorTextPlaceholder: colorVar('text-soft'),
+      colorBgBase: colorVar('page'),
+      colorBgContainer: colorVar('surface-elevated'),
+      colorBgElevated: colorVar('surface-elevated'),
+      colorFillSecondary: colorVar('surface-muted'),
+      colorFillTertiary: colorVar('surface-subtle'),
+      colorBorder: colorVar('border'),
+      colorBorderSecondary: colorVar('border'),
+      colorSplit: colorVar('border'),
+      colorPrimaryBorder: colorVar('brand-300'),
+      colorPrimaryBorderHover: colorVar('brand-400'),
+      controlItemBgActive: colorVar('brand-50'),
+      controlItemBgActiveHover: colorVar('brand-100'),
+      controlOutline: 'var(--color-focus-ring)',
+      controlOutlineWidth: 2,
+      boxShadow: 'var(--shadow-theme-sm)',
+      boxShadowSecondary: 'var(--shadow-theme-lg)',
       fontFamily: 'Manrope',
-      borderRadius: 12,
+      borderRadius: 14,
     },
     components: {
       Layout: {
-        headerBg: isDarkMode ? DARK_SURFACE : LIGHT_SURFACE,
-        bodyBg: isDarkMode ? DARK_SURFACE : LIGHT_SURFACE,
-        footerBg: isDarkMode ? DARK_SURFACE : LIGHT_SURFACE,
+        headerBg: colorVar('surface-elevated'),
+        bodyBg: colorVar('page'),
+        footerBg: colorVar('surface-elevated'),
+        siderBg: colorVar('surface-elevated'),
+        triggerBg: colorVar('surface-strong'),
       },
       Button: {
-        colorPrimary: '#3F72AF',
-        colorPrimaryHover: '#355F92',
-        colorPrimaryActive: '#2A4B74',
-        defaultBg: isDarkMode ? 'rgba(255,255,255,0.03)' : '#FFFFFF',
-        defaultBorderColor: isDarkMode ? '#1F2937' : '#DBE2EF',
-        defaultColor: isDarkMode ? 'rgba(243,244,246,0.9)' : LIGHT_TEXT,
+        colorPrimary: colorVar('brand-600'),
+        colorPrimaryHover: colorVar('brand-700'),
+        colorPrimaryActive: colorVar('brand-800'),
+        primaryShadow: 'var(--shadow-theme-xs)',
+        defaultBg: colorVar('surface-elevated'),
+        defaultBorderColor: colorVar('border'),
+        defaultColor: colorVar('text-strong'),
       },
       Input: {
-        activeBorderColor: '#3F72AF',
-        hoverBorderColor: '#4F84BE',
+        colorBgContainer: colorVar('surface-elevated'),
+        colorBorder: colorVar('border'),
+        hoverBorderColor: colorVar('brand-400'),
+        activeBorderColor: colorVar('brand-500'),
       },
       Select: {
-        activeBorderColor: '#3F72AF',
-        hoverBorderColor: '#4F84BE',
+        colorBgContainer: colorVar('surface-elevated'),
+        colorBorder: colorVar('border'),
+        optionSelectedBg: colorVar('brand-50'),
+        hoverBorderColor: colorVar('brand-400'),
+        activeBorderColor: colorVar('brand-500'),
+      },
+      Drawer: {
+        colorBgElevated: colorVar('surface-elevated'),
+        colorBgMask: 'var(--color-overlay-strong)',
+      },
+      Card: {
+        colorBgContainer: colorVar('surface-elevated'),
+      },
+      Modal: {
+        contentBg: colorVar('surface-elevated'),
+        headerBg: colorVar('surface-elevated'),
       },
       Typography: {
-        colorText: isDarkMode ? DARK_TEXT : LIGHT_TEXT,
-        colorTextSecondary: isDarkMode ? 'rgba(243,244,246,0.72)' : '#3F72AF',
+        colorText: colorVar('text-strong'),
+        colorTextSecondary: colorVar('text-muted'),
       },
     },
   };

@@ -35,7 +35,7 @@ const getColumnCount = (width: number) => {
 };
 
 const cardBaseClassName =
-  'flex h-full min-h-[112px] flex-col justify-center rounded-2xl border border-gray-200 bg-white p-4 shadow-theme-sm dark:border-gray-800 dark:bg-white/[0.03] sm:min-h-[120px] sm:p-5 lg:min-h-[118px]';
+  'flex h-full min-h-[112px] flex-col justify-center rounded-2xl border border-border bg-surface-elevated p-4 shadow-theme-sm sm:min-h-[120px] sm:p-5 lg:min-h-[118px]';
 
 function CompactStatsCard({item}: {item: CompactStatItem}) {
   const Icon = item.icon;
@@ -52,10 +52,10 @@ function CompactStatsCard({item}: {item: CompactStatItem}) {
         </div>
 
         <div className="min-w-0 flex-1">
-          <p className="text-2xl font-semibold leading-none text-gray-900 dark:text-white sm:text-3xl lg:text-[1.75rem]">
+          <p className="text-2xl font-semibold leading-none text-text-strong sm:text-3xl lg:text-[1.75rem]">
             {item.value}
           </p>
-          <p className="mt-2 text-sm font-medium leading-5 text-gray-600 dark:text-gray-400 sm:text-theme-sm sm:leading-6">
+          <p className="mt-2 text-sm font-medium leading-5 text-text-muted sm:text-theme-sm sm:leading-6">
             {item.label}
           </p>
         </div>

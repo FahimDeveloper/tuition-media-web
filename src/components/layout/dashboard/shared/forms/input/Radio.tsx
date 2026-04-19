@@ -1,12 +1,12 @@
 interface RadioProps {
-  id: string; // Unique ID for the radio button
-  name: string; // Radio group name
-  value: string; // Value of the radio button
-  checked: boolean; // Whether the radio button is checked
-  label: string; // Label for the radio button
-  onChange: (value: string) => void; // Handler for value change
-  className?: string; // Optional additional classes
-  disabled?: boolean; // Optional disabled state for the radio button
+  id: string;
+  name: string;
+  value: string;
+  checked: boolean;
+  label: string;
+  onChange: (value: string) => void;
+  className?: string;
+  disabled?: boolean;
 }
 
 const Radio: React.FC<RadioProps> = ({
@@ -16,16 +16,14 @@ const Radio: React.FC<RadioProps> = ({
   checked,
   label,
   onChange,
-  className = "",
+  className = '',
   disabled = false,
 }) => {
   return (
     <label
       htmlFor={id}
-      className={`relative flex cursor-pointer  select-none items-center gap-3 text-sm font-medium ${
-        disabled
-          ? "text-gray-300 dark:text-gray-600 cursor-not-allowed"
-          : "text-gray-700 dark:text-gray-400"
+      className={`relative flex select-none items-center gap-3 text-sm font-medium ${
+        disabled ? 'cursor-not-allowed text-text-soft' : 'cursor-pointer text-text-muted'
       } ${className}`}
     >
       <input
@@ -34,25 +32,17 @@ const Radio: React.FC<RadioProps> = ({
         type="radio"
         value={value}
         checked={checked}
-        onChange={() => !disabled && onChange(value)} // Prevent onChange when disabled
+        onChange={() => !disabled && onChange(value)}
         className="sr-only"
-        disabled={disabled} // Disable input
+        disabled={disabled}
       />
       <span
         className={`flex h-5 w-5 items-center justify-center rounded-full border-[1.25px] ${
-          checked
-            ? "border-brand-500 bg-brand-500"
-            : "bg-transparent border-gray-300 dark:border-gray-700"
-        } ${
-          disabled
-            ? "bg-gray-100 dark:bg-gray-700 border-gray-200 dark:border-gray-700"
-            : ""
-        }`}
+          checked ? 'border-brand-500 bg-brand-500' : 'border-border bg-transparent'
+        } ${disabled ? 'border-border bg-surface-muted' : ''}`}
       >
         <span
-          className={`h-2 w-2 rounded-full bg-white ${
-            checked ? "block" : "hidden"
-          }`}
+          className={`h-2 w-2 rounded-full bg-white ${checked ? 'block' : 'hidden'}`}
         ></span>
       </span>
       {label}
