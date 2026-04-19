@@ -1,124 +1,70 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 
-import {useCallback, useEffect, useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {Link, useLocation} from 'react-router-dom';
 import BrandLogo from '@/components/common/BrandLogo';
-
-// Assume these icons are imported from an icon library
-import {
-  ChevronDownIcon,
-  GridIcon,
-  HorizontaLDots,
-  ListIcon,
-  UserCircleIcon,
-} from '@/icons';
+import {ChevronDownIcon, HorizontaLDots} from '@/icons';
 import {useSidebar} from '@/context/dashboard/SidebarContext';
+import {tutorPath} from '@/routers/tutor.routes';
+import type {TSidebarNavItem} from '@/types/path';
+import {navigationGenerator} from '@/utils/navigationGenerator';
 
-type NavItem = {
-  name: string;
-  icon: React.ReactNode;
-  path?: string;
-  subItems?: {name: string; path: string; pro?: boolean; new?: boolean}[];
-};
-
-const navItems: NavItem[] = [
-  {
-    icon: <GridIcon />,
-    name: 'Dashboard',
-    // subItems: [{name: 'Ecommerce', path: '/dashboard', pro: false}],
-    path: '/tutor',
-  },
-  {
-    icon: <UserCircleIcon />,
-    name: 'User Profile',
-    path: '/tutor/profile',
-  },
-  {
-    icon: <ListIcon />,
-    name: 'Job Board',
-    path: '/tutor/job-board',
-  },
-];
-
-const othersItems: NavItem[] = [];
+// The sidebar reads directly from the shared tutor route config so menu items
+// and `/tutor/*` routes stay aligned.
+const navItems: TSidebarNavItem[] = navigationGenerator(tutorPath, 'tutor');
 
 const AppSidebar: React.FC = () => {
   const {isExpanded, isMobileOpen, isHovered, setIsHovered} = useSidebar();
   const location = useLocation();
 
-  const [openSubmenu, setOpenSubmenu] = useState<{
-    type: 'main' | 'others';
-    index: number;
-  } | null>(null);
-  const [subMenuHeight, setSubMenuHeight] = useState<Record<string, number>>(
+  const [openSubmenu, setOpenSubmenu] = useState<number | null>(null);
+  const [subMenuHeight, setSubMenuHeight] = useState<Record<number, number>>(
     {},
   );
-  const subMenuRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const subMenuRefs = useRef<Record<number, HTMLDivElement | null>>({});
 
-  // const isActive = (path: string) => location.pathname === path;
-  const isActive = useCallback(
-    (path: string) => location.pathname === path,
-    [location.pathname],
-  );
+  const isActive = (path: string) => location.pathname === path;
 
   useEffect(() => {
-    let submenuMatched = false;
-    ['main', 'others'].forEach((menuType) => {
-      const items = menuType === 'main' ? navItems : othersItems;
-      items.forEach((nav, index) => {
-        if (nav.subItems) {
-          nav.subItems.forEach((subItem) => {
-            if (isActive(subItem.path)) {
-              setOpenSubmenu({
-                type: menuType as 'main' | 'others',
-                index,
-              });
-              submenuMatched = true;
-            }
-          });
-        }
-      });
-    });
+    // Keep the matching parent section expanded when a nested route is active.
+    const matchedSubmenuIndex = navItems.findIndex((nav) =>
+      nav.subItems?.some((subItem) => subItem.path === location.pathname),
+    );
 
-    if (!submenuMatched) {
-      setOpenSubmenu(null);
-    }
-  }, [location, isActive]);
+    setOpenSubmenu(matchedSubmenuIndex >= 0 ? matchedSubmenuIndex : null);
+  }, [location.pathname]);
 
   useEffect(() => {
+    // Measure submenu content once it opens so the existing height animation
+    // can keep using inline `height` values.
     if (openSubmenu !== null) {
-      const key = `${openSubmenu.type}-${openSubmenu.index}`;
-      if (subMenuRefs.current[key]) {
+      if (subMenuRefs.current[openSubmenu]) {
         setSubMenuHeight((prevHeights) => ({
           ...prevHeights,
-          [key]: subMenuRefs.current[key]?.scrollHeight || 0,
+          [openSubmenu]: subMenuRefs.current[openSubmenu]?.scrollHeight || 0,
         }));
       }
     }
   }, [openSubmenu]);
 
-  const handleSubmenuToggle = (index: number, menuType: 'main' | 'others') => {
+  const handleSubmenuToggle = (index: number) => {
     setOpenSubmenu((prevOpenSubmenu) => {
-      if (
-        prevOpenSubmenu &&
-        prevOpenSubmenu.type === menuType &&
-        prevOpenSubmenu.index === index
-      ) {
+      if (prevOpenSubmenu === index) {
         return null;
       }
-      return {type: menuType, index};
+      return index;
     });
   };
 
-  const renderMenuItems = (items: NavItem[], menuType: 'main' | 'others') => (
+  const renderMenuItems = () => (
     <ul className="flex flex-col gap-4">
-      {items.map((nav, index) => (
+      {navItems.map((nav, index) => (
         <li key={nav.name}>
           {nav.subItems ? (
             <button
-              onClick={() => handleSubmenuToggle(index, menuType)}
+              onClick={() => handleSubmenuToggle(index)}
               className={`menu-item group ${
-                openSubmenu?.type === menuType && openSubmenu?.index === index
+                openSubmenu === index
                   ? 'menu-item-active'
                   : 'menu-item-inactive'
               } cursor-pointer ${
@@ -129,12 +75,12 @@ const AppSidebar: React.FC = () => {
             >
               <span
                 className={`menu-item-icon-size  ${
-                  openSubmenu?.type === menuType && openSubmenu?.index === index
+                  openSubmenu === index
                     ? 'menu-item-icon-active'
                     : 'menu-item-icon-inactive'
                 }`}
               >
-                {nav.icon}
+                {nav.icon ? <nav.icon /> : null}
               </span>
               {(isExpanded || isHovered || isMobileOpen) && (
                 <span className="menu-item-text">{nav.name}</span>
@@ -142,10 +88,7 @@ const AppSidebar: React.FC = () => {
               {(isExpanded || isHovered || isMobileOpen) && (
                 <ChevronDownIcon
                   className={`ml-auto w-5 h-5 transition-transform duration-200 ${
-                    openSubmenu?.type === menuType &&
-                    openSubmenu?.index === index
-                      ? 'rotate-180 text-brand-500'
-                      : ''
+                    openSubmenu === index ? 'rotate-180 text-brand-500' : ''
                   }`}
                 />
               )}
@@ -165,7 +108,7 @@ const AppSidebar: React.FC = () => {
                       : 'menu-item-icon-inactive'
                   }`}
                 >
-                  {nav.icon}
+                  {nav.icon ? <nav.icon /> : null}
                 </span>
                 {(isExpanded || isHovered || isMobileOpen) && (
                   <span className="menu-item-text">{nav.name}</span>
@@ -176,13 +119,13 @@ const AppSidebar: React.FC = () => {
           {nav.subItems && (isExpanded || isHovered || isMobileOpen) && (
             <div
               ref={(el) => {
-                subMenuRefs.current[`${menuType}-${index}`] = el;
+                subMenuRefs.current[index] = el;
               }}
               className="overflow-hidden transition-all duration-300"
               style={{
                 height:
-                  openSubmenu?.type === menuType && openSubmenu?.index === index
-                    ? `${subMenuHeight[`${menuType}-${index}`]}px`
+                  openSubmenu === index
+                    ? `${subMenuHeight[index] || 0}px`
                     : '0px',
               }}
             >
@@ -273,22 +216,7 @@ const AppSidebar: React.FC = () => {
       <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
         <nav className="mb-6">
           <div className="flex flex-col gap-4">
-            <div>
-              <h2
-                className={`mb-4 flex text-xs uppercase leading-5 text-text-soft ${
-                  !isExpanded && !isHovered
-                    ? 'lg:justify-center'
-                    : 'justify-start'
-                }`}
-              >
-                {isExpanded || isHovered || isMobileOpen ? (
-                  'Menu'
-                ) : (
-                  <HorizontaLDots className="size-6" />
-                )}
-              </h2>
-              {renderMenuItems(navItems, 'main')}
-            </div>
+            <div>{renderMenuItems()}</div>
           </div>
         </nav>
       </div>
