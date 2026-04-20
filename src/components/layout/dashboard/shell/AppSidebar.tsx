@@ -3,7 +3,7 @@
 import {useEffect, useRef, useState} from 'react';
 import {Link, useLocation} from 'react-router-dom';
 import BrandLogo from '@/components/common/BrandLogo';
-import {ChevronDownIcon, HorizontaLDots} from '@/icons';
+import {ChevronDownIcon} from '@/icons';
 import {useSidebar} from '@/context/dashboard/SidebarContext';
 import {tutorPath} from '@/routers/tutor.routes';
 import type {TSidebarNavItem} from '@/types/path';
