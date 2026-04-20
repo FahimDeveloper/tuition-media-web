@@ -73,17 +73,6 @@ export default function JobBoard() {
           <JobBoardSearchPanel />
 
           <section>
-            {/* <div className="mb-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <h3 className="text-lg font-semibold text-text-strong">
-                  Available opportunities
-                </h3>
-                <p className="text-sm text-text-muted">
-                  {totalResults} tuition {totalResults === 1 ? 'job' : 'jobs'} currently visible
-                </p>
-              </div>
-            </div> */}
-
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {tuitions.map((tuition) => (
                 <JobBoardCard key={tuition.id} tuition={tuition} />
