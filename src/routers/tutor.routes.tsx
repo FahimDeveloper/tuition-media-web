@@ -7,11 +7,11 @@ import LazyLoad from '@/components/common/LazyLoad';
 const TutorDashboard = LazyLoad(lazy(() => import('@/pages/Dashboard/Home')));
 const UserProfiles = LazyLoad(lazy(() => import('@/pages/Dashboard/Profile')));
 const CurrentStatus = LazyLoad(
-  lazy(() => import('@/pages/Dashboard/history/CurrentStatus')),
+  lazy(() => import('@/pages/Dashboard/History/CurrentStatus')),
 );
 
 const JobBoard = LazyLoad(
-  lazy(() => import('@/pages/Dashboard/job-board/JobBoard')),
+  lazy(() => import('@/pages/Dashboard/JobBoard/JobBoard')),
 );
 
 // Single source of truth for tutor dashboard routing and sidebar metadata.
