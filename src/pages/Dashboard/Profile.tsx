@@ -14,8 +14,11 @@ export default function UserProfiles() {
       <div className="rounded-2xl border border-border bg-surface-elevated p-5 lg:p-6">
         <PageBreadcrumb pageTitle="Profile" />
         <div className="space-y-6">
+          {/* Will change later */}
           <UserMetaCard />
+          {/* working on */}
           <UserInfoCard />
+
           <UserAddressCard />
         </div>
       </div>
