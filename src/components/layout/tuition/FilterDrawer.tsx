@@ -130,7 +130,10 @@ const FilterDrawer = () => {
                   <FilterOutlined style={{fontSize: 18}} />
                 </div>
 
-                <Title level={4} style={{margin: 0, color: 'var(--color-text-strong)'}}>
+                <Title
+                  level={4}
+                  style={{margin: 0, color: 'var(--color-text-strong)'}}
+                >
                   Filter Tuition Jobs
                 </Title>
               </div>
