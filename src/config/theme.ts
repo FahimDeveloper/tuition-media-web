@@ -37,7 +37,6 @@ export const getAntdTheme = (mode: Theme): ThemeConfig => {
       boxShadow: 'var(--shadow-theme-sm)',
       boxShadowSecondary: 'var(--shadow-theme-lg)',
       fontFamily: 'Manrope',
-      borderRadius: 14,
     },
     components: {
       Layout: {

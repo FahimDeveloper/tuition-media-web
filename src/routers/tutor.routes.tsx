@@ -44,7 +44,7 @@ export const tutorPath: TPath[] = [
     path: 'history',
     name: 'History',
     icon: GridIcon,
-    showInSidebar: false,
+    showInSidebar: true,
     children: [
       {
         path: 'current-status',
