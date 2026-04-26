@@ -31,13 +31,11 @@ export default function TuitionPreferenceSection() {
   const {isOpen, openModal, closeModal} = useModal();
   const [form] = Form.useForm<TuitionPreferenceValues>();
 
-  // Replace this temporary local state with Redux/API state later.
   const [tuitionPreferenceValues, setTuitionPreferenceValues] =
     useState<TuitionPreferenceValues>(INITIAL_TUITION_PREFERENCE_VALUES);
 
   useEffect(() => {
     if (!isOpen) return;
-
     form.setFieldsValue(tuitionPreferenceValues);
   }, [form, isOpen, tuitionPreferenceValues]);
 
@@ -55,7 +53,6 @@ export default function TuitionPreferenceSection() {
   };
 
   const handleSave = (values: TuitionPreferenceValues) => {
-    // Replace this local save with API mutation/store update later.
     setTuitionPreferenceValues(values);
     closeModal();
   };
@@ -88,16 +85,15 @@ export default function TuitionPreferenceSection() {
             form={form}
             layout="vertical"
             initialValues={tuitionPreferenceValues}
-            className="flex grow flex-col overflow-y-auto"
+            className="flex grow flex-col overflow-y-auto [&_.ant-form-item]:mb-2"
             onFinish={handleSave}
           >
             <ProfileFormScrollArea>
               <ProfileFormSection title="Tuition Preference">
-                <ProfileFormGrid>
+                <ProfileFormGrid className="gap-x-6 gap-y-7">
                   <Form.Item
                     label="Tuition Country"
                     name="tuitionCountry"
-                    className="col-span-2 lg:col-span-1"
                     validateTrigger="onBlur"
                     rules={[
                       ...requiredRule('Please enter your tuition country'),
@@ -113,14 +109,10 @@ export default function TuitionPreferenceSection() {
                   <Form.Item
                     label="Tuition City"
                     name="tuitionCity"
-                    className="col-span-2 lg:col-span-1"
                     validateTrigger="onBlur"
                     rules={[
                       ...requiredRule('Please enter your tuition city'),
-                      {
-                        min: 2,
-                        message: 'City must be at least 2 characters',
-                      },
+                      {min: 2, message: 'City must be at least 2 characters'},
                     ]}
                   >
                     <Input size="large" placeholder="Enter tuition city" />
@@ -129,7 +121,6 @@ export default function TuitionPreferenceSection() {
                   <Form.Item
                     label="Preferred Tuition Locations"
                     name="preferredTuitionLocations"
-                    className="col-span-2"
                     rules={arrayRequiredRule(
                       'Please add at least one preferred tuition location',
                     )}
@@ -145,7 +136,6 @@ export default function TuitionPreferenceSection() {
                   <Form.Item
                     label="Preferred Tutoring Categories"
                     name="preferredTutoringCategories"
-                    className="col-span-2"
                     rules={arrayRequiredRule(
                       'Please add at least one tutoring category',
                     )}
@@ -153,131 +143,122 @@ export default function TuitionPreferenceSection() {
                     <Select
                       size="large"
                       mode="tags"
-                      placeholder="Example: Bangla Medium, English Medium, Admission Test"
+                      placeholder="Example: Bangla Medium, English Medium"
                       tokenSeparators={[',']}
                     />
                   </Form.Item>
 
                   <Form.Item
-                    label="Favorite Subjects for Tutoring"
+                    label="Favorite Subjects"
                     name="favoriteSubjects"
-                    className="col-span-2"
-                    rules={arrayRequiredRule(
-                      'Please add at least one favorite subject',
-                    )}
+                    rules={arrayRequiredRule('Please add at least one subject')}
                   >
                     <Select
                       size="large"
                       mode="tags"
-                      placeholder="Example: Math, Physics, English"
+                      placeholder="Math, Physics, English"
                       tokenSeparators={[',']}
                     />
                   </Form.Item>
 
                   <Form.Item
-                    label="Preferred Courses / Classes"
+                    label="Preferred Classes"
                     name="preferredCoursesOrClasses"
-                    className="col-span-2"
-                    rules={arrayRequiredRule(
-                      'Please add at least one preferred course or class',
-                    )}
+                    rules={arrayRequiredRule('Please add at least one class')}
                   >
                     <Select
                       size="large"
                       mode="tags"
-                      placeholder="Example: Class 6, Class 10, HSC, IELTS"
+                      placeholder="Class 6, HSC, IELTS"
                       tokenSeparators={[',']}
                     />
                   </Form.Item>
 
                   <Form.Item
-                    label="Tutoring Experience"
+                    label="Tutoring Experience (Years)"
                     name="tutoringExperience"
-                    className="col-span-2"
                     validateTrigger="onBlur"
                     rules={[
-                      ...requiredRule('Please enter your tutoring experience'),
-                      {
-                        min: 5,
-                        message:
-                          'Tutoring experience must be at least 5 characters',
-                      },
+                      ...requiredRule('Please enter experience'),
+                      {min: 1, message: 'Minimum 1 year required'},
                     ]}
                   >
-                    <TextArea
-                      rows={4}
-                      placeholder="Example: 2 years of experience teaching Math and Physics"
-                    />
+                    <Input type="number" size="large" placeholder="e.g. 2" />
                   </Form.Item>
 
                   <Form.Item
-                    label="Available Days in a Week"
+                    label="Available Days"
                     name="availableDays"
-                    className="col-span-2 lg:col-span-1"
-                    rules={arrayRequiredRule(
-                      'Please select at least one available day',
-                    )}
+                    rules={arrayRequiredRule('Please select at least one day')}
                   >
                     <Select
                       size="large"
                       mode="multiple"
-                      placeholder="Select available days"
                       options={AVAILABLE_DAY_OPTIONS}
                     />
                   </Form.Item>
 
                   <Form.Item
-                    label="Preferred Teaching Method"
+                    label="Teaching Method"
                     name="preferredTeachingMethods"
-                    className="col-span-2 lg:col-span-1"
                     rules={arrayRequiredRule(
-                      'Please select at least one teaching method',
+                      'Please select at least one method',
                     )}
                   >
                     <Select
                       size="large"
                       mode="multiple"
-                      placeholder="Select teaching method"
                       options={TEACHING_METHOD_OPTIONS}
                     />
                   </Form.Item>
 
+                  {/* Salary Range (Improved) */}
                   <Form.Item
-                    label="Expected Minimum Salary"
-                    name={['expectedSalaryRange', 'min']}
-                    className="col-span-2 lg:col-span-1"
-                    dependencies={[['expectedSalaryRange', 'max']]}
-                    rules={[
-                      ...requiredRule('Please enter minimum expected salary'),
-                      {validator: validateSalaryRange},
-                    ]}
+                    label="Expected Salary Range"
+                    className="col-span-2"
+                    required
                   >
-                    <InputNumber
-                      size="large"
-                      min={0}
-                      className="w-full"
-                      placeholder="Example: 5000"
-                      addonBefore="à§³"
-                    />
-                  </Form.Item>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+                      <Form.Item
+                        name={['expectedSalaryRange', 'min']}
+                        dependencies={[['expectedSalaryRange', 'max']]}
+                        rules={[
+                          ...requiredRule(
+                            'Please enter minimum expected salary',
+                          ),
+                          {validator: validateSalaryRange},
+                        ]}
+                        className="w-full"
+                      >
+                        <InputNumber
+                          size="large"
+                          min={0}
+                          className="!w-full"
+                          placeholder="Minimum salary"
+                          addonBefore="৳"
+                        />
+                      </Form.Item>
 
-                  <Form.Item
-                    label="Expected Maximum Salary"
-                    name={['expectedSalaryRange', 'max']}
-                    className="col-span-2 lg:col-span-1"
-                    dependencies={[['expectedSalaryRange', 'min']]}
-                    rules={[
-                      ...requiredRule('Please enter maximum expected salary'),
-                      {validator: validateSalaryRange},
-                    ]}
-                  >
-                    <InputNumber
-                      size="large"
-                      min={0}
-                      className="w-full"
-                      placeholder="Example: 15000"
-                      addonBefore="à§³"
-                    />
+                      <Form.Item
+                        name={['expectedSalaryRange', 'max']}
+                        dependencies={[['expectedSalaryRange', 'min']]}
+                        rules={[
+                          ...requiredRule(
+                            'Please enter maximum expected salary',
+                          ),
+                          {validator: validateSalaryRange},
+                        ]}
+                        className="w-full"
+                      >
+                        <InputNumber
+                          size="large"
+                          min={0}
+                          className="!w-full"
+                          placeholder="Maximum salary"
+                          addonBefore="৳"
+                        />
+                      </Form.Item>
+                    </div>
                   </Form.Item>
                 </ProfileFormGrid>
               </ProfileFormSection>

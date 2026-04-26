@@ -137,7 +137,7 @@ export default function PersonalInfoForm({
 
               {/* ✅ FIXED IDENTIFICATION SECTION */}
               <div className="col-span-2">
-                <Form.Item label="Identification" required className="mb-2">
+                <Form.Item label="Identification" required>
                   <div className="grid grid-cols-1 gap-3 lg:grid-cols-[35%_1fr]">
                     <Form.Item
                       name="idType"

@@ -1,5 +1,5 @@
 import type {Rule} from 'antd/es/form';
-import {getDisplayValue} from '../profileUtils';
+import {getDisplayValue} from './profileUtils';
 
 export type AcademicGroup =
   | 'Science'

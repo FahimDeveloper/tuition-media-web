@@ -3,20 +3,18 @@ import {Checkbox, Form, Input, Select} from 'antd';
 import {Modal} from '@/components/ui/modal';
 import {useModal} from '@/hooks/useModal';
 
-import ProfileEditButton from '../shared/ProfileEditButton';
+import ProfileEditButton from './shared/ProfileEditButton';
 import {
   ProfileFormGrid,
   ProfileFormScrollArea,
-} from '../shared/ProfileFormLayout';
-import ProfileInfoItem from '../shared/ProfileInfoItem';
+} from './shared/ProfileFormLayout';
+import ProfileInfoItem from './shared/ProfileInfoItem';
 import ProfileModalContent, {
   ProfileModalActions,
   ProfileModalHeader,
-} from '../shared/ProfileModalContent';
-import ProfileSectionCard, {
-  ProfileInfoGrid,
-} from '../shared/ProfileSectionCard';
-import {requiredRule} from '../profileUtils';
+} from './shared/ProfileModalContent';
+import ProfileSectionCard, {ProfileInfoGrid} from './shared/ProfileSectionCard';
+import {requiredRule} from './profileUtils';
 import {
   BOARD_OPTIONS,
   COLLEGE_INFO_ITEMS,

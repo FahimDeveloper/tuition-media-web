@@ -3,42 +3,46 @@ import {Checkbox, Form, Input, Select} from 'antd';
 import {Modal} from '@/components/ui/modal';
 import {useModal} from '@/hooks/useModal';
 
-import ProfileEditButton from '../shared/ProfileEditButton';
+import ProfileEditButton from './shared/ProfileEditButton';
 import {
   ProfileFormGrid,
   ProfileFormScrollArea,
-} from '../shared/ProfileFormLayout';
-import ProfileInfoItem from '../shared/ProfileInfoItem';
+} from './shared/ProfileFormLayout';
+import ProfileInfoItem from './shared/ProfileInfoItem';
 import ProfileModalContent, {
   ProfileModalActions,
   ProfileModalHeader,
-} from '../shared/ProfileModalContent';
-import ProfileSectionCard, {
-  ProfileInfoGrid,
-} from '../shared/ProfileSectionCard';
-import {requiredRule} from '../profileUtils';
+} from './shared/ProfileModalContent';
+import ProfileSectionCard, {ProfileInfoGrid} from './shared/ProfileSectionCard';
+import {requiredRule} from './profileUtils';
 import {
-  BOARD_OPTIONS,
-  CURRICULUM_OPTIONS,
-  GROUP_OPTIONS,
-  SCHOOL_INFO_ITEMS,
+  GRADUATION_INFO_ITEMS,
+  STUDY_TYPE_OPTIONS,
+  UNIVERSITY_TYPE_OPTIONS,
   formatEducationValue,
-  gpaRules,
-  type SchoolValues,
+  type GraduationValues,
   yearRules,
 } from './educationTypes';
 
-type SchoolInfoSectionProps = {
-  values: SchoolValues;
-  onSave: (values: SchoolValues) => void;
+type DegreeInfoSectionProps = {
+  title: string;
+  modalTitle: string;
+  modalDescription: string;
+  values: GraduationValues;
+  disabled: boolean;
+  onSave: (values: GraduationValues) => void;
 };
 
-export default function SchoolInfoSection({
+export default function DegreeInfoSection({
+  title,
+  modalTitle,
+  modalDescription,
   values,
+  disabled,
   onSave,
-}: SchoolInfoSectionProps) {
+}: DegreeInfoSectionProps) {
   const {isOpen, openModal, closeModal} = useModal();
-  const [form] = Form.useForm<SchoolValues>();
+  const [form] = Form.useForm<GraduationValues>();
 
   useEffect(() => {
     if (!isOpen) return;
@@ -46,7 +50,7 @@ export default function SchoolInfoSection({
     form.setFieldsValue(values);
   }, [form, isOpen, values]);
 
-  const handleSave = (formValues: SchoolValues) => {
+  const handleSave = (formValues: GraduationValues) => {
     onSave(formValues);
     closeModal();
   };
@@ -54,11 +58,11 @@ export default function SchoolInfoSection({
   return (
     <>
       <ProfileSectionCard
-        title="School"
-        action={<ProfileEditButton onClick={openModal} />}
+        title={title}
+        action={<ProfileEditButton onClick={openModal} disabled={disabled} />}
       >
         <ProfileInfoGrid>
-          {SCHOOL_INFO_ITEMS.map(({key, label}) => (
+          {GRADUATION_INFO_ITEMS.map(({key, label}) => (
             <ProfileInfoItem
               key={key}
               label={label}
@@ -71,11 +75,11 @@ export default function SchoolInfoSection({
       <Modal isOpen={isOpen} onClose={closeModal} className="max-w-175 m-4">
         <ProfileModalContent>
           <ProfileModalHeader
-            title="Edit School Information"
-            description="Update your school information."
+            title={modalTitle}
+            description={modalDescription}
           />
 
-          <Form<SchoolValues>
+          <Form<GraduationValues>
             form={form}
             layout="vertical"
             initialValues={values}
@@ -85,78 +89,65 @@ export default function SchoolInfoSection({
             <ProfileFormScrollArea>
               <ProfileFormGrid>
                 <Form.Item
-                  label="School Name"
-                  name="schoolName"
+                  label="University Name"
+                  name="universityName"
                   className="col-span-2 lg:col-span-1"
                   validateTrigger="onBlur"
-                  rules={requiredRule('Please enter your school name')}
+                  rules={requiredRule('Please enter your university name')}
                 >
-                  <Input size="large" placeholder="Enter your school name" />
-                </Form.Item>
-
-                <Form.Item
-                  label="Group"
-                  name="group"
-                  className="col-span-2 lg:col-span-1"
-                  rules={requiredRule('Please select your group')}
-                >
-                  <Select
+                  <Input
                     size="large"
-                    placeholder="Select group"
-                    options={GROUP_OPTIONS}
+                    placeholder="Enter your university name"
                   />
                 </Form.Item>
 
                 <Form.Item
-                  label="Curriculum"
-                  name="curriculum"
-                  className="col-span-2 lg:col-span-1"
-                  rules={requiredRule('Please select your curriculum')}
-                >
-                  <Select
-                    size="large"
-                    placeholder="Select curriculum"
-                    options={CURRICULUM_OPTIONS}
-                  />
-                </Form.Item>
-
-                <Form.Item
-                  label="Board"
-                  name="board"
-                  className="col-span-2 lg:col-span-1"
-                  rules={requiredRule('Please select your board')}
-                >
-                  <Select
-                    size="large"
-                    placeholder="Select board"
-                    options={BOARD_OPTIONS}
-                  />
-                </Form.Item>
-
-                <Form.Item
-                  label="GPA"
-                  name="gpa"
+                  label="Department"
+                  name="department"
                   className="col-span-2 lg:col-span-1"
                   validateTrigger="onBlur"
-                  rules={[
-                    ...requiredRule('Please enter your GPA'),
-                    ...gpaRules,
-                  ]}
+                  rules={requiredRule('Please enter your department')}
                 >
-                  <Input size="large" placeholder="Enter your GPA" />
+                  <Input size="large" placeholder="Enter your department" />
                 </Form.Item>
 
                 <Form.Item
-                  label="Passing Year"
-                  name="passingYear"
+                  label="University Type"
+                  name="universityType"
+                  className="col-span-2 lg:col-span-1"
+                  rules={requiredRule('Please select your university type')}
+                >
+                  <Select
+                    size="large"
+                    placeholder="Select university type"
+                    options={UNIVERSITY_TYPE_OPTIONS}
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  label="Study Type"
+                  name="studyType"
+                  className="col-span-2 lg:col-span-1"
+                  rules={requiredRule('Please select your study type')}
+                >
+                  <Select
+                    size="large"
+                    placeholder="Select study type"
+                    options={STUDY_TYPE_OPTIONS}
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  label="Year"
+                  name="year"
                   className="col-span-2 lg:col-span-1"
                   validateTrigger="onBlur"
                   rules={[
-                    ...requiredRule('Please enter your passing year'),
+                    ...requiredRule('Please enter your year'),
                     ...yearRules,
                   ]}
                 >
-                  <Input size="large" placeholder="Enter passing year" />
+                  <Input size="large" placeholder="Enter year" />
                 </Form.Item>
 
                 <Form.Item
