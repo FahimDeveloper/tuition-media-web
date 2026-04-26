@@ -1,4 +1,4 @@
-export const validateFullName = (_, value) => {
+export const validateFullName = (_: unknown, value?: string) => {
   if (!value || !value.trim()) {
     return Promise.reject(new Error('Full name is required'));
   }

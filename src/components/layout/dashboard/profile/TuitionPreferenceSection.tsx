@@ -1,141 +1,40 @@
 import {useEffect, useState} from 'react';
-import {Button, Form, Input, InputNumber, Select} from 'antd';
+import {Form, Input, InputNumber, Select} from 'antd';
 import {Modal} from '@/components/ui/modal';
 import {useModal} from '@/hooks/useModal';
 
+import ProfileEditButton from './shared/ProfileEditButton';
+import {
+  ProfileFormGrid,
+  ProfileFormScrollArea,
+  ProfileFormSection,
+} from './shared/ProfileFormLayout';
+import ProfileInfoItem from './shared/ProfileInfoItem';
+import ProfileModalContent, {
+  ProfileModalActions,
+  ProfileModalHeader,
+} from './shared/ProfileModalContent';
+import ProfileSectionCard, {ProfileInfoGrid} from './shared/ProfileSectionCard';
+import {arrayRequiredRule, requiredRule} from './profileUtils';
+import {
+  AVAILABLE_DAY_OPTIONS,
+  INITIAL_TUITION_PREFERENCE_VALUES,
+  TEACHING_METHOD_OPTIONS,
+  TUITION_PREFERENCE_ITEMS,
+  formatTuitionPreferenceValue,
+  type TuitionPreferenceValues,
+} from './tuitionPreferenceTypes';
+
 const {TextArea} = Input;
 
-type TeachingMethod = 'Home Tuition' | 'Online Tuition' | 'Group Tuition';
-
-type SalaryRange = {
-  min?: number;
-  max?: number;
-};
-
-type TuitionPreferenceValues = {
-  tuitionCountry: string;
-  tuitionCity: string;
-  preferredTuitionLocations: string[];
-  preferredTutoringCategories: string[];
-  favoriteSubjects: string[];
-  preferredCoursesOrClasses: string[];
-  tutoringExperience: string;
-  availableDays: string[];
-  preferredTeachingMethods: TeachingMethod[];
-  expectedSalaryRange: SalaryRange;
-};
-
-type FieldConfig<
-  T extends keyof TuitionPreferenceValues = keyof TuitionPreferenceValues,
-> = {
-  key: T;
-  label: string;
-};
-
-const requiredRule = (message: string) => [{required: true, message}];
-
-const arrayRequiredRule = (message: string) => [
-  {
-    required: true,
-    type: 'array' as const,
-    min: 1,
-    message,
-  },
-];
-
-const TEACHING_METHOD_OPTIONS: {
-  label: TeachingMethod;
-  value: TeachingMethod;
-}[] = [
-  {label: 'Home Tuition', value: 'Home Tuition'},
-  {label: 'Online Tuition', value: 'Online Tuition'},
-  {label: 'Group Tuition', value: 'Group Tuition'},
-];
-
-const AVAILABLE_DAY_OPTIONS = [
-  {label: 'Saturday', value: 'Saturday'},
-  {label: 'Sunday', value: 'Sunday'},
-  {label: 'Monday', value: 'Monday'},
-  {label: 'Tuesday', value: 'Tuesday'},
-  {label: 'Wednesday', value: 'Wednesday'},
-  {label: 'Thursday', value: 'Thursday'},
-  {label: 'Friday', value: 'Friday'},
-];
-
-const INITIAL_VALUES: TuitionPreferenceValues = {
-  tuitionCountry: 'Bangladesh',
-  tuitionCity: '',
-  preferredTuitionLocations: [],
-  preferredTutoringCategories: [],
-  favoriteSubjects: [],
-  preferredCoursesOrClasses: [],
-  tutoringExperience: '',
-  availableDays: [],
-  preferredTeachingMethods: [],
-  expectedSalaryRange: {
-    min: undefined,
-    max: undefined,
-  },
-};
-
-// This list controls which fields appear in the read-only card.
-const TUITION_PREFERENCE_ITEMS: FieldConfig[] = [
-  {key: 'tuitionCountry', label: 'Tuition Country'},
-  {key: 'tuitionCity', label: 'Tuition City'},
-  {key: 'preferredTuitionLocations', label: 'Preferred Tuition Locations'},
-  {key: 'preferredTutoringCategories', label: 'Preferred Tutoring Categories'},
-  {key: 'favoriteSubjects', label: 'Favorite Subjects for Tutoring'},
-  {key: 'preferredCoursesOrClasses', label: 'Preferred Courses / Classes'},
-  {key: 'tutoringExperience', label: 'Tutoring Experience'},
-  {key: 'availableDays', label: 'Available Days'},
-  {key: 'preferredTeachingMethods', label: 'Preferred Teaching Methods'},
-  {key: 'expectedSalaryRange', label: 'Expected Salary Range'},
-];
-
-const getDisplayValue = (value?: string) => {
-  const trimmedValue = value?.trim();
-  return trimmedValue || 'Not provided';
-};
-
-const getArrayDisplayValue = (value?: string[]) => {
-  return value?.length ? value.join(', ') : 'Not provided';
-};
-
-const getSalaryDisplayValue = (salaryRange?: SalaryRange) => {
-  if (!salaryRange?.min && !salaryRange?.max) return 'Not provided';
-
-  const min = salaryRange.min ? `৳${salaryRange.min}` : 'Any';
-  const max = salaryRange.max ? `৳${salaryRange.max}` : 'Any';
-
-  return `${min} - ${max}`;
-};
-
-const getDisplayByKey = (
-  key: keyof TuitionPreferenceValues,
-  values: TuitionPreferenceValues,
-) => {
-  const value = values[key];
-
-  if (Array.isArray(value)) {
-    return getArrayDisplayValue(value);
-  }
-
-  if (key === 'expectedSalaryRange') {
-    return getSalaryDisplayValue(values.expectedSalaryRange);
-  }
-
-  return getDisplayValue(value as string);
-};
-
-export default function TuitionPreferenceCard() {
+export default function TuitionPreferenceSection() {
   const {isOpen, openModal, closeModal} = useModal();
   const [form] = Form.useForm<TuitionPreferenceValues>();
 
   // Replace this temporary local state with Redux/API state later.
   const [tuitionPreferenceValues, setTuitionPreferenceValues] =
-    useState<TuitionPreferenceValues>(INITIAL_VALUES);
+    useState<TuitionPreferenceValues>(INITIAL_TUITION_PREFERENCE_VALUES);
 
-  // Reset form values every time the modal opens.
   useEffect(() => {
     if (!isOpen) return;
 
@@ -162,47 +61,28 @@ export default function TuitionPreferenceCard() {
   };
 
   return (
-    <div className="rounded-2xl border border-gray-200 p-5 dark:border-gray-800 lg:p-6">
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-        <div className="min-w-0 flex-1">
-          <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-6">
-            Tuition Preference
-          </h4>
-
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-7 2xl:gap-x-32">
-            {TUITION_PREFERENCE_ITEMS.map(({key, label}) => (
-              <div key={key}>
-                <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                  {label}
-                </p>
-                <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  {getDisplayByKey(key, tuitionPreferenceValues)}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <button
-          type="button"
-          onClick={openModal}
-          className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/3 dark:hover:text-gray-200 lg:inline-flex lg:w-auto"
-        >
-          Edit
-        </button>
-      </div>
+    <>
+      <ProfileSectionCard
+        title="Tuition Preference"
+        action={<ProfileEditButton onClick={openModal} />}
+      >
+        <ProfileInfoGrid>
+          {TUITION_PREFERENCE_ITEMS.map(({key, label}) => (
+            <ProfileInfoItem
+              key={key}
+              label={label}
+              value={formatTuitionPreferenceValue(key, tuitionPreferenceValues)}
+            />
+          ))}
+        </ProfileInfoGrid>
+      </ProfileSectionCard>
 
       <Modal isOpen={isOpen} onClose={closeModal} className="max-w-175 m-4">
-        <div className="no-scrollbar relative flex h-fit max-h-[90vh] w-full max-w-175 flex-col overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-8 lg:pb-6">
-          <div className="px-2 pr-14">
-            <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
-              Edit Tuition Preference
-            </h4>
-            <p className="mb-6 text-sm text-gray-500 dark:text-gray-400 lg:mb-7">
-              Update your preferred tuition location, subjects, teaching method,
-              availability, and salary expectation.
-            </p>
-          </div>
+        <ProfileModalContent>
+          <ProfileModalHeader
+            title="Edit Tuition Preference"
+            description="Update your preferred tuition location, subjects, teaching method, availability, and salary expectation."
+          />
 
           <Form<TuitionPreferenceValues>
             form={form}
@@ -211,13 +91,9 @@ export default function TuitionPreferenceCard() {
             className="flex grow flex-col overflow-y-auto"
             onFinish={handleSave}
           >
-            <div className="custom-scrollbar overflow-y-auto px-2 pb-3">
-              <div>
-                <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
-                  Tuition Preference
-                </h5>
-
-                <div className="grid grid-cols-1 gap-x-6 lg:grid-cols-2">
+            <ProfileFormScrollArea>
+              <ProfileFormSection title="Tuition Preference">
+                <ProfileFormGrid>
                   <Form.Item
                     label="Tuition Country"
                     name="tuitionCountry"
@@ -381,7 +257,7 @@ export default function TuitionPreferenceCard() {
                       min={0}
                       className="w-full"
                       placeholder="Example: 5000"
-                      addonBefore="৳"
+                      addonBefore="à§³"
                     />
                   </Form.Item>
 
@@ -400,22 +276,17 @@ export default function TuitionPreferenceCard() {
                       min={0}
                       className="w-full"
                       placeholder="Example: 15000"
-                      addonBefore="৳"
+                      addonBefore="à§³"
                     />
                   </Form.Item>
-                </div>
-              </div>
-            </div>
+                </ProfileFormGrid>
+              </ProfileFormSection>
+            </ProfileFormScrollArea>
 
-            <div className="mt-6 flex items-center gap-3 px-2 lg:justify-end">
-              <Button onClick={closeModal}>Close</Button>
-              <Button type="primary" htmlType="submit">
-                Save Changes
-              </Button>
-            </div>
+            <ProfileModalActions onCancel={closeModal} />
           </Form>
-        </div>
+        </ProfileModalContent>
       </Modal>
-    </div>
+    </>
   );
 }

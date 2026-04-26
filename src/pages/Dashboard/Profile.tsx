@@ -1,8 +1,9 @@
 import PageBreadcrumb from '@/components/layout/dashboard/shared/PageBreadcrumb';
 import UserMetaCard from '@/components/layout/dashboard/profile/UserMetaCard';
-import UserInfoCard from '@/components/layout/dashboard/profile/UserInfoCard';
-import UserAddressCard from '@/components/layout/dashboard/profile/UserAddressCard';
+import PersonalInfoSection from '@/components/layout/dashboard/profile/PersonalInfoSection';
+import TuitionPreferenceSection from '@/components/layout/dashboard/profile/TuitionPreferenceSection';
 import PageMeta from '@/components/common/PageMeta';
+import EducationInfoSection from '@/components/layout/dashboard/profile/education/EducationInfoSection';
 
 export default function UserProfiles() {
   return (
@@ -14,12 +15,13 @@ export default function UserProfiles() {
       <div className="rounded-2xl border border-border bg-surface-elevated p-5 lg:p-6">
         <PageBreadcrumb pageTitle="Profile" />
         <div className="space-y-6">
-          {/* Will change later */}
           <UserMetaCard />
-          {/* working on */}
-          <UserInfoCard />
 
-          <UserAddressCard />
+          <PersonalInfoSection />
+
+          <TuitionPreferenceSection />
+
+          <EducationInfoSection />
         </div>
       </div>
     </>
