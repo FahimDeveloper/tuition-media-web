@@ -1,4 +1,8 @@
-import {getArrayDisplayValue, getDisplayValue} from './profileUtils';
+import {
+  getArrayDisplayValue,
+  getDisplayValue,
+  getSalaryDisplayValue,
+} from '../profileUtils';
 
 export type TeachingMethod = 'Home Tuition' | 'Online Tuition' | 'Group Tuition';
 
@@ -75,21 +79,11 @@ export const TUITION_PREFERENCE_ITEMS: TuitionPreferenceFieldConfig[] = [
   {key: 'expectedSalaryRange', label: 'Expected Salary Range'},
 ];
 
-export const getSalaryDisplayValue = (salaryRange?: SalaryRange) => {
-  if (!salaryRange?.min && !salaryRange?.max) return 'Not provided';
-
-  const min = salaryRange.min ? `à§³${salaryRange.min}` : 'Any';
-  const max = salaryRange.max ? `à§³${salaryRange.max}` : 'Any';
-
-  return `${min} - ${max}`;
-};
-
 export const formatTuitionPreferenceValue = (
   key: keyof TuitionPreferenceValues,
+  value: TuitionPreferenceValues[keyof TuitionPreferenceValues],
   values: TuitionPreferenceValues,
 ) => {
-  const value = values[key];
-
   if (Array.isArray(value)) {
     return getArrayDisplayValue(value);
   }
@@ -98,5 +92,5 @@ export const formatTuitionPreferenceValue = (
     return getSalaryDisplayValue(values.expectedSalaryRange);
   }
 
-  return getDisplayValue(value as string);
+  return getDisplayValue(value);
 };

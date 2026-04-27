@@ -30,15 +30,29 @@ export function ProfileFormSection({
   );
 }
 
-export function ProfileFormGrid({children}: {children: ReactNode}) {
+export function ProfileFormGrid({
+  children,
+  className = '',
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
   return (
-    <div className="grid grid-cols-1 gap-x-6 lg:grid-cols-2">{children}</div>
+    <div className={`grid grid-cols-1 gap-x-6 lg:grid-cols-2 ${className}`}>
+      {children}
+    </div>
   );
 }
 
-export function ProfileFormScrollArea({children}: {children: ReactNode}) {
+export function ProfileFormScrollArea({
+  children,
+  className = '',
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
   return (
-    <div className="custom-scrollbar overflow-y-auto px-2 pb-3">
+    <div className={`custom-scrollbar overflow-y-auto px-2 pb-3 ${className}`}>
       {children}
     </div>
   );

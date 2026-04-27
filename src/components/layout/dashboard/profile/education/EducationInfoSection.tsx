@@ -12,8 +12,6 @@ import {
 } from './educationTypes';
 
 export default function EducationInfoSection() {
-  // Parent keeps all section values together.
-  // Later you can replace this with API/Redux/Zustand.
   const [educationValues, setEducationValues] = useState<EducationValues>(
     INITIAL_EDUCATION_VALUES,
   );

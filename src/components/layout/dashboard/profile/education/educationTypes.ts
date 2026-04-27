@@ -1,5 +1,6 @@
 import type {Rule} from 'antd/es/form';
-import {getDisplayValue} from './profileUtils';
+import {getDisplayValue} from '../profileUtils';
+import type {ProfileInfoField} from '../shared/ProfileInfoList';
 
 export type AcademicGroup =
   | 'Science'
@@ -29,11 +30,13 @@ export type Board =
   | 'Other';
 
 export type InstituteType = 'Government' | 'Private' | 'Other';
+
 export type UniversityType =
   | 'Public'
   | 'Private'
   | 'National University'
   | 'Other';
+
 export type StudyType = 'Regular' | 'Part-time' | 'Distance Learning' | 'Other';
 
 export type SchoolValues = {
@@ -81,11 +84,6 @@ export type EducationValues = {
   diploma: DiplomaValues;
   graduation: GraduationValues;
   postGraduation: GraduationValues;
-};
-
-type EducationFieldConfig<TValues> = {
-  key: keyof TValues;
-  label: string;
 };
 
 export const yearRules: Rule[] = [
@@ -200,7 +198,7 @@ export const INITIAL_EDUCATION_VALUES: EducationValues = {
   postGraduation: INITIAL_GRADUATION_VALUES,
 };
 
-export const SCHOOL_INFO_ITEMS: EducationFieldConfig<SchoolValues>[] = [
+export const SCHOOL_INFO_ITEMS: ProfileInfoField<SchoolValues>[] = [
   {key: 'schoolName', label: 'School Name'},
   {key: 'group', label: 'Group'},
   {key: 'curriculum', label: 'Curriculum'},
@@ -210,7 +208,7 @@ export const SCHOOL_INFO_ITEMS: EducationFieldConfig<SchoolValues>[] = [
   {key: 'isRunningStudent', label: 'Running Student'},
 ];
 
-export const COLLEGE_INFO_ITEMS: EducationFieldConfig<CollegeValues>[] = [
+export const COLLEGE_INFO_ITEMS: ProfileInfoField<CollegeValues>[] = [
   {key: 'collegeName', label: 'College Name'},
   {key: 'group', label: 'Group'},
   {key: 'curriculum', label: 'Curriculum'},
@@ -221,7 +219,7 @@ export const COLLEGE_INFO_ITEMS: EducationFieldConfig<CollegeValues>[] = [
   {key: 'isRunningStudent', label: 'Running Student'},
 ];
 
-export const DIPLOMA_INFO_ITEMS: EducationFieldConfig<DiplomaValues>[] = [
+export const DIPLOMA_INFO_ITEMS: ProfileInfoField<DiplomaValues>[] = [
   {key: 'institutionName', label: 'Institution Name'},
   {key: 'department', label: 'Department'},
   {key: 'instituteType', label: 'Institute Type'},
@@ -230,7 +228,7 @@ export const DIPLOMA_INFO_ITEMS: EducationFieldConfig<DiplomaValues>[] = [
   {key: 'isRunningStudent', label: 'Running Student'},
 ];
 
-export const GRADUATION_INFO_ITEMS: EducationFieldConfig<GraduationValues>[] = [
+export const GRADUATION_INFO_ITEMS: ProfileInfoField<GraduationValues>[] = [
   {key: 'universityName', label: 'University Name'},
   {key: 'department', label: 'Department'},
   {key: 'universityType', label: 'University Type'},
@@ -239,6 +237,9 @@ export const GRADUATION_INFO_ITEMS: EducationFieldConfig<GraduationValues>[] = [
   {key: 'isRunningStudent', label: 'Running Student'},
 ];
 
-export const formatEducationValue = (value?: string | boolean) => {
+export const formatEducationValue = (
+  _key: string | number | symbol,
+  value: unknown,
+) => {
   return getDisplayValue(value);
 };

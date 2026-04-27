@@ -1,7 +1,11 @@
 import dayjs, {type Dayjs} from 'dayjs';
 import type {Rule} from 'antd/es/form';
+import type {UploadFile} from 'antd/es/upload/interface';
 import {validateFullName} from '@/utils/formValidators';
-import {getDisplayValue} from './profileUtils';
+import {
+  getDisplayValue,
+  getUploadDisplayValue,
+} from '../profileUtils';
 
 export type Gender = 'Male' | 'Female' | 'Other';
 export type BloodGroup =
@@ -19,8 +23,7 @@ export type Religion =
   | 'Buddhism'
   | 'Christianity'
   | 'Other';
-
-type IdType = 'NID' | 'birthCertificate' | undefined;
+export type IdType = 'nid' | 'birth_certificate' | undefined;
 
 export type PersonalInfoValues = {
   fullName: string;
@@ -30,7 +33,7 @@ export type PersonalInfoValues = {
   dateOfBirth: string;
   idType: IdType;
   idNumber: string;
-  idImage: string;
+  idImage: UploadFile[];
   bio?: string;
   religion?: Religion;
   phoneNumber: string;
@@ -41,7 +44,10 @@ export type PersonalInfoValues = {
   instagram?: string;
 };
 
-export type PersonalInfoFormValues = Omit<PersonalInfoValues, 'dateOfBirth'> & {
+export type PersonalInfoFormValues = Omit<
+  PersonalInfoValues,
+  'dateOfBirth'
+> & {
   dateOfBirth: Dayjs | null;
 };
 
@@ -101,8 +107,12 @@ export const RELIGION_OPTIONS: {label: Religion; value: Religion}[] = [
   {label: 'Other', value: 'Other'},
 ];
 
-// Empty Select values should be undefined, not ''.
-// This allows Ant Design Select placeholder text to show correctly.
+export const ID_TYPE_OPTIONS: {label: string; value: Exclude<IdType, undefined>}[] =
+  [
+    {label: 'NID', value: 'nid'},
+    {label: 'Birth Certificate', value: 'birth_certificate'},
+  ];
+
 export const INITIAL_PERSONAL_INFO_VALUES: PersonalInfoValues = {
   fullName: 'Shakibul Islam',
   gender: undefined,
@@ -111,7 +121,8 @@ export const INITIAL_PERSONAL_INFO_VALUES: PersonalInfoValues = {
   dateOfBirth: '',
   idType: undefined,
   idNumber: '',
-  idImage: '',
+  idImage: [],
+  bio: '',
   religion: undefined,
   phoneNumber: '',
   additionalPhoneNumber: '',
@@ -135,6 +146,7 @@ export const PERSONAL_INFO_ITEMS: PersonalInfoFieldConfig[] = [
   {key: 'additionalPhoneNumber', label: 'Additional Phone Number'},
   {key: 'presentAddress', label: 'Present Address'},
   {key: 'permanentAddress', label: 'Permanent Address'},
+  {key: 'bio', label: 'Bio'},
 ];
 
 export const SOCIAL_LINK_FIELDS: PersonalInfoFieldConfig<
@@ -175,7 +187,15 @@ export const formatPersonalInfoValue = (
   value: PersonalInfoValues[keyof PersonalInfoValues],
 ) => {
   if (key === 'dateOfBirth') {
-    return formatDateForDisplay(value);
+    return formatDateForDisplay(value as string);
+  }
+
+  if (key === 'idImage') {
+    return getUploadDisplayValue(value as UploadFile[]);
+  }
+
+  if (key === 'idType') {
+    return ID_TYPE_OPTIONS.find((option) => option.value === value)?.label ?? 'Not provided';
   }
 
   return getDisplayValue(value);

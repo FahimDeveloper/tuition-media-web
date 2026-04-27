@@ -1,9 +1,9 @@
 import PageBreadcrumb from '@/components/layout/dashboard/shared/PageBreadcrumb';
 import UserMetaCard from '@/components/layout/dashboard/profile/UserMetaCard';
-import PersonalInfoSection from '@/components/layout/dashboard/profile/PersonalInfoSection';
-import TuitionPreferenceSection from '@/components/layout/dashboard/profile/TuitionPreferenceSection';
+import PersonalInfoSection from '@/components/layout/dashboard/profile/personal/PersonalInfoSection';
+import TuitionPreferenceSection from '@/components/layout/dashboard/profile/tuition/TuitionPreferenceSection';
 import PageMeta from '@/components/common/PageMeta';
-import EducationInfoSection from '@/components/layout/dashboard/profile/EducationInfoSection';
+import EducationInfoSection from '@/components/layout/dashboard/profile/education/EducationInfoSection';
 
 export default function UserProfiles() {
   return (
