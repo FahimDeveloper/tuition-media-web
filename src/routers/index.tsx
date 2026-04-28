@@ -1,16 +1,16 @@
 import {createBrowserRouter} from 'react-router-dom';
-import {MainLayout} from '@/components/layout';
-import AppLayout from '@/components/layout/dashboard/DashboardLayout';
-import SignIn from '@/pages/Auth/SignIn';
-import SignUp from '@/pages/Auth/SignUp';
-import Home from '@/pages/Home';
-import NotFound from '@/pages/Errors/NotFound';
-import Tuition from '@/pages/Tuition';
-import PrivetRoute from './PrivateRoute';
-import {tutorPath} from './tutor.routes';
+import {tutorPath} from '@/routers/tutor.routes';
 import {routesGenerator} from '@/utils/routesGenerator';
 import {userRole} from '@/utils/role';
-import BookDemoClass from '@/pages/BookDemoClass';
+import MainLayout from '@/components/layout/shell/MainLayout';
+import DashboardLayout from '@/components/layout/shell/DashboardLayout';
+import SignIn from '@/pages/auth/SignIn';
+import SignUp from '@/pages/auth/SignUp';
+import Home from '@/pages/Home';
+import NotFound from '@/pages/errors/NotFound';
+import Tuition from '@/pages/tuition/Tuition';
+import PrivetRoute from '@/routers/PrivateRoute';
+import BookDemoClass from '@/pages/book-demo-class/BookDemoClass';
 
 const router = createBrowserRouter([
   {
@@ -34,7 +34,7 @@ const router = createBrowserRouter([
     path: '/tutor',
     element: (
       <PrivetRoute role={userRole.TUTOR}>
-        <AppLayout />
+        <DashboardLayout />
       </PrivetRoute>
     ),
     children: routesGenerator(tutorPath),

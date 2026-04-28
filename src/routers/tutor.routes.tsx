@@ -4,14 +4,14 @@ import {lazy} from 'react';
 import type {TPath} from '@/types/path';
 import LazyLoad from '@/components/common/LazyLoad';
 
-const TutorDashboard = LazyLoad(lazy(() => import('@/pages/Dashboard/Home')));
-const UserProfiles = LazyLoad(lazy(() => import('@/pages/Dashboard/Profile')));
+const TutorDashboard = LazyLoad(lazy(() => import('@/pages/tutor/dashboard/Dashboard')));
+const UserProfiles = LazyLoad(lazy(() => import('@/pages/tutor/profile/Profile')));
 const CurrentStatus = LazyLoad(
-  lazy(() => import('@/pages/Dashboard/History/CurrentStatus')),
+  lazy(() => import('@/pages/tutor/history/CurrentStatus')),
 );
 
 const JobBoard = LazyLoad(
-  lazy(() => import('@/pages/Dashboard/JobBoard/JobBoard')),
+  lazy(() => import('@/pages/tutor/Job-board/JobBoard')),
 );
 
 // Single source of truth for tutor dashboard routing and sidebar metadata.
