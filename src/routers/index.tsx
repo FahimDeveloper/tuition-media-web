@@ -10,6 +10,7 @@ import PrivetRoute from './PrivateRoute';
 import {tutorPath} from './tutor.routes';
 import {routesGenerator} from '@/utils/routesGenerator';
 import {userRole} from '@/utils/role';
+import BookDemoClass from '@/pages/BookDemoClass';
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       {index: true, element: <Home />},
+      {path: 'demo-class', element: <BookDemoClass />},
       {path: 'tuition', element: <Tuition />},
     ],
   },
