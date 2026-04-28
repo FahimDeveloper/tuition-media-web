@@ -13,6 +13,8 @@ type NavigationItem = {
 };
 
 const navigationItems: NavigationItem[] = [
+  {name: 'Home', href: '/'},
+  {name: 'Book Demo Class', href: '/demo-class'},
   {name: 'Tuition', href: '/tuition'},
   {name: 'Login', href: '/login', guestOnly: true},
   {name: 'Sign Up', href: '/signup', guestOnly: true},
