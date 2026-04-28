@@ -4,6 +4,7 @@ import PersonalInfoSection from '@/components/layout/dashboard/profile/personal/
 import TuitionPreferenceSection from '@/components/layout/dashboard/profile/tuition/TuitionPreferenceSection';
 import PageMeta from '@/components/common/PageMeta';
 import EducationInfoSection from '@/components/layout/dashboard/profile/education/EducationInfoSection';
+import EmergencyContactSection from '@/components/layout/dashboard/profile/emergencyContact/EmergencyContactSection';
 
 export default function UserProfiles() {
   return (
@@ -18,6 +19,8 @@ export default function UserProfiles() {
           <UserMetaCard />
 
           <PersonalInfoSection />
+
+          <EmergencyContactSection />
 
           <TuitionPreferenceSection />
 
