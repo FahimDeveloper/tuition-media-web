@@ -2,8 +2,10 @@ import {useState} from 'react';
 
 import CollegeInfoSection from './CollegeInfoSection';
 import DiplomaInfoSection from './DiplomaInfoSection';
-import GraduationInfoSection from './GraduationInfoSection';
-import PostGraduationInfoSection from './PostGraduationInfoSection';
+import {
+  GraduationInfoSection,
+  PostGraduationInfoSection,
+} from './HigherEducationInfoSection';
 import SchoolInfoSection from './SchoolInfoSection';
 import {
   INITIAL_COLLEGE_VALUES,
@@ -19,16 +21,22 @@ export default function EducationInfoSection() {
 
   const isDiplomaStudent = educationValues.college.isDiplomaStudent;
 
+  // Until RTK Query is wired, this keeps saved modal values in local state.
+  // Later, each onSave callback can call the same mutation with its form payload.
   const updateEducationValues = <TKey extends keyof EducationValues>(
     key: TKey,
     values: EducationValues[TKey],
   ) => {
+    console.log(values);
+    console.log(key);
     setEducationValues((previous) => ({
       ...previous,
       [key]: values,
     }));
   };
 
+  // The checkbox only chooses whether College or Diploma is visible.
+  // It must not disable Graduation/Post Graduation or create a submission order.
   const handleDiplomaToggle = (checked: boolean) => {
     setEducationValues((previous) => ({
       ...previous,
@@ -65,9 +73,7 @@ export default function EducationInfoSection() {
 
       <GraduationInfoSection
         values={educationValues.graduation}
-        onSave={(graduation) =>
-          updateEducationValues('graduation', graduation)
-        }
+        onSave={(graduation) => updateEducationValues('graduation', graduation)}
       />
 
       <PostGraduationInfoSection

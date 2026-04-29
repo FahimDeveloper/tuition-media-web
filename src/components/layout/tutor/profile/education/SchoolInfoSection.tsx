@@ -7,7 +7,7 @@ import ProfileSectionCard, {
   ProfileInfoGrid,
 } from '../shared/ProfileSectionCard';
 import useEditableProfileForm from '../shared/useEditableProfileForm';
-import AcademicInstitutionFields from './AcademicInstitutionFields';
+import {AcademicInstitutionFields} from './EducationFormFields';
 import {
   INITIAL_SCHOOL_VALUES,
   SCHOOL_INFO_ITEMS,
@@ -32,6 +32,7 @@ export default function SchoolInfoSection({
   const editableForm = useEditableProfileForm<SchoolValues>({
     values: schoolValues,
     onSave: onSave ?? setLocalValues,
+    // This payload function can move directly into an RTK Query mutation call.
     fromFormValues: (formValues) => prepareEducationPayload(formValues, 'gpa'),
   });
 

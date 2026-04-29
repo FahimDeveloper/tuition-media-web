@@ -9,7 +9,7 @@ import ProfileSectionCard, {
 } from '../shared/ProfileSectionCard';
 import useEditableProfileForm from '../shared/useEditableProfileForm';
 import {requiredRule} from '../profileUtils';
-import EducationCredentialFields from './EducationCredentialFields';
+import {EducationCredentialFields} from './EducationFormFields';
 import {
   DIPLOMA_INFO_ITEMS,
   INSTITUTE_TYPE_OPTIONS,
@@ -35,6 +35,7 @@ export default function DiplomaInfoSection({
   const editableForm = useEditableProfileForm<DiplomaValues>({
     values,
     onSave,
+    // Diploma uses CGPA and supports Current Year for running students.
     fromFormValues: (formValues) => prepareEducationPayload(formValues, 'cgpa'),
   });
 

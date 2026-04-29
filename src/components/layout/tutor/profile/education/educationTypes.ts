@@ -48,6 +48,8 @@ export type CurrentYear =
   | 'Completed';
 export type ScoreFieldName = 'gpa' | 'cgpa';
 
+// Fields shared by every education form. Keeping these aligned makes the
+// future "single education update" RTK Query mutation easier to type.
 type EducationCompletionFields = {
   passingYear: string;
   certificateImage: UploadFile[];
@@ -94,6 +96,7 @@ export type GraduationValues = DegreeValues & {
 
 export type PostGraduationValues = DegreeValues;
 
+// Local state mirrors the final API shape: one object with independent sections.
 export type EducationValues = {
   school: SchoolValues;
   college: CollegeValues;
@@ -313,6 +316,8 @@ type EducationPayloadValues = EducationCompletionFields &
     currentYear?: CurrentYear;
   };
 
+// Submit guard used by every form before save. Disabled fields are cleared in
+// the UI, but this keeps the eventual mutation payload clean as a second layer.
 export const prepareEducationPayload = <TValues extends EducationPayloadValues>(
   values: TValues,
   scoreFieldName: ScoreFieldName,

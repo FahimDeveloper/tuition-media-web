@@ -3,9 +3,13 @@ import {Button, Checkbox, Form, Input, Select, Upload} from 'antd';
 import type {UploadChangeParam} from 'antd/es/upload';
 import {UploadOutlined} from '@ant-design/icons';
 
+import {ProfileFormGrid} from '../shared/ProfileFormLayout';
 import {arrayRequiredRule, requiredRule} from '../profileUtils';
 import {
+  BOARD_OPTIONS,
   CURRENT_YEAR_OPTIONS,
+  CURRICULUM_OPTIONS,
+  GROUP_OPTIONS,
   cgpaRules,
   gpaRules,
   yearRules,
@@ -19,9 +23,16 @@ type EducationCredentialFieldsProps = {
   certificateRequired?: boolean;
 };
 
+type AcademicInstitutionFieldsProps = {
+  nameField: 'schoolName' | 'collegeName';
+  nameLabel: string;
+  namePlaceholder: string;
+  certificateRequired?: boolean;
+};
+
 const getUploadFileList = (event: UploadChangeParam) => event.fileList;
 
-export default function EducationCredentialFields({
+export function EducationCredentialFields({
   scoreFieldName,
   scoreLabel,
   includeCurrentYear = false,
@@ -32,7 +43,8 @@ export default function EducationCredentialFields({
   const scoreRules = scoreFieldName === 'gpa' ? gpaRules : cgpaRules;
 
   useEffect(() => {
-    // Keep disabled fields out of the future API payload and clear stale errors.
+    // These fields are disabled for running students, so clear them before save.
+    // This keeps the eventual RTK Query payload free from stale form values.
     if (isRunningStudent) {
       form.setFields([
         {name: scoreFieldName, value: '', errors: []},
@@ -42,6 +54,7 @@ export default function EducationCredentialFields({
       return;
     }
 
+    // Current Year is meaningful only for running Diploma/Graduation students.
     if (includeCurrentYear) {
       form.setFields([{name: 'currentYear', value: undefined, errors: []}]);
     }
@@ -149,5 +162,63 @@ export default function EducationCredentialFields({
         <Checkbox>I&apos;m a running student</Checkbox>
       </Form.Item>
     </>
+  );
+}
+
+export function AcademicInstitutionFields({
+  nameField,
+  nameLabel,
+  namePlaceholder,
+  certificateRequired,
+}: AcademicInstitutionFieldsProps) {
+  return (
+    <ProfileFormGrid>
+      <Form.Item
+        label={nameLabel}
+        name={nameField}
+        className="col-span-2 lg:col-span-1"
+        validateTrigger="onBlur"
+        rules={requiredRule(`Please enter your ${nameLabel.toLowerCase()}`)}
+      >
+        <Input size="large" placeholder={namePlaceholder} />
+      </Form.Item>
+
+      <Form.Item
+        label="Group"
+        name="group"
+        className="col-span-2 lg:col-span-1"
+        rules={requiredRule('Please select your group')}
+      >
+        <Select size="large" placeholder="Select group" options={GROUP_OPTIONS} />
+      </Form.Item>
+
+      <Form.Item
+        label="Curriculum"
+        name="curriculum"
+        className="col-span-2 lg:col-span-1"
+        rules={requiredRule('Please select your curriculum')}
+      >
+        <Select
+          size="large"
+          placeholder="Select curriculum"
+          options={CURRICULUM_OPTIONS}
+        />
+      </Form.Item>
+
+      <Form.Item
+        label="Board"
+        name="board"
+        className="col-span-2 lg:col-span-1"
+        rules={requiredRule('Please select your board')}
+      >
+        <Select size="large" placeholder="Select board" options={BOARD_OPTIONS} />
+      </Form.Item>
+
+      <EducationCredentialFields
+        scoreFieldName="gpa"
+        scoreLabel="GPA"
+        certificateRequired={certificateRequired}
+      />
+    </ProfileFormGrid>
   );
 }

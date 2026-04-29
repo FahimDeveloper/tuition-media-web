@@ -10,8 +10,10 @@ import ProfileSectionCard, {
 } from '../shared/ProfileSectionCard';
 import useEditableProfileForm from '../shared/useEditableProfileForm';
 import {requiredRule} from '../profileUtils';
-import EducationCredentialFields from './EducationCredentialFields';
+import {EducationCredentialFields} from './EducationFormFields';
 import {
+  GRADUATION_INFO_ITEMS,
+  POST_GRADUATION_INFO_ITEMS,
   STUDY_TYPE_OPTIONS,
   UNIVERSITY_TYPE_OPTIONS,
   formatEducationValue,
@@ -22,7 +24,7 @@ import {
 
 type HigherEducationValues = GraduationValues | PostGraduationValues;
 
-type DegreeInfoSectionProps<TValues extends HigherEducationValues> = {
+type HigherEducationSectionProps<TValues extends HigherEducationValues> = {
   title: string;
   modalTitle: string;
   modalDescription: string;
@@ -32,7 +34,17 @@ type DegreeInfoSectionProps<TValues extends HigherEducationValues> = {
   onSave: (values: TValues) => void;
 };
 
-export default function DegreeInfoSection<TValues extends HigherEducationValues>({
+type GraduationInfoSectionProps = {
+  values: GraduationValues;
+  onSave: (values: GraduationValues) => void;
+};
+
+type PostGraduationInfoSectionProps = {
+  values: PostGraduationValues;
+  onSave: (values: PostGraduationValues) => void;
+};
+
+function HigherEducationSection<TValues extends HigherEducationValues>({
   title,
   modalTitle,
   modalDescription,
@@ -40,10 +52,11 @@ export default function DegreeInfoSection<TValues extends HigherEducationValues>
   infoItems,
   includeCurrentYear = false,
   onSave,
-}: DegreeInfoSectionProps<TValues>) {
+}: HigherEducationSectionProps<TValues>) {
   const editableForm = useEditableProfileForm<TValues>({
     values,
     onSave,
+    // This is the one place to swap in an RTK Query mutation later.
     fromFormValues: (formValues) => prepareEducationPayload(formValues, 'cgpa'),
   });
 
@@ -126,5 +139,38 @@ export default function DegreeInfoSection<TValues extends HigherEducationValues>
         </ProfileFormGrid>
       </ProfileEditableFormModal>
     </>
+  );
+}
+
+export function GraduationInfoSection({
+  values,
+  onSave,
+}: GraduationInfoSectionProps) {
+  return (
+    <HigherEducationSection
+      title="Graduation"
+      modalTitle="Edit Graduation Information"
+      modalDescription="Update your graduation information."
+      values={values}
+      infoItems={GRADUATION_INFO_ITEMS}
+      includeCurrentYear
+      onSave={onSave}
+    />
+  );
+}
+
+export function PostGraduationInfoSection({
+  values,
+  onSave,
+}: PostGraduationInfoSectionProps) {
+  return (
+    <HigherEducationSection
+      title="Post Graduation"
+      modalTitle="Edit Post Graduation Information"
+      modalDescription="Update your post graduation information."
+      values={values}
+      infoItems={POST_GRADUATION_INFO_ITEMS}
+      onSave={onSave}
+    />
   );
 }

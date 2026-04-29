@@ -7,7 +7,7 @@ import ProfileSectionCard, {
   ProfileInfoGrid,
 } from '../shared/ProfileSectionCard';
 import useEditableProfileForm from '../shared/useEditableProfileForm';
-import AcademicInstitutionFields from './AcademicInstitutionFields';
+import {AcademicInstitutionFields} from './EducationFormFields';
 import {
   COLLEGE_INFO_ITEMS,
   formatEducationValue,
@@ -33,6 +33,7 @@ export default function CollegeInfoSection({
   const editableForm = useEditableProfileForm<CollegeValues, CollegeFormValues>({
     values,
     onSave,
+    // The checkbox lives on the card, not inside the modal form.
     toFormValues: (collegeValues) => ({
       collegeName: collegeValues.collegeName,
       group: collegeValues.group,
@@ -43,6 +44,7 @@ export default function CollegeInfoSection({
       certificateImage: collegeValues.certificateImage,
       isRunningStudent: collegeValues.isRunningStudent,
     }),
+    // Keep payload preparation local so replacing onSave with RTK Query is simple.
     fromFormValues: (formValues) => ({
       ...prepareEducationPayload(formValues, 'gpa'),
       isDiplomaStudent,
