@@ -9,18 +9,18 @@ import ProfileSectionCard, {
 } from '../shared/ProfileSectionCard';
 import useEditableProfileForm from '../shared/useEditableProfileForm';
 import {requiredRule} from '../profileUtils';
+import EducationCredentialFields from './EducationCredentialFields';
 import {
   DIPLOMA_INFO_ITEMS,
   INSTITUTE_TYPE_OPTIONS,
   STUDY_TYPE_OPTIONS,
   formatEducationValue,
+  prepareEducationPayload,
   type DiplomaValues,
-  yearRules,
 } from './educationTypes';
 
 type DiplomaInfoSectionProps = {
   values: DiplomaValues;
-  disabled: boolean;
   isDiplomaStudent: boolean;
   onDiplomaToggle: (checked: boolean) => void;
   onSave: (values: DiplomaValues) => void;
@@ -28,7 +28,6 @@ type DiplomaInfoSectionProps = {
 
 export default function DiplomaInfoSection({
   values,
-  disabled,
   isDiplomaStudent,
   onDiplomaToggle,
   onSave,
@@ -36,6 +35,7 @@ export default function DiplomaInfoSection({
   const editableForm = useEditableProfileForm<DiplomaValues>({
     values,
     onSave,
+    fromFormValues: (formValues) => prepareEducationPayload(formValues, 'cgpa'),
   });
 
   return (
@@ -46,16 +46,12 @@ export default function DiplomaInfoSection({
           <div className="flex flex-col gap-3 lg:items-end">
             <Checkbox
               checked={isDiplomaStudent}
-              disabled={disabled}
               onChange={(event) => onDiplomaToggle(event.target.checked)}
             >
               I am a diploma student
             </Checkbox>
 
-            <ProfileEditButton
-              onClick={editableForm.openModal}
-              disabled={disabled}
-            />
+            <ProfileEditButton onClick={editableForm.openModal} />
           </div>
         }
       >
@@ -124,23 +120,11 @@ export default function DiplomaInfoSection({
             />
           </Form.Item>
 
-          <Form.Item
-            label="Year"
-            name="year"
-            className="col-span-2 lg:col-span-1"
-            validateTrigger="onBlur"
-            rules={[...requiredRule('Please enter your year'), ...yearRules]}
-          >
-            <Input size="large" placeholder="Enter year" />
-          </Form.Item>
-
-          <Form.Item
-            name="isRunningStudent"
-            valuePropName="checked"
-            className="col-span-2"
-          >
-            <Checkbox>I&apos;m a running student</Checkbox>
-          </Form.Item>
+          <EducationCredentialFields
+            scoreFieldName="cgpa"
+            scoreLabel="CGPA"
+            includeCurrentYear
+          />
         </ProfileFormGrid>
       </ProfileEditableFormModal>
     </>

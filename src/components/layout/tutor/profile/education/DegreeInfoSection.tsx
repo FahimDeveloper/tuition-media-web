@@ -1,59 +1,61 @@
-import {Checkbox, Form, Input, Select} from 'antd';
+import {Form, Input, Select} from 'antd';
 
 import ProfileEditButton from '../shared/ProfileEditButton';
 import ProfileEditableFormModal from '../shared/ProfileEditableFormModal';
 import {ProfileFormGrid} from '../shared/ProfileFormLayout';
 import ProfileInfoList from '../shared/ProfileInfoList';
+import type {ProfileInfoField} from '../shared/ProfileInfoList';
 import ProfileSectionCard, {
   ProfileInfoGrid,
 } from '../shared/ProfileSectionCard';
 import useEditableProfileForm from '../shared/useEditableProfileForm';
 import {requiredRule} from '../profileUtils';
+import EducationCredentialFields from './EducationCredentialFields';
 import {
-  GRADUATION_INFO_ITEMS,
   STUDY_TYPE_OPTIONS,
   UNIVERSITY_TYPE_OPTIONS,
   formatEducationValue,
+  prepareEducationPayload,
   type GraduationValues,
-  yearRules,
+  type PostGraduationValues,
 } from './educationTypes';
 
-type DegreeInfoSectionProps = {
+type HigherEducationValues = GraduationValues | PostGraduationValues;
+
+type DegreeInfoSectionProps<TValues extends HigherEducationValues> = {
   title: string;
   modalTitle: string;
   modalDescription: string;
-  values: GraduationValues;
-  disabled: boolean;
-  onSave: (values: GraduationValues) => void;
+  values: TValues;
+  infoItems: ProfileInfoField<TValues>[];
+  includeCurrentYear?: boolean;
+  onSave: (values: TValues) => void;
 };
 
-export default function DegreeInfoSection({
+export default function DegreeInfoSection<TValues extends HigherEducationValues>({
   title,
   modalTitle,
   modalDescription,
   values,
-  disabled,
+  infoItems,
+  includeCurrentYear = false,
   onSave,
-}: DegreeInfoSectionProps) {
-  const editableForm = useEditableProfileForm<GraduationValues>({
+}: DegreeInfoSectionProps<TValues>) {
+  const editableForm = useEditableProfileForm<TValues>({
     values,
     onSave,
+    fromFormValues: (formValues) => prepareEducationPayload(formValues, 'cgpa'),
   });
 
   return (
     <>
       <ProfileSectionCard
         title={title}
-        action={
-          <ProfileEditButton
-            onClick={editableForm.openModal}
-            disabled={disabled}
-          />
-        }
+        action={<ProfileEditButton onClick={editableForm.openModal} />}
       >
         <ProfileInfoGrid>
           <ProfileInfoList
-            items={GRADUATION_INFO_ITEMS}
+            items={infoItems}
             values={values}
             formatValue={formatEducationValue}
           />
@@ -116,23 +118,11 @@ export default function DegreeInfoSection({
             />
           </Form.Item>
 
-          <Form.Item
-            label="Year"
-            name="year"
-            className="col-span-2 lg:col-span-1"
-            validateTrigger="onBlur"
-            rules={[...requiredRule('Please enter your year'), ...yearRules]}
-          >
-            <Input size="large" placeholder="Enter year" />
-          </Form.Item>
-
-          <Form.Item
-            name="isRunningStudent"
-            valuePropName="checked"
-            className="col-span-2"
-          >
-            <Checkbox>I&apos;m a running student</Checkbox>
-          </Form.Item>
+          <EducationCredentialFields
+            scoreFieldName="cgpa"
+            scoreLabel="CGPA"
+            includeCurrentYear={includeCurrentYear}
+          />
         </ProfileFormGrid>
       </ProfileEditableFormModal>
     </>

@@ -1,5 +1,4 @@
 import {useState} from 'react';
-import {Checkbox, Form} from 'antd';
 
 import ProfileEditButton from '../shared/ProfileEditButton';
 import ProfileEditableFormModal from '../shared/ProfileEditableFormModal';
@@ -13,6 +12,7 @@ import {
   INITIAL_SCHOOL_VALUES,
   SCHOOL_INFO_ITEMS,
   formatEducationValue,
+  prepareEducationPayload,
   type SchoolValues,
 } from './educationTypes';
 
@@ -32,6 +32,7 @@ export default function SchoolInfoSection({
   const editableForm = useEditableProfileForm<SchoolValues>({
     values: schoolValues,
     onSave: onSave ?? setLocalValues,
+    fromFormValues: (formValues) => prepareEducationPayload(formValues, 'gpa'),
   });
 
   return (
@@ -62,15 +63,7 @@ export default function SchoolInfoSection({
           nameField="schoolName"
           nameLabel="School Name"
           namePlaceholder="Enter your school name"
-        >
-          <Form.Item
-            name="isRunningStudent"
-            valuePropName="checked"
-            className="col-span-2"
-          >
-            <Checkbox>I&apos;m a running student</Checkbox>
-          </Form.Item>
-        </AcademicInstitutionFields>
+        />
       </ProfileEditableFormModal>
     </>
   );
