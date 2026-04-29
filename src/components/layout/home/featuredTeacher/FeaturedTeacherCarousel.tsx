@@ -2,8 +2,8 @@ import type {CSSProperties, MouseEventHandler} from 'react';
 import {useEffect, useMemo, useState} from 'react';
 import {Carousel} from 'antd';
 import {FiChevronLeft, FiChevronRight} from 'react-icons/fi';
-import TeacherProfileCard, {type TeacherProfile} from './TeacherProfileCard';
-import './featuredTeacher.css';
+import TeacherProfileCard, {type TeacherProfile} from '@/components/layout/home/featuredTeacher/TeacherProfileCard';
+import '@/components/layout/home/featuredTeacher/featuredTeacher.css';
 
 type CardsPerSlide = 1 | 2 | 3;
 type ArrowDirection = 'previous' | 'next';

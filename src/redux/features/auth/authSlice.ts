@@ -1,32 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { RootState } from "../../store";
+import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
+import type {RootState} from '@/redux/store';
+import type {AuthSession, AuthState} from '@/redux/features/auth/auth.types';
 
-interface TState {
-  user: null | {
-    _id: string;
-    full_name: string;
-    image: string;
-    email: string;
-    role: string;
-    phone: string;
-    gender: string;
-    date_of_birth: string;
-  };
-  accessToken: null | string;
-  refreshToken: null | string;
-}
-
-const initialState: TState = {
+const initialState: AuthState = {
   user: null,
   accessToken: null,
   refreshToken: null,
 };
+
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
-    loggedInUser: (state, action) => {
-      const { user, accessToken, refreshToken } = action.payload;
+    loggedInUser: (state, action: PayloadAction<AuthSession>) => {
+      const {user, accessToken, refreshToken} = action.payload;
       state.user = user;
       state.accessToken = accessToken;
       state.refreshToken = refreshToken;
@@ -39,7 +26,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { loggedInUser, loggedOutUser } = authSlice.actions;
+export const {loggedInUser, loggedOutUser} = authSlice.actions;
 export const selectCurrentUser = (state: RootState) => state.auth.user;
 export const selectCurrentToken = (state: RootState) => state.auth.accessToken;
 export default authSlice.reducer;
