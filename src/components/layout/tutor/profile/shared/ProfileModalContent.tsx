@@ -36,11 +36,19 @@ export function ProfileModalHeader({
   );
 }
 
-export function ProfileModalActions({onCancel}: {onCancel: () => void}) {
+export function ProfileModalActions({
+  isSaving = false,
+  onCancel,
+}: {
+  isSaving?: boolean;
+  onCancel: () => void;
+}) {
   return (
     <div className="mt-6 flex items-center gap-3 px-2 lg:justify-end">
-      <Button onClick={onCancel}>Close</Button>
-      <Button type="primary" htmlType="submit">
+      <Button disabled={isSaving} onClick={onCancel}>
+        Close
+      </Button>
+      <Button type="primary" htmlType="submit" loading={isSaving}>
         Save Changes
       </Button>
     </div>

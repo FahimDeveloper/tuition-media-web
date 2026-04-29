@@ -16,7 +16,8 @@ type ProfileEditableFormModalProps<TFormValues extends object> = {
   description: string;
   form: FormInstance<TFormValues>;
   initialValues: TFormValues;
-  onSubmit: (values: TFormValues) => void;
+  isSaving?: boolean;
+  onSubmit: (values: TFormValues) => Promise<void> | void;
   children: ReactNode;
   className?: string;
   formClassName?: string;
@@ -30,6 +31,7 @@ export default function ProfileEditableFormModal<TFormValues extends object>({
   description,
   form,
   initialValues,
+  isSaving = false,
   onSubmit,
   children,
   className = 'max-w-175 m-4',
@@ -52,7 +54,7 @@ export default function ProfileEditableFormModal<TFormValues extends object>({
             {children}
           </ProfileFormScrollArea>
 
-          <ProfileModalActions onCancel={onClose} />
+          <ProfileModalActions isSaving={isSaving} onCancel={onClose} />
         </Form>
       </ProfileModalContent>
     </Modal>

@@ -1,12 +1,13 @@
 import {useState} from 'react';
 
+import SchoolInfoSection from './SchoolInfoSection';
 import CollegeInfoSection from './CollegeInfoSection';
 import DiplomaInfoSection from './DiplomaInfoSection';
 import {
   GraduationInfoSection,
   PostGraduationInfoSection,
 } from './HigherEducationInfoSection';
-import SchoolInfoSection from './SchoolInfoSection';
+
 import {
   INITIAL_COLLEGE_VALUES,
   INITIAL_DIPLOMA_VALUES,
@@ -27,8 +28,6 @@ export default function EducationInfoSection() {
     key: TKey,
     values: EducationValues[TKey],
   ) => {
-    console.log(values);
-    console.log(key);
     setEducationValues((previous) => ({
       ...previous,
       [key]: values,

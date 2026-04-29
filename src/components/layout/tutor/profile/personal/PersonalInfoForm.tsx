@@ -1,3 +1,4 @@
+import {useEffect, useState} from 'react';
 import {Button, Checkbox, DatePicker, Form, Input, Select, Upload} from 'antd';
 import type {UploadChangeParam} from 'antd/es/upload';
 import dayjs from 'dayjs';
@@ -15,19 +16,33 @@ import {
   idNumberRules,
   optionalUrlRules,
   phoneRules,
+  type PersonalInfoFormValues,
 } from './personalInfoTypes';
-
-type PersonalInfoFormProps = {
-  isPermanentAddressSame: boolean;
-  onPermanentSameChange: (checked: boolean) => void;
-};
 
 const getUploadFileList = (event: UploadChangeParam) => event.fileList;
 
-export default function PersonalInfoForm({
-  isPermanentAddressSame,
-  onPermanentSameChange,
-}: PersonalInfoFormProps) {
+export default function PersonalInfoForm() {
+  const form = Form.useFormInstance<PersonalInfoFormValues>();
+  const [isPermanentAddressSame, setIsPermanentAddressSame] = useState(false);
+  const presentAddress = Form.useWatch('presentAddress', form);
+
+  useEffect(() => {
+    if (!isPermanentAddressSame) return;
+
+    form.setFieldValue('permanentAddress', presentAddress || '');
+  }, [form, isPermanentAddressSame, presentAddress]);
+
+  const handlePermanentAddressSync = (checked: boolean) => {
+    setIsPermanentAddressSame(checked);
+
+    if (checked) {
+      form.setFieldValue(
+        'permanentAddress',
+        form.getFieldValue('presentAddress') || '',
+      );
+    }
+  };
+
   return (
     <>
       <ProfileFormSection title="Personal Information">
@@ -213,7 +228,9 @@ export default function PersonalInfoForm({
           <div className="flex items-center gap-2">
             <Checkbox
               checked={isPermanentAddressSame}
-              onChange={(event) => onPermanentSameChange(event.target.checked)}
+              onChange={(event) =>
+                handlePermanentAddressSync(event.target.checked)
+              }
             >
               Same as present address
             </Checkbox>
