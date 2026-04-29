@@ -1,4 +1,4 @@
-import Marquee from './Marquee';
+import Marquee from '@/components/layout/home/Marquee';
 
 const TuitionCategory = () => {
   return (

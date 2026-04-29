@@ -1,3 +1,5 @@
+import {Link} from 'react-router-dom';
+
 const BecomeTutor = () => {
   return (
     <section className="overflow-hidden bg-brand-900 py-32">
@@ -7,7 +9,7 @@ const BecomeTutor = () => {
             <div className="mb-20 w-full px-5 lg:mb-0 lg:w-4/7">
               <div className="max-w-xl">
                 <span className="font-poppins text-sm font-semibold uppercase tracking-[0.14em] text-brand-200">
-                  Become a Tutor on Tuition Media
+                  Become a Tutor on TutoriumBD
                 </span>
                 <h2 className="mt-6 mb-6 font-poppins text-4xl font-extrabold leading-tight text-text-on-brand md:text-5xl">
                   Turn your teaching skills into steady tuition opportunities
@@ -17,12 +19,12 @@ const BecomeTutor = () => {
                   leads, apply in minutes, and connect directly with guardians
                   who are ready to hire.
                 </p>
-                <a
+                <Link
                   className="inline-block rounded-lg bg-brand-600 px-10 py-4 font-semibold text-text-on-brand shadow-lg shadow-brand-950/40 transition duration-200 hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-300"
-                  href="/signup"
+                  to="/signup"
                 >
                   Create Tutor Account
-                </a>
+                </Link>
               </div>
             </div>
             <div className="w-full px-5 lg:w-3/7">

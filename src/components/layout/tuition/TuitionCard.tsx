@@ -1,20 +1,22 @@
 import {
   FiBookOpen,
   FiCalendar,
+  FiClock,
   FiDollarSign,
+  FiHash,
   FiMapPin,
   FiTag,
-  FiUser,
+  FiUserCheck,
 } from 'react-icons/fi';
 
 import type {IconType} from 'react-icons';
-import type {TuitionData} from '../../../pages/Tuition/tuitionDemoData';
+import type {TuitionData} from '@/mocks/tuition/tuitionListings';
 
 type TuitionCardProps = {
   tuition: TuitionData;
 };
 
-type DetailItem = {
+type MetaItem = {
   label: string;
   value: string;
   icon: IconType;
@@ -38,7 +40,7 @@ const formatPostedDate = (postedDate: string) => {
 
 const getSubjectList = (subjects: TuitionData['subjects']) => {
   if (Array.isArray(subjects)) {
-    return subjects;
+    return subjects.filter(Boolean);
   }
 
   return subjects
@@ -48,64 +50,65 @@ const getSubjectList = (subjects: TuitionData['subjects']) => {
 };
 
 const TuitionCard = ({tuition}: TuitionCardProps) => {
-  const detailItems: DetailItem[] = [
+  const metaItems: MetaItem[] = [
     {label: 'Category', value: tuition.category, icon: FiTag},
     {label: 'Class', value: tuition.course, icon: FiBookOpen},
     {label: 'Salary', value: tuition.salary, icon: FiDollarSign},
-    {label: 'Tutor Gender', value: tuition.tutorGender, icon: FiUser},
+    {label: 'Tutor Gender', value: tuition.tutorGender, icon: FiUserCheck},
   ];
 
   const subjects = getSubjectList(tuition.subjects);
 
   return (
-    <article className="group flex h-full flex-col rounded-2xl border border-brand-200/70 bg-surface p-6 shadow-[0_10px_30px_rgba(17,45,78,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-brand-400/70 hover:shadow-[0_16px_36px_rgba(17,45,78,0.12)]">
-      <div className="flex items-start justify-between gap-4">
-        <div className="space-y-3">
-          <span className="inline-flex min-h-8 items-center rounded-full border border-brand-200 bg-brand-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-brand-700">
-            Tuition Opportunity
-          </span>
-          <div>
-            <h3 className="font-poppins text-xl font-bold leading-tight text-text-strong sm:text-2xl">
+    <article className="group flex h-full flex-col rounded-2xl border border-brand-200/70 bg-surface-elevated p-4 shadow-theme-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-400/70 hover:shadow-theme-md sm:p-5 dark:border-border">
+      <div className="flex flex-col gap-3">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0 flex-1">
+            <h3 className="line-clamp-2 text-base font-semibold leading-7 text-text-strong sm:text-lg">
               {tuition.title}
             </h3>
-            <div className="mt-3 inline-flex min-h-9 items-center gap-2 rounded-full border border-brand-100 bg-surface-subtle/60 px-3 py-1.5 text-sm font-medium text-text-strong">
-              <FiCalendar className="text-brand-600" aria-hidden="true" />
-              <span>Posted {formatPostedDate(tuition.postedDate)}</span>
+
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3 py-1 text-xs font-medium text-brand-700 sm:text-sm dark:bg-brand-500/10 dark:text-brand-300">
+                <FiCalendar aria-hidden="true" size={14} />
+                Posted {formatPostedDate(tuition.postedDate)}
+              </span>
+
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3 py-1 text-xs font-medium text-brand-700 sm:text-sm dark:bg-brand-500/10 dark:text-brand-300">
+                <FiHash aria-hidden="true" size={14} />
+                ID {tuition.id}
+              </span>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="mt-5 flex min-h-12 items-center gap-3 rounded-xl border border-brand-100 bg-brand-50/70 px-4 py-3">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-brand-700 shadow-sm">
-          <FiMapPin aria-hidden="true" />
-        </span>
-        <div className="min-w-0">
-          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-brand-700">
-            Location
-          </p>
-          <p className="truncate text-sm font-medium text-text-strong sm:text-base">
+        <div className="flex items-start gap-2.5 rounded-xl bg-surface-subtle/70 px-3 py-3 dark:bg-brand-500/[0.06]">
+          <FiMapPin
+            className="mt-0.5 shrink-0 text-brand-600 dark:text-brand-300"
+            size={16}
+            aria-hidden="true"
+          />
+          <p className="line-clamp-2 text-sm leading-6 text-text-strong">
             {tuition.address}
           </p>
         </div>
       </div>
 
-      <div className="mt-5 grid gap-3 sm:grid-cols-2">
-        {detailItems.map((item) => {
+      <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        {metaItems.map((item) => {
           const Icon = item.icon;
 
           return (
             <div
               key={`${tuition.id}-${item.label}`}
-              className="rounded-xl border border-brand-200/80 bg-white/90 px-4 py-3"
+              className="rounded-xl border border-brand-100/70 bg-brand-50/40 px-3 py-3 dark:border-border dark:bg-brand-500/[0.06]"
             >
-              <div className="flex items-center gap-2 text-brand-700">
-                <Icon size={16} aria-hidden="true" />
-                <p className="text-xs font-semibold uppercase tracking-[0.12em]">
-                  {item.label}
-                </p>
+              <div className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-700 dark:text-brand-300">
+                <Icon size={14} aria-hidden="true" />
+                <span className="truncate">{item.label}</span>
               </div>
-              <p className="mt-2 text-sm font-semibold text-text-strong sm:text-base">
+
+              <p className="mt-1.5 truncate text-sm font-semibold text-text-strong sm:text-[15px]">
                 {item.value}
               </p>
             </div>
@@ -114,19 +117,16 @@ const TuitionCard = ({tuition}: TuitionCardProps) => {
       </div>
 
       <div className="mt-5">
-        <div className="flex items-center gap-2">
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-100 text-brand-700">
-            <FiBookOpen aria-hidden="true" />
-          </span>
-          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-brand-700">
-            Subjects
-          </p>
+        <div className="mb-2.5 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-700 dark:text-brand-300">
+          <FiBookOpen size={14} aria-hidden="true" />
+          <span>Subjects</span>
         </div>
-        <div className="mt-3 flex flex-wrap gap-2">
+
+        <div className="flex flex-wrap gap-2">
           {subjects.map((subject) => (
             <span
               key={`${tuition.id}-${subject}`}
-              className="inline-flex min-h-9 items-center rounded-full border border-brand-200 bg-surface-subtle px-3 py-1.5 text-sm font-semibold text-brand-700"
+              className="inline-flex items-center rounded-md bg-brand-50 px-2.5 py-1.5 text-xs font-medium text-brand-700 dark:bg-brand-500/10 dark:text-brand-300"
             >
               {subject}
             </span>
@@ -134,15 +134,17 @@ const TuitionCard = ({tuition}: TuitionCardProps) => {
         </div>
       </div>
 
-      <div className="mt-6 border-t border-brand-100 pt-5">
+      <div className="mt-6 flex items-center justify-between gap-3 border-t border-brand-100/70 pt-4 dark:border-border">
+        <div className="inline-flex items-center gap-1.5 text-xs text-text-muted sm:text-sm">
+          <FiClock size={14} aria-hidden="true" />
+          <span>Updated recently</span>
+        </div>
+
         <button
           type="button"
-          disabled
-          aria-disabled="true"
-          title="Detailed view is not available yet."
-          className="inline-flex min-h-12 w-full items-center justify-center rounded-xl border border-brand-200 bg-brand-50 px-4 py-3 text-sm font-semibold text-brand-700 opacity-70 transition duration-200 disabled:cursor-not-allowed"
+          className="inline-flex min-h-10 items-center justify-center rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-text-on-brand transition duration-200 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-400 focus:ring-offset-2 focus:ring-offset-page"
         >
-          See more details
+          See details
         </button>
       </div>
     </article>

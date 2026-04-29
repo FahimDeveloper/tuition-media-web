@@ -1,8 +1,8 @@
 import Input from "antd/es/input/Input";
-import type { TuitionData } from "../../../pages/Tuition/tuitionDemoData";
 import TuitionCard from "./TuitionCard";
 import { Button } from "antd";
 import { MdOutlineManageSearch } from "react-icons/md";
+import type { TuitionData } from "@/mocks/tuition/tuitionListings";
 
 type TuitionListingsSectionProps = {
   tuitions: TuitionData[];

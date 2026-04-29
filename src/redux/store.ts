@@ -8,7 +8,7 @@ import {
   REHYDRATE,
   persistStore,
 } from 'redux-persist';
-import {rootMiddlewares, rootReducers} from './features/rootFeatures';
+import {rootMiddlewares, rootReducers} from '@/redux/features/rootFeatures';
 const store = configureStore({
   reducer: rootReducers,
   middleware: (getDefaultMiddlewares) =>
