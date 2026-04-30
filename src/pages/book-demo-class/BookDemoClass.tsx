@@ -74,23 +74,21 @@ export default function BookDemoClass() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-white dark:from-brand-900 dark:via-brand-900 dark:to-brand-800 text-gray-900 dark:text-text-on-brand">
-      <section className="relative overflow-hidden py-12 sm:py-16 lg:py-20">
-        <div className="hidden dark:block">
-          <BackgroundDecoration />
-        </div>
+    <main className="min-h-screen bg-linear-to-b from-brand-50 via-page to-page text-text-strong transition-colors duration-300 dark:from-surface-strong dark:via-page dark:to-page">
+      <section className="relative overflow-hidden py-20">
+        <BackgroundDecoration />
 
         <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-8 lg:grid-cols-[1fr_420px] lg:items-center lg:gap-12">
-            <div className="mx-auto max-w-2xl text-center lg:mx-0 lg:text-left">
+            <div className="order-2 mx-auto max-w-2xl text-center lg:order-1 lg:mx-0 lg:text-left">
               <Title
                 level={1}
-                className="!mb-0 !font-poppins !text-4xl !font-extrabold !leading-tight !text-gray-900 dark:!text-text-on-brand sm:!text-5xl lg:!text-6xl"
+                className="hidden lg:block !mb-0 !font-poppins !text-4xl !font-extrabold !leading-tight !text-text-strong sm:!text-5xl lg:!text-6xl"
               >
                 Book a Demo Class
               </Title>
 
-              <Paragraph className="!mt-5 !mb-0 !text-base !leading-relaxed !text-gray-600 dark:!text-text-on-brand/80 sm:!text-lg">
+              <Paragraph className="hidden lg:block !mt-5 !mb-0 !text-base !leading-relaxed !text-text-muted sm:!text-lg">
                 Share your name and phone number. Our team will call you to
                 schedule a free demo class with a suitable tutor.
               </Paragraph>
@@ -103,22 +101,19 @@ export default function BookDemoClass() {
             </div>
 
             <Card
-              className="w-full max-w-md justify-self-center !rounded-[28px] !border-gray-200 dark:!border-brand-200/20 !bg-white dark:!bg-surface-elevated/95 !shadow-lg dark:!shadow-theme-xl lg:justify-self-end"
-              styles={{body: {padding: 24}}}
+              className="order-1 w-full max-w-md justify-self-center !rounded-2xl !border-border !bg-surface-elevated !shadow-theme-xl lg:order-2 lg:justify-self-end"
+              styles={{body: {padding: 28}}}
             >
               <div className="mb-6 flex items-start gap-3">
-                <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-50 text-brand-700 dark:bg-brand-500/15 dark:text-brand-300">
+                <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-50 text-brand-700 ring-1 ring-brand-100 dark:bg-brand-500/15 dark:text-brand-300 dark:ring-brand-500/20">
                   <FiPhoneCall size={20} />
                 </div>
 
                 <div>
-                  <Title
-                    level={2}
-                    className="!mb-0 !text-xl !text-gray-900 dark:!text-text-strong"
-                  >
+                  <Title level={2} className="!mb-0 !text-xl !text-text-strong">
                     Book your demo
                   </Title>
-                  <Paragraph className="!mt-2 !mb-0 !text-sm !leading-relaxed !text-gray-600 dark:!text-text-strong/75">
+                  <Paragraph className="!mt-2 !mb-0 !text-sm !leading-relaxed !text-text-muted">
                     Enter your details and we will contact you shortly.
                   </Paragraph>
                 </div>
@@ -130,9 +125,14 @@ export default function BookDemoClass() {
                 requiredMark={false}
                 onFinish={handleSubmit}
                 onValuesChange={() => setFeedback(null)}
+                className="[&_.ant-form-item-extra]:!text-text-soft [&_.ant-form-item-label>label]:!text-text-strong"
               >
                 <Form.Item
-                  label={<Text strong>Name</Text>}
+                  label={
+                    <Text strong className="!text-text-strong">
+                      Name
+                    </Text>
+                  }
                   name="name"
                   rules={[{required: true, message: 'Please enter your name.'}]}
                 >
@@ -140,14 +140,18 @@ export default function BookDemoClass() {
                     size="large"
                     placeholder="Enter your name"
                     autoComplete="name"
-                    className="!min-h-14 !rounded-xl"
+                    className="!min-h-14 !rounded-xl !border-border !bg-surface-elevated !text-text-strong !shadow-theme-xs placeholder:!text-text-soft hover:!border-brand-300 focus:!border-brand-300 focus:!shadow-focus-ring"
                   />
                 </Form.Item>
 
                 <Form.Item
-                  label={<Text strong>Phone number</Text>}
+                  label={
+                    <Text strong className="!text-text-strong">
+                      Phone number
+                    </Text>
+                  }
                   name="phone"
-                  extra="Accepted formats: 01XXXXXXXXX and +8801XXXXXXXXX."
+                  extra="Use a bangladesh phone number"
                   rules={[
                     {
                       required: true,
@@ -168,10 +172,10 @@ export default function BookDemoClass() {
                 >
                   <Input
                     size="large"
-                    placeholder="01XXXXXXXXX or +8801XXXXXXXXX"
+                    placeholder="01 or +8801"
                     inputMode="tel"
                     autoComplete="tel"
-                    className="!min-h-14 !rounded-xl"
+                    className="!min-h-14 !rounded-xl !border-border !bg-surface-elevated !text-text-strong !shadow-theme-xs placeholder:!text-text-soft hover:!border-brand-300 focus:!border-brand-300 focus:!shadow-focus-ring"
                   />
                 </Form.Item>
 
@@ -180,7 +184,7 @@ export default function BookDemoClass() {
                   htmlType="submit"
                   size="large"
                   block
-                  className="!mt-1 !min-h-14 !rounded-xl !bg-brand-600 !text-base !font-semibold hover:!bg-brand-700"
+                  className="!mt-1 !min-h-14 !rounded-xl !bg-brand-600 !text-base !font-semibold !text-text-on-brand !shadow-theme-md hover:!bg-brand-700 hover:!shadow-theme-lg"
                 >
                   Book Demo Class
                   <FiArrowRight size={18} aria-hidden="true" />
@@ -214,15 +218,15 @@ type BenefitCardProps = {
 
 const BenefitCard = ({benefit}: BenefitCardProps) => {
   return (
-    <article className="flex items-start gap-3 rounded-2xl border border-gray-200 dark:border-brand-200/20 bg-white dark:bg-brand-50/10 p-4">
-      <div className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gray-200 dark:border-brand-300/30 bg-gray-100 dark:bg-brand-50/10 text-gray-700 dark:text-brand-100">
+    <article className="flex items-start gap-3 rounded-2xl border border-border bg-surface-elevated/82 p-4 shadow-theme-xs backdrop-blur dark:bg-surface-muted">
+      <div className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-brand-100 bg-brand-50 text-brand-700 dark:border-brand-500/20 dark:bg-brand-500/15 dark:text-brand-300">
         {benefit.icon}
       </div>
       <div>
-        <h3 className="text-sm font-semibold text-gray-900 dark:text-text-on-brand sm:text-base">
+        <h3 className="text-sm font-semibold text-text-strong sm:text-base">
           {benefit.title}
         </h3>
-        <p className="mt-1 text-sm leading-relaxed text-gray-600 dark:text-text-on-brand/75">
+        <p className="mt-1 text-sm leading-relaxed text-text-muted">
           {benefit.description}
         </p>
       </div>
@@ -232,9 +236,9 @@ const BenefitCard = ({benefit}: BenefitCardProps) => {
 
 const BackgroundDecoration = () => {
   return (
-    <div className="absolute inset-0 opacity-60" aria-hidden="true">
-      <div className="absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-brand-400/12 blur-3xl" />
-      <div className="absolute -right-10 bottom-10 h-56 w-56 rounded-full bg-brand-300/10 blur-3xl" />
-    </div>
+    <div
+      className="pointer-events-none absolute inset-x-0 top-0 h-full bg-[radial-gradient(circle_at_top_left,color-mix(in_srgb,var(--color-brand-400)_22%,transparent),transparent_50%),radial-gradient(circle_at_top_right,color-mix(in_srgb,var(--color-brand-600)_16%,transparent),transparent_45%)]"
+      aria-hidden="true"
+    />
   );
 };
