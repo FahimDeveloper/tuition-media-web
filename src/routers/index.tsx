@@ -4,7 +4,7 @@ import {routesGenerator} from '@/utils/routesGenerator';
 import {userRole} from '@/utils/role';
 import MainLayout from '@/components/layout/shell/MainLayout';
 import DashboardLayout from '@/components/layout/shell/DashboardLayout';
-import SignIn from '@/pages/auth/SignIn';
+import Login from '@/pages/auth/Login';
 import SignUp from '@/pages/auth/SignUp';
 import Home from '@/pages/Home';
 import NotFound from '@/pages/errors/NotFound';
@@ -26,13 +26,14 @@ const router = createBrowserRouter([
   },
   {
     path: '/login',
-    element: <SignIn />,
+    element: <Login />,
   },
   {
     path: '/signup',
     element: <SignUp />,
   },
   {
+    // TODO: NEED TO GIVE A BETTER NAME OF THE ROUTE.
     path: '/tutor',
     element: (
       <PrivetRoute role={userRole.TUTOR}>
