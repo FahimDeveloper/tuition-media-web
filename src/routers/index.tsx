@@ -8,9 +8,10 @@ import SignIn from '@/pages/auth/SignIn';
 import SignUp from '@/pages/auth/SignUp';
 import Home from '@/pages/Home';
 import NotFound from '@/pages/errors/NotFound';
-import Tuition from '@/pages/tuition/Tuition';
+import Tuitions from '@/pages/tuitions/Tuitions';
 import PrivetRoute from '@/routers/PrivateRoute';
 import BookDemoClass from '@/pages/book-demo-class/BookDemoClass';
+import TuitionDetailsPage from '@/pages/tuitions/TuitionDetails';
 
 const router = createBrowserRouter([
   {
@@ -19,7 +20,8 @@ const router = createBrowserRouter([
     children: [
       {index: true, element: <Home />},
       {path: 'demo-class', element: <BookDemoClass />},
-      {path: 'tuition', element: <Tuition />},
+      {path: 'tuitions', element: <Tuitions />},
+      {path: 'tuitions/:id', element: <TuitionDetailsPage />},
     ],
   },
   {

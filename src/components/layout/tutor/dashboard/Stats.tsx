@@ -15,7 +15,7 @@ const dashboardHomeStats: DashboardHomeStat[] = [
     icon: <IoLocationSharp />,
     action: {
       label: 'View Jobs',
-      to: '/tuition',
+      to: '/tutor/job-board',
     },
   },
   {

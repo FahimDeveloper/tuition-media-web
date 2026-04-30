@@ -135,7 +135,7 @@ const ProfileSummary = () => {
 
           <Text className="!text-gray-300">•</Text>
 
-          <Link to="/dashboard/profile">
+          <Link to="/tutor/profile">
             <Button type="primary" className="!rounded-lg">
               Visit Profile
             </Button>

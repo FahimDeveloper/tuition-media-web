@@ -11,6 +11,7 @@ import {
 
 import type {IconType} from 'react-icons';
 import type {TuitionData} from '@/mocks/tuition/tuitionListings';
+import {Link} from 'react-router-dom';
 
 type TuitionCardProps = {
   tuition: TuitionData;
@@ -51,7 +52,7 @@ const getSubjectList = (subjects: TuitionData['subjects']) => {
 
 const TuitionCard = ({tuition}: TuitionCardProps) => {
   const metaItems: MetaItem[] = [
-    {label: 'Category', value: tuition.category, icon: FiTag},
+    {label: 'subjects', value: tuition.category, icon: FiTag},
     {label: 'Class', value: tuition.course, icon: FiBookOpen},
     {label: 'Salary', value: tuition.salary, icon: FiDollarSign},
     {label: 'Tutor Gender', value: tuition.tutorGender, icon: FiUserCheck},
@@ -140,12 +141,14 @@ const TuitionCard = ({tuition}: TuitionCardProps) => {
           <span>Updated recently</span>
         </div>
 
-        <button
-          type="button"
-          className="inline-flex min-h-10 items-center justify-center rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-text-on-brand transition duration-200 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-400 focus:ring-offset-2 focus:ring-offset-page"
-        >
-          See details
-        </button>
+        <Link to={`/tuitions/${tuition.id}`}>
+          <button
+            type="button"
+            className="inline-flex min-h-10 items-center justify-center rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-text-on-brand transition duration-200 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-400 focus:ring-offset-2 focus:ring-offset-page"
+          >
+            See details
+          </button>
+        </Link>
       </div>
     </article>
   );
