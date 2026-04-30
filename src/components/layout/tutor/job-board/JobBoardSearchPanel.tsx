@@ -1,7 +1,7 @@
 import {Button, Input} from 'antd';
 import {FiSearch} from 'react-icons/fi';
 
-import JobBoardFilterDrawer from './JobBoardFilterDrawer';
+import JobBoardFilterDrawer from '../../shared/JobBoardFilterDrawer';
 
 export default function JobBoardSearchPanel() {
   return (

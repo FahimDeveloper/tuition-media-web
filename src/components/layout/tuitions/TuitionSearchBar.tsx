@@ -1,6 +1,7 @@
 import {Button, Input} from 'antd';
 import {MdOutlineManageSearch} from 'react-icons/md';
 import FilterDrawer from './FilterDrawer';
+import JobBoardFilterDrawer from '../shared/JobBoardFilterDrawer';
 
 const TuitionSearchBar = () => {
   return (
@@ -9,13 +10,15 @@ const TuitionSearchBar = () => {
         <div className="flex-1">
           <Input
             size="large"
-            prefix={<MdOutlineManageSearch className="text-lg text-text-soft" />}
+            prefix={
+              <MdOutlineManageSearch className="text-lg text-text-soft" />
+            }
             placeholder="Search by area, location, or address (e.g. Dhanmondi)"
             className="h-[44px] rounded-xl border-border bg-surface-elevated text-text-strong shadow-none"
           />
         </div>
 
-        <FilterDrawer />
+        <JobBoardFilterDrawer />
 
         <Button
           type="primary"
