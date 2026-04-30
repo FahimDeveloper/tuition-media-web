@@ -180,7 +180,7 @@ const TuitionDetails = () => {
 
   const primaryDetails: DetailItem[] = [
     {label: 'Category', value: tuition.category, icon: FiTag},
-    {label: 'Class', value: tuition.course, icon: FiBookOpen},
+    {label: 'Course', value: tuition.course, icon: FiBookOpen},
     {label: 'Salary', value: tuition.salary, icon: FiDollarSign},
     {label: 'Tuition Type', value: tuition.tuitionType, icon: FiMapPin},
   ];
@@ -215,8 +215,8 @@ const TuitionDetails = () => {
         </button>
 
         <article className="overflow-hidden rounded-3xl border border-brand-200/70 bg-surface-elevated shadow-theme-md dark:border-border">
-          <header className="relative overflow-hidden bg-brand-50/70 px-5 py-8 sm:px-8 lg:px-10 dark:bg-brand-500/[0.06]">
-            <div className="relative z-10 grid gap-8 lg:grid-cols-[1fr_360px] lg:items-start">
+          <header className="relative overflow-hidden bg-brand-50/70 px-5 py-8 sm:px-8 lg:px-10 dark:bg-brand-500/6">
+            <div className="relative z-10">
               <div>
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-elevated px-3 py-1 text-xs font-semibold text-brand-700 shadow-theme-sm dark:bg-brand-500/10 dark:text-brand-300">
@@ -234,7 +234,7 @@ const TuitionDetails = () => {
                   {tuition.title}
                 </h1>
 
-                <div className="mt-6 flex items-start gap-3 rounded-2xl border border-brand-100/70 bg-surface-elevated/85 p-4 dark:border-border dark:bg-brand-500/[0.06]">
+                {/* <div className="mt-6 inline-flex items-center gap-3 rounded-2xl border border-brand-100/70 bg-surface-elevated/85 p-4 dark:border-border dark:bg-brand-500/6">
                   <FiMapPin
                     className="mt-1 shrink-0 text-brand-600 dark:text-brand-300"
                     size={18}
@@ -248,9 +248,82 @@ const TuitionDetails = () => {
                       {tuition.address}
                     </p>
                   </div>
-                </div>
+                </div> */}
               </div>
+            </div>
+          </header>
 
+          <div className="grid gap-8 px-5 py-8 sm:px-8 lg:grid-cols-[1fr_360px] lg:px-10">
+            <div className="space-y-8">
+              <section>
+                <SectionTitle icon={FiCheckCircle} title="Tuition overview" />
+                <DetailGrid items={primaryDetails} tuitionId={tuition.id} />
+              </section>
+
+              <section>
+                <SectionTitle icon={FiCalendar} title="Tutor preference" />
+                <DetailGrid items={preferenceDetails} tuitionId={tuition.id} />
+              </section>
+
+              <section>
+                <SectionTitle icon={FiCalendar} title="Schedule details" />
+                <DetailGrid items={scheduleDetails} tuitionId={tuition.id} />
+              </section>
+
+              <section className="rounded-3xl border border-brand-100/70 bg-surface-subtle/60 p-5 dark:border-border dark:bg-brand-500/[0.04]">
+                <SectionTitle icon={FiBookOpen} title="Subjects" />
+
+                {subjects.length > 0 ? (
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {subjects.map((subject) => (
+                      <span
+                        key={`${tuition.id}-${subject}`}
+                        className="inline-flex items-center rounded-xl bg-brand-50 px-3 py-2 text-sm font-semibold text-brand-700 dark:bg-brand-500/10 dark:text-brand-300"
+                      >
+                        {subject}
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="mt-4 text-sm text-text-muted">
+                    No subjects listed.
+                  </p>
+                )}
+              </section>
+
+              <section className="rounded-3xl border border-brand-100/70 bg-surface-elevated p-5 dark:border-border">
+                <SectionTitle icon={FiMessageSquare} title="Additional notes" />
+                <p className="mt-4 text-sm leading-7 text-text-muted sm:text-base">
+                  {tuition.additionalNotes || 'No additional notes provided.'}
+                </p>
+              </section>
+            </div>
+
+            <aside className="space-y-5">
+              <SectionTitle icon={FiCheckCircle} title="Summery" />
+              <section className="rounded-3xl border border-brand-100/70 bg-brand-50/50 p-5 dark:border-border dark:bg-brand-500/6">
+                <h2 className="text-lg font-bold text-text-strong">
+                  Quick summary
+                </h2>
+                <dl className="mt-4 space-y-4">
+                  <SummaryRow
+                    label="Posted"
+                    value={formatPostedDate(tuition.postedDate)}
+                  />
+                  <SummaryRow
+                    label="Days"
+                    value={`${tuition.daysPerWeek} days/week`}
+                  />
+                  <SummaryRow label="Time" value={tuition.tutoringTime} />
+                  <SummaryRow label="Duration" value={tuition.duration} />
+                  <SummaryRow
+                    label="Students"
+                    value={`${tuition.numOfStudents}`}
+                  />
+                </dl>
+              </section>
+
+              {/* TODO: NEED TO UPDATE THIS PART */}
               <aside className="rounded-3xl border border-brand-100/80 bg-surface-elevated p-5 shadow-theme-sm dark:border-border">
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-700 dark:text-brand-300">
                   Salary
@@ -289,102 +362,6 @@ const TuitionDetails = () => {
                   Apply now
                 </button>
               </aside>
-            </div>
-          </header>
-
-          <div className="grid gap-8 px-5 py-8 sm:px-8 lg:grid-cols-[1fr_360px] lg:px-10">
-            <div className="space-y-8">
-              <section>
-                <SectionTitle icon={FiCheckCircle} title="Tuition overview" />
-                <DetailGrid items={primaryDetails} tuitionId={tuition.id} />
-              </section>
-
-              <section>
-                <SectionTitle icon={FiCalendar} title="Schedule details" />
-                <DetailGrid items={scheduleDetails} tuitionId={tuition.id} />
-              </section>
-
-              <section className="rounded-3xl border border-brand-100/70 bg-surface-subtle/60 p-5 dark:border-border dark:bg-brand-500/[0.04]">
-                <SectionTitle icon={FiBookOpen} title="Subjects" />
-
-                {subjects.length > 0 ? (
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {subjects.map((subject) => (
-                      <span
-                        key={`${tuition.id}-${subject}`}
-                        className="inline-flex items-center rounded-xl bg-brand-50 px-3 py-2 text-sm font-semibold text-brand-700 dark:bg-brand-500/10 dark:text-brand-300"
-                      >
-                        {subject}
-                      </span>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="mt-4 text-sm text-text-muted">
-                    No subjects listed.
-                  </p>
-                )}
-              </section>
-
-              <section className="rounded-3xl border border-brand-100/70 bg-surface-elevated p-5 dark:border-border">
-                <SectionTitle icon={FiMessageSquare} title="Additional notes" />
-                <p className="mt-4 text-sm leading-7 text-text-muted sm:text-base">
-                  {tuition.additionalNotes || 'No additional notes provided.'}
-                </p>
-              </section>
-            </div>
-
-            <aside className="space-y-5">
-              <section className="rounded-3xl border border-brand-100/70 bg-surface-elevated p-5 shadow-theme-sm dark:border-border">
-                <h2 className="text-lg font-bold text-text-strong">
-                  Tutor preferences
-                </h2>
-                <div className="mt-4 space-y-3">
-                  {preferenceDetails.map((item) => {
-                    const Icon = item.icon;
-
-                    return (
-                      <div
-                        key={`${tuition.id}-${item.label}`}
-                        className="flex items-start gap-3 rounded-2xl bg-brand-50/50 p-4 dark:bg-brand-500/[0.06]"
-                      >
-                        <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-surface-elevated text-brand-700 shadow-theme-sm dark:bg-brand-500/10 dark:text-brand-300">
-                          <Icon size={17} aria-hidden="true" />
-                        </span>
-                        <div>
-                          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-700 dark:text-brand-300">
-                            {item.label}
-                          </p>
-                          <p className="mt-1 text-sm font-semibold text-text-strong">
-                            {item.value}
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </section>
-
-              <section className="rounded-3xl border border-brand-100/70 bg-brand-50/50 p-5 dark:border-border dark:bg-brand-500/[0.06]">
-                <h2 className="text-lg font-bold text-text-strong">
-                  Quick summary
-                </h2>
-                <dl className="mt-4 space-y-4">
-                  <SummaryRow
-                    label="Posted"
-                    value={formatPostedDate(tuition.postedDate)}
-                  />
-                  <SummaryRow
-                    label="Days"
-                    value={`${tuition.daysPerWeek} days/week`}
-                  />
-                  <SummaryRow label="Time" value={tuition.tutoringTime} />
-                  <SummaryRow label="Duration" value={tuition.duration} />
-                  <SummaryRow
-                    label="Students"
-                    value={`${tuition.numOfStudents}`}
-                  />
-                </dl>
-              </section>
             </aside>
           </div>
         </article>
@@ -418,7 +395,7 @@ const DetailGrid = ({
       return (
         <div
           key={`${tuitionId}-${item.label}`}
-          className="rounded-2xl border border-brand-100/70 bg-brand-50/40 p-4 dark:border-border dark:bg-brand-500/[0.06]"
+          className="rounded-2xl border border-brand-100/70 bg-brand-50/40 p-4 dark:border-border dark:bg-brand-500/6"
         >
           <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-700 dark:text-brand-300">
             <Icon size={15} aria-hidden="true" />
@@ -444,3 +421,36 @@ const SummaryRow = ({label, value}: {label: string; value: string}) => (
 );
 
 export default TuitionDetails;
+
+// Keeping this for later use.
+
+// Tutor preference aside section
+{
+  /* <section className="rounded-3xl border border-brand-100/70 bg-surface-elevated p-5 shadow-theme-sm dark:border-border">
+  <h2 className="text-lg font-bold text-text-strong">Tutor preferences</h2>
+  <div className="mt-4 space-y-3">
+    {preferenceDetails.map((item) => {
+      const Icon = item.icon;
+
+      return (
+        <div
+          key={`${tuition.id}-${item.label}`}
+          className="flex items-start gap-3 rounded-2xl bg-brand-50/50 p-4 dark:bg-brand-500/[0.06]"
+        >
+          <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-surface-elevated text-brand-700 shadow-theme-sm dark:bg-brand-500/10 dark:text-brand-300">
+            <Icon size={17} aria-hidden="true" />
+          </span>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-700 dark:text-brand-300">
+              {item.label}
+            </p>
+            <p className="mt-1 text-sm font-semibold text-text-strong">
+              {item.value}
+            </p>
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</section>; */
+}
