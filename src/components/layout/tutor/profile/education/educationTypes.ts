@@ -38,7 +38,17 @@ export type UniversityType =
   | 'National University'
   | 'Other';
 
-export type StudyType = 'Regular' | 'Part-time' | 'Distance Learning' | 'Other';
+export type StudyType =
+  | 'Medical'
+  | 'Engineering'
+  | 'BBA'
+  | 'BSC'
+  | 'BA'
+  | 'Degree'
+  | 'Fazil'
+  | 'BSS'
+  | 'LLB';
+
 export type CurrentYear =
   | 'First Year'
   | 'Second Year'
@@ -171,20 +181,26 @@ export const UNIVERSITY_TYPE_OPTIONS = [
 ];
 
 export const STUDY_TYPE_OPTIONS = [
-  {label: 'Regular', value: 'Regular'},
-  {label: 'Part-time', value: 'Part-time'},
-  {label: 'Distance Learning', value: 'Distance Learning'},
-  {label: 'Other', value: 'Other'},
+  {label: 'Medical', value: 'Medical'},
+  {label: 'Engineering', value: 'Engineering'},
+  {label: 'BBA', value: 'BBA'},
+  {label: 'BSC', value: 'BSC'},
+  {label: 'BA', value: 'BA'},
+  {label: 'Degree', value: 'Degree'},
+  {label: 'Fazil', value: 'Fazil'},
+  {label: 'BSS', value: 'BSS'},
+  {label: 'LLB', value: 'LLB'},
 ];
 
-export const CURRENT_YEAR_OPTIONS: {label: CurrentYear; value: CurrentYear}[] = [
-  {label: 'First Year', value: 'First Year'},
-  {label: 'Second Year', value: 'Second Year'},
-  {label: 'Third Year', value: 'Third Year'},
-  {label: 'Fourth Year', value: 'Fourth Year'},
-  {label: 'Fifth Year', value: 'Fifth Year'},
-  {label: 'Completed', value: 'Completed'},
-];
+export const CURRENT_YEAR_OPTIONS: {label: CurrentYear; value: CurrentYear}[] =
+  [
+    {label: 'First Year', value: 'First Year'},
+    {label: 'Second Year', value: 'Second Year'},
+    {label: 'Third Year', value: 'Third Year'},
+    {label: 'Fourth Year', value: 'Fourth Year'},
+    {label: 'Fifth Year', value: 'Fifth Year'},
+    {label: 'Completed', value: 'Completed'},
+  ];
 
 export const INITIAL_SCHOOL_VALUES: SchoolValues = {
   schoolName: '',
