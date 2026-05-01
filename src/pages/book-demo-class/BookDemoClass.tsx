@@ -1,16 +1,9 @@
-import {type ReactNode, useState} from 'react';
-import {Alert, Button, Card, Form, Input, Typography} from 'antd';
-import {
-  FiArrowRight,
-  FiBookOpen,
-  FiCheckCircle,
-  FiClock,
-  FiPhoneCall,
-} from 'react-icons/fi';
+import {type ReactNode} from 'react';
+import {Card, Typography} from 'antd';
+import {FiBookOpen, FiClock, FiPhoneCall} from 'react-icons/fi';
+import LeadForm from '@/components/layout/forms/LeadForm';
 
-const {Title, Paragraph, Text} = Typography;
-
-const PHONE_PATTERN = /^(?:\+8801\d{9}|01\d{9})$/;
+const {Title, Paragraph} = Typography;
 
 const benefits: Benefit[] = [
   {
@@ -36,43 +29,7 @@ type Benefit = {
   icon: ReactNode;
 };
 
-type DemoClassFormValues = {
-  name: string;
-  phone: string;
-};
-
-type Feedback = {
-  type: 'success' | 'error';
-  message: string;
-} | null;
-
-const cleanPhoneNumber = (phone = '') => phone.replace(/[() -]/g, '').trim();
-
-const isValidPhoneNumber = (phone = '') =>
-  PHONE_PATTERN.test(cleanPhoneNumber(phone));
-
 export default function BookDemoClass() {
-  const [form] = Form.useForm<DemoClassFormValues>();
-  const [feedback, setFeedback] = useState<Feedback>(null);
-
-  const handleSubmit = (values: DemoClassFormValues) => {
-    if (!isValidPhoneNumber(values.phone)) {
-      setFeedback({
-        type: 'error',
-        message: 'Please enter a valid Bangladeshi mobile number.',
-      });
-      return;
-    }
-
-    // Replace this with your API call when the booking flow is ready.
-    setFeedback({
-      type: 'success',
-      message: 'Thank you. Our team will contact you to book your demo class.',
-    });
-
-    form.resetFields();
-  };
-
   return (
     <main className="min-h-screen bg-linear-to-b from-brand-50 via-page to-page text-text-strong transition-colors duration-300 dark:from-surface-strong dark:via-page dark:to-page">
       <section className="relative overflow-hidden py-20">
@@ -83,12 +40,12 @@ export default function BookDemoClass() {
             <div className="order-2 mx-auto max-w-2xl text-center lg:order-1 lg:mx-0 lg:text-left">
               <Title
                 level={1}
-                className="hidden lg:block !mb-0 !font-poppins !text-4xl !font-extrabold !leading-tight !text-text-strong sm:!text-5xl lg:!text-6xl"
+                className="hidden lg:block mb-0! font-poppins! text-4xl! font-extrabold! leading-tight! text-text-strong! sm:text-5xl! lg:text-6xl!"
               >
                 Book a Demo Class
               </Title>
 
-              <Paragraph className="hidden lg:block !mt-5 !mb-0 !text-base !leading-relaxed !text-text-muted sm:!text-lg">
+              <Paragraph className="hidden lg:block mt-5! mb-0! text-base! leading-relaxed! text-text-muted! sm:text-lg!">
                 Share your name and phone number. Our team will call you to
                 schedule a free demo class with a suitable tutor.
               </Paragraph>
@@ -101,7 +58,7 @@ export default function BookDemoClass() {
             </div>
 
             <Card
-              className="order-1 w-full max-w-md justify-self-center !rounded-2xl !border-border !bg-surface-elevated !shadow-theme-xl lg:order-2 lg:justify-self-end"
+              className="order-1 w-full max-w-md justify-self-center rounded-2xl! border-border! bg-surface-elevated! shadow-theme-xl! lg:order-2 lg:justify-self-end"
               styles={{body: {padding: 28}}}
             >
               <div className="mb-6 flex items-start gap-3">
@@ -110,100 +67,15 @@ export default function BookDemoClass() {
                 </div>
 
                 <div>
-                  <Title level={2} className="!mb-0 !text-xl !text-text-strong">
+                  <Title level={2} className="mb-0! text-xl! text-text-strong!">
                     Book your demo
                   </Title>
-                  <Paragraph className="!mt-2 !mb-0 !text-sm !leading-relaxed !text-text-muted">
+                  <Paragraph className="mt-2! mb-0! text-sm! leading-relaxed! text-text-muted!">
                     Enter your details and we will contact you shortly.
                   </Paragraph>
                 </div>
               </div>
-
-              <Form
-                form={form}
-                layout="vertical"
-                requiredMark={false}
-                onFinish={handleSubmit}
-                onValuesChange={() => setFeedback(null)}
-                className="[&_.ant-form-item-extra]:!text-text-soft [&_.ant-form-item-label>label]:!text-text-strong"
-              >
-                <Form.Item
-                  label={
-                    <Text strong className="!text-text-strong">
-                      Name
-                    </Text>
-                  }
-                  name="name"
-                  rules={[{required: true, message: 'Please enter your name.'}]}
-                >
-                  <Input
-                    size="large"
-                    placeholder="Enter your name"
-                    autoComplete="name"
-                    className="!min-h-14 !rounded-xl !border-border !bg-surface-elevated !text-text-strong !shadow-theme-xs placeholder:!text-text-soft hover:!border-brand-300 focus:!border-brand-300 focus:!shadow-focus-ring"
-                  />
-                </Form.Item>
-
-                <Form.Item
-                  label={
-                    <Text strong className="!text-text-strong">
-                      Phone number
-                    </Text>
-                  }
-                  name="phone"
-                  extra="Use a bangladesh phone number"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please enter your phone number.',
-                    },
-                    {
-                      validator: (_, value) => {
-                        if (!value || isValidPhoneNumber(value)) {
-                          return Promise.resolve();
-                        }
-
-                        return Promise.reject(
-                          new Error('Enter a valid Bangladeshi mobile number.'),
-                        );
-                      },
-                    },
-                  ]}
-                >
-                  <Input
-                    size="large"
-                    placeholder="01 or +8801"
-                    inputMode="tel"
-                    autoComplete="tel"
-                    className="!min-h-14 !rounded-xl !border-border !bg-surface-elevated !text-text-strong !shadow-theme-xs placeholder:!text-text-soft hover:!border-brand-300 focus:!border-brand-300 focus:!shadow-focus-ring"
-                  />
-                </Form.Item>
-
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  size="large"
-                  block
-                  className="!mt-1 !min-h-14 !rounded-xl !bg-brand-600 !text-base !font-semibold !text-text-on-brand !shadow-theme-md hover:!bg-brand-700 hover:!shadow-theme-lg"
-                >
-                  Book Demo Class
-                  <FiArrowRight size={18} aria-hidden="true" />
-                </Button>
-
-                {feedback ? (
-                  <Alert
-                    className="!mt-4 !rounded-xl"
-                    type={feedback.type}
-                    message={feedback.message}
-                    showIcon
-                    icon={
-                      feedback.type === 'success' ? (
-                        <FiCheckCircle size={18} />
-                      ) : undefined
-                    }
-                  />
-                ) : null}
-              </Form>
+              <LeadForm />
             </Card>
           </div>
         </div>
