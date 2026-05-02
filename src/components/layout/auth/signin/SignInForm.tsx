@@ -1,19 +1,19 @@
-import {LockOutlined, MailOutlined} from '@ant-design/icons';
-import {Alert, Button, Form, Input} from 'antd';
-import type {FormProps} from 'antd';
-import {type KeyboardEvent, useState} from 'react';
-import {Link, useNavigate} from 'react-router-dom';
-import {ChevronLeftIcon} from '@/icons';
-import {useAppDispatch} from '@/hooks/useAppHooks';
-import {useLoginMutation} from '@/redux/features/auth/authApi';
-import {loggedInUser} from '@/redux/features/auth/authSlice';
-import type {LoginPayload} from '@/redux/features/auth/auth.types';
+import { LockOutlined, MailOutlined } from "@ant-design/icons";
+import { Alert, Button, Form, Input } from "antd";
+import type { FormProps } from "antd";
+import { type KeyboardEvent, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { ChevronLeftIcon } from "@/icons";
+import { useAppDispatch } from "@/hooks/useAppHooks";
+import { useLoginMutation } from "@/redux/features/auth/authApi";
+import { loggedInUser } from "@/redux/features/auth/authSlice";
+import type { LoginPayload } from "@/redux/features/auth/auth.types";
 import {
   authFormClasses,
   authInputClasses,
   authLinkClasses,
   authPrimaryButtonClasses,
-} from '../formStyles';
+} from "../formStyles";
 
 type SignInFormValues = LoginPayload;
 
@@ -23,70 +23,70 @@ const PASSWORD_MAX_LENGTH = 128;
 const EMAIL_NO_SPACES_PATTERN = /^\S+$/;
 
 const DEFAULT_VALUES: SignInFormValues = {
-  email: '',
-  password: '',
+  email: "",
+  password: "",
 };
 
 const normalizeEmail = (value: unknown) =>
-  typeof value === 'string' ? value.trim().toLowerCase() : '';
+  typeof value === "string" ? value.trim().toLowerCase() : "";
 
 const isCapsLockActive = (event: KeyboardEvent<HTMLInputElement>) =>
-  Boolean(event.getModifierState?.('CapsLock'));
+  Boolean(event.getModifierState?.("CapsLock"));
 
 const emailRules = [
-  {required: true, message: 'Please enter your email.'},
-  {type: 'email' as const, message: 'Please enter a valid email address.'},
-  {max: EMAIL_MAX_LENGTH, message: 'Email is too long.'},
-  {pattern: EMAIL_NO_SPACES_PATTERN, message: 'Email cannot contain spaces.'},
+  { required: true, message: "Please enter your email." },
+  { type: "email" as const, message: "Please enter a valid email address." },
+  { max: EMAIL_MAX_LENGTH, message: "Email is too long." },
+  { pattern: EMAIL_NO_SPACES_PATTERN, message: "Email cannot contain spaces." },
 ];
 
 const passwordRules = [
-  {required: true, message: 'Please enter your password.'},
+  { required: true, message: "Please enter your password." },
   {
     min: PASSWORD_MIN_LENGTH,
-    message: 'Password must be at least 6 characters.',
+    message: "Password must be at least 6 characters.",
   },
-  {max: PASSWORD_MAX_LENGTH, message: 'Password is too long.'},
+  { max: PASSWORD_MAX_LENGTH, message: "Password is too long." },
   {
     validator: async (_: unknown, value?: string) => {
       if (!value || value.trim()) {
         return;
       }
 
-      throw new Error('Password cannot be only spaces.');
+      throw new Error("Password cannot be only spaces.");
     },
   },
 ];
 
 const getLoginErrorMessage = (error: unknown) => {
   if (
-    typeof error === 'object' &&
+    typeof error === "object" &&
     error !== null &&
-    'status' in error &&
+    "status" in error &&
     error.status === 401
   ) {
-    return 'Incorrect email or password.';
+    return "Incorrect email or password.";
   }
 
   if (
-    typeof error === 'object' &&
+    typeof error === "object" &&
     error !== null &&
-    'data' in error &&
-    typeof error.data === 'object' &&
+    "data" in error &&
+    typeof error.data === "object" &&
     error.data !== null &&
-    'message' in error.data &&
-    typeof error.data.message === 'string'
+    "message" in error.data &&
+    typeof error.data.message === "string"
   ) {
     return error.data.message;
   }
 
-  return 'Something went wrong. Please try again.';
+  return "Something went wrong. Please try again.";
 };
 
 export default function SignInForm() {
   const [form] = Form.useForm<SignInFormValues>();
-  const [login, {isLoading}] = useLoginMutation();
-  const [errorMessage, setErrorMessage] = useState('');
+  const [login, { isLoading }] = useLoginMutation();
+  const [errorMessage, setErrorMessage] = useState("");
   const [isCapsLockOn, setIsCapsLockOn] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -95,17 +95,17 @@ export default function SignInForm() {
     setIsCapsLockOn(isCapsLockActive(event));
   };
 
-  const handleValuesChange: FormProps<SignInFormValues>['onValuesChange'] =
+  const handleValuesChange: FormProps<SignInFormValues>["onValuesChange"] =
     () => {
       if (errorMessage) {
-        setErrorMessage('');
+        setErrorMessage("");
       }
     };
 
-  const handleSubmit: FormProps<SignInFormValues>['onFinish'] = async (
+  const handleSubmit: FormProps<SignInFormValues>["onFinish"] = async (
     values,
   ) => {
-    setErrorMessage('');
+    setErrorMessage("");
 
     try {
       const response = await login({
@@ -114,16 +114,16 @@ export default function SignInForm() {
       }).unwrap();
 
       dispatch(loggedInUser(response.results));
-      form.resetFields(['password']);
-      navigate('/tutor');
+      form.resetFields(["password"]);
+      navigate("/tutor");
     } catch (error) {
       setErrorMessage(getLoginErrorMessage(error));
     }
   };
 
   return (
-    <div className="flex flex-col flex-1 w-full px-6 py-10 sm:px-10 lg:px-12">
-      <div className="w-full max-w-md mx-auto">
+    <div className="flex w-full flex-1 flex-col px-6 py-10 sm:px-10 lg:px-12">
+      <div className="mx-auto w-full max-w-md">
         <Link
           to="/"
           className="inline-flex items-center gap-1 text-sm text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
@@ -133,9 +133,9 @@ export default function SignInForm() {
         </Link>
       </div>
 
-      <div className="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
+      <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center">
         <div className="mb-6 sm:mb-8">
-          <h1 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md">
+          <h1 className="text-title-sm sm:text-title-md mb-2 font-semibold text-gray-800 dark:text-white/90">
             Sign In
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -214,13 +214,13 @@ export default function SignInForm() {
               block
               className={authPrimaryButtonClasses}
             >
-              {isLoading ? 'Signing in...' : 'Sign In'}
+              {isLoading ? "Signing in..." : "Sign In"}
             </Button>
           </Form.Item>
         </Form>
 
-        <p className="mt-5 text-sm font-normal text-center text-gray-700 dark:text-gray-400 sm:text-start">
-          Don&apos;t have an account?{' '}
+        <p className="mt-5 text-center text-sm font-normal text-gray-700 sm:text-start dark:text-gray-400">
+          Don&apos;t have an account?{" "}
           <Link to="/signup" className={authLinkClasses}>
             Sign Up
           </Link>

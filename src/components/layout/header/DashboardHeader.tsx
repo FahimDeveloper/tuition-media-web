@@ -1,14 +1,14 @@
-import {useEffect, useRef, useState} from 'react';
-import {Link} from 'react-router-dom';
-import BrandLogo from '@/components/common/BrandLogo';
-import {ThemeToggleButton} from '@/components/common/ThemeToggleButton';
-import NotificationDropdown from '@/components/layout/header/NotificationDropdown';
-import {useSidebar} from '@/context/dashboard/SidebarContext';
-import ProfileDropdown from './ProfileDropdown';
+import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import BrandLogo from "@/components/common/BrandLogo";
+import { ThemeToggleButton } from "@/components/common/ThemeToggleButton";
+import NotificationDropdown from "@/components/layout/header/NotificationDropdown";
+import { useSidebar } from "@/context/dashboard/SidebarContext";
+import ProfileDropdown from "./ProfileDropdown";
 
 const AppHeader: React.FC = () => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
-  const {isMobileOpen, toggleSidebar, toggleMobileSidebar} = useSidebar();
+  const { isMobileOpen, toggleSidebar, toggleMobileSidebar } = useSidebar();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleToggle = () => {
@@ -25,26 +25,26 @@ const AppHeader: React.FC = () => {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
+      if ((event.metaKey || event.ctrlKey) && event.key === "k") {
         event.preventDefault();
         inputRef.current?.focus();
       }
     };
 
-    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 
   return (
-    <header className="sticky top-0 z-999 flex w-full border-b border-border bg-surface-elevated">
+    <header className="border-border bg-surface-elevated sticky top-0 z-999 flex w-full border-b">
       <div className="grow lg:px-6">
         <div className="flex flex-col items-center justify-between lg:flex-row">
-          <div className="flex w-full items-center justify-between gap-2 border-b border-border px-3 py-3 sm:gap-4 lg:justify-normal lg:border-b-0 lg:px-0 lg:py-4">
+          <div className="border-border flex w-full items-center justify-between gap-2 border-b px-3 py-3 sm:gap-4 lg:justify-normal lg:border-b-0 lg:px-0 lg:py-4">
             <button
-              className="z-99999 flex h-11 w-11 items-center justify-center rounded-lg border border-border text-text-muted transition-colors hover:border-brand-400 hover:bg-brand-50 hover:text-brand-700"
+              className="border-border text-text-muted hover:border-brand-400 hover:bg-brand-50 hover:text-brand-700 z-99999 flex h-11 w-11 items-center justify-center rounded-lg border transition-colors"
               onClick={handleToggle}
               aria-label="Toggle Sidebar"
             >
@@ -84,14 +84,14 @@ const AppHeader: React.FC = () => {
             <Link
               to="/"
               aria-label="TutoriumBD home"
-              className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 lg:hidden"
+              className="focus-visible:ring-brand-400 rounded-lg focus-visible:ring-2 focus-visible:outline-none lg:hidden"
             >
               <BrandLogo imgClassName="h-9 w-auto" />
             </Link>
 
             <button
               onClick={toggleApplicationMenu}
-              className="z-99999  flex h-10 w-10 items-center justify-center rounded-lg text-text-strong transition-colors hover:bg-brand-50 hover:text-brand-700 lg:hidden"
+              className="text-text-strong hover:bg-brand-50 hover:text-brand-700 z-99999 flex h-10 w-10 items-center justify-center rounded-lg transition-colors lg:hidden"
             >
               <svg
                 width="24"
@@ -112,7 +112,7 @@ const AppHeader: React.FC = () => {
             <div className="hidden lg:block">
               <form>
                 <div className="relative">
-                  <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2">
+                  <span className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2">
                     <svg
                       className="fill-text-soft"
                       width="20"
@@ -133,10 +133,10 @@ const AppHeader: React.FC = () => {
                     ref={inputRef}
                     type="text"
                     placeholder="Search or type command..."
-                    className="h-11 w-full rounded-lg border border-border bg-surface-elevated py-2.5 pl-12 pr-14 text-sm text-text-strong shadow-theme-xs placeholder:text-text-soft focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 xl:w-107.5"
+                    className="border-border bg-surface-elevated text-text-strong shadow-theme-xs placeholder:text-text-soft focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border py-2.5 pr-14 pl-12 text-sm focus:ring-3 focus:outline-hidden xl:w-107.5"
                   />
 
-                  <button className="absolute right-2.5 top-1/2 inline-flex -translate-y-1/2 items-center gap-0.5 rounded-lg border border-border bg-surface-muted px-1.75 py-[4.5px] text-xs -tracking-[0.2px] text-text-muted">
+                  <button className="border-border bg-surface-muted text-text-muted absolute top-1/2 right-2.5 inline-flex -translate-y-1/2 items-center gap-0.5 rounded-lg border px-1.75 py-[4.5px] text-xs -tracking-[0.2px]">
                     <span>Ctrl</span>
                     <span>K</span>
                   </button>
@@ -147,10 +147,10 @@ const AppHeader: React.FC = () => {
 
           <div
             className={`${
-              isApplicationMenuOpen ? 'flex' : 'hidden'
-            } w-full items-center justify-between gap-4 px-5 py-4 shadow-theme-md lg:flex lg:justify-end lg:px-0 lg:shadow-none`}
+              isApplicationMenuOpen ? "flex" : "hidden"
+            } shadow-theme-md w-full items-center justify-between gap-4 px-5 py-4 lg:flex lg:justify-end lg:px-0 lg:shadow-none`}
           >
-            <div className="flex items-center gap-2 2xsm:gap-3">
+            <div className="2xsm:gap-3 flex items-center gap-2">
               <ThemeToggleButton />
               <NotificationDropdown />
             </div>

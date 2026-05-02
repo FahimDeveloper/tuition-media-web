@@ -1,7 +1,7 @@
-import {useState} from 'react';
-import {Dropdown} from '@/components/ui/dropdown/Dropdown';
-import {DropdownItem} from '@/components/ui/dropdown/DropdownItem';
-import {Link} from 'react-router-dom';
+import { useState } from "react";
+import { Dropdown } from "@/components/ui/dropdown/Dropdown";
+import { DropdownItem } from "@/components/ui/dropdown/DropdownItem";
+import { Link } from "react-router-dom";
 
 export default function NotificationDropdown() {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,11 +26,11 @@ export default function NotificationDropdown() {
         onClick={handleClick}
       >
         <span
-          className={`absolute right-0 top-0.5 z-10 h-2 w-2 rounded-full bg-orange-400 ${
-            !notifying ? 'hidden' : 'flex'
+          className={`absolute top-0.5 right-0 z-10 h-2 w-2 rounded-full bg-orange-400 ${
+            !notifying ? "hidden" : "flex"
           }`}
         >
-          <span className="absolute inline-flex w-full h-full bg-orange-400 rounded-full opacity-75 animate-ping"></span>
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75"></span>
         </span>
         <svg
           className="fill-current"
@@ -50,15 +50,15 @@ export default function NotificationDropdown() {
       <Dropdown
         isOpen={isOpen}
         onClose={closeDropdown}
-        className="absolute -right-[240px] mt-[17px] flex h-[480px] w-[350px] flex-col rounded-2xl border border-border bg-surface-elevated p-3 shadow-theme-lg sm:w-[361px] lg:right-0"
+        className="border-border bg-surface-elevated shadow-theme-lg absolute -right-[240px] mt-[17px] flex h-[480px] w-[350px] flex-col rounded-2xl border p-3 sm:w-[361px] lg:right-0"
       >
-        <div className="mb-3 flex items-center justify-between border-b border-border pb-3">
-          <h5 className="text-lg font-semibold text-text-strong">
+        <div className="border-border mb-3 flex items-center justify-between border-b pb-3">
+          <h5 className="text-text-strong text-lg font-semibold">
             Notification
           </h5>
           <button
             onClick={toggleDropdown}
-            className="text-text-muted transition hover:text-text-strong"
+            className="text-text-muted hover:text-text-strong transition"
           >
             <svg
               className="fill-current"
@@ -76,14 +76,14 @@ export default function NotificationDropdown() {
             </svg>
           </button>
         </div>
-        <ul className="flex flex-col h-auto overflow-y-auto custom-scrollbar">
+        <ul className="custom-scrollbar flex h-auto flex-col overflow-y-auto">
           {/* Example notification items */}
           <li>
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex gap-3 rounded-lg border-b border-border p-3 px-4.5 py-3 hover:bg-brand-50 dark:hover:bg-brand-500/12"
+              className="border-border hover:bg-brand-50 dark:hover:bg-brand-500/12 flex gap-3 rounded-lg border-b p-3 px-4.5 py-3"
             >
-              <span className="relative block w-full h-10 rounded-full z-1 max-w-10">
+              <span className="relative z-1 block h-10 w-full max-w-10 rounded-full">
                 <img
                   width={40}
                   height={40}
@@ -91,23 +91,23 @@ export default function NotificationDropdown() {
                   alt="User"
                   className="w-full overflow-hidden rounded-full"
                 />
-                <span className="absolute bottom-0 right-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px] border-surface-elevated bg-success-500"></span>
+                <span className="border-surface-elevated bg-success-500 absolute right-0 bottom-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px]"></span>
               </span>
 
               <span className="block">
-                <span className="mb-1.5 block space-x-1 text-theme-sm text-text-muted">
-                  <span className="font-medium text-text-strong">
+                <span className="text-theme-sm text-text-muted mb-1.5 block space-x-1">
+                  <span className="text-text-strong font-medium">
                     Terry Franci
                   </span>
                   <span> requests permission to change</span>
-                  <span className="font-medium text-text-strong">
+                  <span className="text-text-strong font-medium">
                     Project - Nganter App
                   </span>
                 </span>
 
-                <span className="flex items-center gap-2 text-text-muted text-theme-xs">
+                <span className="text-text-muted text-theme-xs flex items-center gap-2">
                   <span>Project</span>
-                  <span className="h-1 w-1 rounded-full bg-text-soft"></span>
+                  <span className="bg-text-soft h-1 w-1 rounded-full"></span>
                   <span>5 min ago</span>
                 </span>
               </span>
@@ -117,9 +117,9 @@ export default function NotificationDropdown() {
           <li>
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex gap-3 rounded-lg border-b border-border p-3 px-4.5 py-3 hover:bg-brand-50 dark:hover:bg-brand-500/12"
+              className="border-border hover:bg-brand-50 dark:hover:bg-brand-500/12 flex gap-3 rounded-lg border-b p-3 px-4.5 py-3"
             >
-              <span className="relative block w-full h-10 rounded-full z-1 max-w-10">
+              <span className="relative z-1 block h-10 w-full max-w-10 rounded-full">
                 <img
                   width={40}
                   height={40}
@@ -127,23 +127,23 @@ export default function NotificationDropdown() {
                   alt="User"
                   className="w-full overflow-hidden rounded-full"
                 />
-                <span className="absolute bottom-0 right-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px] border-surface-elevated bg-success-500"></span>
+                <span className="border-surface-elevated bg-success-500 absolute right-0 bottom-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px]"></span>
               </span>
 
               <span className="block">
-                <span className="mb-1.5 block space-x-1 text-theme-sm text-text-muted">
-                  <span className="font-medium text-text-strong">
+                <span className="text-theme-sm text-text-muted mb-1.5 block space-x-1">
+                  <span className="text-text-strong font-medium">
                     Alena Franci
                   </span>
                   <span>requests permission to change</span>
-                  <span className="font-medium text-text-strong">
+                  <span className="text-text-strong font-medium">
                     Project - Nganter App
                   </span>
                 </span>
 
-                <span className="flex items-center gap-2 text-text-muted text-theme-xs">
+                <span className="text-text-muted text-theme-xs flex items-center gap-2">
                   <span>Project</span>
-                  <span className="h-1 w-1 rounded-full bg-text-soft"></span>
+                  <span className="bg-text-soft h-1 w-1 rounded-full"></span>
                   <span>8 min ago</span>
                 </span>
               </span>
@@ -153,9 +153,9 @@ export default function NotificationDropdown() {
           <li>
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex gap-3 rounded-lg border-b border-border p-3 px-4.5 py-3 hover:bg-brand-50 dark:hover:bg-brand-500/12"
+              className="border-border hover:bg-brand-50 dark:hover:bg-brand-500/12 flex gap-3 rounded-lg border-b p-3 px-4.5 py-3"
             >
-              <span className="relative block w-full h-10 rounded-full z-1 max-w-10">
+              <span className="relative z-1 block h-10 w-full max-w-10 rounded-full">
                 <img
                   width={40}
                   height={40}
@@ -163,23 +163,23 @@ export default function NotificationDropdown() {
                   alt="User"
                   className="w-full overflow-hidden rounded-full"
                 />
-                <span className="absolute bottom-0 right-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px] border-surface-elevated bg-success-500"></span>
+                <span className="border-surface-elevated bg-success-500 absolute right-0 bottom-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px]"></span>
               </span>
 
               <span className="block">
-                <span className="mb-1.5 block space-x-1 text-theme-sm text-text-muted">
-                  <span className="font-medium text-text-strong">
+                <span className="text-theme-sm text-text-muted mb-1.5 block space-x-1">
+                  <span className="text-text-strong font-medium">
                     Jocelyn Kenter
                   </span>
                   <span> requests permission to change</span>
-                  <span className="font-medium text-text-strong">
+                  <span className="text-text-strong font-medium">
                     Project - Nganter App
                   </span>
                 </span>
 
-                <span className="flex items-center gap-2 text-text-muted text-theme-xs">
+                <span className="text-text-muted text-theme-xs flex items-center gap-2">
                   <span>Project</span>
-                  <span className="h-1 w-1 rounded-full bg-text-soft"></span>
+                  <span className="bg-text-soft h-1 w-1 rounded-full"></span>
                   <span>15 min ago</span>
                 </span>
               </span>
@@ -189,10 +189,10 @@ export default function NotificationDropdown() {
           <li>
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex gap-3 rounded-lg border-b border-border p-3 px-4.5 py-3 hover:bg-brand-50 dark:hover:bg-brand-500/12"
+              className="border-border hover:bg-brand-50 dark:hover:bg-brand-500/12 flex gap-3 rounded-lg border-b p-3 px-4.5 py-3"
               to="/"
             >
-              <span className="relative block w-full h-10 rounded-full z-1 max-w-10">
+              <span className="relative z-1 block h-10 w-full max-w-10 rounded-full">
                 <img
                   width={40}
                   height={40}
@@ -200,23 +200,23 @@ export default function NotificationDropdown() {
                   alt="User"
                   className="w-full overflow-hidden rounded-full"
                 />
-                <span className="absolute bottom-0 right-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px] border-surface-elevated bg-error-500"></span>
+                <span className="border-surface-elevated bg-error-500 absolute right-0 bottom-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px]"></span>
               </span>
 
               <span className="block">
-                <span className="mb-1.5 block space-x-1 text-theme-sm text-text-muted">
-                  <span className="font-medium text-text-strong">
+                <span className="text-theme-sm text-text-muted mb-1.5 block space-x-1">
+                  <span className="text-text-strong font-medium">
                     Brandon Philips
                   </span>
                   <span>requests permission to change</span>
-                  <span className="font-medium text-text-strong">
+                  <span className="text-text-strong font-medium">
                     Project - Nganter App
                   </span>
                 </span>
 
-                <span className="flex items-center gap-2 text-text-muted text-theme-xs">
+                <span className="text-text-muted text-theme-xs flex items-center gap-2">
                   <span>Project</span>
-                  <span className="h-1 w-1 rounded-full bg-text-soft"></span>
+                  <span className="bg-text-soft h-1 w-1 rounded-full"></span>
                   <span>1 hr ago</span>
                 </span>
               </span>
@@ -225,10 +225,10 @@ export default function NotificationDropdown() {
 
           <li>
             <DropdownItem
-              className="flex gap-3 rounded-lg border-b border-border p-3 px-4.5 py-3 hover:bg-brand-50 dark:hover:bg-brand-500/12"
+              className="border-border hover:bg-brand-50 dark:hover:bg-brand-500/12 flex gap-3 rounded-lg border-b p-3 px-4.5 py-3"
               onItemClick={closeDropdown}
             >
-              <span className="relative block w-full h-10 rounded-full z-1 max-w-10">
+              <span className="relative z-1 block h-10 w-full max-w-10 rounded-full">
                 <img
                   width={40}
                   height={40}
@@ -236,23 +236,23 @@ export default function NotificationDropdown() {
                   alt="User"
                   className="w-full overflow-hidden rounded-full"
                 />
-                <span className="absolute bottom-0 right-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px] border-surface-elevated bg-success-500"></span>
+                <span className="border-surface-elevated bg-success-500 absolute right-0 bottom-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px]"></span>
               </span>
 
               <span className="block">
-                <span className="mb-1.5 block space-x-1 text-theme-sm text-text-muted">
-                  <span className="font-medium text-text-strong">
+                <span className="text-theme-sm text-text-muted mb-1.5 block space-x-1">
+                  <span className="text-text-strong font-medium">
                     Terry Franci
                   </span>
                   <span> requests permission to change</span>
-                  <span className="font-medium text-text-strong">
+                  <span className="text-text-strong font-medium">
                     Project - Nganter App
                   </span>
                 </span>
 
-                <span className="flex items-center gap-2 text-text-muted text-theme-xs">
+                <span className="text-text-muted text-theme-xs flex items-center gap-2">
                   <span>Project</span>
-                  <span className="h-1 w-1 rounded-full bg-text-soft"></span>
+                  <span className="bg-text-soft h-1 w-1 rounded-full"></span>
                   <span>5 min ago</span>
                 </span>
               </span>
@@ -262,9 +262,9 @@ export default function NotificationDropdown() {
           <li>
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex gap-3 rounded-lg border-b border-border p-3 px-4.5 py-3 hover:bg-brand-50 dark:hover:bg-brand-500/12"
+              className="border-border hover:bg-brand-50 dark:hover:bg-brand-500/12 flex gap-3 rounded-lg border-b p-3 px-4.5 py-3"
             >
-              <span className="relative block w-full h-10 rounded-full z-1 max-w-10">
+              <span className="relative z-1 block h-10 w-full max-w-10 rounded-full">
                 <img
                   width={40}
                   height={40}
@@ -272,23 +272,23 @@ export default function NotificationDropdown() {
                   alt="User"
                   className="w-full overflow-hidden rounded-full"
                 />
-                <span className="absolute bottom-0 right-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px] border-surface-elevated bg-success-500"></span>
+                <span className="border-surface-elevated bg-success-500 absolute right-0 bottom-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px]"></span>
               </span>
 
               <span className="block">
-                <span className="mb-1.5 block space-x-1 text-theme-sm text-text-muted">
-                  <span className="font-medium text-text-strong">
+                <span className="text-theme-sm text-text-muted mb-1.5 block space-x-1">
+                  <span className="text-text-strong font-medium">
                     Alena Franci
                   </span>
                   <span> requests permission to change</span>
-                  <span className="font-medium text-text-strong">
+                  <span className="text-text-strong font-medium">
                     Project - Nganter App
                   </span>
                 </span>
 
-                <span className="flex items-center gap-2 text-text-muted text-theme-xs">
+                <span className="text-text-muted text-theme-xs flex items-center gap-2">
                   <span>Project</span>
-                  <span className="h-1 w-1 rounded-full bg-text-soft"></span>
+                  <span className="bg-text-soft h-1 w-1 rounded-full"></span>
                   <span>8 min ago</span>
                 </span>
               </span>
@@ -298,9 +298,9 @@ export default function NotificationDropdown() {
           <li>
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex gap-3 rounded-lg border-b border-border p-3 px-4.5 py-3 hover:bg-brand-50 dark:hover:bg-brand-500/12"
+              className="border-border hover:bg-brand-50 dark:hover:bg-brand-500/12 flex gap-3 rounded-lg border-b p-3 px-4.5 py-3"
             >
-              <span className="relative block w-full h-10 rounded-full z-1 max-w-10">
+              <span className="relative z-1 block h-10 w-full max-w-10 rounded-full">
                 <img
                   width={40}
                   height={40}
@@ -308,23 +308,23 @@ export default function NotificationDropdown() {
                   alt="User"
                   className="w-full overflow-hidden rounded-full"
                 />
-                <span className="absolute bottom-0 right-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px] border-surface-elevated bg-success-500"></span>
+                <span className="border-surface-elevated bg-success-500 absolute right-0 bottom-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px]"></span>
               </span>
 
               <span className="block">
-                <span className="mb-1.5 block space-x-1 text-theme-sm text-text-muted">
-                  <span className="font-medium text-text-strong">
+                <span className="text-theme-sm text-text-muted mb-1.5 block space-x-1">
+                  <span className="text-text-strong font-medium">
                     Jocelyn Kenter
                   </span>
                   <span> requests permission to change</span>
-                  <span className="font-medium text-text-strong">
+                  <span className="text-text-strong font-medium">
                     Project - Nganter App
                   </span>
                 </span>
 
-                <span className="flex items-center gap-2 text-text-muted text-theme-xs">
+                <span className="text-text-muted text-theme-xs flex items-center gap-2">
                   <span>Project</span>
-                  <span className="h-1 w-1 rounded-full bg-text-soft"></span>
+                  <span className="bg-text-soft h-1 w-1 rounded-full"></span>
                   <span>15 min ago</span>
                 </span>
               </span>
@@ -334,9 +334,9 @@ export default function NotificationDropdown() {
           <li>
             <DropdownItem
               onItemClick={closeDropdown}
-              className="flex gap-3 rounded-lg border-b border-border p-3 px-4.5 py-3 hover:bg-brand-50 dark:hover:bg-brand-500/12"
+              className="border-border hover:bg-brand-50 dark:hover:bg-brand-500/12 flex gap-3 rounded-lg border-b p-3 px-4.5 py-3"
             >
-              <span className="relative block w-full h-10 rounded-full z-1 max-w-10">
+              <span className="relative z-1 block h-10 w-full max-w-10 rounded-full">
                 <img
                   width={40}
                   height={40}
@@ -344,23 +344,23 @@ export default function NotificationDropdown() {
                   alt="User"
                   className="overflow-hidden rounded-full"
                 />
-                <span className="absolute bottom-0 right-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px] border-surface-elevated bg-error-500"></span>
+                <span className="border-surface-elevated bg-error-500 absolute right-0 bottom-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px]"></span>
               </span>
 
               <span className="block">
-                <span className="mb-1.5 block space-x-1 text-theme-sm text-text-muted">
-                  <span className="font-medium text-text-strong">
+                <span className="text-theme-sm text-text-muted mb-1.5 block space-x-1">
+                  <span className="text-text-strong font-medium">
                     Brandon Philips
                   </span>
                   <span>requests permission to change</span>
-                  <span className="font-medium text-text-strong">
+                  <span className="text-text-strong font-medium">
                     Project - Nganter App
                   </span>
                 </span>
 
-                <span className="flex items-center gap-2 text-text-muted text-theme-xs">
+                <span className="text-text-muted text-theme-xs flex items-center gap-2">
                   <span>Project</span>
-                  <span className="h-1 w-1 rounded-full bg-text-soft"></span>
+                  <span className="bg-text-soft h-1 w-1 rounded-full"></span>
                   <span>1 hr ago</span>
                 </span>
               </span>
@@ -370,7 +370,7 @@ export default function NotificationDropdown() {
         </ul>
         <Link
           to="/"
-          className="mt-3 block rounded-lg border border-border bg-surface-elevated px-4 py-2 text-center text-sm font-medium text-text-strong transition-colors hover:bg-brand-50 hover:text-brand-700"
+          className="border-border bg-surface-elevated text-text-strong hover:bg-brand-50 hover:text-brand-700 mt-3 block rounded-lg border px-4 py-2 text-center text-sm font-medium transition-colors"
         >
           View All Notifications
         </Link>

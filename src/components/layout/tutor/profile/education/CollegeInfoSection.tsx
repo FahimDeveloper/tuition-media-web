@@ -1,15 +1,15 @@
-import {Checkbox} from 'antd';
+import { Checkbox } from "antd";
 
-import ProfileEditableSection from '../shared/ProfileEditableSection';
-import {AcademicInstitutionFields} from './EducationFormFields';
+import ProfileEditableSection from "../shared/ProfileEditableSection";
+import { AcademicInstitutionFields } from "./EducationFormFields";
 import {
   COLLEGE_INFO_ITEMS,
   formatEducationValue,
   prepareEducationPayload,
   type CollegeValues,
-} from './educationTypes';
+} from "./educationTypes";
 
-type CollegeFormValues = Omit<CollegeValues, 'isDiplomaStudent'>;
+type CollegeFormValues = Omit<CollegeValues, "isDiplomaStudent">;
 
 type CollegeInfoSectionProps = {
   values: CollegeValues;
@@ -44,10 +44,10 @@ export default function CollegeInfoSection({
         isRunningStudent: collegeValues.isRunningStudent,
       })}
       fromFormValues={(formValues) => ({
-        ...prepareEducationPayload(formValues, 'gpa'),
+        ...prepareEducationPayload(formValues, "gpa"),
         isDiplomaStudent,
       })}
-      renderAction={({defaultAction}) => (
+      renderAction={({ defaultAction }) => (
         <div className="flex flex-col gap-3 lg:items-end">
           <Checkbox
             checked={isDiplomaStudent}

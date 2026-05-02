@@ -1,23 +1,23 @@
-import {UserIcon} from '@/icons';
-import {FaPaperPlane, FaUserCheck} from 'react-icons/fa6';
-import {Link} from 'react-router-dom';
-import {FaChalkboardTeacher} from 'react-icons/fa';
+import { UserIcon } from "@/icons";
+import { FaPaperPlane, FaUserCheck } from "react-icons/fa6";
+import { Link } from "react-router-dom";
+import { FaChalkboardTeacher } from "react-icons/fa";
 
 const BecomeTutor = () => {
   return (
-    <section className="overflow-hidden bg-brand-900 py-20">
-      <div className="mx-auto px-4 max-w-7xl">
+    <section className="bg-brand-900 overflow-hidden py-20">
+      <div className="mx-auto max-w-7xl px-4">
         <div className="mx-auto px-4">
-          <div className="flex flex-wrap items-center -mx-5">
+          <div className="-mx-5 flex flex-wrap items-center">
             <div className="mb-20 w-full px-5 lg:mb-0 lg:w-4/7">
               <div className="max-w-xl">
-                <span className="font-poppins text-sm font-semibold uppercase tracking-[0.14em] text-brand-200">
+                <span className="font-poppins text-brand-200 text-sm font-semibold tracking-[0.14em] uppercase">
                   Become a Tutor on TutoriumBD
                 </span>
-                <h2 className="mt-6 mb-6 font-poppins text-4xl font-extrabold leading-tight text-text-on-brand md:text-5xl">
+                <h2 className="font-poppins text-text-on-brand mt-6 mb-6 text-4xl leading-tight font-extrabold md:text-5xl">
                   How Tutors Can Work With Us
                 </h2>
-                <p className="mb-10 text-lg leading-relaxed text-text-on-brand/80">
+                <p className="text-text-on-brand/80 mb-10 text-lg leading-relaxed">
                   Discover quality tuition leads, apply in minutes, and connect
                   directly with parents who are ready to hire—all in one trusted
                   platform
@@ -25,14 +25,13 @@ const BecomeTutor = () => {
                 <div className="flex flex-wrap gap-4">
                   <Link
                     to="/signup"
-                    className="rounded-lg bg-brand-600 px-8 py-3 text-text-on-brand shadow-theme-md transition hover:bg-brand-700 hover:shadow-theme-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-page"
+                    className="bg-brand-600 text-text-on-brand shadow-theme-md hover:bg-brand-700 hover:shadow-theme-lg focus-visible:ring-brand-400 focus-visible:ring-offset-page rounded-lg px-8 py-3 transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
                   >
                     Create Tutor Account
                   </Link>
                   <Link
                     to="/signup"
-                    className="rounded-lg border-2 border-brand-600 px-8 py-3 text-text-on-brand transition hover:bg-brand-600 
-                    hover:text-text-on-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-page dark:border-brand-400 dark:text-brand-300 dark:hover:bg-brand-500 dark:hover:text-white"
+                    className="border-brand-600 text-text-on-brand hover:bg-brand-600 hover:text-text-on-brand focus-visible:ring-brand-400 focus-visible:ring-offset-page dark:border-brand-400 dark:text-brand-300 dark:hover:bg-brand-500 rounded-lg border-2 px-8 py-3 transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none dark:hover:text-white"
                   >
                     See tuition jobs
                   </Link>
@@ -47,62 +46,62 @@ const BecomeTutor = () => {
             </div>
             <div className="w-full px-5 lg:w-3/7">
               <ul>
-                <li className="mb-8 flex border-b border-brand-700/70 pb-10">
+                <li className="border-brand-700/70 mb-8 flex border-b pb-10">
                   <div className="mr-8">
-                    <span className="flex h-14 w-14 items-center justify-center rounded-full border border-brand-500/50 bg-brand-600/20 text-lg font-bold text-brand-100">
+                    <span className="border-brand-500/50 bg-brand-600/20 text-brand-100 flex h-14 w-14 items-center justify-center rounded-full border text-lg font-bold">
                       <UserIcon />
                     </span>
                   </div>
                   <div className="max-w-xs">
-                    <h3 className="mb-2 text-lg font-semibold text-text-on-brand">
+                    <h3 className="text-text-on-brand mb-2 text-lg font-semibold">
                       Create a tutor profile
                     </h3>
-                    <p className="text-base leading-relaxed text-text-on-brand/80">
+                    <p className="text-text-on-brand/80 text-base leading-relaxed">
                       Create your profile in minutes with sign up information.
                     </p>
                   </div>
                 </li>
-                <li className="mb-8 flex border-b border-brand-700/70 pb-10">
+                <li className="border-brand-700/70 mb-8 flex border-b pb-10">
                   <div className="mr-8">
-                    <span className="flex h-14 w-14 items-center justify-center rounded-full border border-brand-500/50 bg-brand-600/20 text-lg font-bold text-brand-100">
+                    <span className="border-brand-500/50 bg-brand-600/20 text-brand-100 flex h-14 w-14 items-center justify-center rounded-full border text-lg font-bold">
                       <FaUserCheck />
                     </span>
                   </div>
                   <div className="max-w-xs">
-                    <h3 className="mb-2 text-lg font-semibold text-text-on-brand">
+                    <h3 className="text-text-on-brand mb-2 text-lg font-semibold">
                       Complete your profile
                     </h3>
-                    <p className="text-base leading-relaxed text-text-on-brand/80">
+                    <p className="text-text-on-brand/80 text-base leading-relaxed">
                       Make your profile at least 80% to get fast responses.
                     </p>
                   </div>
                 </li>
-                <li className="mb-8 flex border-b border-brand-700/70 pb-10">
+                <li className="border-brand-700/70 mb-8 flex border-b pb-10">
                   <div className="mr-8">
-                    <span className="flex h-14 w-14 items-center justify-center rounded-full border border-brand-500/50 bg-brand-600/20 text-lg font-bold text-brand-100">
+                    <span className="border-brand-500/50 bg-brand-600/20 text-brand-100 flex h-14 w-14 items-center justify-center rounded-full border text-lg font-bold">
                       <FaPaperPlane />
                     </span>
                   </div>
                   <div className="max-w-xs">
-                    <h3 className="mb-2 text-lg font-semibold text-text-on-brand">
+                    <h3 className="text-text-on-brand mb-2 text-lg font-semibold">
                       Apply for Tuition Job
                     </h3>
-                    <p className="text-base leading-relaxed text-text-on-brand/80">
+                    <p className="text-text-on-brand/80 text-base leading-relaxed">
                       Visit “Job Board” daily & apply for desired tuition jobs.
                     </p>
                   </div>
                 </li>
-                <li className="flex ">
+                <li className="flex">
                   <div className="mr-8">
-                    <span className="flex h-14 w-14 items-center justify-center rounded-full border border-brand-500/50 bg-brand-600/20 text-lg font-bold text-brand-100">
+                    <span className="border-brand-500/50 bg-brand-600/20 text-brand-100 flex h-14 w-14 items-center justify-center rounded-full border text-lg font-bold">
                       <FaChalkboardTeacher />
                     </span>
                   </div>
                   <div className="max-w-xs">
-                    <h3 className="mb-2 text-lg font-semibold text-text-on-brand">
+                    <h3 className="text-text-on-brand mb-2 text-lg font-semibold">
                       Start tutoring
                     </h3>
-                    <p className="text-base leading-relaxed text-text-on-brand/80">
+                    <p className="text-text-on-brand/80 text-base leading-relaxed">
                       Be confident in the first meet & start tutoring.
                     </p>
                   </div>

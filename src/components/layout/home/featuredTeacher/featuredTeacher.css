@@ -53,7 +53,11 @@
 .dark .featured-teacher-carousel .featured-teacher-arrow:hover {
   border-color: var(--color-brand-400) !important;
   color: var(--color-brand-300) !important;
-  background-color: color-mix(in srgb, var(--color-brand-500) 12%, var(--color-surface-elevated)) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--color-brand-500) 12%,
+    var(--color-surface-elevated)
+  ) !important;
 }
 
 .featured-teacher-carousel .featured-teacher-arrow:focus-visible {
@@ -64,7 +68,7 @@
 /* Hide slick default pseudo-icons since we render custom icons */
 .featured-teacher-carousel .slick-arrow::before,
 .featured-teacher-carousel .slick-arrow::after {
-  content: '' !important;
+  content: "" !important;
   display: none !important;
 }
 
@@ -83,7 +87,11 @@
 }
 
 .dark .featured-teacher-carousel .slick-dots li button {
-  background-color: color-mix(in srgb, var(--color-brand-300) 45%, transparent) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--color-brand-300) 45%,
+    transparent
+  ) !important;
 }
 
 .dark .featured-teacher-carousel .slick-dots li.slick-active::after {

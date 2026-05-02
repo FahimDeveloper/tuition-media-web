@@ -1,8 +1,8 @@
-import Marquee from '@/components/layout/home/Marquee';
+import Marquee from "@/components/layout/home/Marquee";
 
 const TuitionCategory = () => {
   return (
-    <section className=" bg-brand-800">
+    <section className="bg-brand-800">
       <Marquee />
     </section>
   );

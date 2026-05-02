@@ -1,4 +1,4 @@
-export type AuthGender = 'male' | 'female' | 'other';
+export type AuthGender = "male" | "female" | "other";
 
 export type AuthUser = {
   _id: string;

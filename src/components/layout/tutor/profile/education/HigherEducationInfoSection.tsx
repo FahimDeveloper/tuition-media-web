@@ -1,10 +1,10 @@
-import {Form, Input, Select} from 'antd';
+import { Form, Input, Select } from "antd";
 
-import ProfileEditableSection from '../shared/ProfileEditableSection';
-import {ProfileFormGrid} from '../shared/ProfileFormLayout';
-import type {ProfileInfoField} from '../shared/ProfileInfoList';
-import {requiredRule} from '../profileUtils';
-import {EducationCredentialFields} from './EducationFormFields';
+import ProfileEditableSection from "../shared/ProfileEditableSection";
+import { ProfileFormGrid } from "../shared/ProfileFormLayout";
+import type { ProfileInfoField } from "../shared/ProfileInfoList";
+import { requiredRule } from "../profileUtils";
+import { EducationCredentialFields } from "./EducationFormFields";
 import {
   GRADUATION_INFO_ITEMS,
   POST_GRADUATION_INFO_ITEMS,
@@ -14,7 +14,7 @@ import {
   prepareEducationPayload,
   type GraduationValues,
   type PostGraduationValues,
-} from './educationTypes';
+} from "./educationTypes";
 
 type HigherEducationValues = GraduationValues | PostGraduationValues;
 
@@ -56,7 +56,9 @@ function HigherEducationSection<TValues extends HigherEducationValues>({
       items={infoItems}
       formatValue={formatEducationValue}
       onSave={onSave}
-      fromFormValues={(formValues) => prepareEducationPayload(formValues, 'cgpa')}
+      fromFormValues={(formValues) =>
+        prepareEducationPayload(formValues, "cgpa")
+      }
     >
       <ProfileFormGrid>
         <Form.Item
@@ -64,7 +66,7 @@ function HigherEducationSection<TValues extends HigherEducationValues>({
           name="universityName"
           className="col-span-2 lg:col-span-1"
           validateTrigger="onBlur"
-          rules={requiredRule('Please enter your university name')}
+          rules={requiredRule("Please enter your university name")}
         >
           <Input size="large" placeholder="Enter your university name" />
         </Form.Item>
@@ -74,7 +76,7 @@ function HigherEducationSection<TValues extends HigherEducationValues>({
           name="department"
           className="col-span-2 lg:col-span-1"
           validateTrigger="onBlur"
-          rules={requiredRule('Please enter your department')}
+          rules={requiredRule("Please enter your department")}
         >
           <Input size="large" placeholder="Enter your department" />
         </Form.Item>
@@ -83,7 +85,7 @@ function HigherEducationSection<TValues extends HigherEducationValues>({
           label="University Type"
           name="universityType"
           className="col-span-2 lg:col-span-1"
-          rules={requiredRule('Please select your university type')}
+          rules={requiredRule("Please select your university type")}
         >
           <Select
             size="large"
@@ -96,7 +98,7 @@ function HigherEducationSection<TValues extends HigherEducationValues>({
           label="Study Type"
           name="studyType"
           className="col-span-2 lg:col-span-1"
-          rules={requiredRule('Please select your study type')}
+          rules={requiredRule("Please select your study type")}
         >
           <Select
             size="large"

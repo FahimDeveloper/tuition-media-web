@@ -1,10 +1,10 @@
-import {useCallback} from 'react';
-import {Button, Form, Input, Modal, Typography} from 'antd';
-import {FiArrowRight} from 'react-icons/fi';
-import {useCreateLeadMutation} from '@/redux/features/lead/leadApi';
+import { useCallback } from "react";
+import { Button, Form, Input, Modal, Typography } from "antd";
+import { FiArrowRight } from "react-icons/fi";
+import { useCreateLeadMutation } from "@/redux/features/lead/leadApi";
 
-const {Text} = Typography;
-const {TextArea} = Input;
+const { Text } = Typography;
+const { TextArea } = Input;
 
 const BANGLADESHI_MOBILE_PATTERN = /^(?:\+8801\d{9}|01\d{9})$/;
 
@@ -24,26 +24,26 @@ type ApiError = {
   };
 };
 
-const normalizePhoneNumber = (phoneNumber = '') =>
-  phoneNumber.replace(/[() -]/g, '').trim();
+const normalizePhoneNumber = (phoneNumber = "") =>
+  phoneNumber.replace(/[() -]/g, "").trim();
 
-const isBangladeshiMobileNumber = (phoneNumber = '') =>
+const isBangladeshiMobileNumber = (phoneNumber = "") =>
   BANGLADESHI_MOBILE_PATTERN.test(normalizePhoneNumber(phoneNumber));
 
 const getApiErrorMessage = (error: unknown) =>
-  (error as ApiError)?.data?.message || 'Something went wrong';
+  (error as ApiError)?.data?.message || "Something went wrong";
 
 const validateBangladeshiMobileNumber = (_: unknown, value?: string) => {
   if (!value || isBangladeshiMobileNumber(value)) {
     return Promise.resolve();
   }
 
-  return Promise.reject(new Error('Enter a valid Bangladeshi mobile number.'));
+  return Promise.reject(new Error("Enter a valid Bangladeshi mobile number."));
 };
 
 export default function LeadForm() {
   const [leadForm] = Form.useForm<LeadFormValues>();
-  const [createLead, {isLoading: isCreatingLead}] = useCreateLeadMutation();
+  const [createLead, { isLoading: isCreatingLead }] = useCreateLeadMutation();
 
   const handleLeadSubmit = useCallback(
     async (formValues: LeadFormValues) => {
@@ -54,19 +54,19 @@ export default function LeadForm() {
         }).unwrap()) as CreateLeadResponse;
 
         Modal.success({
-          title: 'Success',
-          content: response?.message || 'Success',
+          title: "Success",
+          content: response?.message || "Success",
           centered: true,
-          okText: 'OK',
+          okText: "OK",
         });
 
         leadForm.resetFields();
       } catch (error) {
         Modal.error({
-          title: 'Oops!..',
+          title: "Oops!..",
           content: getApiErrorMessage(error),
           centered: true,
-          okText: 'Close',
+          okText: "Close",
         });
       }
     },
@@ -84,13 +84,13 @@ export default function LeadForm() {
       <Form.Item
         label={<Text className="text-text-strong!">Name</Text>}
         name="name"
-        rules={[{required: true, message: 'Please enter your name.'}]}
+        rules={[{ required: true, message: "Please enter your name." }]}
       >
         <Input
           size="large"
           placeholder="Enter your name"
           autoComplete="name"
-          className="min-h-14! rounded-xl! border-border! bg-surface-elevated! text-text-strong! shadow-theme-xs! placeholder:text-text-soft! hover:border-brand-300! focus:border-brand-300! focus:shadow-focus-ring!"
+          className="border-border! bg-surface-elevated! text-text-strong! shadow-theme-xs! placeholder:text-text-soft! hover:border-brand-300! focus:border-brand-300! focus:shadow-focus-ring! min-h-14! rounded-xl!"
         />
       </Form.Item>
 
@@ -102,8 +102,8 @@ export default function LeadForm() {
         }
         name="contact"
         rules={[
-          {required: true, message: 'Please enter your phone number.'},
-          {validator: validateBangladeshiMobileNumber},
+          { required: true, message: "Please enter your phone number." },
+          { validator: validateBangladeshiMobileNumber },
         ]}
       >
         <Input
@@ -111,7 +111,7 @@ export default function LeadForm() {
           placeholder="01 or +8801"
           inputMode="tel"
           autoComplete="tel"
-          className="min-h-14! rounded-xl! border-border! bg-surface-elevated! text-text-strong! shadow-theme-xs! placeholder:text-text-soft! hover:border-brand-300! focus:border-brand-300! focus:shadow-focus-ring!"
+          className="border-border! bg-surface-elevated! text-text-strong! shadow-theme-xs! placeholder:text-text-soft! hover:border-brand-300! focus:border-brand-300! focus:shadow-focus-ring! min-h-14! rounded-xl!"
         />
       </Form.Item>
 
@@ -126,7 +126,7 @@ export default function LeadForm() {
         <TextArea
           rows={3}
           placeholder="Write your message here..."
-          className="rounded-xl! border-border! bg-surface-elevated! text-text-strong! shadow-theme-xs! placeholder:text-text-soft! hover:border-brand-300! focus:border-brand-300! focus:shadow-focus-ring!"
+          className="border-border! bg-surface-elevated! text-text-strong! shadow-theme-xs! placeholder:text-text-soft! hover:border-brand-300! focus:border-brand-300! focus:shadow-focus-ring! rounded-xl!"
         />
       </Form.Item>
 
@@ -136,7 +136,7 @@ export default function LeadForm() {
         size="large"
         htmlType="submit"
         loading={isCreatingLead}
-        className="mt-1! min-h-14! rounded-xl! bg-brand-600! text-base! font-semibold! text-text-on-brand! shadow-theme-md! hover:bg-brand-700! hover:shadow-theme-lg!"
+        className="bg-brand-600! text-text-on-brand! shadow-theme-md! hover:bg-brand-700! hover:shadow-theme-lg! mt-1! min-h-14! rounded-xl! text-base! font-semibold!"
       >
         Book Demo Class
         <FiArrowRight size={20} className="ml-2" />

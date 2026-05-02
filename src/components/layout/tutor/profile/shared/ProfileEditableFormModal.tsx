@@ -1,13 +1,13 @@
-import type {ReactNode} from 'react';
-import {Form} from 'antd';
-import type {FormInstance} from 'antd/es/form';
-import {Modal} from '@/components/ui/modal';
+import type { ReactNode } from "react";
+import { Form } from "antd";
+import type { FormInstance } from "antd/es/form";
+import { Modal } from "@/components/ui/modal";
 
 import ProfileModalContent, {
   ProfileModalActions,
   ProfileModalHeader,
-} from './ProfileModalContent';
-import {ProfileFormScrollArea} from './ProfileFormLayout';
+} from "./ProfileModalContent";
+import { ProfileFormScrollArea } from "./ProfileFormLayout";
 
 type ProfileEditableFormModalProps<TFormValues extends object> = {
   isOpen: boolean;
@@ -34,9 +34,9 @@ export default function ProfileEditableFormModal<TFormValues extends object>({
   isSaving = false,
   onSubmit,
   children,
-  className = 'max-w-175 m-4',
-  formClassName = '',
-  scrollClassName = '',
+  className = "max-w-175 m-4",
+  formClassName = "",
+  scrollClassName = "",
 }: ProfileEditableFormModalProps<TFormValues>) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} className={className}>

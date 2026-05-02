@@ -1,11 +1,14 @@
-import type {ReactNode} from 'react';
+import type { ReactNode } from "react";
 
 type ProfileInfoItemProps = {
   label: string;
   value: ReactNode;
 };
 
-export default function ProfileInfoItem({label, value}: ProfileInfoItemProps) {
+export default function ProfileInfoItem({
+  label,
+  value,
+}: ProfileInfoItemProps) {
   return (
     <div>
       <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">

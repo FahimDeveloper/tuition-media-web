@@ -1,21 +1,21 @@
-import {useEffect, useState} from 'react';
-import {useAppSelector} from '@/hooks/useAppHooks';
-import {selectCurrentUser} from '@/redux/features/auth/authSlice';
+import { useEffect, useState } from "react";
+import { useAppSelector } from "@/hooks/useAppHooks";
+import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 
 const SUPPORTING_COPY =
-  'Welcome back to your dashboard. Review your latest activity and stay ready for new tuition opportunities.';
-const FALLBACK_NAME = 'there';
+  "Welcome back to your dashboard. Review your latest activity and stay ready for new tuition opportunities.";
+const FALLBACK_NAME = "there";
 
 const getGreetingByHour = (hour: number) => {
   if (hour < 12) {
-    return 'Good morning';
+    return "Good morning";
   }
 
   if (hour < 18) {
-    return 'Good afternoon';
+    return "Good afternoon";
   }
 
-  return 'Good evening';
+  return "Good evening";
 };
 
 const getUserDisplayName = (
@@ -25,7 +25,7 @@ const getUserDisplayName = (
 ) => {
   const fullName = [firstName, lastName]
     .filter((value): value is string => Boolean(value?.trim()))
-    .join(' ')
+    .join(" ")
     .trim();
 
   if (fullName) {
@@ -64,19 +64,19 @@ export default function WelcomeMessage() {
   return (
     <section
       aria-labelledby="dashboard-welcome-name"
-      className="rounded-2xl border min-h-full border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/3 sm:p-6 lg:p-7"
+      className="min-h-full rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 lg:p-7 dark:border-gray-800 dark:bg-white/3"
     >
       <div className="max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-brand-700 dark:text-brand-300">
+        <p className="text-brand-700 dark:text-brand-300 text-sm font-semibold tracking-[0.16em] uppercase">
           {greeting}
         </p>
         <h2
           id="dashboard-welcome-name"
-          className="mt-3 font-poppins text-2xl font-semibold text-gray-900 dark:text-white sm:text-3xl lg:text-[2rem]"
+          className="font-poppins mt-3 text-2xl font-semibold text-gray-900 sm:text-3xl lg:text-[2rem] dark:text-white"
         >
           {displayName}
         </h2>
-        <p className="mt-4 max-w-2xl text-sm leading-6 text-gray-600 dark:text-gray-400 sm:text-base">
+        <p className="mt-4 max-w-2xl text-sm leading-6 text-gray-600 sm:text-base dark:text-gray-400">
           {SUPPORTING_COPY}
         </p>
       </div>

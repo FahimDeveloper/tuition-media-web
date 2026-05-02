@@ -1,5 +1,5 @@
 type BrandLogoProps = {
-  variant?: 'full' | 'icon';
+  variant?: "full" | "icon";
   className?: string;
   imgClassName?: string;
   width?: number;
@@ -8,36 +8,38 @@ type BrandLogoProps = {
 };
 
 const BrandLogo = ({
-  variant = 'full',
+  variant = "full",
   className,
   imgClassName,
   width,
   height,
-  alt = 'TutoriumBD logo',
+  alt = "TutoriumBD logo",
 }: BrandLogoProps) => {
-  if (variant === 'icon') {
+  if (variant === "icon") {
     return (
       <img
         src="/images/logo/tutoriumBdLogo.png"
         alt={alt}
         width={width}
         height={height}
-        className={[className, imgClassName].filter(Boolean).join(' ')}
+        className={[className, imgClassName].filter(Boolean).join(" ")}
       />
     );
   }
 
   return (
-    <span className={['inline-flex', className].filter(Boolean).join(' ')}>
+    <span className={["inline-flex", className].filter(Boolean).join(" ")}>
       <img
-        className={['dark:hidden', imgClassName].filter(Boolean).join(' ')}
+        className={["dark:hidden", imgClassName].filter(Boolean).join(" ")}
         src="/images/logo/finalLogoLight.png"
         alt={alt}
         width={width}
         height={height}
       />
       <img
-        className={['hidden dark:block', imgClassName].filter(Boolean).join(' ')}
+        className={["hidden dark:block", imgClassName]
+          .filter(Boolean)
+          .join(" ")}
         src="/images/logo/finalLogoDark.png"
         alt={alt}
         width={width}

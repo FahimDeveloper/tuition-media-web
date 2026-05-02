@@ -1,6 +1,6 @@
-import GridShape from '@/components/common/GridShape';
-import PageMeta from '@/components/common/PageMeta';
-import {Link} from 'react-router-dom';
+import GridShape from "@/components/common/GridShape";
+import PageMeta from "@/components/common/PageMeta";
+import { Link } from "react-router-dom";
 
 export default function NotFound() {
   return (
@@ -9,10 +9,10 @@ export default function NotFound() {
         title="React.js 404 Dashboard | TailAdmin - React.js Admin Dashboard Template"
         description="This is React.js 404 Dashboard page for TailAdmin - React.js Admin Dashboard Template"
       />
-      <div className="relative z-1 flex min-h-screen flex-col items-center justify-center overflow-hidden bg-page p-6">
+      <div className="bg-page relative z-1 flex min-h-screen flex-col items-center justify-center overflow-hidden p-6">
         <GridShape />
         <div className="mx-auto w-full max-w-60.5 text-center sm:max-w-118">
-          <h1 className="mb-8 text-title-md font-bold text-text-strong xl:text-title-2xl">
+          <h1 className="text-title-md text-text-strong xl:text-title-2xl mb-8 font-bold">
             ERROR
           </h1>
 
@@ -23,19 +23,19 @@ export default function NotFound() {
             className="hidden dark:block"
           />
 
-          <p className="mb-6 mt-10 text-base text-text-muted sm:text-lg">
+          <p className="text-text-muted mt-10 mb-6 text-base sm:text-lg">
             We can&apos;t seem to find the page you are looking for!
           </p>
 
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-lg border border-border bg-surface-elevated px-5 py-3.5 text-sm font-medium text-text-strong shadow-theme-xs transition-colors hover:bg-brand-50 hover:text-brand-700"
+            className="border-border bg-surface-elevated text-text-strong shadow-theme-xs hover:bg-brand-50 hover:text-brand-700 inline-flex items-center justify-center rounded-lg border px-5 py-3.5 text-sm font-medium transition-colors"
           >
             Back to Home Page
           </Link>
         </div>
 
-        <p className="absolute bottom-6 left-1/2 -translate-x-1/2 text-center text-sm text-text-muted">
+        <p className="text-text-muted absolute bottom-6 left-1/2 -translate-x-1/2 text-center text-sm">
           &copy; {new Date().getFullYear()} - TutoriumBD
         </p>
       </div>

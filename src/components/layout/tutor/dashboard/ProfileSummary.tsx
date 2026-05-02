@@ -1,16 +1,16 @@
-import {Link} from 'react-router-dom';
-import {Avatar, Button, Card, Space, Typography} from 'antd';
-import {FaRegCalendar} from 'react-icons/fa6';
+import { Link } from "react-router-dom";
+import { Avatar, Button, Card, Space, Typography } from "antd";
+import { FaRegCalendar } from "react-icons/fa6";
 
-import {useAppSelector} from '@/hooks/useAppHooks';
-import {selectCurrentUser} from '@/redux/features/auth/authSlice';
+import { useAppSelector } from "@/hooks/useAppHooks";
+import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 
-const {Text, Paragraph} = Typography;
+const { Text, Paragraph } = Typography;
 
 const FALLBACKS = {
-  name: 'Account',
-  bio: 'Add a short bio to help guardians and students understand your teaching background.',
-  memberSince: 'Member since recently',
+  name: "Account",
+  bio: "Add a short bio to help guardians and students understand your teaching background.",
+  memberSince: "Member since recently",
 };
 
 type ProfileSummaryStoreUser = NonNullable<
@@ -34,7 +34,7 @@ const getDisplayName = (
   lastName?: string | null,
   email?: string | null,
 ) => {
-  const fullName = [firstName, lastName].map(getText).filter(Boolean).join(' ');
+  const fullName = [firstName, lastName].map(getText).filter(Boolean).join(" ");
 
   return fullName || getText(email) || FALLBACKS.name;
 };
@@ -48,16 +48,16 @@ const getInitials = (
     .map(getText)
     .filter(Boolean)
     .map((name) => name![0].toUpperCase())
-    .join('');
+    .join("");
 
   if (initials) return initials.slice(0, 2);
 
-  return getText(email)?.[0]?.toUpperCase() || 'A';
+  return getText(email)?.[0]?.toUpperCase() || "A";
 };
 
 const getAvatarUrl = (user?: ProfileSummaryStoreUser | null) =>
   [user?.avatar, user?.image, user?.profileImage, user?.profile_image].find(
-    (value) => typeof value === 'string' && value.trim().length > 0,
+    (value) => typeof value === "string" && value.trim().length > 0,
   ) || null;
 
 const getMemberSince = (createdAt?: string | null) => {

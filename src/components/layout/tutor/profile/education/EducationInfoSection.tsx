@@ -1,19 +1,19 @@
-import {useState} from 'react';
+import { useState } from "react";
 
-import SchoolInfoSection from './SchoolInfoSection';
-import CollegeInfoSection from './CollegeInfoSection';
-import DiplomaInfoSection from './DiplomaInfoSection';
+import SchoolInfoSection from "./SchoolInfoSection";
+import CollegeInfoSection from "./CollegeInfoSection";
+import DiplomaInfoSection from "./DiplomaInfoSection";
 import {
   GraduationInfoSection,
   PostGraduationInfoSection,
-} from './HigherEducationInfoSection';
+} from "./HigherEducationInfoSection";
 
 import {
   INITIAL_COLLEGE_VALUES,
   INITIAL_DIPLOMA_VALUES,
   INITIAL_EDUCATION_VALUES,
   type EducationValues,
-} from './educationTypes';
+} from "./educationTypes";
 
 export default function EducationInfoSection() {
   const [educationValues, setEducationValues] = useState<EducationValues>(
@@ -51,7 +51,7 @@ export default function EducationInfoSection() {
     <div className="space-y-6">
       <SchoolInfoSection
         values={educationValues.school}
-        onSave={(school) => updateEducationValues('school', school)}
+        onSave={(school) => updateEducationValues("school", school)}
       />
 
       {isDiplomaStudent ? (
@@ -59,26 +59,26 @@ export default function EducationInfoSection() {
           values={educationValues.diploma}
           isDiplomaStudent={isDiplomaStudent}
           onDiplomaToggle={handleDiplomaToggle}
-          onSave={(diploma) => updateEducationValues('diploma', diploma)}
+          onSave={(diploma) => updateEducationValues("diploma", diploma)}
         />
       ) : (
         <CollegeInfoSection
           values={educationValues.college}
           isDiplomaStudent={isDiplomaStudent}
           onDiplomaToggle={handleDiplomaToggle}
-          onSave={(college) => updateEducationValues('college', college)}
+          onSave={(college) => updateEducationValues("college", college)}
         />
       )}
 
       <GraduationInfoSection
         values={educationValues.graduation}
-        onSave={(graduation) => updateEducationValues('graduation', graduation)}
+        onSave={(graduation) => updateEducationValues("graduation", graduation)}
       />
 
       <PostGraduationInfoSection
         values={educationValues.postGraduation}
         onSave={(postGraduation) =>
-          updateEducationValues('postGraduation', postGraduation)
+          updateEducationValues("postGraduation", postGraduation)
         }
       />
     </div>

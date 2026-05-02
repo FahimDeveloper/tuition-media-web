@@ -1,6 +1,6 @@
-import {AndroidOutlined, AppleOutlined} from '@ant-design/icons';
-import {Tabs} from 'antd';
-import BasicTables from '../demo/Tables/BasicTables';
+import { AndroidOutlined, AppleOutlined } from "@ant-design/icons";
+import { Tabs } from "antd";
+import BasicTables from "../demo/Tables/BasicTables";
 
 const ExampleChildren = () => {
   return (
@@ -19,12 +19,12 @@ const ExampleChildren = () => {
 
 const historyNavs = [
   {
-    label: 'Tab 1',
+    label: "Tab 1",
     icon: <AndroidOutlined />,
     children: <BasicTables />,
   },
   {
-    label: 'Tab 2',
+    label: "Tab 2",
     icon: <AppleOutlined />,
     children: <ExampleChildren />,
   },

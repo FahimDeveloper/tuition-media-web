@@ -1,7 +1,7 @@
-import {useState} from 'react';
+import { useState } from "react";
 
-import ProfileEditableSection from '../shared/ProfileEditableSection';
-import PersonalInfoForm from './PersonalInfoForm';
+import ProfileEditableSection from "../shared/ProfileEditableSection";
+import PersonalInfoForm from "./PersonalInfoForm";
 import {
   INITIAL_PERSONAL_INFO_VALUES,
   PERSONAL_INFO_ITEMS,
@@ -10,7 +10,7 @@ import {
   toPersonalInfoFormValues,
   type PersonalInfoFormValues,
   type PersonalInfoValues,
-} from './personalInfoTypes';
+} from "./personalInfoTypes";
 
 export default function PersonalInfoSection() {
   const [profileValues, setProfileValues] = useState<PersonalInfoValues>(

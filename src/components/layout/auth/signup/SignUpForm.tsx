@@ -3,25 +3,25 @@ import {
   MailOutlined,
   PhoneOutlined,
   UserOutlined,
-} from '@ant-design/icons';
+} from "@ant-design/icons";
 
-import {Alert, Button, Form, Input} from 'antd';
-import type {FormInstance, FormProps} from 'antd';
-import {type KeyboardEvent, useState} from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import { Alert, Button, Form, Input } from "antd";
+import type { FormInstance, FormProps } from "antd";
+import { type KeyboardEvent, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-import {ChevronLeftIcon} from '@/icons';
-import {useAppDispatch} from '@/hooks/useAppHooks';
-import {useRegistrationMutation} from '@/redux/features/auth/authApi';
-import {loggedInUser} from '@/redux/features/auth/authSlice';
-import type {RegistrationPayload} from '@/redux/features/auth/auth.types';
+import { ChevronLeftIcon } from "@/icons";
+import { useAppDispatch } from "@/hooks/useAppHooks";
+import { useRegistrationMutation } from "@/redux/features/auth/authApi";
+import { loggedInUser } from "@/redux/features/auth/authSlice";
+import type { RegistrationPayload } from "@/redux/features/auth/auth.types";
 
 import {
   authFormClasses,
   authInputClasses,
   authLinkClasses,
   authPrimaryButtonClasses,
-} from '../formStyles';
+} from "../formStyles";
 
 type SignupFormValues = {
   full_name: string;
@@ -51,40 +51,40 @@ const SIGNUP_LIMITS = {
 } as const;
 
 const SIGNUP_COPY = {
-  title: 'Sign Up',
-  description: 'Enter your information to create your teacher account.',
+  title: "Sign Up",
+  description: "Enter your information to create your teacher account.",
   phoneHint:
-    'Use a Bangladeshi mobile number, for example 01XXXXXXXXX or +8801XXXXXXXXX.',
-  passwordHint: '',
-  capsLockWarning: 'Caps Lock is on.',
-  submit: 'Sign Up',
-  submitting: 'Creating account...',
-  genericError: 'Something went wrong. Please try again.',
+    "Use a Bangladeshi mobile number, for example 01XXXXXXXXX or +8801XXXXXXXXX.",
+  passwordHint: "",
+  capsLockWarning: "Caps Lock is on.",
+  submit: "Sign Up",
+  submitting: "Creating account...",
+  genericError: "Something went wrong. Please try again.",
 } as const;
 
 const SIGNUP_MESSAGES = {
-  fullNameRequired: 'Please enter your full name.',
-  fullNameTooShort: 'Full name must be at least 2 characters.',
-  fullNameTooLong: 'Full name is too long.',
+  fullNameRequired: "Please enter your full name.",
+  fullNameTooShort: "Full name must be at least 2 characters.",
+  fullNameTooLong: "Full name is too long.",
   fullNameInvalid:
-    'Use letters and common name characters only, such as spaces, dots, apostrophes, or hyphens.',
+    "Use letters and common name characters only, such as spaces, dots, apostrophes, or hyphens.",
 
-  emailRequired: 'Please enter your email.',
-  emailInvalid: 'Please enter a valid email address.',
-  emailSpaces: 'Email cannot contain spaces.',
-  emailTooLong: 'Email is too long.',
+  emailRequired: "Please enter your email.",
+  emailInvalid: "Please enter a valid email address.",
+  emailSpaces: "Email cannot contain spaces.",
+  emailTooLong: "Email is too long.",
 
-  phoneRequired: 'Please enter your phone number.',
-  phoneInvalid: 'Enter a valid Bangladeshi mobile number.',
+  phoneRequired: "Please enter your phone number.",
+  phoneInvalid: "Enter a valid Bangladeshi mobile number.",
 
-  passwordRequired: 'Please create a password.',
-  passwordTooShort: 'Password must be at least 8 characters.',
-  passwordTooLong: 'Password is too long.',
+  passwordRequired: "Please create a password.",
+  passwordTooShort: "Password must be at least 8 characters.",
+  passwordTooLong: "Password is too long.",
   passwordNeedsLetterAndNumber:
-    'Password must include at least one letter and one number.',
+    "Password must include at least one letter and one number.",
 
-  confirmPasswordRequired: 'Please confirm your password.',
-  confirmPasswordMismatch: 'Passwords do not match.',
+  confirmPasswordRequired: "Please confirm your password.",
+  confirmPasswordMismatch: "Passwords do not match.",
 } as const;
 
 const NAME_PATTERN = /^(?=.*\p{L})[\p{L} .'-]+$/u;
@@ -93,43 +93,43 @@ const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d).+$/;
 const BANGLADESHI_PHONE_PATTERN = /^(?:\+8801\d{9}|01\d{9})$/;
 
 const DEFAULT_VALUES: SignupFormValues = {
-  full_name: '',
-  email: '',
-  phone: '',
-  password: '',
-  confirmPassword: '',
+  full_name: "",
+  email: "",
+  phone: "",
+  password: "",
+  confirmPassword: "",
 };
 
 const SERVER_FIELD_NAME_MAP: Partial<Record<string, keyof SignupFormValues>> = {
-  full_name: 'full_name',
-  fullName: 'full_name',
-  fullname: 'full_name',
-  name: 'full_name',
-  email: 'email',
-  phone: 'phone',
-  phone_number: 'phone',
-  password: 'password',
-  confirmPassword: 'confirmPassword',
-  confirm_password: 'confirmPassword',
+  full_name: "full_name",
+  fullName: "full_name",
+  fullname: "full_name",
+  name: "full_name",
+  email: "email",
+  phone: "phone",
+  phone_number: "phone",
+  password: "password",
+  confirmPassword: "confirmPassword",
+  confirm_password: "confirmPassword",
 };
 
 const normalizeWhitespace = (value: string) =>
-  value.trim().replace(/\s+/g, ' ');
+  value.trim().replace(/\s+/g, " ");
 
 const normalizeName = (value: unknown) =>
-  typeof value === 'string' ? normalizeWhitespace(value) : '';
+  typeof value === "string" ? normalizeWhitespace(value) : "";
 
 const normalizeNameInput = (value: unknown) =>
-  typeof value === 'string' ? value.replace(/\s{2,}/g, ' ') : '';
+  typeof value === "string" ? value.replace(/\s{2,}/g, " ") : "";
 
 const normalizeEmail = (value: unknown) =>
-  typeof value === 'string' ? value.trim().toLowerCase() : '';
+  typeof value === "string" ? value.trim().toLowerCase() : "";
 
 const sanitizePhoneInput = (value: unknown) =>
-  typeof value === 'string' ? value.replace(/[^\d+\s()-]/g, '') : '';
+  typeof value === "string" ? value.replace(/[^\d+\s()-]/g, "") : "";
 
 const stripPhoneFormatting = (value: string) =>
-  value.replace(/[()\s-]/g, '').trim();
+  value.replace(/[()\s-]/g, "").trim();
 
 const normalizePhoneNumber = (value: string) => {
   const cleaned = stripPhoneFormatting(value);
@@ -142,20 +142,20 @@ const normalizePhoneNumber = (value: string) => {
    * API will receive phone in international format:
    * - +8801XXXXXXXXX
    */
-  return cleaned.startsWith('01') ? `+88${cleaned}` : cleaned;
+  return cleaned.startsWith("01") ? `+88${cleaned}` : cleaned;
 };
 
 const isValidBangladeshiPhone = (value: string) =>
   BANGLADESHI_PHONE_PATTERN.test(stripPhoneFormatting(value));
 
 const isCapsLockActive = (event: KeyboardEvent<HTMLInputElement>) =>
-  Boolean(event.getModifierState?.('CapsLock'));
+  Boolean(event.getModifierState?.("CapsLock"));
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
-  typeof value === 'object' && value !== null;
+  typeof value === "object" && value !== null;
 
 const getApiErrorPayload = (error: unknown): ApiErrorPayload | null => {
-  if (!isRecord(error) || !('data' in error) || !isRecord(error.data)) {
+  if (!isRecord(error) || !("data" in error) || !isRecord(error.data)) {
     return null;
   }
 
@@ -165,11 +165,11 @@ const getApiErrorPayload = (error: unknown): ApiErrorPayload | null => {
 const getApiErrorMessage = (error: unknown) => {
   const payload = getApiErrorPayload(error);
 
-  if (typeof payload?.message === 'string' && payload.message.trim()) {
+  if (typeof payload?.message === "string" && payload.message.trim()) {
     return payload.message;
   }
 
-  if (isRecord(error) && typeof error.message === 'string' && error.message) {
+  if (isRecord(error) && typeof error.message === "string" && error.message) {
     return error.message;
   }
 
@@ -197,12 +197,12 @@ const getApiFieldErrors = (error: unknown): SignupFieldError[] => {
     }
 
     const fieldName =
-      typeof fieldError.path === 'string'
+      typeof fieldError.path === "string"
         ? (SERVER_FIELD_NAME_MAP[fieldError.path] ?? null)
         : null;
 
     const message =
-      typeof fieldError.message === 'string' ? fieldError.message : undefined;
+      typeof fieldError.message === "string" ? fieldError.message : undefined;
 
     if (!fieldName || !message) {
       continue;
@@ -228,7 +228,7 @@ const clearFieldErrors = (
     return;
   }
 
-  form.setFields(fieldNames.map((name) => ({name, errors: []})));
+  form.setFields(fieldNames.map((name) => ({ name, errors: [] })));
 };
 
 const buildRegistrationPayload = (
@@ -252,21 +252,27 @@ const buildRegistrationPayload = (
 };
 
 const fullNameRules = [
-  {required: true, message: SIGNUP_MESSAGES.fullNameRequired},
-  {min: SIGNUP_LIMITS.nameMinLength, message: SIGNUP_MESSAGES.fullNameTooShort},
-  {max: SIGNUP_LIMITS.nameMaxLength, message: SIGNUP_MESSAGES.fullNameTooLong},
-  {pattern: NAME_PATTERN, message: SIGNUP_MESSAGES.fullNameInvalid},
+  { required: true, message: SIGNUP_MESSAGES.fullNameRequired },
+  {
+    min: SIGNUP_LIMITS.nameMinLength,
+    message: SIGNUP_MESSAGES.fullNameTooShort,
+  },
+  {
+    max: SIGNUP_LIMITS.nameMaxLength,
+    message: SIGNUP_MESSAGES.fullNameTooLong,
+  },
+  { pattern: NAME_PATTERN, message: SIGNUP_MESSAGES.fullNameInvalid },
 ];
 
 const emailRules = [
-  {required: true, message: SIGNUP_MESSAGES.emailRequired},
-  {type: 'email' as const, message: SIGNUP_MESSAGES.emailInvalid},
-  {max: SIGNUP_LIMITS.emailMaxLength, message: SIGNUP_MESSAGES.emailTooLong},
-  {pattern: EMAIL_NO_SPACES_PATTERN, message: SIGNUP_MESSAGES.emailSpaces},
+  { required: true, message: SIGNUP_MESSAGES.emailRequired },
+  { type: "email" as const, message: SIGNUP_MESSAGES.emailInvalid },
+  { max: SIGNUP_LIMITS.emailMaxLength, message: SIGNUP_MESSAGES.emailTooLong },
+  { pattern: EMAIL_NO_SPACES_PATTERN, message: SIGNUP_MESSAGES.emailSpaces },
 ];
 
 const phoneRules = [
-  {required: true, message: SIGNUP_MESSAGES.phoneRequired},
+  { required: true, message: SIGNUP_MESSAGES.phoneRequired },
   {
     validator: async (_: unknown, value?: string) => {
       if (!value || isValidBangladeshiPhone(value)) {
@@ -279,7 +285,7 @@ const phoneRules = [
 ];
 
 const passwordRules = [
-  {required: true, message: SIGNUP_MESSAGES.passwordRequired},
+  { required: true, message: SIGNUP_MESSAGES.passwordRequired },
   {
     min: SIGNUP_LIMITS.passwordMinLength,
     message: SIGNUP_MESSAGES.passwordTooShort,
@@ -296,9 +302,9 @@ const passwordRules = [
 
 export default function SignUpForm() {
   const [form] = Form.useForm<SignupFormValues>();
-  const [registerTeacher, {isLoading}] = useRegistrationMutation();
+  const [registerTeacher, { isLoading }] = useRegistrationMutation();
 
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
   const [isCapsLockOn, setIsCapsLockOn] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -308,11 +314,11 @@ export default function SignUpForm() {
     setIsCapsLockOn(isCapsLockActive(event));
   };
 
-  const handleValuesChange: FormProps<SignupFormValues>['onValuesChange'] = (
+  const handleValuesChange: FormProps<SignupFormValues>["onValuesChange"] = (
     changedValues,
   ) => {
     if (errorMessage) {
-      setErrorMessage('');
+      setErrorMessage("");
     }
 
     const changedFieldNames = Object.keys(changedValues) as Array<
@@ -325,16 +331,16 @@ export default function SignUpForm() {
      * If the user changes password after typing confirm password,
      * re-check confirm password immediately.
      */
-    if ('password' in changedValues && form.getFieldValue('confirmPassword')) {
-      void form.validateFields(['confirmPassword']);
+    if ("password" in changedValues && form.getFieldValue("confirmPassword")) {
+      void form.validateFields(["confirmPassword"]);
     }
   };
 
   const confirmPasswordRules = [
-    {required: true, message: SIGNUP_MESSAGES.confirmPasswordRequired},
+    { required: true, message: SIGNUP_MESSAGES.confirmPasswordRequired },
     {
       validator: async (_: unknown, value?: string) => {
-        if (!value || value === form.getFieldValue('password')) {
+        if (!value || value === form.getFieldValue("password")) {
           return;
         }
 
@@ -343,10 +349,10 @@ export default function SignUpForm() {
     },
   ];
 
-  const handleSubmit: FormProps<SignupFormValues>['onFinish'] = async (
+  const handleSubmit: FormProps<SignupFormValues>["onFinish"] = async (
     values,
   ) => {
-    setErrorMessage('');
+    setErrorMessage("");
 
     try {
       /**
@@ -364,7 +370,7 @@ export default function SignUpForm() {
        * and navigate to `/login` instead.
        */
       dispatch(loggedInUser(response.results));
-      navigate('/dashboard');
+      navigate("/dashboard");
     } catch (error) {
       const fieldErrors = getApiFieldErrors(error);
 
@@ -377,8 +383,8 @@ export default function SignUpForm() {
   };
 
   return (
-    <div className="flex flex-col flex-1 w-full overflow-y-auto no-scrollbar px-6 py-10 sm:px-10 lg:px-12">
-      <div className="w-full max-w-2xl mx-auto mb-4">
+    <div className="no-scrollbar flex w-full flex-1 flex-col overflow-y-auto px-6 py-10 sm:px-10 lg:px-12">
+      <div className="mx-auto mb-4 w-full max-w-2xl">
         <Link
           to="/"
           className="inline-flex items-center gap-1 text-sm text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
@@ -388,9 +394,9 @@ export default function SignUpForm() {
         </Link>
       </div>
 
-      <div className="flex flex-col justify-center flex-1 w-full max-w-2xl mx-auto pb-4">
+      <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center pb-4">
         <div className="mb-6 sm:mb-8">
-          <h1 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md">
+          <h1 className="text-title-sm sm:text-title-md mb-2 font-semibold text-gray-800 dark:text-white/90">
             {SIGNUP_COPY.title}
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -505,7 +511,7 @@ export default function SignUpForm() {
             <Form.Item
               label="Confirm Password"
               name="confirmPassword"
-              dependencies={['password']}
+              dependencies={["password"]}
               validateFirst
               rules={confirmPasswordRules}
               extra={
@@ -528,7 +534,7 @@ export default function SignUpForm() {
             </Form.Item>
           </div>
 
-          <Form.Item className="mb-0! mt-4!">
+          <Form.Item className="mt-4! mb-0!">
             <Button
               type="primary"
               htmlType="submit"
@@ -542,8 +548,8 @@ export default function SignUpForm() {
           </Form.Item>
         </Form>
 
-        <p className="mt-5 text-sm font-normal text-center text-gray-700 dark:text-gray-400 sm:text-start">
-          Already have an account?{' '}
+        <p className="mt-5 text-center text-sm font-normal text-gray-700 sm:text-start dark:text-gray-400">
+          Already have an account?{" "}
           <Link to="/login" className={authLinkClasses}>
             Sign In
           </Link>

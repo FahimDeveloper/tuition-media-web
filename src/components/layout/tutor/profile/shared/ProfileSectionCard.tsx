@@ -1,4 +1,4 @@
-import type {ReactNode} from 'react';
+import type { ReactNode } from "react";
 
 type ProfileSectionCardProps = {
   title: string;
@@ -12,10 +12,10 @@ export default function ProfileSectionCard({
   children,
 }: ProfileSectionCardProps) {
   return (
-    <div className="rounded-2xl border border-gray-200 p-5 dark:border-gray-800 lg:p-6">
+    <div className="rounded-2xl border border-gray-200 p-5 lg:p-6 dark:border-gray-800">
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
         <div className="min-w-0 flex-1">
-          <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-6">
+          <h4 className="text-lg font-semibold text-gray-800 lg:mb-6 dark:text-white/90">
             {title}
           </h4>
 
@@ -28,7 +28,7 @@ export default function ProfileSectionCard({
   );
 }
 
-export function ProfileInfoGrid({children}: {children: ReactNode}) {
+export function ProfileInfoGrid({ children }: { children: ReactNode }) {
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-7 2xl:gap-x-32">
       {children}

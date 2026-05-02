@@ -1,14 +1,14 @@
-import {useTheme} from '@/hooks/useTheme';
+import { useTheme } from "@/hooks/useTheme";
 
 export const ThemeToggleButton: React.FC = () => {
-  const {theme, toggleTheme} = useTheme();
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <button
       type="button"
       onClick={toggleTheme}
       aria-label={
-        theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
+        theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
       }
       className="tm-icon-button relative h-11 w-11"
     >

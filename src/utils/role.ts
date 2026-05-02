@@ -1,4 +1,4 @@
 export const userRole = {
-  TUTOR: 'tutor',
-  GUARDIAN: 'guardian',
+  TUTOR: "tutor",
+  GUARDIAN: "guardian",
 };

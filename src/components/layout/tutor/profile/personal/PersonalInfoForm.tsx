@@ -1,11 +1,22 @@
-import {useEffect, useState} from 'react';
-import {Button, Checkbox, DatePicker, Form, Input, Select, Upload} from 'antd';
-import type {UploadChangeParam} from 'antd/es/upload';
-import dayjs from 'dayjs';
-import {UploadOutlined} from '@ant-design/icons';
+import { useEffect, useState } from "react";
+import {
+  Button,
+  Checkbox,
+  DatePicker,
+  Form,
+  Input,
+  Select,
+  Upload,
+} from "antd";
+import type { UploadChangeParam } from "antd/es/upload";
+import dayjs from "dayjs";
+import { UploadOutlined } from "@ant-design/icons";
 
-import {ProfileFormGrid, ProfileFormSection} from '../shared/ProfileFormLayout';
-import {requiredRule} from '../profileUtils';
+import {
+  ProfileFormGrid,
+  ProfileFormSection,
+} from "../shared/ProfileFormLayout";
+import { requiredRule } from "../profileUtils";
 import {
   BLOOD_GROUP_OPTIONS,
   GENDER_OPTIONS,
@@ -17,19 +28,19 @@ import {
   optionalUrlRules,
   phoneRules,
   type PersonalInfoFormValues,
-} from './personalInfoTypes';
+} from "./personalInfoTypes";
 
 const getUploadFileList = (event: UploadChangeParam) => event.fileList;
 
 export default function PersonalInfoForm() {
   const form = Form.useFormInstance<PersonalInfoFormValues>();
   const [isPermanentAddressSame, setIsPermanentAddressSame] = useState(false);
-  const presentAddress = Form.useWatch('presentAddress', form);
+  const presentAddress = Form.useWatch("presentAddress", form);
 
   useEffect(() => {
     if (!isPermanentAddressSame) return;
 
-    form.setFieldValue('permanentAddress', presentAddress || '');
+    form.setFieldValue("permanentAddress", presentAddress || "");
   }, [form, isPermanentAddressSame, presentAddress]);
 
   const handlePermanentAddressSync = (checked: boolean) => {
@@ -37,8 +48,8 @@ export default function PersonalInfoForm() {
 
     if (checked) {
       form.setFieldValue(
-        'permanentAddress',
-        form.getFieldValue('presentAddress') || '',
+        "permanentAddress",
+        form.getFieldValue("presentAddress") || "",
       );
     }
   };
@@ -62,7 +73,7 @@ export default function PersonalInfoForm() {
             label="Gender"
             name="gender"
             className="col-span-2 lg:col-span-1"
-            rules={requiredRule('Please select your gender')}
+            rules={requiredRule("Please select your gender")}
           >
             <Select
               size="large"
@@ -89,7 +100,7 @@ export default function PersonalInfoForm() {
             name="nationality"
             className="col-span-2 lg:col-span-1"
             validateTrigger="onBlur"
-            rules={[{min: 3, message: 'Must be at least 3 characters'}]}
+            rules={[{ min: 3, message: "Must be at least 3 characters" }]}
           >
             <Input size="large" placeholder="Enter your nationality" />
           </Form.Item>
@@ -98,7 +109,7 @@ export default function PersonalInfoForm() {
             label="Date of Birth"
             name="dateOfBirth"
             className="col-span-2 lg:col-span-1"
-            rules={requiredRule('Please select your date of birth')}
+            rules={requiredRule("Please select your date of birth")}
           >
             <DatePicker
               size="large"
@@ -106,7 +117,7 @@ export default function PersonalInfoForm() {
               format="DD MMM YYYY"
               placeholder="Select date of birth"
               disabledDate={(current) =>
-                current && current > dayjs().endOf('day')
+                current && current > dayjs().endOf("day")
               }
             />
           </Form.Item>
@@ -115,7 +126,7 @@ export default function PersonalInfoForm() {
             label="Religion"
             name="religion"
             className="col-span-2 lg:col-span-1"
-            rules={requiredRule('Please select your religion')}
+            rules={requiredRule("Please select your religion")}
           >
             <Select
               size="large"
@@ -130,7 +141,7 @@ export default function PersonalInfoForm() {
                 <Form.Item
                   name="idType"
                   className="mb-0"
-                  rules={requiredRule('Select ID type')}
+                  rules={requiredRule("Select ID type")}
                 >
                   <Select
                     size="large"
@@ -142,7 +153,7 @@ export default function PersonalInfoForm() {
                 <Form.Item
                   name="idNumber"
                   className="mb-0"
-                  rules={[...idNumberRules, ...requiredRule('Enter ID number')]}
+                  rules={[...idNumberRules, ...requiredRule("Enter ID number")]}
                 >
                   <Input size="large" placeholder="Enter ID number" />
                 </Form.Item>
@@ -155,7 +166,7 @@ export default function PersonalInfoForm() {
             name="idImage"
             valuePropName="fileList"
             getValueFromEvent={getUploadFileList}
-            rules={[{required: true, message: 'Please upload ID document'}]}
+            rules={[{ required: true, message: "Please upload ID document" }]}
           >
             <Upload
               beforeUpload={() => false}
@@ -175,7 +186,7 @@ export default function PersonalInfoForm() {
             className="col-span-2 lg:col-span-1"
             validateTrigger="onBlur"
             rules={[
-              ...requiredRule('Please enter your phone number'),
+              ...requiredRule("Please enter your phone number"),
               ...phoneRules,
             ]}
           >
@@ -201,8 +212,8 @@ export default function PersonalInfoForm() {
             className="col-span-2 lg:col-span-1"
             validateTrigger="onBlur"
             rules={[
-              ...requiredRule('Please enter your present address'),
-              {min: 5, message: 'Address must be at least 5 characters'},
+              ...requiredRule("Please enter your present address"),
+              { min: 5, message: "Address must be at least 5 characters" },
             ]}
           >
             <Input size="large" placeholder="Enter your present address" />
@@ -214,8 +225,8 @@ export default function PersonalInfoForm() {
             className="col-span-2 lg:col-span-1"
             validateTrigger="onBlur"
             rules={[
-              ...requiredRule('Please enter your permanent address'),
-              {min: 5, message: 'Address must be at least 5 characters'},
+              ...requiredRule("Please enter your permanent address"),
+              { min: 5, message: "Address must be at least 5 characters" },
             ]}
           >
             <Input
@@ -240,7 +251,7 @@ export default function PersonalInfoForm() {
             label="Bio"
             name="bio"
             className="col-span-2"
-            rules={[{max: 300, message: 'Bio cannot exceed 300 characters'}]}
+            rules={[{ max: 300, message: "Bio cannot exceed 300 characters" }]}
           >
             <Input.TextArea
               rows={4}
@@ -253,7 +264,7 @@ export default function PersonalInfoForm() {
       <div className="mt-7">
         <ProfileFormSection title="Social Links">
           <ProfileFormGrid>
-            {SOCIAL_LINK_FIELDS.map(({key, label, placeholder}) => (
+            {SOCIAL_LINK_FIELDS.map(({ key, label, placeholder }) => (
               <Form.Item
                 key={key}
                 label={label}

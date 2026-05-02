@@ -1,4 +1,4 @@
-import {authApiSlice} from '@/redux/api/httpSlice';
+import { authApiSlice } from "@/redux/api/httpSlice";
 
 // /leads/create
 // name:
@@ -9,12 +9,12 @@ const leadApi = authApiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createLead: builder.mutation({
       query: (payload) => ({
-        url: '/leads/create',
-        method: 'POST',
+        url: "/leads/create",
+        method: "POST",
         body: payload,
       }),
     }),
   }),
 });
 
-export const {useCreateLeadMutation} = leadApi;
+export const { useCreateLeadMutation } = leadApi;

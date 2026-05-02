@@ -1,4 +1,4 @@
-import type {ReactNode} from 'react';
+import type { ReactNode } from "react";
 
 type ProfileFormSectionProps = {
   title?: string;
@@ -14,7 +14,7 @@ export function ProfileFormSection({
   return (
     <div>
       {title ? (
-        <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
+        <h5 className="mb-5 text-lg font-medium text-gray-800 lg:mb-6 dark:text-white/90">
           {title}
         </h5>
       ) : null}
@@ -32,7 +32,7 @@ export function ProfileFormSection({
 
 export function ProfileFormGrid({
   children,
-  className = '',
+  className = "",
 }: {
   children: ReactNode;
   className?: string;
@@ -46,7 +46,7 @@ export function ProfileFormGrid({
 
 export function ProfileFormScrollArea({
   children,
-  className = '',
+  className = "",
 }: {
   children: ReactNode;
   className?: string;

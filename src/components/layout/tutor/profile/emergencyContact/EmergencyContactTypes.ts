@@ -1,4 +1,4 @@
-import {getDisplayValue} from '../profileUtils';
+import { getDisplayValue } from "../profileUtils";
 
 export type EmergencyContactValues = {
   fatherName: string;
@@ -17,21 +17,21 @@ export type EmergencyContactFieldConfig<
 };
 
 export const INITIAL_EMERGENCY_CONTACT_VALUES: EmergencyContactValues = {
-  fatherName: '',
-  fatherPhoneNumber: '',
-  motherName: '',
-  motherPhoneNumber: '',
-  emergencyContactName: '',
-  emergencyContactNumber: '',
+  fatherName: "",
+  fatherPhoneNumber: "",
+  motherName: "",
+  motherPhoneNumber: "",
+  emergencyContactName: "",
+  emergencyContactNumber: "",
 };
 
 export const EMERGENCY_CONTACT_ITEMS: EmergencyContactFieldConfig[] = [
-  {key: 'fatherName', label: 'Father Name'},
-  {key: 'fatherPhoneNumber', label: 'Father Phone Number'},
-  {key: 'motherName', label: 'Mother Name'},
-  {key: 'motherPhoneNumber', label: 'Mother Phone Number'},
-  {key: 'emergencyContactName', label: 'Emergency Contact Name'},
-  {key: 'emergencyContactNumber', label: 'Emergency Contact Number'},
+  { key: "fatherName", label: "Father Name" },
+  { key: "fatherPhoneNumber", label: "Father Phone Number" },
+  { key: "motherName", label: "Mother Name" },
+  { key: "motherPhoneNumber", label: "Mother Phone Number" },
+  { key: "emergencyContactName", label: "Emergency Contact Name" },
+  { key: "emergencyContactNumber", label: "Emergency Contact Number" },
 ];
 
 export const formatEmergencyContactValue = (

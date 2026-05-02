@@ -1,13 +1,13 @@
-import {useState} from 'react';
+import { useState } from "react";
 
-import ProfileEditableSection from '../shared/ProfileEditableSection';
-import TuitionPreferenceForm from './TuitionPreferenceForm';
+import ProfileEditableSection from "../shared/ProfileEditableSection";
+import TuitionPreferenceForm from "./TuitionPreferenceForm";
 import {
   INITIAL_TUITION_PREFERENCE_VALUES,
   TUITION_PREFERENCE_ITEMS,
   formatTuitionPreferenceValue,
   type TuitionPreferenceValues,
-} from './tuitionPreferenceTypes';
+} from "./tuitionPreferenceTypes";
 
 export default function TuitionPreferenceSection() {
   const [tuitionPreferenceValues, setTuitionPreferenceValues] =

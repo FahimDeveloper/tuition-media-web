@@ -1,6 +1,6 @@
-import {useEffect, useMemo, useState} from 'react';
-import {Form} from 'antd';
-import {useModal} from '@/hooks/useModal';
+import { useEffect, useMemo, useState } from "react";
+import { Form } from "antd";
+import { useModal } from "@/hooks/useModal";
 
 export type ProfileSaveHandler<TValues> = (
   values: TValues,
@@ -28,7 +28,7 @@ export default function useEditableProfileForm<
   onClose,
   onAfterSave,
 }: UseEditableProfileFormOptions<TValues, TFormValues>) {
-  const {isOpen, openModal, closeModal} = useModal();
+  const { isOpen, openModal, closeModal } = useModal();
   const [form] = Form.useForm<TFormValues>();
   const [isSaving, setIsSaving] = useState(false);
   const formValues = useMemo(
@@ -65,7 +65,7 @@ export default function useEditableProfileForm<
       closeModal();
     } catch (error) {
       // RTK Query errors should keep the modal open so users do not lose edits.
-      console.error('Failed to save profile section', error);
+      console.error("Failed to save profile section", error);
     } finally {
       setIsSaving(false);
     }

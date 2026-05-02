@@ -1,5 +1,5 @@
-import ProfileInfoItem from './ProfileInfoItem';
-import {getDisplayValue} from '../profileUtils';
+import ProfileInfoItem from "./ProfileInfoItem";
+import { getDisplayValue } from "../profileUtils";
 
 export type ProfileInfoField<TValues> = {
   key: keyof TValues;
@@ -23,7 +23,7 @@ export default function ProfileInfoList<TValues extends object>({
 }: ProfileInfoListProps<TValues>) {
   return (
     <>
-      {items.map(({key, label}) => (
+      {items.map(({ key, label }) => (
         <ProfileInfoItem
           key={String(key)}
           label={label}

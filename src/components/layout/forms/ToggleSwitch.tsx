@@ -1,9 +1,9 @@
-import ComponentCard from '@/components/layout/shared/ComponentCard';
-import Switch from '@/components/layout/shared/forms/switch/Switch';
+import ComponentCard from "@/components/layout/shared/ComponentCard";
+import Switch from "@/components/layout/shared/forms/switch/Switch";
 
 export default function ToggleSwitch() {
   const handleSwitchChange = (checked: boolean) => {
-    console.log('Switch is now:', checked ? 'ON' : 'OFF');
+    console.log("Switch is now:", checked ? "ON" : "OFF");
   };
   return (
     <ComponentCard title="Toggle switch input">
@@ -19,7 +19,7 @@ export default function ToggleSwitch() {
           onChange={handleSwitchChange}
         />
         <Switch label="Disabled" disabled={true} />
-      </div>{' '}
+      </div>{" "}
       <div className="flex gap-4">
         <Switch
           label="Default"

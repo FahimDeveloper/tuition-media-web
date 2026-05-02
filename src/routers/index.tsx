@@ -1,40 +1,40 @@
-import {createBrowserRouter} from 'react-router-dom';
-import {tutorPath} from '@/routers/tutor.routes';
-import {routesGenerator} from '@/utils/routesGenerator';
-import {userRole} from '@/utils/role';
-import MainLayout from '@/components/layout/shell/MainLayout';
-import DashboardLayout from '@/components/layout/shell/DashboardLayout';
-import Login from '@/pages/auth/Login';
-import SignUp from '@/pages/auth/SignUp';
-import Home from '@/pages/Home';
-import NotFound from '@/pages/errors/NotFound';
-import Tuitions from '@/pages/tuitions/Tuitions';
-import PrivetRoute from '@/routers/PrivateRoute';
-import BookDemoClass from '@/pages/book-demo-class/BookDemoClass';
-import TuitionDetailsPage from '@/pages/tuitions/TuitionDetails';
+import { createBrowserRouter } from "react-router-dom";
+import { tutorPath } from "@/routers/tutor.routes";
+import { routesGenerator } from "@/utils/routesGenerator";
+import { userRole } from "@/utils/role";
+import MainLayout from "@/components/layout/shell/MainLayout";
+import DashboardLayout from "@/components/layout/shell/DashboardLayout";
+import Login from "@/pages/auth/Login";
+import SignUp from "@/pages/auth/SignUp";
+import Home from "@/pages/Home";
+import NotFound from "@/pages/errors/NotFound";
+import Tuitions from "@/pages/tuitions/Tuitions";
+import PrivetRoute from "@/routers/PrivateRoute";
+import BookDemoClass from "@/pages/book-demo-class/BookDemoClass";
+import TuitionDetailsPage from "@/pages/tuitions/TuitionDetails";
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <MainLayout />,
     children: [
-      {index: true, element: <Home />},
-      {path: 'demo-class', element: <BookDemoClass />},
-      {path: 'tuitions', element: <Tuitions />},
-      {path: 'tuitions/:id', element: <TuitionDetailsPage />},
+      { index: true, element: <Home /> },
+      { path: "demo-class", element: <BookDemoClass /> },
+      { path: "tuitions", element: <Tuitions /> },
+      { path: "tuitions/:id", element: <TuitionDetailsPage /> },
     ],
   },
   {
-    path: '/login',
+    path: "/login",
     element: <Login />,
   },
   {
-    path: '/signup',
+    path: "/signup",
     element: <SignUp />,
   },
   {
     // TODO: NEED TO GIVE A BETTER NAME OF THE ROUTE.
-    path: '/tutor',
+    path: "/tutor",
     element: (
       <PrivetRoute role={userRole.TUTOR}>
         <DashboardLayout />
@@ -43,7 +43,7 @@ const router = createBrowserRouter([
     children: routesGenerator(tutorPath),
   },
   {
-    path: '*',
+    path: "*",
     element: <NotFound />,
   },
 ]);

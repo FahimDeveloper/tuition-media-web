@@ -1,25 +1,25 @@
-import Input from 'antd/es/input/Input';
-import TuitionCard from './TuitionCard';
-import {Button} from 'antd';
-import {MdOutlineManageSearch} from 'react-icons/md';
-import type {TuitionData} from '@/mocks/tuition/tuitionListings';
+import Input from "antd/es/input/Input";
+import TuitionCard from "./TuitionCard";
+import { Button } from "antd";
+import { MdOutlineManageSearch } from "react-icons/md";
+import type { TuitionData } from "@/mocks/tuition/tuitionListings";
 
 type TuitionListingsSectionProps = {
   tuitions: TuitionData[];
 };
 
-const TuitionListingsSection = ({tuitions}: TuitionListingsSectionProps) => {
+const TuitionListingsSection = ({ tuitions }: TuitionListingsSectionProps) => {
   return (
-    <section className="relative overflow-hidden bg-linear-to-b from-brand-50 via-surface to-surface py-24 sm:py-28">
+    <section className="from-brand-50 via-surface to-surface relative overflow-hidden bg-linear-to-b py-24 sm:py-28">
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top_left,rgba(102,153,207,0.22),transparent_50%),radial-gradient(circle_at_top_right,rgba(63,114,175,0.16),transparent_45%)]"
         aria-hidden="true"
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-6 flex justify-between items-center">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-6 flex items-center justify-between">
           <p className="flex items-center gap-1">
-            <MdOutlineManageSearch className="text-2xl text-primary" />
+            <MdOutlineManageSearch className="text-primary text-2xl" />
             <span>100 results found</span>
           </p>
           <Button type="primary">Filter Button</Button>

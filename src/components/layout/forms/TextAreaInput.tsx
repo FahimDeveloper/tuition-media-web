@@ -1,11 +1,11 @@
-import {useState} from 'react';
-import ComponentCard from '@/components/layout/shared/ComponentCard';
-import TextArea from '@/components/layout/shared/forms/input/TextArea';
-import Label from '@/components/layout/shared/forms/Label';
+import { useState } from "react";
+import ComponentCard from "@/components/layout/shared/ComponentCard";
+import TextArea from "@/components/layout/shared/forms/input/TextArea";
+import Label from "@/components/layout/shared/forms/Label";
 
 export default function TextAreaInput() {
-  const [message, setMessage] = useState('');
-  const [messageTwo, setMessageTwo] = useState('');
+  const [message, setMessage] = useState("");
+  const [messageTwo, setMessageTwo] = useState("");
   return (
     <ComponentCard title="Textarea input field">
       <div className="space-y-6">

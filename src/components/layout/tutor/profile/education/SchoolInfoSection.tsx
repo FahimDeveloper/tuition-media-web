@@ -1,14 +1,14 @@
-import {useState} from 'react';
+import { useState } from "react";
 
-import ProfileEditableSection from '../shared/ProfileEditableSection';
-import {AcademicInstitutionFields} from './EducationFormFields';
+import ProfileEditableSection from "../shared/ProfileEditableSection";
+import { AcademicInstitutionFields } from "./EducationFormFields";
 import {
   INITIAL_SCHOOL_VALUES,
   SCHOOL_INFO_ITEMS,
   formatEducationValue,
   prepareEducationPayload,
   type SchoolValues,
-} from './educationTypes';
+} from "./educationTypes";
 
 type SchoolInfoSectionProps = {
   values?: SchoolValues;
@@ -37,7 +37,7 @@ export default function SchoolInfoSection({
       formatValue={formatEducationValue}
       onSave={onSave ?? setLocalValues}
       fromFormValues={(formValues) =>
-        prepareEducationPayload(formValues, 'gpa')
+        prepareEducationPayload(formValues, "gpa")
       }
     >
       <AcademicInstitutionFields

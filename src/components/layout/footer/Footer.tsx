@@ -1,13 +1,13 @@
-import type {ReactNode} from 'react';
+import type { ReactNode } from "react";
 import {
   FiFacebook,
   FiInstagram,
   FiMail,
   FiMapPin,
   FiPhone,
-} from 'react-icons/fi';
-import {Link, NavLink} from 'react-router-dom';
-import BrandLogo from '@/components/common/BrandLogo';
+} from "react-icons/fi";
+import { Link, NavLink } from "react-router-dom";
+import BrandLogo from "@/components/common/BrandLogo";
 
 type FooterLink = {
   label: string;
@@ -28,73 +28,73 @@ type SocialLink = {
 };
 
 const quickLinks: FooterLink[] = [
-  {label: 'Home', href: '/'},
-  {label: 'Find Tuition', href: '/tuition'},
-  {label: 'Login', href: '/login'},
-  {label: 'Create Account', href: '/signup'},
+  { label: "Home", href: "/" },
+  { label: "Find Tuition", href: "/tuition" },
+  { label: "Login", href: "/login" },
+  { label: "Create Account", href: "/signup" },
 ];
 
 const supportLinks: FooterLink[] = [
-  {label: 'Teacher Profile', href: '/dashboard/profile'},
-  {label: 'Dashboard', href: '/dashboard'},
-  {label: 'Privacy Policy', href: '/'},
-  {label: 'Terms & Conditions', href: '/'},
+  { label: "Teacher Profile", href: "/dashboard/profile" },
+  { label: "Dashboard", href: "/dashboard" },
+  { label: "Privacy Policy", href: "/" },
+  { label: "Terms & Conditions", href: "/" },
 ];
 
 const contactItems: FooterContact[] = [
   {
-    label: 'Phone',
-    value: '+880 1700-000000',
-    href: 'tel:+8801700000000',
+    label: "Phone",
+    value: "+880 1700-000000",
+    href: "tel:+8801700000000",
     icon: <FiPhone size={18} />,
   },
   {
-    label: 'Email',
-    value: 'support@tuitionmedia.com',
-    href: 'mailto:support@tuitionmedia.com',
+    label: "Email",
+    value: "support@tuitionmedia.com",
+    href: "mailto:support@tuitionmedia.com",
     icon: <FiMail size={18} />,
   },
   {
-    label: 'Address',
-    value: 'Dhaka, Bangladesh',
-    href: 'https://maps.google.com',
+    label: "Address",
+    value: "Dhaka, Bangladesh",
+    href: "https://maps.google.com",
     icon: <FiMapPin size={18} />,
   },
 ];
 
 const socialLinks: SocialLink[] = [
   {
-    label: 'Facebook',
-    href: 'https://facebook.com',
+    label: "Facebook",
+    href: "https://facebook.com",
     icon: <FiFacebook size={18} />,
   },
   {
-    label: 'Instagram',
-    href: 'https://instagram.com',
+    label: "Instagram",
+    href: "https://instagram.com",
     icon: <FiInstagram size={18} />,
   },
 ];
 
 const navLinkClassName =
-  'inline-flex min-h-11 items-center rounded-lg px-3 py-2 text-sm font-medium text-text-strong transition-colors duration-200 hover:bg-brand-50 hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 dark:hover:bg-brand-500/12 dark:hover:text-brand-200';
+  "inline-flex min-h-11 items-center rounded-lg px-3 py-2 text-sm font-medium text-text-strong transition-colors duration-200 hover:bg-brand-50 hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 dark:hover:bg-brand-500/12 dark:hover:text-brand-200";
 
 const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border bg-linear-to-b from-surface to-brand-50/70 transition-colors duration-300 dark:from-surface-strong dark:to-surface">
+    <footer className="border-border from-surface to-brand-50/70 dark:from-surface-strong dark:to-surface border-t bg-linear-to-b transition-colors duration-300">
       <div className="mx-auto max-w-7xl px-4 pt-16 pb-10 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           <section>
             <Link
               to="/"
               aria-label="TutoriumBD home"
-              className="inline-flex rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+              className="focus-visible:ring-brand-400 inline-flex rounded-lg focus-visible:ring-2 focus-visible:outline-none"
             >
               <BrandLogo imgClassName="h-10 w-auto" />
             </Link>
 
-             <p className="mt-3 max-w-xs text-sm leading-6 text-text-muted">
+            <p className="text-text-muted mt-3 max-w-xs text-sm leading-6">
               Connect students, guardians, and tutors in one trusted
               marketplace. Find the right match faster with a simple and guided
               flow.
@@ -107,7 +107,7 @@ const Footer = () => {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={link.label}
-                  className="tm-icon-button min-h-11 min-w-11 text-brand-700 dark:text-brand-300"
+                  className="tm-icon-button text-brand-700 dark:text-brand-300 min-h-11 min-w-11"
                 >
                   {link.icon}
                 </a>
@@ -116,7 +116,7 @@ const Footer = () => {
           </section>
 
           <section>
-            <h3 className="font-poppins text-lg font-semibold text-text-strong">
+            <h3 className="font-poppins text-text-strong text-lg font-semibold">
               Quick Links
             </h3>
             <nav
@@ -136,7 +136,7 @@ const Footer = () => {
           </section>
 
           <section>
-            <h3 className="font-poppins text-lg font-semibold text-text-strong">
+            <h3 className="font-poppins text-text-strong text-lg font-semibold">
               Support
             </h3>
             <nav
@@ -156,7 +156,7 @@ const Footer = () => {
           </section>
 
           <section>
-            <h3 className="font-poppins text-lg font-semibold text-text-strong">
+            <h3 className="font-poppins text-text-strong text-lg font-semibold">
               Contact
             </h3>
             <ul className="mt-3 space-y-2">
@@ -164,9 +164,9 @@ const Footer = () => {
                 <li key={item.label}>
                   <a
                     href={item.href}
-                    target={item.label === 'Address' ? '_blank' : undefined}
-                    rel={item.label === 'Address' ? 'noreferrer' : undefined}
-                    className="flex min-h-11 items-center gap-3 rounded-lg px-3 py-2 text-sm text-text-strong transition-colors duration-200 hover:bg-brand-50 hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 dark:hover:bg-brand-500/12 dark:hover:text-brand-200"
+                    target={item.label === "Address" ? "_blank" : undefined}
+                    rel={item.label === "Address" ? "noreferrer" : undefined}
+                    className="text-text-strong hover:bg-brand-50 hover:text-brand-700 focus-visible:ring-brand-400 dark:hover:bg-brand-500/12 dark:hover:text-brand-200 flex min-h-11 items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors duration-200 focus-visible:ring-2 focus-visible:outline-none"
                   >
                     <span className="text-brand-600 dark:text-brand-300">
                       {item.icon}
@@ -179,7 +179,7 @@ const Footer = () => {
           </section>
         </div>
 
-        <div className="mt-8 flex flex-col items-start justify-between gap-3 border-t border-border pt-5 text-sm text-text-muted sm:flex-row sm:items-center">
+        <div className="border-border text-text-muted mt-8 flex flex-col items-start justify-between gap-3 border-t pt-5 text-sm sm:flex-row sm:items-center">
           <p>&copy; {year} TutoriumBD. All rights reserved.</p>
           <div className="flex flex-wrap items-center gap-3">
             <NavLink to="/" className={navLinkClassName}>

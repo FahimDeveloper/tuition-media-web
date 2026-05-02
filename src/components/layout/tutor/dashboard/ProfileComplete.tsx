@@ -1,8 +1,8 @@
-import {Card, Typography, Progress, Button} from 'antd';
-import {ArrowRightOutlined} from '@ant-design/icons';
-import {Link} from 'react-router-dom';
+import { Card, Typography, Progress, Button } from "antd";
+import { ArrowRightOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
-const {Title, Paragraph, Text} = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 type ProfileCompleteProps = {
   progress?: number;
@@ -12,21 +12,21 @@ type ProfileCompleteProps = {
 
 export default function ProfileComplete({
   progress = 100,
-  name = 'your',
+  name = "your",
   loading = false,
 }: ProfileCompleteProps) {
   const safeProgress = Math.min(Math.max(progress, 0), 100);
   const isComplete = safeProgress === 100;
 
   const description =
-    name === 'your'
-      ? 'Complete your profile to unlock a more personalized experience.'
+    name === "your"
+      ? "Complete your profile to unlock a more personalized experience."
       : `${name}, complete your profile to unlock a more personalized experience.`;
 
   return (
     <Card
       variant="outlined"
-      className="rounded-3xl border border-slate-200 shadow-sm  dark:border-slate-800 dark:bg-slate-900"
+      className="rounded-3xl border border-slate-200 shadow-sm dark:border-slate-800 dark:bg-slate-900"
       loading={loading}
     >
       <div className="flex flex-col gap-6">
@@ -58,7 +58,7 @@ export default function ProfileComplete({
                   {percent}%
                 </Text>
                 <Text className="text-xs! text-slate-400!">
-                  {isComplete ? 'Completed' : 'Completed so far'}
+                  {isComplete ? "Completed" : "Completed so far"}
                 </Text>
               </div>
             )}
@@ -66,7 +66,7 @@ export default function ProfileComplete({
 
           <Text className="mt-3 text-sm! text-slate-500! dark:text-slate-400!">
             {isComplete
-              ? 'Your profile is complete.'
+              ? "Your profile is complete."
               : `${100 - safeProgress}% left to complete your profile.`}
           </Text>
         </div>
@@ -80,7 +80,7 @@ export default function ProfileComplete({
             iconPlacement="end"
             className="h-11! w-full rounded-2xl! px-5! font-semibold!"
           >
-            {isComplete ? 'View Profile' : 'Complete Profile'}
+            {isComplete ? "View Profile" : "Complete Profile"}
           </Button>
         </Link>
       </div>

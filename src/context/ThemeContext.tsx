@@ -1,8 +1,8 @@
 "use client";
 
 import type React from "react";
-import {useState, useEffect} from "react";
-import {ThemeContext, type Theme} from "@/context/theme-store";
+import { useState, useEffect } from "react";
+import { ThemeContext, type Theme } from "@/context/theme-store";
 const THEME_STORAGE_KEY = "theme";
 const THEME_MEDIA_QUERY = "(prefers-color-scheme: dark)";
 

@@ -1,13 +1,13 @@
-import {useState} from 'react';
+import { useState } from "react";
 
-import ProfileEditableSection from '../shared/ProfileEditableSection';
-import EmergencyContactForm from './EmergencyContactForm';
+import ProfileEditableSection from "../shared/ProfileEditableSection";
+import EmergencyContactForm from "./EmergencyContactForm";
 import {
   EMERGENCY_CONTACT_ITEMS,
   INITIAL_EMERGENCY_CONTACT_VALUES,
   formatEmergencyContactValue,
   type EmergencyContactValues,
-} from './EmergencyContactTypes';
+} from "./EmergencyContactTypes";
 
 export default function EmergencyContactSection() {
   const [emergencyContactValues, setEmergencyContactValues] =

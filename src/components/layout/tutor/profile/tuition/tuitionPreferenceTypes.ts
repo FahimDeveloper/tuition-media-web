@@ -2,9 +2,12 @@ import {
   getArrayDisplayValue,
   getDisplayValue,
   getSalaryDisplayValue,
-} from '../profileUtils';
+} from "../profileUtils";
 
-export type TeachingMethod = 'Home Tuition' | 'Online Tuition' | 'Group Tuition';
+export type TeachingMethod =
+  | "Home Tuition"
+  | "Online Tuition"
+  | "Group Tuition";
 
 export type SalaryRange = {
   min?: number;
@@ -35,29 +38,29 @@ export const TEACHING_METHOD_OPTIONS: {
   label: TeachingMethod;
   value: TeachingMethod;
 }[] = [
-  {label: 'Home Tuition', value: 'Home Tuition'},
-  {label: 'Online Tuition', value: 'Online Tuition'},
-  {label: 'Group Tuition', value: 'Group Tuition'},
+  { label: "Home Tuition", value: "Home Tuition" },
+  { label: "Online Tuition", value: "Online Tuition" },
+  { label: "Group Tuition", value: "Group Tuition" },
 ];
 
 export const AVAILABLE_DAY_OPTIONS = [
-  {label: 'Saturday', value: 'Saturday'},
-  {label: 'Sunday', value: 'Sunday'},
-  {label: 'Monday', value: 'Monday'},
-  {label: 'Tuesday', value: 'Tuesday'},
-  {label: 'Wednesday', value: 'Wednesday'},
-  {label: 'Thursday', value: 'Thursday'},
-  {label: 'Friday', value: 'Friday'},
+  { label: "Saturday", value: "Saturday" },
+  { label: "Sunday", value: "Sunday" },
+  { label: "Monday", value: "Monday" },
+  { label: "Tuesday", value: "Tuesday" },
+  { label: "Wednesday", value: "Wednesday" },
+  { label: "Thursday", value: "Thursday" },
+  { label: "Friday", value: "Friday" },
 ];
 
 export const INITIAL_TUITION_PREFERENCE_VALUES: TuitionPreferenceValues = {
-  tuitionCountry: 'Bangladesh',
-  tuitionCity: '',
+  tuitionCountry: "Bangladesh",
+  tuitionCity: "",
   preferredTuitionLocations: [],
   preferredTutoringCategories: [],
   favoriteSubjects: [],
   preferredCoursesOrClasses: [],
-  tutoringExperience: '',
+  tutoringExperience: "",
   availableDays: [],
   preferredTeachingMethods: [],
   expectedSalaryRange: {
@@ -67,16 +70,19 @@ export const INITIAL_TUITION_PREFERENCE_VALUES: TuitionPreferenceValues = {
 };
 
 export const TUITION_PREFERENCE_ITEMS: TuitionPreferenceFieldConfig[] = [
-  {key: 'tuitionCountry', label: 'Tuition Country'},
-  {key: 'tuitionCity', label: 'Tuition City'},
-  {key: 'preferredTuitionLocations', label: 'Preferred Tuition Locations'},
-  {key: 'preferredTutoringCategories', label: 'Preferred Tutoring Categories'},
-  {key: 'favoriteSubjects', label: 'Favorite Subjects for Tutoring'},
-  {key: 'preferredCoursesOrClasses', label: 'Preferred Courses / Classes'},
-  {key: 'tutoringExperience', label: 'Tutoring Experience'},
-  {key: 'availableDays', label: 'Available Days'},
-  {key: 'preferredTeachingMethods', label: 'Preferred Teaching Methods'},
-  {key: 'expectedSalaryRange', label: 'Expected Salary Range'},
+  { key: "tuitionCountry", label: "Tuition Country" },
+  { key: "tuitionCity", label: "Tuition City" },
+  { key: "preferredTuitionLocations", label: "Preferred Tuition Locations" },
+  {
+    key: "preferredTutoringCategories",
+    label: "Preferred Tutoring Categories",
+  },
+  { key: "favoriteSubjects", label: "Favorite Subjects for Tutoring" },
+  { key: "preferredCoursesOrClasses", label: "Preferred Courses / Classes" },
+  { key: "tutoringExperience", label: "Tutoring Experience" },
+  { key: "availableDays", label: "Available Days" },
+  { key: "preferredTeachingMethods", label: "Preferred Teaching Methods" },
+  { key: "expectedSalaryRange", label: "Expected Salary Range" },
 ];
 
 export const formatTuitionPreferenceValue = (
@@ -88,7 +94,7 @@ export const formatTuitionPreferenceValue = (
     return getArrayDisplayValue(value);
   }
 
-  if (key === 'expectedSalaryRange') {
+  if (key === "expectedSalaryRange") {
     return getSalaryDisplayValue(values.expectedSalaryRange);
   }
 

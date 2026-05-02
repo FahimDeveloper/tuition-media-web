@@ -1,8 +1,10 @@
-import {createElement} from 'react';
-import {Navigate, type RouteObject} from 'react-router-dom';
-import type {TPath} from '../types/path';
+import { createElement } from "react";
+import { Navigate, type RouteObject } from "react-router-dom";
+import type { TPath } from "../types/path";
 
-const getDefaultChildTarget = (routes: TPath[] | undefined): string | undefined => {
+const getDefaultChildTarget = (
+  routes: TPath[] | undefined,
+): string | undefined => {
   if (!routes?.length) {
     return undefined;
   }
@@ -23,7 +25,9 @@ const getDefaultChildTarget = (routes: TPath[] | undefined): string | undefined 
 };
 
 const mapRoute = (route: TPath): RouteObject => {
-  const mappedChildren = route.children?.length ? route.children.map(mapRoute) : undefined;
+  const mappedChildren = route.children?.length
+    ? route.children.map(mapRoute)
+    : undefined;
   const defaultChildTarget = getDefaultChildTarget(route.children);
   const hasExplicitIndexChild = route.children?.some((child) => child.index);
   const children =

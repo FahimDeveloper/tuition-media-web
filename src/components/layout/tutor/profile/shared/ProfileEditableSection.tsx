@@ -1,12 +1,12 @@
-import type {ReactNode} from 'react';
+import type { ReactNode } from "react";
 
-import ProfileEditButton from './ProfileEditButton';
-import ProfileEditableFormModal from './ProfileEditableFormModal';
-import ProfileInfoList, {type ProfileInfoField} from './ProfileInfoList';
-import ProfileSectionCard, {ProfileInfoGrid} from './ProfileSectionCard';
+import ProfileEditButton from "./ProfileEditButton";
+import ProfileEditableFormModal from "./ProfileEditableFormModal";
+import ProfileInfoList, { type ProfileInfoField } from "./ProfileInfoList";
+import ProfileSectionCard, { ProfileInfoGrid } from "./ProfileSectionCard";
 import useEditableProfileForm, {
   type ProfileSaveHandler,
-} from './useEditableProfileForm';
+} from "./useEditableProfileForm";
 
 type RenderActionOptions = {
   defaultAction: ReactNode;
@@ -63,9 +63,7 @@ export default function ProfileEditableSection<
     toFormValues,
     fromFormValues,
   });
-  const defaultAction = (
-    <ProfileEditButton onClick={editableForm.openModal} />
-  );
+  const defaultAction = <ProfileEditButton onClick={editableForm.openModal} />;
 
   return (
     <>
