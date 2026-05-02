@@ -9,14 +9,14 @@ const profileApi = authApiSlice.injectEndpoints({
       }),
     }),
     singleTeacher: builder.query({
-      query: (id) => ({
-        url: `/teachers/${id}`,
+      query: () => ({
+        url: `/teachers/profile`,
         method: "GET",
       }),
     }),
     updateTeacher: builder.mutation({
       query: (payload) => ({
-        url: `/teachers/${payload.id}`,
+        url: `/teachers/profile`,
         method: "PATCH",
         body: payload,
       }),
