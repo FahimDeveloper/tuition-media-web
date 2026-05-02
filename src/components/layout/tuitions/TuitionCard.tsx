@@ -1,6 +1,5 @@
 import {
   FiBookOpen,
-  FiCalendar,
   FiClock,
   FiDollarSign,
   FiHash,
@@ -10,11 +9,11 @@ import {
 } from "react-icons/fi";
 
 import type { IconType } from "react-icons";
-import type { TuitionData } from "@/mocks/tuition/tuitionListings";
+import type { TuitionJobView } from "@/types/tuitionJob";
 import { Link } from "react-router-dom";
 
 type TuitionCardProps = {
-  tuition: TuitionData;
+  tuition: TuitionJobView;
 };
 
 type MetaItem = {
@@ -23,42 +22,14 @@ type MetaItem = {
   icon: IconType;
 };
 
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  month: "short",
-  day: "numeric",
-  year: "numeric",
-});
-
-const formatPostedDate = (postedDate: string) => {
-  const parsedDate = new Date(postedDate);
-
-  if (Number.isNaN(parsedDate.getTime())) {
-    return postedDate;
-  }
-
-  return dateFormatter.format(parsedDate);
-};
-
-const getSubjectList = (subjects: TuitionData["subjects"]) => {
-  if (Array.isArray(subjects)) {
-    return subjects.filter(Boolean);
-  }
-
-  return subjects
-    .split(",")
-    .map((subject) => subject.trim())
-    .filter(Boolean);
-};
-
 const TuitionCard = ({ tuition }: TuitionCardProps) => {
+  // Keep this component display-only so RTK Query can later feed it mapped data.
   const metaItems: MetaItem[] = [
     { label: "subjects", value: tuition.category, icon: FiTag },
-    { label: "Class", value: tuition.course, icon: FiBookOpen },
+    { label: "Class", value: tuition.courseLevel, icon: FiBookOpen },
     { label: "Salary", value: tuition.salary, icon: FiDollarSign },
     { label: "Tutor Gender", value: tuition.tutorGender, icon: FiUserCheck },
   ];
-
-  const subjects = getSubjectList(tuition.subjects);
 
   return (
     <article className="group border-brand-200/70 bg-surface-elevated shadow-theme-sm hover:border-brand-400/70 hover:shadow-theme-md dark:border-border flex h-full flex-col rounded-2xl border p-4 transition-all duration-200 hover:-translate-y-0.5 sm:p-5">
@@ -71,8 +42,8 @@ const TuitionCard = ({ tuition }: TuitionCardProps) => {
 
             <div className="mt-3 flex flex-wrap items-center gap-2">
               <span className="bg-brand-50 text-brand-700 dark:bg-brand-500/10 dark:text-brand-300 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium sm:text-sm">
-                <FiCalendar aria-hidden="true" size={14} />
-                Posted {formatPostedDate(tuition.postedDate)}
+                <FiClock aria-hidden="true" size={14} />
+                {tuition.status}
               </span>
 
               <span className="bg-brand-50 text-brand-700 dark:bg-brand-500/10 dark:text-brand-300 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium sm:text-sm">
@@ -124,7 +95,7 @@ const TuitionCard = ({ tuition }: TuitionCardProps) => {
         </div>
 
         <div className="flex flex-wrap gap-2">
-          {subjects.map((subject) => (
+          {tuition.subjects.map((subject) => (
             <span
               key={`${tuition.id}-${subject}`}
               className="bg-brand-50 text-brand-700 dark:bg-brand-500/10 dark:text-brand-300 inline-flex items-center rounded-md px-2.5 py-1.5 text-xs font-medium"
@@ -138,7 +109,7 @@ const TuitionCard = ({ tuition }: TuitionCardProps) => {
       <div className="border-brand-100/70 dark:border-border mt-6 flex items-center justify-between gap-3 border-t pt-4">
         <div className="text-text-muted inline-flex items-center gap-1.5 text-xs sm:text-sm">
           <FiClock size={14} aria-hidden="true" />
-          <span>Updated recently</span>
+          <span>{tuition.preferredTime}</span>
         </div>
 
         <Link to={`/tuitions/${tuition.id}`}>

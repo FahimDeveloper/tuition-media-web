@@ -1,12 +1,38 @@
 import TuitionCard from "@/components/layout/tuitions/TuitionCard";
 import TuitionSearchBar from "@/components/layout/tuitions/TuitionSearchBar";
-import { tuitionMockListings } from "@/mocks/tuition/tuitionListings";
+import { mockTuitionJobs } from "@/mocks/tuition/tuitionJobs";
+import { toTuitionJobView } from "@/types/tuitionJob";
 import { MdOutlineManageSearch } from "react-icons/md";
 
-const tuitions = tuitionMockListings;
-
 const Tuition = () => {
+  /*
+   * RTK Query handoff point:
+   * Replace these mock assignments with useAllTuitionJobsQuery() later.
+   * Keep the render states below so loading/error handling stays consistent.
+   */
+  const isLoading = false;
+  const isError = false;
+  const errorMessage = "";
+  const tuitions = mockTuitionJobs.map(toTuitionJobView);
+
   const totalResults = tuitions.length;
+
+  if (isLoading) {
+    return <TuitionListState title="Loading tuitions..." />;
+  }
+
+  if (isError) {
+    return (
+      <TuitionListState
+        title="Unable to load tuitions"
+        description={
+          errorMessage ||
+          "Please try again later. The tuition listings could not be loaded."
+        }
+      />
+    );
+  }
+
   return (
     <section className="from-brand-50 via-page to-page dark:from-surface-strong dark:via-page dark:to-page relative overflow-hidden bg-linear-to-b py-20 transition-colors duration-300 sm:py-24">
       <div
@@ -31,15 +57,41 @@ const Tuition = () => {
 
         {/* Listings */}
         <div className="mt-12">
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {tuitions.map((tuition) => (
-              <TuitionCard key={tuition.id} tuition={tuition} />
-            ))}
-          </div>
+          {tuitions.length > 0 ? (
+            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+              {tuitions.map((tuition) => (
+                <TuitionCard key={tuition.id} tuition={tuition} />
+              ))}
+            </div>
+          ) : (
+            <TuitionListState
+              title="No tuition found"
+              description="There are no open tuition listings available right now."
+            />
+          )}
         </div>
       </div>
     </section>
   );
 };
+
+const TuitionListState = ({
+  title,
+  description,
+}: {
+  title: string;
+  description?: string;
+}) => (
+  <section className="bg-page px-4 py-20 sm:px-6 lg:px-8">
+    <div className="border-brand-200/70 bg-surface-elevated shadow-theme-md dark:border-border mx-auto max-w-3xl rounded-3xl border p-8 text-center">
+      <h2 className="text-text-strong text-2xl font-bold">{title}</h2>
+      {description ? (
+        <p className="text-text-muted mx-auto mt-3 max-w-md text-sm leading-6">
+          {description}
+        </p>
+      ) : null}
+    </div>
+  </section>
+);
 
 export default Tuition;

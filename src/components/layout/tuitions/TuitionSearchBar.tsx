@@ -1,6 +1,5 @@
 import { Button, Input } from "antd";
 import { MdOutlineManageSearch } from "react-icons/md";
-import FilterDrawer from "./FilterDrawer";
 import JobBoardFilterDrawer from "../shared/JobBoardFilterDrawer";
 
 const TuitionSearchBar = () => {

@@ -7,7 +7,6 @@ import {
   FiCheckCircle,
   FiClock,
   FiDollarSign,
-  FiEye,
   FiHash,
   FiMapPin,
   FiMessageSquare,
@@ -17,28 +16,8 @@ import {
 } from "react-icons/fi";
 
 import type { IconType } from "react-icons";
-
-type TuitionData = {
-  id: string;
-  title: string;
-  postedDate: string;
-  address: string;
-  salary: string;
-  daysPerWeek: number;
-  category: string;
-  course: string;
-  subjects: string[] | string;
-  tutoringTime: string;
-  studentGender: string;
-  duration: string;
-  numOfStudents: number;
-  tuitionType: string;
-  tutorGender: string;
-  tutorSubjectGroup: string;
-  additionalNotes: string;
-  totalViews: number;
-  totalApplied: number;
-};
+import { mockTuitionJobs } from "@/mocks/tuition/tuitionJobs";
+import { toTuitionJobView } from "@/types/tuitionJob";
 
 type DetailItem = {
   label: string;
@@ -46,163 +25,80 @@ type DetailItem = {
   icon: IconType;
 };
 
-const demoTuitions: TuitionData[] = [
-  {
-    id: "1",
-    title: "Need an experienced Math tutor for Class 9 student",
-    postedDate: "2026-04-20",
-    address: "Mirpur DOHS, Dhaka",
-    salary: "৳8,000/month",
-    daysPerWeek: 4,
-    category: "Science",
-    course: "Class 9",
-    subjects: ["Mathematics", "Physics", "Chemistry"],
-    tutoringTime: "6:00 PM - 8:00 PM",
-    studentGender: "Male",
-    duration: "2 hours",
-    numOfStudents: 1,
-    tuitionType: "Home Tutoring",
-    tutorGender: "Any",
-    tutorSubjectGroup: "Science",
-    additionalNotes:
-      "Student needs a patient tutor who can explain math fundamentals clearly and help with weekly exam preparation.",
-    totalViews: 128,
-    totalApplied: 18,
-  },
-  {
-    id: "2",
-    title: "English medium student needs Bangla and English tutor",
-    postedDate: "2026-04-22",
-    address: "Dhanmondi 27, Dhaka",
-    salary: "৳10,000/month",
-    daysPerWeek: 3,
-    category: "English Medium",
-    course: "Grade 6",
-    subjects: ["Bangla", "English"],
-    tutoringTime: "5:00 PM - 6:30 PM",
-    studentGender: "Female",
-    duration: "1.5 hours",
-    numOfStudents: 1,
-    tuitionType: "Home Tutoring",
-    tutorGender: "Female",
-    tutorSubjectGroup: "Arts",
-    additionalNotes:
-      "Guardian prefers a tutor with English medium background and strong communication skills.",
-    totalViews: 96,
-    totalApplied: 11,
-  },
-  {
-    id: "3",
-    title: "Online ICT tutor required for HSC first year student",
-    postedDate: "2026-04-25",
-    address: "Online",
-    salary: "৳6,000/month",
-    daysPerWeek: 2,
-    category: "College",
-    course: "HSC 1st Year",
-    subjects: ["ICT"],
-    tutoringTime: "8:00 PM - 9:30 PM",
-    studentGender: "Male",
-    duration: "1.5 hours",
-    numOfStudents: 1,
-    tuitionType: "Online Tutoring",
-    tutorGender: "Any",
-    tutorSubjectGroup: "Science",
-    additionalNotes:
-      "Tutor should focus on practical ICT topics, board question patterns, and regular problem solving.",
-    totalViews: 74,
-    totalApplied: 9,
-  },
-];
-
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  month: "short",
-  day: "numeric",
-  year: "numeric",
-});
-
-const formatPostedDate = (postedDate: string) => {
-  const parsedDate = new Date(postedDate);
-
-  if (Number.isNaN(parsedDate.getTime())) {
-    return postedDate;
-  }
-
-  return dateFormatter.format(parsedDate);
-};
-
-const getSubjectList = (subjects: TuitionData["subjects"]) => {
-  if (Array.isArray(subjects)) {
-    return subjects.filter(Boolean);
-  }
-
-  return subjects
-    .split(",")
-    .map((subject) => subject.trim())
-    .filter(Boolean);
-};
-
 const TuitionDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
 
+  /*
+   * RTK Query handoff point:
+   * Replace the mock lookup with useSingleTuitionJobQuery(id) later.
+   * The loading/error/not-found branches below are already ready for that hook.
+   */
+  const isLoading = false;
+  const isError = false;
+  const errorMessage = "";
+
   const tuition = useMemo(
-    () => demoTuitions.find((item) => item.id === id),
+    () =>
+      mockTuitionJobs
+        .map(toTuitionJobView)
+        .find((tuitionJob) => tuitionJob.id === id),
     [id],
   );
 
-  if (!tuition) {
-    return (
-      <section className="bg-page px-4 py-20 sm:px-6 lg:px-8">
-        <div className="border-brand-200/70 bg-surface-elevated shadow-theme-md dark:border-border mx-auto max-w-3xl rounded-3xl border p-8 text-center">
-          <h2 className="text-text-strong text-2xl font-bold">
-            Tuition not found
-          </h2>
-          <p className="text-text-muted mx-auto mt-3 max-w-md text-sm leading-6">
-            The tuition you are looking for does not exist or may have been
-            removed.
-          </p>
+  if (isLoading) {
+    return <TuitionDetailsState title="Loading tuition details..." />;
+  }
 
-          <button
-            type="button"
-            onClick={() => navigate(-1)}
-            className="bg-brand-600 text-text-on-brand hover:bg-brand-700 focus:ring-brand-400 focus:ring-offset-page mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-bold transition focus:ring-2 focus:ring-offset-2 focus:outline-none"
-          >
-            <FiArrowLeft size={16} aria-hidden="true" />
-            Go back
-          </button>
-        </div>
-      </section>
+  if (isError) {
+    return (
+      <TuitionDetailsState
+        title="Unable to load tuition"
+        description={
+          errorMessage ||
+          "Please try again later. This tuition could not be loaded."
+        }
+        onBack={() => navigate(-1)}
+      />
     );
   }
 
-  const subjects = getSubjectList(tuition.subjects);
+  if (!tuition) {
+    return (
+      <TuitionDetailsState
+        title="Tuition not found"
+        description="The tuition you are looking for does not exist or may have been removed."
+        onBack={() => navigate(-1)}
+      />
+    );
+  }
 
   const primaryDetails: DetailItem[] = [
     { label: "Category", value: tuition.category, icon: FiTag },
-    { label: "Course", value: tuition.course, icon: FiBookOpen },
+    { label: "Course", value: tuition.courseLevel, icon: FiBookOpen },
     { label: "Salary", value: tuition.salary, icon: FiDollarSign },
-    { label: "Tuition Type", value: tuition.tuitionType, icon: FiMapPin },
+    { label: "Tuition Type", value: tuition.tutoringType, icon: FiMapPin },
   ];
 
   const scheduleDetails: DetailItem[] = [
-    {
-      label: "Days per week",
-      value: `${tuition.daysPerWeek} days`,
-      icon: FiCalendar,
-    },
-    { label: "Tutoring time", value: tuition.tutoringTime, icon: FiClock },
-    { label: "Duration", value: tuition.duration, icon: FiClock },
-    { label: "Students", value: `${tuition.numOfStudents}`, icon: FiUsers },
+    { label: "Days per week", value: tuition.daysPerWeek, icon: FiCalendar },
+    { label: "Preferred days", value: tuition.preferredDays, icon: FiCalendar },
+    { label: "Preferred time", value: tuition.preferredTime, icon: FiClock },
+    { label: "Students", value: tuition.numberOfStudents, icon: FiUsers },
   ];
 
   const preferenceDetails: DetailItem[] = [
     { label: "Student Gender", value: tuition.studentGender, icon: FiUsers },
     { label: "Tutor Gender", value: tuition.tutorGender, icon: FiUserCheck },
     {
-      label: "Tutor Group",
-      value: tuition.tutorSubjectGroup,
+      label: "Qualification",
+      value: tuition.tutorQualification,
       icon: FiBookOpen,
+    },
+    {
+      label: "Experience",
+      value: tuition.tutorExperience,
+      icon: FiUserCheck,
     },
   ];
 
@@ -221,39 +117,21 @@ const TuitionDetails = () => {
         <article className="border-brand-200/70 bg-surface-elevated shadow-theme-md dark:border-border overflow-hidden rounded-3xl border">
           <header className="bg-brand-50/70 dark:bg-brand-500/6 relative overflow-hidden px-5 py-8 sm:px-8 lg:px-10">
             <div className="relative z-10">
-              <div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="bg-surface-elevated text-brand-700 shadow-theme-sm dark:bg-brand-500/10 dark:text-brand-300 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold">
-                    <FiCalendar size={14} aria-hidden="true" />
-                    Posted {formatPostedDate(tuition.postedDate)}
-                  </span>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="bg-surface-elevated text-brand-700 shadow-theme-sm dark:bg-brand-500/10 dark:text-brand-300 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold">
+                  <FiClock size={14} aria-hidden="true" />
+                  {tuition.status}
+                </span>
 
-                  <span className="bg-surface-elevated text-brand-700 shadow-theme-sm dark:bg-brand-500/10 dark:text-brand-300 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold">
-                    <FiHash size={14} aria-hidden="true" />
-                    ID {tuition.id}
-                  </span>
-                </div>
-
-                <h1 className="text-text-strong mt-5 max-w-4xl text-2xl leading-tight font-bold sm:text-3xl lg:text-4xl">
-                  {tuition.title}
-                </h1>
-
-                {/* <div className="mt-6 inline-flex items-center gap-3 rounded-2xl border border-brand-100/70 bg-surface-elevated/85 p-4 dark:border-border dark:bg-brand-500/6">
-                  <FiMapPin
-                    className="mt-1 shrink-0 text-brand-600 dark:text-brand-300"
-                    size={18}
-                    aria-hidden="true"
-                  />
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-700 dark:text-brand-300">
-                      Location
-                    </p>
-                    <p className="mt-1 text-sm leading-6 text-text-strong sm:text-base">
-                      {tuition.address}
-                    </p>
-                  </div>
-                </div> */}
+                <span className="bg-surface-elevated text-brand-700 shadow-theme-sm dark:bg-brand-500/10 dark:text-brand-300 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold">
+                  <FiHash size={14} aria-hidden="true" />
+                  ID {tuition.id}
+                </span>
               </div>
+
+              <h1 className="text-text-strong mt-5 max-w-4xl text-2xl leading-tight font-bold sm:text-3xl lg:text-4xl">
+                {tuition.title}
+              </h1>
             </div>
           </header>
 
@@ -277,9 +155,9 @@ const TuitionDetails = () => {
               <section className="border-brand-100/70 bg-surface-subtle/60 dark:border-border dark:bg-brand-500/[0.04] rounded-3xl border p-5">
                 <SectionTitle icon={FiBookOpen} title="Subjects" />
 
-                {subjects.length > 0 ? (
+                {tuition.subjects.length > 0 ? (
                   <div className="mt-4 flex flex-wrap gap-2">
-                    {subjects.map((subject) => (
+                    {tuition.subjects.map((subject) => (
                       <span
                         key={`${tuition.id}-${subject}`}
                         className="bg-brand-50 text-brand-700 dark:bg-brand-500/10 dark:text-brand-300 inline-flex items-center rounded-xl px-3 py-2 text-sm font-semibold"
@@ -296,38 +174,33 @@ const TuitionDetails = () => {
               </section>
 
               <section className="border-brand-100/70 bg-surface-elevated dark:border-border rounded-3xl border p-5">
-                <SectionTitle icon={FiMessageSquare} title="Additional notes" />
+                <SectionTitle
+                  icon={FiMessageSquare}
+                  title="Special requirements"
+                />
                 <p className="text-text-muted mt-4 text-sm leading-7 sm:text-base">
-                  {tuition.additionalNotes || "No additional notes provided."}
+                  {tuition.specialRequirements}
                 </p>
               </section>
             </div>
 
             <aside className="space-y-5">
-              <SectionTitle icon={FiCheckCircle} title="Summery" />
+              <SectionTitle icon={FiCheckCircle} title="Summary" />
               <section className="border-brand-100/70 bg-brand-50/50 dark:border-border dark:bg-brand-500/6 rounded-3xl border p-5">
                 <h2 className="text-text-strong text-lg font-bold">
                   Quick summary
                 </h2>
                 <dl className="mt-4 space-y-4">
-                  <SummaryRow
-                    label="Posted"
-                    value={formatPostedDate(tuition.postedDate)}
-                  />
-                  <SummaryRow
-                    label="Days"
-                    value={`${tuition.daysPerWeek} days/week`}
-                  />
-                  <SummaryRow label="Time" value={tuition.tutoringTime} />
-                  <SummaryRow label="Duration" value={tuition.duration} />
+                  <SummaryRow label="Status" value={tuition.status} />
+                  <SummaryRow label="Days" value={tuition.daysPerWeek} />
+                  <SummaryRow label="Time" value={tuition.preferredTime} />
                   <SummaryRow
                     label="Students"
-                    value={`${tuition.numOfStudents}`}
+                    value={tuition.numberOfStudents}
                   />
                 </dl>
               </section>
 
-              {/* TODO: NEED TO UPDATE THIS PART */}
               <aside className="border-brand-100/80 bg-surface-elevated shadow-theme-sm dark:border-border rounded-3xl border p-5">
                 <p className="text-brand-700 dark:text-brand-300 text-xs font-semibold tracking-[0.16em] uppercase">
                   Salary
@@ -336,26 +209,14 @@ const TuitionDetails = () => {
                   {tuition.salary}
                 </p>
 
-                <div className="mt-5 grid grid-cols-2 gap-3">
-                  <div className="bg-brand-50 dark:bg-brand-500/10 rounded-2xl p-4">
-                    <div className="text-brand-700 dark:text-brand-300 flex items-center gap-2 text-xs font-semibold">
-                      <FiEye size={15} aria-hidden="true" />
-                      Views
-                    </div>
-                    <p className="text-text-strong mt-1 text-xl font-bold">
-                      {tuition.totalViews}
-                    </p>
+                <div className="border-brand-100/70 bg-brand-50/50 dark:border-border dark:bg-brand-500/6 mt-5 rounded-2xl border p-4">
+                  <div className="text-brand-700 dark:text-brand-300 flex items-center gap-2 text-xs font-semibold">
+                    <FiMapPin size={15} aria-hidden="true" />
+                    Location
                   </div>
-
-                  <div className="bg-brand-50 dark:bg-brand-500/10 rounded-2xl p-4">
-                    <div className="text-brand-700 dark:text-brand-300 flex items-center gap-2 text-xs font-semibold">
-                      <FiUserCheck size={15} aria-hidden="true" />
-                      Applied
-                    </div>
-                    <p className="text-text-strong mt-1 text-xl font-bold">
-                      {tuition.totalApplied}
-                    </p>
-                  </div>
+                  <p className="text-text-strong mt-2 text-sm leading-6">
+                    {tuition.address}
+                  </p>
                 </div>
 
                 <button
@@ -373,6 +234,38 @@ const TuitionDetails = () => {
     </section>
   );
 };
+
+const TuitionDetailsState = ({
+  title,
+  description,
+  onBack,
+}: {
+  title: string;
+  description?: string;
+  onBack?: () => void;
+}) => (
+  <section className="bg-page px-4 py-20 sm:px-6 lg:px-8">
+    <div className="border-brand-200/70 bg-surface-elevated shadow-theme-md dark:border-border mx-auto max-w-3xl rounded-3xl border p-8 text-center">
+      <h2 className="text-text-strong text-2xl font-bold">{title}</h2>
+      {description ? (
+        <p className="text-text-muted mx-auto mt-3 max-w-md text-sm leading-6">
+          {description}
+        </p>
+      ) : null}
+
+      {onBack ? (
+        <button
+          type="button"
+          onClick={onBack}
+          className="bg-brand-600 text-text-on-brand hover:bg-brand-700 focus:ring-brand-400 focus:ring-offset-page mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-bold transition focus:ring-2 focus:ring-offset-2 focus:outline-none"
+        >
+          <FiArrowLeft size={16} aria-hidden="true" />
+          Go back
+        </button>
+      ) : null}
+    </div>
+  </section>
+);
 
 const SectionTitle = ({
   icon: Icon,
@@ -431,36 +324,3 @@ const SummaryRow = ({ label, value }: { label: string; value: string }) => (
 );
 
 export default TuitionDetails;
-
-// Keeping this for later use.
-
-// Tutor preference aside section
-{
-  /* <section className="rounded-3xl border border-brand-100/70 bg-surface-elevated p-5 shadow-theme-sm dark:border-border">
-  <h2 className="text-lg font-bold text-text-strong">Tutor preferences</h2>
-  <div className="mt-4 space-y-3">
-    {preferenceDetails.map((item) => {
-      const Icon = item.icon;
-
-      return (
-        <div
-          key={`${tuition.id}-${item.label}`}
-          className="flex items-start gap-3 rounded-2xl bg-brand-50/50 p-4 dark:bg-brand-500/[0.06]"
-        >
-          <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-surface-elevated text-brand-700 shadow-theme-sm dark:bg-brand-500/10 dark:text-brand-300">
-            <Icon size={17} aria-hidden="true" />
-          </span>
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-700 dark:text-brand-300">
-              {item.label}
-            </p>
-            <p className="mt-1 text-sm font-semibold text-text-strong">
-              {item.value}
-            </p>
-          </div>
-        </div>
-      );
-    })}
-  </div>
-</section>; */
-}
