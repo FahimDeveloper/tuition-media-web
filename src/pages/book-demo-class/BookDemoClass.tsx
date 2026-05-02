@@ -91,7 +91,7 @@ type BenefitCardProps = {
 
 const BenefitCard = ({ benefit }: BenefitCardProps) => {
   return (
-    <article className="border-border bg-surface-elevated/82 shadow-theme-xs dark:bg-surface-muted flex items-start gap-3 rounded-2xl border p-4 backdrop-blur">
+    <article className="border-border bg-surface-elevated/82 shadow-theme-xs dark:bg-surface-muted flex items-center gap-3 rounded-2xl border p-4 text-start backdrop-blur">
       <div className="border-brand-100 bg-brand-50 text-brand-700 dark:border-brand-500/20 dark:bg-brand-500/15 dark:text-brand-300 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border">
         {benefit.icon}
       </div>
