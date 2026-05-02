@@ -15,8 +15,16 @@ export default function TuitionPreferenceForm() {
   const form = Form.useFormInstance<TuitionPreferenceValues>();
 
   const validateSalaryRange = () => {
-    const min = form.getFieldValue(["expectedSalaryRange", "min"]);
-    const max = form.getFieldValue(["expectedSalaryRange", "max"]);
+    const min = form.getFieldValue([
+      "preferred_tutoring",
+      "salary_range",
+      "min",
+    ]);
+    const max = form.getFieldValue([
+      "preferred_tutoring",
+      "salary_range",
+      "max",
+    ]);
 
     if (!min || !max || min <= max) {
       return Promise.resolve();
@@ -32,7 +40,7 @@ export default function TuitionPreferenceForm() {
       <ProfileFormGrid className="gap-x-6 gap-y-7">
         <Form.Item
           label="Tuition Country"
-          name="tuitionCountry"
+          name={["preferred_teaching_locations", "country"]}
           validateTrigger="onBlur"
           rules={[
             ...requiredRule("Please enter your tuition country"),
@@ -44,7 +52,7 @@ export default function TuitionPreferenceForm() {
 
         <Form.Item
           label="Tuition City"
-          name="tuitionCity"
+          name={["preferred_teaching_locations", "city"]}
           validateTrigger="onBlur"
           rules={[
             ...requiredRule("Please enter your tuition city"),
@@ -56,7 +64,7 @@ export default function TuitionPreferenceForm() {
 
         <Form.Item
           label="Preferred Tuition Locations"
-          name="preferredTuitionLocations"
+          name={["preferred_teaching_locations", "area"]}
           rules={arrayRequiredRule(
             "Please add at least one preferred tuition location",
           )}
@@ -71,7 +79,7 @@ export default function TuitionPreferenceForm() {
 
         <Form.Item
           label="Preferred Tutoring Categories"
-          name="preferredTutoringCategories"
+          name={["preferred_tutoring", "categories"]}
           rules={arrayRequiredRule("Please add at least one tutoring category")}
         >
           <Select
@@ -84,7 +92,7 @@ export default function TuitionPreferenceForm() {
 
         <Form.Item
           label="Favorite Subjects"
-          name="favoriteSubjects"
+          name={["preferred_tutoring", "subjects"]}
           rules={arrayRequiredRule("Please add at least one subject")}
         >
           <Select
@@ -97,7 +105,7 @@ export default function TuitionPreferenceForm() {
 
         <Form.Item
           label="Preferred Classes"
-          name="preferredCoursesOrClasses"
+          name={["preferred_tutoring", "courses"]}
           rules={arrayRequiredRule("Please add at least one class")}
         >
           <Select
@@ -110,19 +118,28 @@ export default function TuitionPreferenceForm() {
 
         <Form.Item
           label="Tutoring Experience (Years)"
-          name="tutoringExperience"
+          name="years_of_experience"
           validateTrigger="onBlur"
           rules={[
             ...requiredRule("Please enter experience"),
-            { min: 1, message: "Minimum 1 year required" },
+            {
+              type: "number",
+              min: 0,
+              message: "Experience cannot be negative",
+            },
           ]}
         >
-          <Input type="number" size="large" placeholder="e.g. 2" />
+          <InputNumber
+            size="large"
+            min={0}
+            className="w-full!"
+            placeholder="e.g. 2"
+          />
         </Form.Item>
 
         <Form.Item
           label="Available Days"
-          name="availableDays"
+          name={["tutoring_availability", "days"]}
           rules={arrayRequiredRule("Please select at least one day")}
         >
           <Select
@@ -134,7 +151,7 @@ export default function TuitionPreferenceForm() {
 
         <Form.Item
           label="Teaching Method"
-          name="preferredTeachingMethods"
+          name={["preferred_tutoring", "tutoring_types"]}
           rules={arrayRequiredRule("Please select at least one method")}
         >
           <Select
@@ -151,8 +168,8 @@ export default function TuitionPreferenceForm() {
         >
           <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-2">
             <Form.Item
-              name={["expectedSalaryRange", "min"]}
-              dependencies={[["expectedSalaryRange", "max"]]}
+              name={["preferred_tutoring", "salary_range", "min"]}
+              dependencies={[["preferred_tutoring", "salary_range", "max"]]}
               rules={[
                 ...requiredRule("Please enter minimum expected salary"),
                 { validator: validateSalaryRange },
@@ -169,8 +186,8 @@ export default function TuitionPreferenceForm() {
             </Form.Item>
 
             <Form.Item
-              name={["expectedSalaryRange", "max"]}
-              dependencies={[["expectedSalaryRange", "min"]]}
+              name={["preferred_tutoring", "salary_range", "max"]}
+              dependencies={[["preferred_tutoring", "salary_range", "min"]]}
               rules={[
                 ...requiredRule("Please enter maximum expected salary"),
                 { validator: validateSalaryRange },

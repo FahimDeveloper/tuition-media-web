@@ -1,9 +1,6 @@
-import { useState } from "react";
-
 import ProfileEditableSection from "../shared/ProfileEditableSection";
 import { AcademicInstitutionFields } from "./EducationFormFields";
 import {
-  INITIAL_SCHOOL_VALUES,
   SCHOOL_INFO_ITEMS,
   formatEducationValue,
   prepareEducationPayload,
@@ -11,37 +8,35 @@ import {
 } from "./educationTypes";
 
 type SchoolInfoSectionProps = {
-  values?: SchoolValues;
-  onSave?: (values: SchoolValues) => void;
+  values: SchoolValues;
+  onSave: (values: SchoolValues) => Promise<void> | void;
+  isSaving?: boolean;
+  saveError?: string;
+  onClearSaveError?: () => void;
 };
 
 export default function SchoolInfoSection({
   values,
   onSave,
+  isSaving = false,
+  saveError,
+  onClearSaveError,
 }: SchoolInfoSectionProps) {
-  // Until RTK Query is wired, this keeps saved modal values in local state.
-  // Later, each onSave callback can call the same mutation with its form payload.
-  const [localValues, setLocalValues] = useState<SchoolValues>(
-    INITIAL_SCHOOL_VALUES,
-  );
-
-  const schoolValues = values ?? localValues;
-
   return (
     <ProfileEditableSection
       title="School"
       modalTitle="Edit School Information"
       modalDescription="Update your school information."
-      values={schoolValues}
+      values={values}
       items={SCHOOL_INFO_ITEMS}
       formatValue={formatEducationValue}
-      onSave={onSave ?? setLocalValues}
-      fromFormValues={(formValues) =>
-        prepareEducationPayload(formValues, "gpa")
-      }
+      onSave={onSave}
+      isSaving={isSaving}
+      saveError={saveError}
+      onClearSaveError={onClearSaveError}
+      fromFormValues={prepareEducationPayload}
     >
       <AcademicInstitutionFields
-        nameField="schoolName"
         nameLabel="School Name"
         namePlaceholder="Enter your school name"
       />

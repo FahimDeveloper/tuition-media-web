@@ -7,7 +7,7 @@ import { EducationCredentialFields } from "./EducationFormFields";
 import {
   DIPLOMA_INFO_ITEMS,
   INSTITUTE_TYPE_OPTIONS,
-  STUDY_TYPE_OPTIONS,
+  STUDY_LEVEL_OPTIONS,
   formatEducationValue,
   prepareEducationPayload,
   type DiplomaValues,
@@ -18,6 +18,9 @@ type DiplomaInfoSectionProps = {
   isDiplomaStudent: boolean;
   onDiplomaToggle: (checked: boolean) => void;
   onSave: (values: DiplomaValues) => Promise<void> | void;
+  isSaving?: boolean;
+  saveError?: string;
+  onClearSaveError?: () => void;
 };
 
 export default function DiplomaInfoSection({
@@ -25,6 +28,9 @@ export default function DiplomaInfoSection({
   isDiplomaStudent,
   onDiplomaToggle,
   onSave,
+  isSaving = false,
+  saveError,
+  onClearSaveError,
 }: DiplomaInfoSectionProps) {
   return (
     <ProfileEditableSection
@@ -35,13 +41,15 @@ export default function DiplomaInfoSection({
       items={DIPLOMA_INFO_ITEMS}
       formatValue={formatEducationValue}
       onSave={onSave}
-      fromFormValues={(formValues) =>
-        prepareEducationPayload(formValues, "cgpa")
-      }
+      isSaving={isSaving}
+      saveError={saveError}
+      onClearSaveError={onClearSaveError}
+      fromFormValues={prepareEducationPayload}
       renderAction={({ defaultAction }) => (
         <div className="flex flex-col gap-3 lg:items-end">
           <Checkbox
             checked={isDiplomaStudent}
+            disabled={isSaving}
             onChange={(event) => onDiplomaToggle(event.target.checked)}
           >
             I am a diploma student
@@ -54,7 +62,7 @@ export default function DiplomaInfoSection({
       <ProfileFormGrid>
         <Form.Item
           label="Institution Name"
-          name="institutionName"
+          name="name"
           className="col-span-2 lg:col-span-1"
           validateTrigger="onBlur"
           rules={requiredRule("Please enter your institution name")}
@@ -74,7 +82,7 @@ export default function DiplomaInfoSection({
 
         <Form.Item
           label="Institute Type"
-          name="instituteType"
+          name="type"
           className="col-span-2 lg:col-span-1"
           rules={requiredRule("Please select your institute type")}
         >
@@ -87,21 +95,22 @@ export default function DiplomaInfoSection({
 
         <Form.Item
           label="Study Type"
-          name="studyType"
+          name="study_level"
           className="col-span-2 lg:col-span-1"
           rules={requiredRule("Please select your study type")}
         >
           <Select
             size="large"
             placeholder="Select study type"
-            options={STUDY_TYPE_OPTIONS}
+            options={STUDY_LEVEL_OPTIONS}
           />
         </Form.Item>
 
         <EducationCredentialFields
           scoreFieldName="cgpa"
           scoreLabel="CGPA"
-          includeCurrentYear
+          includeStatus
+          includeSession
         />
       </ProfileFormGrid>
     </ProfileEditableSection>

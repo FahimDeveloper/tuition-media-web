@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import SchoolInfoSection from "./SchoolInfoSection";
 import CollegeInfoSection from "./CollegeInfoSection";
 import DiplomaInfoSection from "./DiplomaInfoSection";
@@ -9,77 +7,83 @@ import {
 } from "./HigherEducationInfoSection";
 
 import {
-  INITIAL_COLLEGE_VALUES,
-  INITIAL_DIPLOMA_VALUES,
-  INITIAL_EDUCATION_VALUES,
   type EducationValues,
 } from "./educationTypes";
+import type { EducationSectionKey } from "../profileAdapters";
 
-export default function EducationInfoSection() {
-  const [educationValues, setEducationValues] = useState<EducationValues>(
-    INITIAL_EDUCATION_VALUES,
-  );
-
-  const isDiplomaStudent = educationValues.college.isDiplomaStudent;
-
-  // Until RTK Query is wired, this keeps saved modal values in local state.
-  // Later, each onSave callback can call the same mutation with its form payload.
-  const updateEducationValues = <TKey extends keyof EducationValues>(
+type EducationInfoSectionProps = {
+  values: EducationValues;
+  onSave: <TKey extends EducationSectionKey>(
     key: TKey,
     values: EducationValues[TKey],
-  ) => {
-    setEducationValues((previous) => ({
-      ...previous,
-      [key]: values,
-    }));
-  };
+  ) => Promise<void> | void;
+  onDiplomaToggle: (checked: boolean) => void;
+  savingSection?: EducationSectionKey | null;
+  saveErrors?: Partial<Record<EducationSectionKey, string>>;
+  onClearSaveError?: (key: EducationSectionKey) => void;
+};
 
-  // The checkbox only chooses whether College or Diploma is visible.
-  // It must not disable Graduation/Post Graduation or create a submission order.
-  const handleDiplomaToggle = (checked: boolean) => {
-    setEducationValues((previous) => ({
-      ...previous,
-      college: {
-        ...INITIAL_COLLEGE_VALUES,
-        isDiplomaStudent: checked,
-      },
-      diploma: INITIAL_DIPLOMA_VALUES,
-    }));
+export default function EducationInfoSection({
+  values,
+  onSave,
+  onDiplomaToggle,
+  savingSection = null,
+  saveErrors = {},
+  onClearSaveError,
+}: EducationInfoSectionProps) {
+  const isDiplomaStudent = Boolean(values.college.is_diploma_student);
+  const clearSaveError = (key: EducationSectionKey) => {
+    onClearSaveError?.(key);
   };
 
   return (
     <div className="space-y-6">
       <SchoolInfoSection
-        values={educationValues.school}
-        onSave={(school) => updateEducationValues("school", school)}
+        values={values.school}
+        onSave={(school) => onSave("school", school)}
+        isSaving={savingSection === "school"}
+        saveError={saveErrors.school}
+        onClearSaveError={() => clearSaveError("school")}
       />
 
       {isDiplomaStudent ? (
         <DiplomaInfoSection
-          values={educationValues.diploma}
+          values={values.diploma}
           isDiplomaStudent={isDiplomaStudent}
-          onDiplomaToggle={handleDiplomaToggle}
-          onSave={(diploma) => updateEducationValues("diploma", diploma)}
+          onDiplomaToggle={onDiplomaToggle}
+          onSave={(diploma) => onSave("diploma", diploma)}
+          isSaving={savingSection === "diploma"}
+          saveError={saveErrors.diploma}
+          onClearSaveError={() => clearSaveError("diploma")}
         />
       ) : (
         <CollegeInfoSection
-          values={educationValues.college}
+          values={values.college}
           isDiplomaStudent={isDiplomaStudent}
-          onDiplomaToggle={handleDiplomaToggle}
-          onSave={(college) => updateEducationValues("college", college)}
+          onDiplomaToggle={onDiplomaToggle}
+          onSave={(college) => onSave("college", college)}
+          isSaving={savingSection === "college"}
+          saveError={saveErrors.college}
+          onClearSaveError={() => clearSaveError("college")}
         />
       )}
 
       <GraduationInfoSection
-        values={educationValues.graduation}
-        onSave={(graduation) => updateEducationValues("graduation", graduation)}
+        values={values.graduation}
+        onSave={(graduation) => onSave("graduation", graduation)}
+        isSaving={savingSection === "graduation"}
+        saveError={saveErrors.graduation}
+        onClearSaveError={() => clearSaveError("graduation")}
       />
 
       <PostGraduationInfoSection
-        values={educationValues.postGraduation}
-        onSave={(postGraduation) =>
-          updateEducationValues("postGraduation", postGraduation)
+        values={values.post_graduation}
+        onSave={(postGraduationValues) =>
+          onSave("post_graduation", postGraduationValues)
         }
+        isSaving={savingSection === "post_graduation"}
+        saveError={saveErrors.post_graduation}
+        onClearSaveError={() => clearSaveError("post_graduation")}
       />
     </div>
   );

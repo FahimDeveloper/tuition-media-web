@@ -9,13 +9,16 @@ import {
   type CollegeValues,
 } from "./educationTypes";
 
-type CollegeFormValues = Omit<CollegeValues, "isDiplomaStudent">;
+type CollegeFormValues = Omit<CollegeValues, "is_diploma_student">;
 
 type CollegeInfoSectionProps = {
   values: CollegeValues;
   isDiplomaStudent: boolean;
   onDiplomaToggle: (checked: boolean) => void;
   onSave: (values: CollegeValues) => Promise<void> | void;
+  isSaving?: boolean;
+  saveError?: string;
+  onClearSaveError?: () => void;
 };
 
 export default function CollegeInfoSection({
@@ -23,6 +26,9 @@ export default function CollegeInfoSection({
   isDiplomaStudent,
   onDiplomaToggle,
   onSave,
+  isSaving = false,
+  saveError,
+  onClearSaveError,
 }: CollegeInfoSectionProps) {
   return (
     <ProfileEditableSection<CollegeValues, CollegeFormValues>
@@ -33,24 +39,27 @@ export default function CollegeInfoSection({
       items={COLLEGE_INFO_ITEMS}
       formatValue={formatEducationValue}
       onSave={onSave}
+      isSaving={isSaving}
+      saveError={saveError}
+      onClearSaveError={onClearSaveError}
       toFormValues={(collegeValues) => ({
-        collegeName: collegeValues.collegeName,
+        name: collegeValues.name,
         group: collegeValues.group,
         curriculum: collegeValues.curriculum,
         board: collegeValues.board,
         gpa: collegeValues.gpa,
-        passingYear: collegeValues.passingYear,
-        certificateImage: collegeValues.certificateImage,
-        isRunningStudent: collegeValues.isRunningStudent,
+        year_of_passing: collegeValues.year_of_passing,
+        status: collegeValues.status,
       })}
       fromFormValues={(formValues) => ({
-        ...prepareEducationPayload(formValues, "gpa"),
-        isDiplomaStudent,
+        ...prepareEducationPayload(formValues),
+        is_diploma_student: isDiplomaStudent,
       })}
       renderAction={({ defaultAction }) => (
         <div className="flex flex-col gap-3 lg:items-end">
           <Checkbox
             checked={isDiplomaStudent}
+            disabled={isSaving}
             onChange={(event) => onDiplomaToggle(event.target.checked)}
           >
             I am a diploma student
@@ -61,9 +70,9 @@ export default function CollegeInfoSection({
       )}
     >
       <AcademicInstitutionFields
-        nameField="collegeName"
         nameLabel="College Name"
         namePlaceholder="Enter your college name"
+        includeStatus
       />
     </ProfileEditableSection>
   );

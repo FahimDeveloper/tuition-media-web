@@ -8,7 +8,7 @@ import { EducationCredentialFields } from "./EducationFormFields";
 import {
   GRADUATION_INFO_ITEMS,
   POST_GRADUATION_INFO_ITEMS,
-  STUDY_TYPE_OPTIONS,
+  STUDY_LEVEL_OPTIONS,
   UNIVERSITY_TYPE_OPTIONS,
   formatEducationValue,
   prepareEducationPayload,
@@ -24,18 +24,26 @@ type HigherEducationSectionProps<TValues extends HigherEducationValues> = {
   modalDescription: string;
   values: TValues;
   infoItems: ProfileInfoField<TValues>[];
-  includeCurrentYear?: boolean;
   onSave: (values: TValues) => Promise<void> | void;
+  isSaving?: boolean;
+  saveError?: string;
+  onClearSaveError?: () => void;
 };
 
 type GraduationInfoSectionProps = {
   values: GraduationValues;
   onSave: (values: GraduationValues) => Promise<void> | void;
+  isSaving?: boolean;
+  saveError?: string;
+  onClearSaveError?: () => void;
 };
 
 type PostGraduationInfoSectionProps = {
   values: PostGraduationValues;
   onSave: (values: PostGraduationValues) => Promise<void> | void;
+  isSaving?: boolean;
+  saveError?: string;
+  onClearSaveError?: () => void;
 };
 
 function HigherEducationSection<TValues extends HigherEducationValues>({
@@ -44,8 +52,10 @@ function HigherEducationSection<TValues extends HigherEducationValues>({
   modalDescription,
   values,
   infoItems,
-  includeCurrentYear = false,
   onSave,
+  isSaving = false,
+  saveError,
+  onClearSaveError,
 }: HigherEducationSectionProps<TValues>) {
   return (
     <ProfileEditableSection
@@ -56,14 +66,15 @@ function HigherEducationSection<TValues extends HigherEducationValues>({
       items={infoItems}
       formatValue={formatEducationValue}
       onSave={onSave}
-      fromFormValues={(formValues) =>
-        prepareEducationPayload(formValues, "cgpa")
-      }
+      isSaving={isSaving}
+      saveError={saveError}
+      onClearSaveError={onClearSaveError}
+      fromFormValues={prepareEducationPayload}
     >
       <ProfileFormGrid>
         <Form.Item
           label="University Name"
-          name="universityName"
+          name="name"
           className="col-span-2 lg:col-span-1"
           validateTrigger="onBlur"
           rules={requiredRule("Please enter your university name")}
@@ -83,7 +94,7 @@ function HigherEducationSection<TValues extends HigherEducationValues>({
 
         <Form.Item
           label="University Type"
-          name="universityType"
+          name="type"
           className="col-span-2 lg:col-span-1"
           rules={requiredRule("Please select your university type")}
         >
@@ -96,21 +107,22 @@ function HigherEducationSection<TValues extends HigherEducationValues>({
 
         <Form.Item
           label="Study Type"
-          name="studyType"
+          name="study_level"
           className="col-span-2 lg:col-span-1"
           rules={requiredRule("Please select your study type")}
         >
           <Select
             size="large"
             placeholder="Select study type"
-            options={STUDY_TYPE_OPTIONS}
+            options={STUDY_LEVEL_OPTIONS}
           />
         </Form.Item>
 
         <EducationCredentialFields
-          scoreFieldName="cgpa"
-          scoreLabel="CGPA"
-          includeCurrentYear={includeCurrentYear}
+          scoreFieldName="gpa"
+          scoreLabel="GPA"
+          includeStatus
+          includeSession
         />
       </ProfileFormGrid>
     </ProfileEditableSection>
@@ -120,6 +132,9 @@ function HigherEducationSection<TValues extends HigherEducationValues>({
 export function GraduationInfoSection({
   values,
   onSave,
+  isSaving = false,
+  saveError,
+  onClearSaveError,
 }: GraduationInfoSectionProps) {
   return (
     <HigherEducationSection
@@ -128,8 +143,10 @@ export function GraduationInfoSection({
       modalDescription="Update your graduation information."
       values={values}
       infoItems={GRADUATION_INFO_ITEMS}
-      includeCurrentYear
       onSave={onSave}
+      isSaving={isSaving}
+      saveError={saveError}
+      onClearSaveError={onClearSaveError}
     />
   );
 }
@@ -137,6 +154,9 @@ export function GraduationInfoSection({
 export function PostGraduationInfoSection({
   values,
   onSave,
+  isSaving = false,
+  saveError,
+  onClearSaveError,
 }: PostGraduationInfoSectionProps) {
   return (
     <HigherEducationSection
@@ -146,6 +166,9 @@ export function PostGraduationInfoSection({
       values={values}
       infoItems={POST_GRADUATION_INFO_ITEMS}
       onSave={onSave}
+      isSaving={isSaving}
+      saveError={saveError}
+      onClearSaveError={onClearSaveError}
     />
   );
 }

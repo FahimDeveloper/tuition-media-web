@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { Form } from "antd";
 import { useModal } from "@/hooks/useModal";
 
@@ -9,6 +9,7 @@ export type ProfileSaveHandler<TValues> = (
 type UseEditableProfileFormOptions<TValues, TFormValues extends object> = {
   values: TValues;
   onSave: ProfileSaveHandler<TValues>;
+  isSaving?: boolean;
   toFormValues?: (values: TValues) => TFormValues;
   fromFormValues?: (values: TFormValues) => TValues;
   onOpen?: () => void;
@@ -22,6 +23,7 @@ export default function useEditableProfileForm<
 >({
   values,
   onSave,
+  isSaving = false,
   toFormValues = (nextValues) => nextValues as unknown as TFormValues,
   fromFormValues = (nextValues) => nextValues as unknown as TValues,
   onOpen,
@@ -30,7 +32,6 @@ export default function useEditableProfileForm<
 }: UseEditableProfileFormOptions<TValues, TFormValues>) {
   const { isOpen, openModal, closeModal } = useModal();
   const [form] = Form.useForm<TFormValues>();
-  const [isSaving, setIsSaving] = useState(false);
   const formValues = useMemo(
     () => toFormValues(values),
     [toFormValues, values],
@@ -57,17 +58,14 @@ export default function useEditableProfileForm<
   const handleSubmit = async (nextValues: TFormValues) => {
     if (isSaving) return;
 
-    setIsSaving(true);
-
     try {
       await onSave(fromFormValues(nextValues));
       onAfterSave?.();
       closeModal();
-    } catch (error) {
-      // RTK Query errors should keep the modal open so users do not lose edits.
-      console.error("Failed to save profile section", error);
-    } finally {
-      setIsSaving(false);
+    } catch {
+      // Mutation errors are owned by the parent query layer; the modal stays
+      // open so users can fix or retry the same form without losing edits.
+      return;
     }
   };
 

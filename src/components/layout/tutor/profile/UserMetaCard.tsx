@@ -1,13 +1,21 @@
-import { useState } from "react";
 import { Avatar, Progress, Typography, Upload, message } from "antd";
 import type { UploadProps } from "antd";
 import { UserOutlined, CameraOutlined } from "@ant-design/icons";
+import type { ProfileMetaValues } from "./profileAdapters";
 
 const { Title, Text, Paragraph } = Typography;
 
-export default function TeacherMetaCard() {
-  const [avatarUrl, setAvatarUrl] = useState("/images/user/teacher.jpg");
+type TeacherMetaCardProps = {
+  values: ProfileMetaValues;
+  isFetching?: boolean;
+  onAvatarChange?: (avatarUrl: string) => void;
+};
 
+export default function TeacherMetaCard({
+  values,
+  isFetching = false,
+  onAvatarChange,
+}: TeacherMetaCardProps) {
   const uploadProps: UploadProps = {
     showUploadList: false,
     accept: "image/*",
@@ -22,7 +30,7 @@ export default function TeacherMetaCard() {
       const reader = new FileReader();
 
       reader.onload = () => {
-        setAvatarUrl(reader.result as string);
+        onAvatarChange?.(reader.result as string);
       };
 
       reader.readAsDataURL(file);
@@ -39,7 +47,7 @@ export default function TeacherMetaCard() {
           <div className="group relative w-fit cursor-pointer">
             <Avatar
               size={80}
-              src={avatarUrl}
+              src={values.avatarUrl}
               icon={<UserOutlined />}
               className="shrink-0 border border-gray-200 dark:border-gray-800"
             />
@@ -55,19 +63,18 @@ export default function TeacherMetaCard() {
             level={4}
             className="mb-1! truncate text-lg! font-semibold! text-gray-800! dark:text-white/90!"
           >
-            Dr. Musharof Chowdhury
+            {values.displayName}
           </Title>
 
           <Text className="block truncate text-sm! text-gray-500! dark:text-gray-400!">
-            Arizona State University
+            {values.institution}
           </Text>
 
           <Paragraph
             ellipsis={{ rows: 3, expandable: true, symbol: "more" }}
             className="!mt-2 !mb-0 !text-sm !leading-6 !text-gray-500 dark:!text-gray-400"
           >
-            Passionate educator focused on programming, problem solving, and
-            software engineering.
+            {values.bio}
           </Paragraph>
         </div>
 
@@ -77,16 +84,16 @@ export default function TeacherMetaCard() {
               Profile
             </Text>
             <Text className="!text-xs !font-medium !text-gray-700 dark:!text-gray-300">
-              78%
+              {isFetching ? "Refreshing" : `${values.completionPercentage}%`}
             </Text>
           </div>
 
           <Progress
-            percent={78}
+            percent={values.completionPercentage}
             showInfo={false}
             strokeLinecap="round"
             strokeColor="#465FFF"
-            trailColor="rgba(156, 163, 175, 0.25)"
+            railColor="rgba(156, 163, 175, 0.25)"
           />
         </div>
       </div>

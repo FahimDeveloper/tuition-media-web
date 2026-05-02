@@ -1,7 +1,7 @@
 import type { Rule } from "antd/es/form";
-import type { UploadFile } from "antd/es/upload/interface";
-import { getDisplayValue, getUploadDisplayValue } from "../profileUtils";
+import { getDisplayValue } from "../profileUtils";
 import type { ProfileInfoField } from "../shared/ProfileInfoList";
+import type { EducationStatus, TeacherEducation } from "../teacherProfileTypes";
 
 export type AcademicGroup =
   | "Science"
@@ -13,7 +13,6 @@ export type Curriculum =
   | "English Version"
   | "English Medium"
   | "Other";
-
 export type Board =
   | "Dhaka"
   | "Chattogram"
@@ -29,16 +28,13 @@ export type Board =
   | "Madrasah"
   | "Technical"
   | "Other";
-
 export type InstituteType = "Government" | "Private" | "Other";
-
 export type UniversityType =
   | "Public"
   | "Private"
   | "National University"
   | "Other";
-
-export type StudyType =
+export type StudyLevel =
   | "Medical"
   | "Engineering"
   | "BBA"
@@ -48,76 +44,29 @@ export type StudyType =
   | "Fazil"
   | "BSS"
   | "LLB";
-
-export type CurrentYear =
-  | "First Year"
-  | "Second Year"
-  | "Third Year"
-  | "Fourth Year"
-  | "Fifth Year"
-  | "Completed";
 export type ScoreFieldName = "gpa" | "cgpa";
 
-// Fields shared by every education form. Keeping these aligned makes the
-// future "single education update" RTK Query mutation easier to type.
-type EducationCompletionFields = {
-  passingYear: string;
-  certificateImage: UploadFile[];
-  isRunningStudent: boolean;
-};
+export type SchoolValues = NonNullable<TeacherEducation["school"]>;
+export type CollegeValues = NonNullable<TeacherEducation["college"]>;
+export type DiplomaValues = NonNullable<TeacherEducation["diploma"]>;
+export type GraduationValues = NonNullable<TeacherEducation["graduation"]>;
+export type PostGraduationValues = NonNullable<
+  TeacherEducation["post_graduation"]
+>;
 
-export type SchoolValues = EducationCompletionFields & {
-  schoolName: string;
-  group?: AcademicGroup;
-  curriculum?: Curriculum;
-  board?: Board;
-  gpa: string;
-};
-
-export type CollegeValues = EducationCompletionFields & {
-  collegeName: string;
-  group?: AcademicGroup;
-  curriculum?: Curriculum;
-  board?: Board;
-  gpa: string;
-  isDiplomaStudent: boolean;
-};
-
-export type DiplomaValues = EducationCompletionFields & {
-  institutionName: string;
-  department: string;
-  instituteType?: InstituteType;
-  studyType?: StudyType;
-  cgpa: string;
-  currentYear?: CurrentYear;
-};
-
-type DegreeValues = EducationCompletionFields & {
-  universityName: string;
-  department: string;
-  universityType?: UniversityType;
-  studyType?: StudyType;
-  cgpa: string;
-};
-
-export type GraduationValues = DegreeValues & {
-  currentYear?: CurrentYear;
-};
-
-export type PostGraduationValues = DegreeValues;
-
-// Local state mirrors the final API shape: one object with independent sections.
 export type EducationValues = {
   school: SchoolValues;
   college: CollegeValues;
   diploma: DiplomaValues;
   graduation: GraduationValues;
-  postGraduation: PostGraduationValues;
+  post_graduation: PostGraduationValues;
 };
 
 export const yearRules: Rule[] = [
   {
-    pattern: /^(19|20)\d{2}$/,
+    type: "number",
+    min: 1900,
+    max: 2099,
     message: "Enter a valid year",
   },
 ];
@@ -134,6 +83,11 @@ export const cgpaRules: Rule[] = [
     pattern: /^(?:[0-3](?:\.\d{1,2})?|4(?:\.0{1,2})?)$/,
     message: "Enter a valid CGPA between 0 and 4",
   },
+];
+
+export const STATUS_OPTIONS: { label: string; value: EducationStatus }[] = [
+  { label: "Graduated", value: "graduated" },
+  { label: "Studying", value: "studying" },
 ];
 
 export const GROUP_OPTIONS = [
@@ -180,7 +134,7 @@ export const UNIVERSITY_TYPE_OPTIONS = [
   { label: "Other", value: "Other" },
 ];
 
-export const STUDY_TYPE_OPTIONS = [
+export const STUDY_LEVEL_OPTIONS = [
   { label: "Medical", value: "Medical" },
   { label: "Engineering", value: "Engineering" },
   { label: "BBA", value: "BBA" },
@@ -192,74 +146,54 @@ export const STUDY_TYPE_OPTIONS = [
   { label: "LLB", value: "LLB" },
 ];
 
-export const CURRENT_YEAR_OPTIONS: {
-  label: CurrentYear;
-  value: CurrentYear;
-}[] = [
-  { label: "First Year", value: "First Year" },
-  { label: "Second Year", value: "Second Year" },
-  { label: "Third Year", value: "Third Year" },
-  { label: "Fourth Year", value: "Fourth Year" },
-  { label: "Fifth Year", value: "Fifth Year" },
-  { label: "Completed", value: "Completed" },
-];
-
 export const INITIAL_SCHOOL_VALUES: SchoolValues = {
-  schoolName: "",
-  group: undefined,
-  curriculum: undefined,
-  board: undefined,
+  name: "",
+  group: "",
+  curriculum: "",
+  board: "",
   gpa: "",
-  passingYear: "",
-  certificateImage: [],
-  isRunningStudent: false,
+  year_of_passing: undefined,
 };
 
 export const INITIAL_COLLEGE_VALUES: CollegeValues = {
-  collegeName: "",
-  group: undefined,
-  curriculum: undefined,
-  board: undefined,
+  name: "",
+  group: "",
+  curriculum: "",
+  board: "",
   gpa: "",
-  passingYear: "",
-  certificateImage: [],
-  isDiplomaStudent: false,
-  isRunningStudent: false,
+  year_of_passing: undefined,
+  status: "graduated",
+  is_diploma_student: false,
 };
 
 export const INITIAL_DIPLOMA_VALUES: DiplomaValues = {
-  institutionName: "",
+  name: "",
   department: "",
-  instituteType: undefined,
-  studyType: undefined,
+  type: "",
+  study_level: "",
   cgpa: "",
-  passingYear: "",
-  certificateImage: [],
-  currentYear: undefined,
-  isRunningStudent: false,
+  session: "",
+  status: "graduated",
 };
 
 export const INITIAL_GRADUATION_VALUES: GraduationValues = {
-  universityName: "",
+  name: "",
   department: "",
-  universityType: undefined,
-  studyType: undefined,
-  cgpa: "",
-  passingYear: "",
-  certificateImage: [],
-  currentYear: undefined,
-  isRunningStudent: false,
+  type: "",
+  study_level: "",
+  gpa: "",
+  session: "",
+  status: "graduated",
 };
 
 export const INITIAL_POST_GRADUATION_VALUES: PostGraduationValues = {
-  universityName: "",
+  name: "",
   department: "",
-  universityType: undefined,
-  studyType: undefined,
-  cgpa: "",
-  passingYear: "",
-  certificateImage: [],
-  isRunningStudent: false,
+  type: "",
+  study_level: "",
+  gpa: "",
+  session: "",
+  status: "graduated",
 };
 
 export const INITIAL_EDUCATION_VALUES: EducationValues = {
@@ -267,102 +201,78 @@ export const INITIAL_EDUCATION_VALUES: EducationValues = {
   college: INITIAL_COLLEGE_VALUES,
   diploma: INITIAL_DIPLOMA_VALUES,
   graduation: INITIAL_GRADUATION_VALUES,
-  postGraduation: INITIAL_POST_GRADUATION_VALUES,
+  post_graduation: INITIAL_POST_GRADUATION_VALUES,
 };
 
 export const SCHOOL_INFO_ITEMS: ProfileInfoField<SchoolValues>[] = [
-  { key: "schoolName", label: "School Name" },
+  { key: "name", label: "School Name" },
   { key: "group", label: "Group" },
   { key: "curriculum", label: "Curriculum" },
   { key: "board", label: "Board" },
   { key: "gpa", label: "GPA" },
-  { key: "passingYear", label: "Passing Year" },
-  { key: "certificateImage", label: "Certificate Image" },
-  { key: "isRunningStudent", label: "Running Student" },
+  { key: "year_of_passing", label: "Year of Passing" },
 ];
 
 export const COLLEGE_INFO_ITEMS: ProfileInfoField<CollegeValues>[] = [
-  { key: "collegeName", label: "College Name" },
+  { key: "name", label: "College Name" },
   { key: "group", label: "Group" },
   { key: "curriculum", label: "Curriculum" },
   { key: "board", label: "Board" },
   { key: "gpa", label: "GPA" },
-  { key: "passingYear", label: "Passing Year" },
-  { key: "certificateImage", label: "Certificate Image" },
-  { key: "isDiplomaStudent", label: "Diploma Student" },
-  { key: "isRunningStudent", label: "Running Student" },
+  { key: "year_of_passing", label: "Year of Passing" },
+  { key: "status", label: "Status" },
+  { key: "is_diploma_student", label: "Diploma Student" },
 ];
 
 export const DIPLOMA_INFO_ITEMS: ProfileInfoField<DiplomaValues>[] = [
-  { key: "institutionName", label: "Institution Name" },
+  { key: "name", label: "Institution Name" },
   { key: "department", label: "Department" },
-  { key: "instituteType", label: "Institute Type" },
-  { key: "studyType", label: "Study Type" },
+  { key: "type", label: "Institute Type" },
+  { key: "study_level", label: "Study Level" },
   { key: "cgpa", label: "CGPA" },
-  { key: "passingYear", label: "Passing Year" },
-  { key: "currentYear", label: "Current Year" },
-  { key: "certificateImage", label: "Certificate Image" },
-  { key: "isRunningStudent", label: "Running Student" },
+  { key: "session", label: "Session" },
+  { key: "status", label: "Status" },
 ];
 
 export const GRADUATION_INFO_ITEMS: ProfileInfoField<GraduationValues>[] = [
-  { key: "universityName", label: "University Name" },
+  { key: "name", label: "University Name" },
   { key: "department", label: "Department" },
-  { key: "universityType", label: "University Type" },
-  { key: "studyType", label: "Study Type" },
-  { key: "cgpa", label: "CGPA" },
-  { key: "passingYear", label: "Passing Year" },
-  { key: "currentYear", label: "Current Year" },
-  { key: "certificateImage", label: "Certificate Image" },
-  { key: "isRunningStudent", label: "Running Student" },
+  { key: "type", label: "University Type" },
+  { key: "study_level", label: "Study Level" },
+  { key: "gpa", label: "GPA" },
+  { key: "session", label: "Session" },
+  { key: "status", label: "Status" },
 ];
 
 export const POST_GRADUATION_INFO_ITEMS: ProfileInfoField<PostGraduationValues>[] =
   [
-    { key: "universityName", label: "University Name" },
+    { key: "name", label: "University Name" },
     { key: "department", label: "Department" },
-    { key: "universityType", label: "University Type" },
-    { key: "studyType", label: "Study Type" },
-    { key: "cgpa", label: "CGPA" },
-    { key: "passingYear", label: "Passing Year" },
-    { key: "certificateImage", label: "Certificate Image" },
-    { key: "isRunningStudent", label: "Running Student" },
+    { key: "type", label: "University Type" },
+    { key: "study_level", label: "Study Level" },
+    { key: "gpa", label: "GPA" },
+    { key: "session", label: "Session" },
+    { key: "status", label: "Status" },
   ];
 
-type EducationPayloadValues = EducationCompletionFields &
-  Partial<Record<ScoreFieldName, string>> & {
-    currentYear?: CurrentYear;
-  };
-
-// Submit guard used by every form before save. Disabled fields are cleared in
-// the UI, but this keeps the eventual mutation payload clean as a second layer.
-export const prepareEducationPayload = <TValues extends EducationPayloadValues>(
+export const prepareEducationPayload = <TValues extends object>(
   values: TValues,
-  scoreFieldName: ScoreFieldName,
 ): TValues => {
-  const payload = {
+  // The API owns the final field names. This helper only removes stale values
+  // from fields that are not meaningful while a teacher is still studying.
+  if (!("status" in values) || values.status !== "studying") return values;
+
+  return {
     ...values,
-    [scoreFieldName]: values.isRunningStudent
-      ? ""
-      : (values[scoreFieldName] ?? ""),
-    passingYear: values.isRunningStudent ? "" : values.passingYear,
-    certificateImage: values.isRunningStudent ? [] : values.certificateImage,
+    gpa: "",
+    cgpa: "",
+    year_of_passing: undefined,
   } as TValues;
-
-  if ("currentYear" in payload && !payload.isRunningStudent) {
-    payload.currentYear = undefined;
-  }
-
-  return payload;
 };
 
 export const formatEducationValue = <TValues extends object>(
-  key: keyof TValues,
+  _key: keyof TValues,
   value: unknown,
 ) => {
-  if (key === "certificateImage") {
-    return getUploadDisplayValue(value as UploadFile[]);
-  }
-
   return getDisplayValue(value);
 };

@@ -24,17 +24,16 @@ type ProfileEditableSectionProps<
   values: TValues;
   items: ProfileInfoField<TValues>[];
   onSave: ProfileSaveHandler<TValues>;
+  isSaving?: boolean;
+  saveError?: string;
+  onClearSaveError?: () => void;
   children: ReactNode;
   className?: string;
   formClassName?: string;
   scrollClassName?: string;
   toFormValues?: (values: TValues) => TFormValues;
   fromFormValues?: (values: TFormValues) => TValues;
-  formatValue?: (
-    key: keyof TValues,
-    value: TValues[keyof TValues],
-    values: TValues,
-  ) => string;
+  formatValue?: (key: keyof TValues, value: unknown, values: TValues) => string;
   renderAction?: (options: RenderActionOptions) => ReactNode;
 };
 
@@ -48,6 +47,9 @@ export default function ProfileEditableSection<
   values,
   items,
   onSave,
+  isSaving = false,
+  saveError,
+  onClearSaveError,
   children,
   className,
   formClassName,
@@ -60,10 +62,17 @@ export default function ProfileEditableSection<
   const editableForm = useEditableProfileForm<TValues, TFormValues>({
     values,
     onSave,
+    isSaving,
     toFormValues,
     fromFormValues,
+    onOpen: onClearSaveError,
   });
-  const defaultAction = <ProfileEditButton onClick={editableForm.openModal} />;
+  const defaultAction = (
+    <ProfileEditButton
+      disabled={editableForm.isSaving}
+      onClick={editableForm.openModal}
+    />
+  );
 
   return (
     <>
@@ -96,6 +105,7 @@ export default function ProfileEditableSection<
         form={editableForm.form}
         initialValues={editableForm.formValues}
         isSaving={editableForm.isSaving}
+        saveError={saveError}
         className={className}
         formClassName={formClassName}
         scrollClassName={scrollClassName}

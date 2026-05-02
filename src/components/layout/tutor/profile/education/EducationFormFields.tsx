@@ -1,15 +1,13 @@
 import { useEffect } from "react";
-import { Button, Checkbox, Form, Input, Select, Upload } from "antd";
-import type { UploadChangeParam } from "antd/es/upload";
-import { UploadOutlined } from "@ant-design/icons";
+import { Form, Input, InputNumber, Select } from "antd";
 
 import { ProfileFormGrid } from "../shared/ProfileFormLayout";
-import { arrayRequiredRule, requiredRule } from "../profileUtils";
+import { requiredRule } from "../profileUtils";
 import {
   BOARD_OPTIONS,
-  CURRENT_YEAR_OPTIONS,
   CURRICULUM_OPTIONS,
   GROUP_OPTIONS,
+  STATUS_OPTIONS,
   cgpaRules,
   gpaRules,
   yearRules,
@@ -19,56 +17,63 @@ import {
 type EducationCredentialFieldsProps = {
   scoreFieldName: ScoreFieldName;
   scoreLabel: "GPA" | "CGPA";
-  includeCurrentYear?: boolean;
-  certificateRequired?: boolean;
+  includeStatus?: boolean;
+  includePassingYear?: boolean;
+  includeSession?: boolean;
 };
 
-type AcademicInstitutionFieldsProps = {
-  nameField: "schoolName" | "collegeName";
-  nameLabel: string;
-  namePlaceholder: string;
-  certificateRequired?: boolean;
-};
-
-const getUploadFileList = (event: UploadChangeParam) => event.fileList;
+const SESSION_RULES = [
+  {
+    pattern: /^\d{4}(?:-\d{4})?$/,
+    message: "Enter a valid session, for example 2022 or 2022-2023",
+  },
+];
 
 export function EducationCredentialFields({
   scoreFieldName,
   scoreLabel,
-  includeCurrentYear = false,
-  certificateRequired = false,
+  includeStatus = false,
+  includePassingYear = false,
+  includeSession = false,
 }: EducationCredentialFieldsProps) {
   const form = Form.useFormInstance();
-  const isRunningStudent = Form.useWatch("isRunningStudent", form) ?? false;
+  const status = Form.useWatch("status", form);
   const scoreRules = scoreFieldName === "gpa" ? gpaRules : cgpaRules;
+  const isStudying = status === "studying";
 
   useEffect(() => {
-    // These fields are disabled for running students, so clear them before save.
-    // This keeps the eventual RTK Query payload free from stale form values.
-    if (isRunningStudent) {
-      form.setFields([
-        { name: scoreFieldName, value: "", errors: [] },
-        { name: "passingYear", value: "", errors: [] },
-        { name: "certificateImage", value: [], errors: [] },
-      ]);
-      return;
-    }
+    if (!isStudying) return;
 
-    // Current Year is meaningful only for running Diploma/Graduation students.
-    if (includeCurrentYear) {
-      form.setFields([{ name: "currentYear", value: undefined, errors: [] }]);
-    }
-  }, [form, includeCurrentYear, isRunningStudent, scoreFieldName]);
+    form.setFields([
+      { name: scoreFieldName, value: "", errors: [] },
+      { name: "year_of_passing", value: undefined, errors: [] },
+    ]);
+  }, [form, isStudying, scoreFieldName]);
 
   return (
     <>
+      {includeStatus ? (
+        <Form.Item
+          label="Status"
+          name="status"
+          className="col-span-2 lg:col-span-1"
+          rules={requiredRule("Please select your education status")}
+        >
+          <Select
+            size="large"
+            placeholder="Select status"
+            options={STATUS_OPTIONS}
+          />
+        </Form.Item>
+      ) : null}
+
       <Form.Item
         label={scoreLabel}
         name={scoreFieldName}
         className="col-span-2 lg:col-span-1"
         validateTrigger="onBlur"
         rules={
-          isRunningStudent
+          isStudying
             ? []
             : [
                 ...requiredRule(`Please enter your ${scoreLabel}`),
@@ -78,101 +83,65 @@ export function EducationCredentialFields({
       >
         <Input
           size="large"
-          disabled={isRunningStudent}
+          disabled={isStudying}
           placeholder={`Enter your ${scoreLabel}`}
         />
       </Form.Item>
 
-      <Form.Item
-        label="Passing Year"
-        name="passingYear"
-        className="col-span-2 lg:col-span-1"
-        validateTrigger="onBlur"
-        rules={
-          isRunningStudent
-            ? []
-            : [...requiredRule("Please enter your passing year"), ...yearRules]
-        }
-      >
-        <Input
-          size="large"
-          disabled={isRunningStudent}
-          placeholder="Enter passing year"
-        />
-      </Form.Item>
-
-      {includeCurrentYear ? (
+      {includePassingYear ? (
         <Form.Item
-          label="Current Year"
-          name="currentYear"
+          label="Year of Passing"
+          name="year_of_passing"
           className="col-span-2 lg:col-span-1"
           rules={
-            isRunningStudent
-              ? requiredRule("Please select your current year")
-              : []
+            isStudying
+              ? []
+              : [
+                  ...requiredRule("Please enter your year of passing"),
+                  ...yearRules,
+                ]
           }
         >
-          <Select
+          <InputNumber
             size="large"
-            disabled={!isRunningStudent}
-            placeholder="Select current year"
-            options={CURRENT_YEAR_OPTIONS}
+            min={1900}
+            max={2099}
+            disabled={isStudying}
+            className="w-full!"
+            placeholder="Enter year of passing"
           />
         </Form.Item>
       ) : null}
 
-      <Form.Item
-        label="Certificate Image"
-        name="certificateImage"
-        className="col-span-2 lg:col-span-1"
-        valuePropName="fileList"
-        getValueFromEvent={getUploadFileList}
-        rules={
-          certificateRequired && !isRunningStudent
-            ? arrayRequiredRule("Please upload certificate image")
-            : []
-        }
-      >
-        <Upload
-          beforeUpload={() => false}
-          maxCount={1}
-          accept="image/*"
-          disabled={isRunningStudent}
-          className="block w-full"
+      {includeSession ? (
+        <Form.Item
+          label="Session"
+          name="session"
+          className="col-span-2 lg:col-span-1"
+          validateTrigger="onBlur"
+          rules={SESSION_RULES}
         >
-          <Button
-            icon={<UploadOutlined />}
-            block
-            size="large"
-            disabled={isRunningStudent}
-          >
-            Upload Certificate Image
-          </Button>
-        </Upload>
-      </Form.Item>
-
-      <Form.Item
-        name="isRunningStudent"
-        valuePropName="checked"
-        className="col-span-2"
-      >
-        <Checkbox>I&apos;m a running student</Checkbox>
-      </Form.Item>
+          <Input size="large" placeholder="Example: 2022-2023" />
+        </Form.Item>
+      ) : null}
     </>
   );
 }
 
 export function AcademicInstitutionFields({
-  nameField,
   nameLabel,
   namePlaceholder,
-  certificateRequired,
-}: AcademicInstitutionFieldsProps) {
+  includeStatus,
+}: {
+  nameLabel: string;
+  namePlaceholder: string;
+  includeStatus?: boolean;
+}) {
   return (
     <ProfileFormGrid>
       <Form.Item
         label={nameLabel}
-        name={nameField}
+        name="name"
         className="col-span-2 lg:col-span-1"
         validateTrigger="onBlur"
         rules={requiredRule(`Please enter your ${nameLabel.toLowerCase()}`)}
@@ -186,11 +155,7 @@ export function AcademicInstitutionFields({
         className="col-span-2 lg:col-span-1"
         rules={requiredRule("Please select your group")}
       >
-        <Select
-          size="large"
-          placeholder="Select group"
-          options={GROUP_OPTIONS}
-        />
+        <Select size="large" placeholder="Select group" options={GROUP_OPTIONS} />
       </Form.Item>
 
       <Form.Item
@@ -212,17 +177,14 @@ export function AcademicInstitutionFields({
         className="col-span-2 lg:col-span-1"
         rules={requiredRule("Please select your board")}
       >
-        <Select
-          size="large"
-          placeholder="Select board"
-          options={BOARD_OPTIONS}
-        />
+        <Select size="large" placeholder="Select board" options={BOARD_OPTIONS} />
       </Form.Item>
 
       <EducationCredentialFields
         scoreFieldName="gpa"
         scoreLabel="GPA"
-        certificateRequired={certificateRequired}
+        includeStatus={includeStatus}
+        includePassingYear
       />
     </ProfileFormGrid>
   );
