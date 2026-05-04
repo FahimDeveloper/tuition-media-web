@@ -1,4 +1,4 @@
-import { Form, Input, InputNumber, Select } from "antd";
+import { Form, InputNumber, Select } from "antd";
 
 import {
   ProfileFormGrid,
@@ -8,11 +8,133 @@ import { arrayRequiredRule, requiredRule } from "../profileUtils";
 import {
   AVAILABLE_DAY_OPTIONS,
   TEACHING_METHOD_OPTIONS,
+  TUTORING_CATEGORY_OPTIONS,
+  TUITION_CITY_OPTIONS,
+  TUITION_COUNTRY_OPTIONS,
+  areValidOptionValues,
+  getTutoringCourseOptions,
+  getTutoringSubjectOptions,
+  getTuitionAreaOptions,
   type TuitionPreferenceValues,
 } from "./tuitionPreferenceTypes";
 
 export default function TuitionPreferenceForm() {
   const form = Form.useFormInstance<TuitionPreferenceValues>();
+  const selectedCity = Form.useWatch(
+    ["preferred_teaching_locations", "city"],
+    form,
+  );
+  const selectedTutoringCategories =
+    (Form.useWatch(["preferred_tutoring", "categories"], form) as
+      | string[]
+      | undefined) ?? [];
+  const selectedTutoringCourses =
+    (Form.useWatch(["preferred_tutoring", "courses"], form) as
+      | string[]
+      | undefined) ?? [];
+  const tuitionAreaOptions = getTuitionAreaOptions(selectedCity);
+  const tutoringCourseOptions = getTutoringCourseOptions(
+    selectedTutoringCategories,
+  );
+  const tutoringSubjectOptions = getTutoringSubjectOptions(
+    selectedTutoringCategories,
+    selectedTutoringCourses,
+  );
+
+  const validateTuitionCountry = () => {
+    const country = form.getFieldValue([
+      "preferred_teaching_locations",
+      "country",
+    ]);
+
+    if (
+      !country ||
+      TUITION_COUNTRY_OPTIONS.some((option) => option.value === country)
+    ) {
+      return Promise.resolve();
+    }
+
+    return Promise.reject(new Error("Please select a valid tuition country"));
+  };
+
+  const validateTuitionCity = () => {
+    const city = form.getFieldValue(["preferred_teaching_locations", "city"]);
+
+    if (!city || TUITION_CITY_OPTIONS.some((option) => option.value === city)) {
+      return Promise.resolve();
+    }
+
+    return Promise.reject(new Error("Please select a valid tuition city"));
+  };
+
+  const validateTuitionAreas = () => {
+    const areas =
+      form.getFieldValue(["preferred_teaching_locations", "area"]) ?? [];
+    const validAreas = new Set(
+      getTuitionAreaOptions(
+        form.getFieldValue(["preferred_teaching_locations", "city"]),
+      ).map((option) => option.value),
+    );
+
+    if (
+      areas.length === 0 ||
+      areas.every((area: string) => validAreas.has(area))
+    ) {
+      return Promise.resolve();
+    }
+
+    return Promise.reject(
+      new Error("Please select valid areas for the selected city"),
+    );
+  };
+
+  const validateTutoringCategories = () => {
+    const categories =
+      form.getFieldValue(["preferred_tutoring", "categories"]) ?? [];
+
+    if (areValidOptionValues(categories, TUTORING_CATEGORY_OPTIONS)) {
+      return Promise.resolve();
+    }
+
+    return Promise.reject(
+      new Error("Please select valid tutoring categories"),
+    );
+  };
+
+  const validateTutoringCourses = () => {
+    const categories =
+      form.getFieldValue(["preferred_tutoring", "categories"]) ?? [];
+    const courses = form.getFieldValue(["preferred_tutoring", "courses"]) ?? [];
+
+    if (areValidOptionValues(courses, getTutoringCourseOptions(categories))) {
+      return Promise.resolve();
+    }
+
+    return Promise.reject(
+      new Error("Please select valid courses for the selected categories"),
+    );
+  };
+
+  const validateTutoringSubjects = () => {
+    const categories =
+      form.getFieldValue(["preferred_tutoring", "categories"]) ?? [];
+    const courses = form.getFieldValue(["preferred_tutoring", "courses"]) ?? [];
+    const subjects =
+      form.getFieldValue(["preferred_tutoring", "subjects"]) ?? [];
+
+    if (
+      areValidOptionValues(
+        subjects,
+        getTutoringSubjectOptions(categories, courses),
+      )
+    ) {
+      return Promise.resolve();
+    }
+
+    return Promise.reject(
+      new Error("Please select valid subjects for the selected courses"),
+    );
+  };
 
   const validateSalaryRange = () => {
     const min = form.getFieldValue([
@@ -41,78 +163,136 @@ export default function TuitionPreferenceForm() {
         <Form.Item
           label="Tuition Country"
           name={["preferred_teaching_locations", "country"]}
-          validateTrigger="onBlur"
           rules={[
-            ...requiredRule("Please enter your tuition country"),
-            { min: 3, message: "Country must be at least 3 characters" },
+            ...requiredRule("Please select your tuition country"),
+            { validator: validateTuitionCountry },
           ]}
         >
-          <Input size="large" placeholder="Enter tuition country" />
+          <Select
+            size="large"
+            options={TUITION_COUNTRY_OPTIONS}
+            placeholder="Select tuition country"
+          />
         </Form.Item>
 
         <Form.Item
           label="Tuition City"
           name={["preferred_teaching_locations", "city"]}
-          validateTrigger="onBlur"
           rules={[
-            ...requiredRule("Please enter your tuition city"),
-            { min: 2, message: "City must be at least 2 characters" },
+            ...requiredRule("Please select your tuition city"),
+            { validator: validateTuitionCity },
           ]}
         >
-          <Input size="large" placeholder="Enter tuition city" />
+          <Select
+            size="large"
+            showSearch
+            optionFilterProp="label"
+            options={TUITION_CITY_OPTIONS}
+            placeholder="Select tuition city"
+            onChange={() =>
+              form.setFieldValue(["preferred_teaching_locations", "area"], [])
+            }
+          />
         </Form.Item>
 
         <Form.Item
           label="Preferred Tuition Locations"
           name={["preferred_teaching_locations", "area"]}
-          rules={arrayRequiredRule(
-            "Please add at least one preferred tuition location",
-          )}
+          rules={[
+            ...arrayRequiredRule(
+              "Please select at least one preferred tuition location",
+            ),
+            { validator: validateTuitionAreas },
+          ]}
         >
           <Select
             size="large"
-            mode="tags"
-            placeholder="Example: Dhanmondi, Mirpur, Uttara"
-            tokenSeparators={[","]}
+            mode="multiple"
+            optionFilterProp="label"
+            options={tuitionAreaOptions}
+            disabled={!selectedCity}
+            placeholder={
+              selectedCity ? "Select preferred areas" : "Select a city first"
+            }
           />
         </Form.Item>
 
         <Form.Item
           label="Preferred Tutoring Categories"
           name={["preferred_tutoring", "categories"]}
-          rules={arrayRequiredRule("Please add at least one tutoring category")}
+          rules={[
+            ...arrayRequiredRule("Please add at least one tutoring category"),
+            { validator: validateTutoringCategories },
+          ]}
         >
           <Select
             size="large"
-            mode="tags"
-            placeholder="Example: Bangla Medium, English Medium"
-            tokenSeparators={[","]}
+            mode="multiple"
+            showSearch
+            optionFilterProp="label"
+            options={TUTORING_CATEGORY_OPTIONS}
+            placeholder="Select tutoring categories"
+            onChange={() => {
+              form.setFieldValue(["preferred_tutoring", "courses"], []);
+              form.setFieldValue(["preferred_tutoring", "subjects"], []);
+            }}
+          />
+        </Form.Item>
+
+        <Form.Item
+          label="Preferred Courses / Classes"
+          name={["preferred_tutoring", "courses"]}
+          dependencies={[["preferred_tutoring", "categories"]]}
+          rules={[
+            ...arrayRequiredRule("Please add at least one class"),
+            { validator: validateTutoringCourses },
+          ]}
+        >
+          <Select
+            size="large"
+            mode="multiple"
+            showSearch
+            optionFilterProp="label"
+            options={tutoringCourseOptions}
+            disabled={selectedTutoringCategories.length === 0}
+            placeholder={
+              selectedTutoringCategories.length > 0
+                ? "Select courses or classes"
+                : "Select tutoring categories first"
+            }
+            onChange={() =>
+              form.setFieldValue(["preferred_tutoring", "subjects"], [])
+            }
           />
         </Form.Item>
 
         <Form.Item
           label="Favorite Subjects"
           name={["preferred_tutoring", "subjects"]}
-          rules={arrayRequiredRule("Please add at least one subject")}
+          dependencies={[
+            ["preferred_tutoring", "categories"],
+            ["preferred_tutoring", "courses"],
+          ]}
+          rules={[
+            ...arrayRequiredRule("Please add at least one subject"),
+            { validator: validateTutoringSubjects },
+          ]}
         >
           <Select
             size="large"
-            mode="tags"
-            placeholder="Math, Physics, English"
-            tokenSeparators={[","]}
-          />
-        </Form.Item>
-
-        <Form.Item
-          label="Preferred Classes"
-          name={["preferred_tutoring", "courses"]}
-          rules={arrayRequiredRule("Please add at least one class")}
-        >
-          <Select
-            size="large"
-            mode="tags"
-            placeholder="Class 6, HSC, IELTS"
-            tokenSeparators={[","]}
+            mode="multiple"
+            showSearch
+            optionFilterProp="label"
+            options={tutoringSubjectOptions}
+            disabled={
+              selectedTutoringCourses.length === 0 ||
+              tutoringSubjectOptions.length === 0
+            }
+            placeholder={
+              selectedTutoringCourses.length === 0
+                ? "Select courses first"
+                : "Select favorite subjects"
+            }
           />
         </Form.Item>
 

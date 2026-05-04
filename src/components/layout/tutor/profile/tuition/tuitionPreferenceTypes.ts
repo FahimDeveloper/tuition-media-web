@@ -5,6 +5,69 @@ import {
 } from "../profileUtils";
 import type { ProfileInfoField } from "../shared/ProfileInfoList";
 import type { ITeacher } from "../teacherProfileTypes";
+import tuitionLocations from "@/constant/bangladesh_tuition_locations.json";
+import tutoringCategories from "@/constant/tutoring_category_courses_subjects.json";
+
+type LocationOption = {
+  label: string;
+  value: string;
+};
+
+type TuitionLocationCity = {
+  name: string;
+  areas: string[];
+};
+
+type TuitionLocationsData = {
+  country: string;
+  cities: TuitionLocationCity[];
+};
+
+type TutoringSubject = {
+  subject_id: number;
+  subject_name: string;
+  course_id: number;
+  course_name: string;
+  category_id: number;
+  category_name: string;
+};
+
+type TutoringCourse = {
+  course_id: number;
+  course_name: string;
+  category_id: number;
+  category_name: string;
+  course_image: string | null;
+  subjects: TutoringSubject[];
+};
+
+type TutoringCategory = {
+  id: number;
+  name: string;
+  courses: TutoringCourse[];
+};
+
+type TutoringCategoriesData = {
+  data: TutoringCategory[];
+};
+
+const tuitionLocationData = tuitionLocations as TuitionLocationsData;
+const tutoringCategoryData = tutoringCategories as TutoringCategoriesData;
+
+const toDedupedOptions = (values: string[]): LocationOption[] =>
+  Array.from(new Set(values)).map((value) => ({
+    label: value,
+    value,
+  }));
+
+const getSelectedTutoringCategories = (selectedCategories?: string[]) => {
+  if (!selectedCategories?.length) return [];
+
+  const selectedCategorySet = new Set(selectedCategories);
+  return tutoringCategoryData.data.filter((category) =>
+    selectedCategorySet.has(category.name),
+  );
+};
 
 export type TuitionPreferenceValues = Pick<
   ITeacher,
@@ -30,9 +93,80 @@ export const AVAILABLE_DAY_OPTIONS = [
   { label: "Friday", value: "Friday" },
 ];
 
+export const TUITION_COUNTRY_OPTIONS: LocationOption[] = [
+  {
+    label: tuitionLocationData.country,
+    value: tuitionLocationData.country,
+  },
+];
+
+export const TUITION_CITY_OPTIONS: LocationOption[] =
+  tuitionLocationData.cities.map((city) => ({
+    label: city.name,
+    value: city.name,
+  }));
+
+export const TUTORING_CATEGORY_OPTIONS: LocationOption[] = toDedupedOptions(
+  tutoringCategoryData.data.map((category) => category.name),
+);
+
+export const getTuitionAreaOptions = (cityName?: string): LocationOption[] => {
+  if (!cityName) return [];
+
+  const city = tuitionLocationData.cities.find(
+    (locationCity) => locationCity.name === cityName,
+  );
+
+  return (
+    city?.areas.map((area) => ({
+      label: area,
+      value: area,
+    })) ?? []
+  );
+};
+
+export const getTutoringCourseOptions = (
+  selectedCategories?: string[],
+): LocationOption[] => {
+  return toDedupedOptions(
+    getSelectedTutoringCategories(selectedCategories).flatMap((category) =>
+      category.courses.map((course) => course.course_name),
+    ),
+  );
+};
+
+export const getTutoringSubjectOptions = (
+  selectedCategories?: string[],
+  selectedCourses?: string[],
+): LocationOption[] => {
+  if (!selectedCourses?.length) return [];
+
+  const selectedCourseSet = new Set(selectedCourses);
+
+  return toDedupedOptions(
+    getSelectedTutoringCategories(selectedCategories).flatMap((category) =>
+      category.courses.flatMap((course) =>
+        selectedCourseSet.has(course.course_name)
+          ? course.subjects.map((subject) => subject.subject_name)
+          : [],
+      ),
+    ),
+  );
+};
+
+export const areValidOptionValues = (
+  values: string[] | undefined,
+  options: LocationOption[],
+) => {
+  if (!values?.length) return true;
+
+  const validValues = new Set(options.map((option) => option.value));
+  return values.every((value) => validValues.has(value));
+};
+
 export const INITIAL_TUITION_PREFERENCE_VALUES: TuitionPreferenceValues = {
   preferred_teaching_locations: {
-    country: "Bangladesh",
+    country: tuitionLocationData.country,
     city: "",
     area: [],
   },
