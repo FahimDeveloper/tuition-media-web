@@ -120,8 +120,6 @@ export type TeacherParentsInfo = {
 export type TeacherIdentification = {
   type?: TeacherIdentificationType;
   number: string;
-  front_image: string;
-  back_image: string;
 };
 
 export type TeacherCertification = {

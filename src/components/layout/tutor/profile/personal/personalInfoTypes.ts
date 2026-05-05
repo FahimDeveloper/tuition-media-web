@@ -115,8 +115,6 @@ export const INITIAL_PERSONAL_INFO_VALUES: PersonalInfoValues = {
   identification: {
     type: undefined,
     number: "",
-    front_image: "",
-    back_image: "",
   },
 };
 
@@ -137,16 +135,6 @@ export const PERSONAL_INFO_ITEMS: ProfileInfoField<PersonalInfoValues>[] = [
     key: "identification.number",
     label: "ID Number",
     getValue: (values) => values.identification.number,
-  },
-  {
-    key: "identification.front_image",
-    label: "ID Front Image",
-    getValue: (values) => values.identification.front_image,
-  },
-  {
-    key: "identification.back_image",
-    label: "ID Back Image",
-    getValue: (values) => values.identification.back_image,
   },
   { key: "preset_address", label: "Present Address" },
   { key: "permanent_address", label: "Permanent Address" },
@@ -194,6 +182,10 @@ export const toPersonalInfoFormValues = (
   return {
     ...values,
     date_of_birth: parsedDate?.isValid() ? parsedDate : null,
+    identification: {
+      type: values.identification.type,
+      number: values.identification.number,
+    },
   };
 };
 
@@ -202,4 +194,8 @@ export const fromPersonalInfoFormValues = (
 ): PersonalInfoValues => ({
   ...values,
   date_of_birth: values.date_of_birth?.format("YYYY-MM-DD") ?? "",
+  identification: {
+    type: values.identification.type,
+    number: values.identification.number,
+  },
 });

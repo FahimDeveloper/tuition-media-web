@@ -15,7 +15,6 @@ import {
   RELIGION_OPTIONS,
   fullNameRules,
   idNumberRules,
-  optionalUrlRules,
   phoneRules,
   type PersonalInfoFormValues,
 } from "./personalInfoTypes";
@@ -164,26 +163,6 @@ export default function PersonalInfoForm() {
               </div>
             </Form.Item>
           </div>
-
-          <Form.Item
-            label="ID Front Image URL"
-            name={["identification", "front_image"]}
-            className="col-span-2 lg:col-span-1"
-            validateTrigger="onBlur"
-            rules={optionalUrlRules}
-          >
-            <Input size="large" type="url" placeholder="https://..." />
-          </Form.Item>
-
-          <Form.Item
-            label="ID Back Image URL"
-            name={["identification", "back_image"]}
-            className="col-span-2 lg:col-span-1"
-            validateTrigger="onBlur"
-            rules={optionalUrlRules}
-          >
-            <Input size="large" type="url" placeholder="https://..." />
-          </Form.Item>
 
           <Form.Item
             label="Present Address"
