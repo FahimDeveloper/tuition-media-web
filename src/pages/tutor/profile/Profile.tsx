@@ -55,7 +55,7 @@ export default function UserProfiles() {
   const [profileValues, setProfileValues] = useState<TutorProfileViewModel>(
     () => mapTeacherToProfileViewModel(),
   );
-  
+
   const [activeSavingSection, setActiveSavingSection] =
     useState<ProfileSectionKey | null>(null);
   const [saveErrors, setSaveErrors] = useState<ProfileSaveErrors>({});
@@ -255,20 +255,20 @@ export default function UserProfiles() {
               onClearSaveError={() => clearSaveError("personalInfo")}
             />
 
-            <EmergencyContactSection
-              values={profileValues.emergencyContact}
-              onSave={handleEmergencyContactSave}
-              isSaving={activeSavingSection === "emergencyContact"}
-              saveError={saveErrors.emergencyContact}
-              onClearSaveError={() => clearSaveError("emergencyContact")}
-            />
-
             <TuitionPreferenceSection
               values={profileValues.tuitionPreference}
               onSave={handleTuitionPreferenceSave}
               isSaving={activeSavingSection === "tuitionPreference"}
               saveError={saveErrors.tuitionPreference}
               onClearSaveError={() => clearSaveError("tuitionPreference")}
+            />
+
+            <EmergencyContactSection
+              values={profileValues.emergencyContact}
+              onSave={handleEmergencyContactSave}
+              isSaving={activeSavingSection === "emergencyContact"}
+              saveError={saveErrors.emergencyContact}
+              onClearSaveError={() => clearSaveError("emergencyContact")}
             />
 
             <EducationInfoSection
