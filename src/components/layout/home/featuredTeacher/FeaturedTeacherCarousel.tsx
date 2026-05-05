@@ -2,13 +2,18 @@ import type { CSSProperties, MouseEventHandler } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { Carousel } from "antd";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import TeacherProfileCard, {
-  type TeacherProfile,
-} from "@/components/layout/home/featuredTeacher/TeacherProfileCard";
+import TeacherProfileCard from "@/components/layout/home/featuredTeacher/TeacherProfileCard";
+import type { FeaturedTeacherViewModel } from "@/components/layout/home/featuredTeacher/featuredTeacherTypes";
 import "@/components/layout/home/featuredTeacher/featuredTeacher.css";
 
 type CardsPerSlide = 1 | 2 | 3;
 type ArrowDirection = "previous" | "next";
+type FeaturedTeacherCarouselProps = {
+  teachers: FeaturedTeacherViewModel[];
+  isLoading?: boolean;
+  isError?: boolean;
+  errorMessage?: string;
+};
 
 const BREAKPOINTS = {
   tablet: 640,
@@ -22,87 +27,6 @@ const GRID_CLASS_BY_CARDS: Record<CardsPerSlide, string> = {
 };
 
 const ARROW_CLASS_NAME = "featured-teacher-arrow";
-
-const FEATURED_TEACHERS: TeacherProfile[] = [
-  {
-    id: "t-1",
-    name: "Farhana Rahman",
-    title: "Math & Physics Tutor",
-    location: "Dhanmondi, Dhaka",
-    subjects: ["HSC Math", "Physics", "ICT"],
-    rating: 4.9,
-    experienceYears: 8,
-    hourlyRate: 1200,
-    avatarUrl:
-      "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    isVerified: true,
-  },
-  {
-    id: "t-2",
-    name: "Tanvir Hasan",
-    title: "English & IELTS Mentor",
-    location: "Mirpur, Dhaka",
-    subjects: ["Spoken English", "IELTS", "A-Level English"],
-    rating: 4.8,
-    experienceYears: 6,
-    hourlyRate: 1000,
-    avatarUrl:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    isVerified: true,
-  },
-  {
-    id: "t-3",
-    name: "Samia Akter",
-    title: "Biology Specialist",
-    location: "Uttara, Dhaka",
-    subjects: ["Biology", "Science", "Admission Prep"],
-    rating: 4.9,
-    experienceYears: 7,
-    hourlyRate: 1100,
-    avatarUrl:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    isVerified: true,
-  },
-  {
-    id: "t-4",
-    name: "Muntasir Alam",
-    title: "Chemistry Tutor",
-    location: "Bashundhara, Dhaka",
-    subjects: ["Chemistry", "O-Level Science", "Lab Prep"],
-    rating: 4.7,
-    experienceYears: 5,
-    hourlyRate: 900,
-    avatarUrl:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    isVerified: false,
-  },
-  {
-    id: "t-5",
-    name: "Nusrat Jahan",
-    title: "Primary All-Subject Tutor",
-    location: "Mohammadpur, Dhaka",
-    subjects: ["Bangla", "English", "Math"],
-    rating: 4.8,
-    experienceYears: 9,
-    hourlyRate: 800,
-    avatarUrl:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    isVerified: true,
-  },
-  {
-    id: "t-6",
-    name: "Sajid Karim",
-    title: "Higher Math Instructor",
-    location: "Banani, Dhaka",
-    subjects: ["Higher Math", "SAT Math", "University Prep"],
-    rating: 4.9,
-    experienceYears: 10,
-    hourlyRate: 1500,
-    avatarUrl:
-      "https://images.unsplash.com/photo-1566492031773-4f4e44671d66?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    isVerified: true,
-  },
-];
 
 const resolveCardsPerSlide = (viewportWidth: number): CardsPerSlide => {
   if (viewportWidth >= BREAKPOINTS.desktop) {
@@ -125,10 +49,10 @@ const getInitialCardsPerSlide = (): CardsPerSlide => {
 };
 
 const splitTeachersBySlide = (
-  teachers: TeacherProfile[],
+  teachers: FeaturedTeacherViewModel[],
   cardsPerSlide: CardsPerSlide,
-): TeacherProfile[][] => {
-  const groupedTeachers: TeacherProfile[][] = [];
+): FeaturedTeacherViewModel[][] => {
+  const groupedTeachers: FeaturedTeacherViewModel[][] = [];
 
   for (let index = 0; index < teachers.length; index += cardsPerSlide) {
     groupedTeachers.push(teachers.slice(index, index + cardsPerSlide));
@@ -194,23 +118,71 @@ const CarouselArrow = ({
   );
 };
 
-const FeaturedTeacherCarousel = () => {
+const FeaturedTeacherCarouselState = ({
+  title,
+  description,
+}: {
+  title: string;
+  description?: string;
+}) => (
+  <div className="border-brand-200/70 bg-surface-elevated shadow-theme-md dark:border-border rounded-2xl border px-6 py-10 text-center">
+    <h3 className="font-poppins text-text-strong text-xl font-bold">{title}</h3>
+    {description ? (
+      <p className="text-text-muted mx-auto mt-3 max-w-md text-sm leading-6">
+        {description}
+      </p>
+    ) : null}
+  </div>
+);
+
+const FeaturedTeacherCarousel = ({
+  teachers,
+  isLoading = false,
+  isError = false,
+  errorMessage = "",
+}: FeaturedTeacherCarouselProps) => {
   const cardsPerSlide = useCardsPerSlide();
 
   const teachersBySlide = useMemo(
-    () => splitTeachersBySlide(FEATURED_TEACHERS, cardsPerSlide),
-    [cardsPerSlide],
+    () => splitTeachersBySlide(teachers, cardsPerSlide),
+    [cardsPerSlide, teachers],
   );
 
   const slideGridClasses = GRID_CLASS_BY_CARDS[cardsPerSlide];
+  const hasMultipleSlides = teachersBySlide.length > 1;
+
+  if (isLoading) {
+    return <FeaturedTeacherCarouselState title="Loading featured teachers..." />;
+  }
+
+  if (isError) {
+    return (
+      <FeaturedTeacherCarouselState
+        title="Unable to load featured teachers"
+        description={
+          errorMessage ||
+          "Please try again later. Featured teachers could not be loaded."
+        }
+      />
+    );
+  }
+
+  if (teachers.length === 0) {
+    return (
+      <FeaturedTeacherCarouselState
+        title="No featured teachers found"
+        description="Featured teacher profiles will appear here when they are available."
+      />
+    );
+  }
 
   return (
     <div className="featured-teacher-carousel">
       <Carousel
-        arrows
-        infinite
+        arrows={hasMultipleSlides}
+        infinite={hasMultipleSlides}
         draggable
-        dots
+        dots={hasMultipleSlides}
         prevArrow={<CarouselArrow direction="previous" />}
         nextArrow={<CarouselArrow direction="next" />}
       >
