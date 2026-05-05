@@ -10,7 +10,7 @@ import Home from "@/pages/Home";
 import NotFound from "@/pages/errors/NotFound";
 import Tuitions from "@/pages/tuitions/Tuitions";
 import PrivetRoute from "@/routers/PrivateRoute";
-import BookDemoClass from "@/pages/book-demo-class/BookDemoClass";
+import BookDemoClass from "@/pages/book_demo_class/BookDemoClass";
 import TuitionDetailsPage from "@/pages/tuitions/TuitionDetails";
 
 const router = createBrowserRouter([
