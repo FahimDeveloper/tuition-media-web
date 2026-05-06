@@ -25,6 +25,9 @@ import type { EmergencyContactValues } from "@/components/layout/tutor/profile/e
 import type { EducationValues } from "@/components/layout/tutor/profile/education/educationTypes";
 import type { PersonalInfoValues } from "@/components/layout/tutor/profile/personal/personalInfoTypes";
 import type { TuitionPreferenceValues } from "@/components/layout/tutor/profile/tuition/tuitionPreferenceTypes";
+import { useSingleTeacherQuery } from "@/redux/features/teachers/teachersProfileApi";
+import { useAppSelector } from "@/hooks/useAppHooks";
+import da from "@fullcalendar/core/locales/da.js";
 
 type ProfileSaveErrors = Partial<Record<ProfileSectionKey, string>>;
 type ProfileQueryState = {
@@ -52,6 +55,11 @@ const isEducationSectionKey = (
 };
 
 export default function UserProfiles() {
+  const { user } = useAppSelector((state) => state.auth);
+
+  const { data, isLoading, isFetching } = useSingleTeacherQuery(user?._id);
+  console.log(data);
+
   const [profileValues, setProfileValues] = useState<TutorProfileViewModel>(
     () => mapTeacherToProfileViewModel(),
   );
