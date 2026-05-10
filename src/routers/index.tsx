@@ -8,10 +8,12 @@ import Login from "@/pages/Auth/Login";
 import SignUp from "@/pages/Auth/SignUp";
 import Home from "@/pages/Home";
 import NotFound from "@/pages/Errors/NotFound";
-import Tuitions from "@/pages/tuitions/Tuitions";
+import Tuitions from "@/pages/tuition_jobs/Tuitions";
 import PrivetRoute from "@/routers/PrivateRoute";
 import BookDemoClass from "@/pages/book_demo_class/BookDemoClass";
-import TuitionDetailsPage from "@/pages/tuitions/TuitionDetails";
+import TuitionDetailsPage from "@/pages/tuition_jobs/TuitionDetails";
+import TutorHub from "@/pages/tutor_hub/TutorHub";
+import TutorHubDetails from "@/pages/tutor_hub/TutorHubDetails";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +24,8 @@ const router = createBrowserRouter([
       { path: "demo-class", element: <BookDemoClass /> },
       { path: "tuitions", element: <Tuitions /> },
       { path: "tuitions/:id", element: <TuitionDetailsPage /> },
+      { path: "hub", element: <TutorHub /> },
+      { path: "hub/:id", element: <TutorHubDetails /> },
     ],
   },
   {
