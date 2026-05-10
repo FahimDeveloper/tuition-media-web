@@ -18,8 +18,10 @@ import {
 } from "./tuition/tuitionPreferenceTypes";
 import type {
   ITeacher,
+  TeacherEducation,
   TeacherProfilePatchPayload,
 } from "./teacherProfileTypes";
+import { calculateTeacherProfileCompletion } from "./profileCompletion";
 
 export type { TeacherProfilePatchPayload } from "./teacherProfileTypes";
 
@@ -47,27 +49,18 @@ export type TutorProfileViewModel = {
   education: EducationValues;
 };
 
-export type TeacherProfileApiResponse = Partial<ITeacher>;
+export type TeacherProfile = Partial<ITeacher>;
 
 const DEFAULT_PROFILE_META_VALUES: ProfileMetaValues = {
   displayName: "Shakibul Islam",
   institution: "TutoriumBD",
   bio: "Passionate educator focused on helping students learn with confidence.",
   avatarUrl: "/images/user/teacher.jpg",
-  completionPercentage: 78,
+  completionPercentage: 0,
 };
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null && !Array.isArray(value);
-
-const readNumber = (
-  source: Record<string, unknown>,
-  key: string,
-  fallback: number,
-) => {
-  const value = source[key];
-  return typeof value === "number" && Number.isFinite(value) ? value : fallback;
-};
 
 const mergeSection = <TValues extends object>(
   fallback: TValues,
@@ -138,7 +131,7 @@ export const createDefaultProfileViewModel = (): TutorProfileViewModel => ({
 });
 
 export const mapTeacherToProfileViewModel = (
-  teacher?: TeacherProfileApiResponse | null,
+  teacher?: TeacherProfile | null,
 ): TutorProfileViewModel => {
   const defaults = createDefaultProfileViewModel();
   const teacherRecord = teacher ?? undefined;
@@ -158,19 +151,15 @@ export const mapTeacherToProfileViewModel = (
   const defaultAvailability = defaults.tuitionPreference
     .tutoring_availability ?? { days: [] };
 
-  // This is the only API-to-form mapping layer. When useSingleTeacherQuery is
-  // connected, pass its data here and keep form components API-shape agnostic.
+  // Keep API fields isolated here so section forms can stay focused on their
+  // editable view-model shape.
   return {
     meta: {
       displayName: teacherRecord?.full_name || defaults.meta.displayName,
       institution: defaults.meta.institution,
       bio: teacherRecord?.about_me || defaults.meta.bio,
       avatarUrl: teacherRecord?.profile_picture || defaults.meta.avatarUrl,
-      completionPercentage: readNumber(
-        teacherRecord ? (teacherRecord as Record<string, unknown>) : {},
-        "profile_completion_percentage",
-        defaults.meta.completionPercentage,
-      ),
+      completionPercentage: calculateTeacherProfileCompletion(teacherRecord),
     },
     personalInfo: {
       ...defaults.personalInfo,
@@ -181,7 +170,6 @@ export const mapTeacherToProfileViewModel = (
       permanent_address:
         teacherRecord?.permanent_address ??
         defaults.personalInfo.permanent_address,
-      about_me: teacherRecord?.about_me ?? defaults.personalInfo.about_me,
       gender: teacherRecord?.gender ?? defaults.personalInfo.gender,
       date_of_birth:
         teacherRecord?.date_of_birth ?? defaults.personalInfo.date_of_birth,
@@ -229,17 +217,12 @@ export const getEducationValuesForDiplomaMode = (
     ...INITIAL_COLLEGE_VALUES,
     is_diploma_student: isDiplomaStudent,
   },
-  diploma: { ...INITIAL_DIPLOMA_VALUES },
+  diploma: { ...INITIAL_DIPLOMA_VALUES, is_diploma: isDiplomaStudent },
 });
 
 export const buildPersonalInfoProfilePatch = (
   values: PersonalInfoValues,
-): TeacherProfilePatchPayload => {
-  // Every builder returns the exact top-level fields accepted by PATCH
-  // /teachers/profile. Future RTK Query code can pass this directly to
-  // updateTeacher(payload).unwrap().
-  return values;
-};
+): TeacherProfilePatchPayload => values;
 
 export const buildEmergencyContactProfilePatch = (
   values: EmergencyContactValues,
@@ -250,15 +233,37 @@ export const buildTuitionPreferenceProfilePatch = (
 ): TeacherProfilePatchPayload => values;
 
 export const buildEducationProfilePatch = <TKey extends EducationSectionKey>(
+  currentEducation: TeacherEducation | undefined,
   key: TKey,
   values: EducationValues[TKey],
 ): TeacherProfilePatchPayload => ({
+  // The backend replaces nested objects during PATCH, so send the latest known
+  // education object with only the edited section changed.
   education: {
+    ...currentEducation,
     [key]: values,
   },
 });
 
-export const getProfileErrorMessage = (error: unknown) => {
+export const applyTeacherProfileUpdate = (
+  currentProfile: TeacherProfile | undefined,
+  patch: TeacherProfilePatchPayload,
+  serverProfile?: TeacherProfile,
+): TeacherProfile => ({
+  ...currentProfile,
+  ...patch,
+  ...serverProfile,
+  education: {
+    ...currentProfile?.education,
+    ...patch.education,
+    ...serverProfile?.education,
+  },
+});
+
+export const getProfileErrorMessage = (
+  error: unknown,
+  fallbackMessage = "Unable to save this profile section. Please try again.",
+) => {
   if (
     isRecord(error) &&
     isRecord(error.data) &&
@@ -271,5 +276,5 @@ export const getProfileErrorMessage = (error: unknown) => {
     return error.message;
   }
 
-  return "Unable to save this profile section. Please try again.";
+  return fallbackMessage;
 };

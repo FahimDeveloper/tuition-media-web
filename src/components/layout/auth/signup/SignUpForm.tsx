@@ -370,7 +370,7 @@ export default function SignUpForm() {
        * and navigate to `/login` instead.
        */
       dispatch(loggedInUser(response.results));
-      navigate("/dashboard");
+      navigate("/tutor", { replace: true });
     } catch (error) {
       const fieldErrors = getApiFieldErrors(error);
 

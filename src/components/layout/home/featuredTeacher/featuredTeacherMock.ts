@@ -99,6 +99,7 @@ export const mockFeaturedTeacherRecords: FeaturedTeacherApiRecord[] = [
     permanent_address: "Mohammadpur, Dhaka",
     education: {
       diploma: {
+        is_diploma: true,
         name: "Dhaka Polytechnic Institute",
         type: "Diploma",
         department: "Education",

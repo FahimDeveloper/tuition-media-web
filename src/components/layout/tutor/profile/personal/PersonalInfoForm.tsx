@@ -205,19 +205,6 @@ export default function PersonalInfoForm() {
             </Checkbox>
           </div>
 
-          <Form.Item
-            label="About Me"
-            name="about_me"
-            className="col-span-2"
-            rules={[
-              { max: 300, message: "About me cannot exceed 300 characters" },
-            ]}
-          >
-            <Input.TextArea
-              rows={4}
-              placeholder="Write a short bio about yourself"
-            />
-          </Form.Item>
         </ProfileFormGrid>
       </ProfileFormSection>
     </>

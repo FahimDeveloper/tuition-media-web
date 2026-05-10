@@ -16,7 +16,6 @@ export type PersonalInfoValues = {
   phone: string;
   preset_address?: string;
   permanent_address?: string;
-  about_me?: string;
   gender?: TeacherGender;
   date_of_birth: string;
   blood_group?: TeacherBloodGroup;
@@ -106,7 +105,6 @@ export const INITIAL_PERSONAL_INFO_VALUES: PersonalInfoValues = {
   phone: "",
   preset_address: "",
   permanent_address: "",
-  about_me: "",
   gender: undefined,
   date_of_birth: "",
   blood_group: undefined,
@@ -138,7 +136,6 @@ export const PERSONAL_INFO_ITEMS: ProfileInfoField<PersonalInfoValues>[] = [
   },
   { key: "preset_address", label: "Present Address" },
   { key: "permanent_address", label: "Permanent Address" },
-  { key: "about_me", label: "About Me" },
 ];
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
@@ -152,11 +149,11 @@ export const formatDateForDisplay = (value?: string) => {
 
   if (!trimmedValue) return "Not provided";
 
-  const parsedDate = new Date(`${trimmedValue}T00:00:00`);
+  const parsedDate = dayjs(trimmedValue);
 
-  return Number.isNaN(parsedDate.getTime())
+  return !parsedDate.isValid()
     ? getDisplayValue(value)
-    : dateFormatter.format(parsedDate);
+    : dateFormatter.format(parsedDate.toDate());
 };
 
 export const formatPersonalInfoValue = (

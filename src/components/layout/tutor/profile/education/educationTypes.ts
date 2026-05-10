@@ -167,6 +167,7 @@ export const INITIAL_COLLEGE_VALUES: CollegeValues = {
 };
 
 export const INITIAL_DIPLOMA_VALUES: DiplomaValues = {
+  is_diploma: false,
   name: "",
   department: "",
   type: "",
@@ -225,6 +226,7 @@ export const COLLEGE_INFO_ITEMS: ProfileInfoField<CollegeValues>[] = [
 ];
 
 export const DIPLOMA_INFO_ITEMS: ProfileInfoField<DiplomaValues>[] = [
+  { key: "is_diploma", label: "Diploma Student" },
   { key: "name", label: "Institution Name" },
   { key: "department", label: "Department" },
   { key: "type", label: "Institute Type" },

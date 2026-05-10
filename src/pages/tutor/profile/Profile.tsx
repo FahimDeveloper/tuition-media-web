@@ -1,5 +1,6 @@
-import { useCallback, useState } from "react";
-import { Alert, Button, Skeleton } from "antd";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { skipToken } from "@reduxjs/toolkit/query";
+import { Alert, Button, Empty, Skeleton, message } from "antd";
 import PageBreadcrumb from "@/components/layout/shared/PageBreadcrumb";
 import UserMetaCard from "@/components/layout/tutor/profile/UserMetaCard";
 import PersonalInfoSection from "@/components/layout/tutor/profile/personal/PersonalInfoSection";
@@ -12,64 +13,90 @@ import {
   buildEmergencyContactProfilePatch,
   buildPersonalInfoProfilePatch,
   buildTuitionPreferenceProfilePatch,
-  createDefaultProfileViewModel,
+  applyTeacherProfileUpdate,
   getEducationValuesForDiplomaMode,
   getProfileErrorMessage,
   mapTeacherToProfileViewModel,
   type EducationSectionKey,
   type ProfileSectionKey,
   type TeacherProfilePatchPayload,
-  type TutorProfileViewModel,
+  type TeacherProfile,
 } from "@/components/layout/tutor/profile/profileAdapters";
 import type { EmergencyContactValues } from "@/components/layout/tutor/profile/emergencyContact/EmergencyContactTypes";
 import type { EducationValues } from "@/components/layout/tutor/profile/education/educationTypes";
 import type { PersonalInfoValues } from "@/components/layout/tutor/profile/personal/personalInfoTypes";
 import type { TuitionPreferenceValues } from "@/components/layout/tutor/profile/tuition/tuitionPreferenceTypes";
-import { useSingleTeacherQuery } from "@/redux/features/teachers/teachersProfileApi";
+import {
+  useTeacherProfileQuery,
+  useUpdateTeacherProfileMutation,
+} from "@/redux/features/teachers/teachersProfileApi";
 import { useAppSelector } from "@/hooks/useAppHooks";
-import da from "@fullcalendar/core/locales/da.js";
 
-type ProfileSaveErrors = Partial<Record<ProfileSectionKey, string>>;
-type ProfileQueryState = {
-  isLoading: boolean;
-  isFetching: boolean;
-  errorMessage: string;
-};
+type SectionErrors = Partial<Record<ProfileSectionKey, string>>;
 
-const PROFILE_QUERY_STATE: ProfileQueryState = {
-  isLoading: false,
-  isFetching: false,
-  errorMessage: "",
-};
+const EDUCATION_SECTION_KEYS = new Set<ProfileSectionKey>([
+  "school",
+  "college",
+  "diploma",
+  "graduation",
+  "post_graduation",
+]);
 
 const isEducationSectionKey = (
-  sectionKey: ProfileSectionKey | null,
-): sectionKey is EducationSectionKey => {
-  return (
-    sectionKey === "school" ||
-    sectionKey === "college" ||
-    sectionKey === "diploma" ||
-    sectionKey === "graduation" ||
-    sectionKey === "post_graduation"
-  );
-};
+  key: ProfileSectionKey | null,
+): key is EducationSectionKey =>
+  Boolean(key && EDUCATION_SECTION_KEYS.has(key));
 
-export default function UserProfiles() {
+export default function TutorProfile() {
   const { user } = useAppSelector((state) => state.auth);
+  const teacherId = user?._id;
+  const [messageApi, contextHolder] = message.useMessage();
 
-  const { data, isLoading, isFetching } = useSingleTeacherQuery(user?._id);
-  console.log(data);
+  const {
+    data: fetchedProfile,
+    error: profileError,
+    isError: isProfileError,
+    isFetching: isProfileFetching,
+    isLoading: isProfileLoading,
+    isSuccess: isProfileSuccess,
+    refetch: refetchTeacherProfile,
+  } = useTeacherProfileQuery(teacherId ?? skipToken);
+  const [updateTeacherProfile] = useUpdateTeacherProfileMutation();
 
-  const [profileValues, setProfileValues] = useState<TutorProfileViewModel>(
-    () => mapTeacherToProfileViewModel(),
+  const [editedProfile, setEditedProfile] = useState<TeacherProfile | null>(
+    null,
+  );
+  const [savingSectionKey, setSavingSectionKey] =
+    useState<ProfileSectionKey | null>(null);
+  const [sectionErrors, setSectionErrors] = useState<SectionErrors>({});
+
+  useEffect(() => {
+    setEditedProfile(fetchedProfile ?? null);
+  }, [fetchedProfile]);
+
+  const activeProfile = editedProfile ?? fetchedProfile;
+  const profileValues = useMemo(
+    () => mapTeacherToProfileViewModel(activeProfile),
+    [activeProfile],
   );
 
-  const [activeSavingSection, setActiveSavingSection] =
-    useState<ProfileSectionKey | null>(null);
-  const [saveErrors, setSaveErrors] = useState<ProfileSaveErrors>({});
+  const profileLoadErrorMessage = useMemo(
+    () =>
+      isProfileError
+        ? getProfileErrorMessage(
+            profileError,
+            "Unable to load profile information. Please try again.",
+          )
+        : "",
+    [isProfileError, profileError],
+  );
+
+  const isProfileEmpty =
+    isProfileSuccess &&
+    (!activeProfile || Object.keys(activeProfile).length === 0);
 
   const clearSaveError = useCallback((sectionKey: ProfileSectionKey) => {
-    setSaveErrors((previous) => {
+    setSectionErrors((previous) => {
       if (!previous[sectionKey]) return previous;
 
       const nextErrors = { ...previous };
@@ -78,46 +105,46 @@ export default function UserProfiles() {
     });
   }, []);
 
-  const retryProfileQuery = useCallback(() => {
-    // Replace this with refetch() after useSingleTeacherQuery is connected.
-    setProfileValues(createDefaultProfileViewModel());
-  }, []);
+  const patchTeacherProfile = useCallback(
+    async (
+      patch: TeacherProfilePatchPayload,
+    ): Promise<TeacherProfile | undefined> => {
+      if (!teacherId) {
+        throw new Error("No authenticated teacher found.");
+      }
 
-  const saveProfilePatch = useCallback(
-    async (payload: TeacherProfilePatchPayload) => {
-      // Replace this no-op with updateTeacher(payload).unwrap() when the RTK
-      // Query mutation is wired. Payload builders already match that call shape.
-      void payload;
-      return;
+      return updateTeacherProfile({ teacherId, patch }).unwrap();
     },
-    [],
+    [teacherId, updateTeacherProfile],
   );
 
   const saveProfileSection = useCallback(
-    async (
-      sectionKey: ProfileSectionKey,
-      payload: TeacherProfilePatchPayload,
-      applyLocalChange: (
-        current: TutorProfileViewModel,
-      ) => TutorProfileViewModel,
-    ) => {
-      setActiveSavingSection(sectionKey);
+    async (sectionKey: ProfileSectionKey, patch: TeacherProfilePatchPayload) => {
+      setSavingSectionKey(sectionKey);
       clearSaveError(sectionKey);
 
       try {
-        await saveProfilePatch(payload);
-        setProfileValues((current) => applyLocalChange(current));
+        const serverProfile = await patchTeacherProfile(patch);
+
+        setEditedProfile((currentProfile) =>
+          applyTeacherProfileUpdate(
+            currentProfile ?? activeProfile,
+            patch,
+            serverProfile,
+          ),
+        );
+        messageApi.success("Profile updated successfully.");
       } catch (error) {
-        setSaveErrors((previous) => ({
+        setSectionErrors((previous) => ({
           ...previous,
           [sectionKey]: getProfileErrorMessage(error),
         }));
         throw error;
       } finally {
-        setActiveSavingSection(null);
+        setSavingSectionKey(null);
       }
     },
-    [clearSaveError, saveProfilePatch],
+    [activeProfile, clearSaveError, messageApi, patchTeacherProfile],
   );
 
   const handlePersonalInfoSave = useCallback(
@@ -125,15 +152,6 @@ export default function UserProfiles() {
       saveProfileSection(
         "personalInfo",
         buildPersonalInfoProfilePatch(values),
-        (current) => ({
-          ...current,
-          personalInfo: values,
-          meta: {
-            ...current.meta,
-            displayName: values.full_name || current.meta.displayName,
-            bio: values.about_me || current.meta.bio,
-          },
-        }),
       ),
     [saveProfileSection],
   );
@@ -143,10 +161,6 @@ export default function UserProfiles() {
       saveProfileSection(
         "emergencyContact",
         buildEmergencyContactProfilePatch(values),
-        (current) => ({
-          ...current,
-          emergencyContact: values,
-        }),
       ),
     [saveProfileSection],
   );
@@ -156,10 +170,6 @@ export default function UserProfiles() {
       saveProfileSection(
         "tuitionPreference",
         buildTuitionPreferenceProfilePatch(values),
-        (current) => ({
-          ...current,
-          tuitionPreference: values,
-        }),
       ),
     [saveProfileSection],
   );
@@ -171,48 +181,44 @@ export default function UserProfiles() {
     ) =>
       saveProfileSection(
         sectionKey,
-        buildEducationProfilePatch(sectionKey, values),
-        (current) => ({
-          ...current,
-          education: {
-            ...current.education,
-            [sectionKey]: values,
-          },
-        }),
+        buildEducationProfilePatch(activeProfile?.education, sectionKey, values),
       ),
-    [saveProfileSection],
+    [activeProfile?.education, saveProfileSection],
   );
 
   const handleDiplomaToggle = useCallback((checked: boolean) => {
-    setProfileValues((current) => ({
-      ...current,
-      education: getEducationValuesForDiplomaMode(current.education, checked),
-    }));
-  }, []);
+    const education = getEducationValuesForDiplomaMode(
+      profileValues.education,
+      checked,
+    );
+
+    setEditedProfile((currentProfile) =>
+      applyTeacherProfileUpdate(currentProfile ?? activeProfile, { education }),
+    );
+  }, [activeProfile, profileValues.education]);
 
   const handleAvatarChange = useCallback((avatarUrl: string) => {
-    setProfileValues((current) => ({
-      ...current,
-      meta: {
-        ...current.meta,
-        avatarUrl,
-      },
-    }));
-  }, []);
+    setEditedProfile((currentProfile) =>
+      applyTeacherProfileUpdate(currentProfile ?? activeProfile, {
+        profile_picture: avatarUrl,
+      }),
+    );
+  }, [activeProfile]);
 
   const educationSaveErrors: Partial<Record<EducationSectionKey, string>> = {
-    school: saveErrors.school,
-    college: saveErrors.college,
-    diploma: saveErrors.diploma,
-    graduation: saveErrors.graduation,
-    post_graduation: saveErrors.post_graduation,
+    school: sectionErrors.school,
+    college: sectionErrors.college,
+    diploma: sectionErrors.diploma,
+    graduation: sectionErrors.graduation,
+    post_graduation: sectionErrors.post_graduation,
   };
-  const educationSavingSection = isEducationSectionKey(activeSavingSection)
-    ? activeSavingSection
+  const educationSavingSection = isEducationSectionKey(savingSectionKey)
+    ? savingSectionKey
     : null;
 
   return (
     <>
+      {contextHolder}
       <PageMeta
         title="Tutor Profile | TutoriumBD"
         description="Manage tutor profile information for TutoriumBD."
@@ -220,27 +226,40 @@ export default function UserProfiles() {
       <div className="border-border bg-surface-elevated rounded-2xl border p-5 lg:p-6">
         <PageBreadcrumb pageTitle="Profile" />
 
-        {PROFILE_QUERY_STATE.isLoading ? (
+        {!teacherId ? (
+          <Alert
+            type="warning"
+            showIcon
+            message="No authenticated teacher found"
+            description="Please log in again to manage your tutor profile."
+            className="rounded-lg!"
+          />
+        ) : isProfileLoading ? (
           <div className="space-y-6">
             <Skeleton active paragraph={{ rows: 4 }} />
             <Skeleton active paragraph={{ rows: 6 }} />
           </div>
-        ) : PROFILE_QUERY_STATE.errorMessage ? (
+        ) : profileLoadErrorMessage ? (
           <Alert
             type="error"
             showIcon
             message="Unable to load profile"
-            description={PROFILE_QUERY_STATE.errorMessage}
+            description={profileLoadErrorMessage}
             action={
-              <Button size="small" onClick={retryProfileQuery}>
+              <Button size="small" onClick={refetchTeacherProfile}>
                 Retry
               </Button>
             }
             className="rounded-lg!"
           />
+        ) : isProfileEmpty ? (
+          <Empty
+            description="No profile information found."
+            className="rounded-lg border border-gray-200 py-12 dark:border-gray-800"
+          />
         ) : (
           <div className="space-y-6">
-            {PROFILE_QUERY_STATE.isFetching ? (
+            {isProfileFetching ? (
               <Alert
                 type="info"
                 showIcon
@@ -251,31 +270,31 @@ export default function UserProfiles() {
 
             <UserMetaCard
               values={profileValues.meta}
-              isFetching={PROFILE_QUERY_STATE.isFetching}
+              isFetching={isProfileFetching}
               onAvatarChange={handleAvatarChange}
             />
 
             <PersonalInfoSection
               values={profileValues.personalInfo}
               onSave={handlePersonalInfoSave}
-              isSaving={activeSavingSection === "personalInfo"}
-              saveError={saveErrors.personalInfo}
+              isSaving={savingSectionKey === "personalInfo"}
+              saveError={sectionErrors.personalInfo}
               onClearSaveError={() => clearSaveError("personalInfo")}
             />
 
             <TuitionPreferenceSection
               values={profileValues.tuitionPreference}
               onSave={handleTuitionPreferenceSave}
-              isSaving={activeSavingSection === "tuitionPreference"}
-              saveError={saveErrors.tuitionPreference}
+              isSaving={savingSectionKey === "tuitionPreference"}
+              saveError={sectionErrors.tuitionPreference}
               onClearSaveError={() => clearSaveError("tuitionPreference")}
             />
 
             <EmergencyContactSection
               values={profileValues.emergencyContact}
               onSave={handleEmergencyContactSave}
-              isSaving={activeSavingSection === "emergencyContact"}
-              saveError={saveErrors.emergencyContact}
+              isSaving={savingSectionKey === "emergencyContact"}
+              saveError={sectionErrors.emergencyContact}
               onClearSaveError={() => clearSaveError("emergencyContact")}
             />
 

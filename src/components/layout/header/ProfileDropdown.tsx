@@ -13,6 +13,11 @@ import {
 } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import {
+  getUserAvatar,
+  getUserDisplayName,
+  getUserInitials,
+} from "@/utils/userDisplay";
 
 type ProfileAction = {
   label: string;
@@ -41,49 +46,6 @@ const profileActions: ProfileAction[] = [
     icon: <FiSettings size={18} />,
   },
 ];
-
-const getUserDisplayName = (
-  firstName?: string | null,
-  lastName?: string | null,
-  fallbackEmail?: string | null,
-) => {
-  const fullName = [firstName, lastName]
-    .filter((value): value is string => Boolean(value?.trim()))
-    .join(" ")
-    .trim();
-
-  if (fullName) {
-    return fullName;
-  }
-
-  return fallbackEmail?.trim() || "Account";
-};
-
-const getUserInitials = (
-  firstName?: string | null,
-  lastName?: string | null,
-) => {
-  const initials = [firstName, lastName]
-    .filter((value): value is string => Boolean(value?.trim()))
-    .map((value) => value.trim().charAt(0).toUpperCase())
-    .join("");
-
-  if (initials) {
-    return initials.slice(0, 2);
-  }
-
-  return "A";
-};
-
-const getAvatarSource = (
-  avatar?: string | null,
-  image?: string | null,
-  profileImage?: string | null,
-  legacyProfileImage?: string | null,
-) =>
-  [avatar, image, profileImage, legacyProfileImage].find(
-    (value) => typeof value === "string" && value.trim().length > 0,
-  ) ?? null;
 
 type ProfileAvatarProps = {
   avatarSrc: string | null;
@@ -135,28 +97,16 @@ const ProfileDropdown = () => {
   const firstActionRef = useRef<HTMLAnchorElement | null>(null);
   const menuId = useId();
 
-  const displayName = getUserDisplayName(
-    currentUser?.first_name,
-    currentUser?.last_name,
-    currentUser?.email,
-  );
-  const triggerLabel = currentUser?.first_name?.trim() || displayName;
+  const displayName = getUserDisplayName(currentUser);
+  const triggerLabel = displayName;
   const profileBadge =
     currentUser?.role?.trim() ||
     (currentUser?.isProfileCompleted
       ? "Profile complete"
       : "Profile incomplete");
   const avatarAlt = `${displayName} profile`;
-  const userInitials = getUserInitials(
-    currentUser?.first_name,
-    currentUser?.last_name,
-  );
-  const avatarSrc = getAvatarSource(
-    currentUser?.avatar,
-    currentUser?.image,
-    currentUser?.profileImage,
-    currentUser?.profile_image,
-  );
+  const userInitials = getUserInitials(currentUser);
+  const avatarSrc = getUserAvatar(currentUser);
 
   const closeMenu = (shouldFocusTrigger = false) => {
     setIsOpen(false);

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAppSelector } from "@/hooks/useAppHooks";
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
+import { getUserDisplayName } from "@/utils/userDisplay";
 
 const SUPPORTING_COPY =
   "Welcome back to your dashboard. Review your latest activity and stay ready for new tuition opportunities.";
@@ -16,23 +17,6 @@ const getGreetingByHour = (hour: number) => {
   }
 
   return "Good evening";
-};
-
-const getUserDisplayName = (
-  firstName?: string | null,
-  lastName?: string | null,
-  fallbackEmail?: string | null,
-) => {
-  const fullName = [firstName, lastName]
-    .filter((value): value is string => Boolean(value?.trim()))
-    .join(" ")
-    .trim();
-
-  if (fullName) {
-    return fullName;
-  }
-
-  return fallbackEmail?.trim() || FALLBACK_NAME;
 };
 
 export default function WelcomeMessage() {
@@ -55,11 +39,7 @@ export default function WelcomeMessage() {
     };
   }, []);
 
-  const displayName = getUserDisplayName(
-    currentUser?.first_name,
-    currentUser?.last_name,
-    currentUser?.email,
-  );
+  const displayName = getUserDisplayName(currentUser, FALLBACK_NAME);
 
   return (
     <section

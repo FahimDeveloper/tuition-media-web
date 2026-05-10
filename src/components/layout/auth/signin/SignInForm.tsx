@@ -115,7 +115,7 @@ export default function SignInForm() {
 
       dispatch(loggedInUser(response.results));
       form.resetFields(["password"]);
-      navigate("/tutor");
+      navigate("/tutor", { replace: true });
     } catch (error) {
       setErrorMessage(getLoginErrorMessage(error));
     }

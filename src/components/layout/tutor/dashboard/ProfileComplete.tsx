@@ -71,7 +71,7 @@ export default function ProfileComplete({
           </Text>
         </div>
 
-        <Link to="/dashboard/profile">
+        <Link to="/tutor/profile">
           <Button
             type="primary"
             size="large"
