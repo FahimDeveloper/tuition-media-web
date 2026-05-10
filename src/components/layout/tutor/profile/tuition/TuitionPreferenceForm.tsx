@@ -9,17 +9,21 @@ import {
   AVAILABLE_DAY_OPTIONS,
   TEACHING_METHOD_OPTIONS,
   TUTORING_CATEGORY_OPTIONS,
-  TUITION_CITY_OPTIONS,
   TUITION_COUNTRY_OPTIONS,
   areValidOptionValues,
   getTutoringCourseOptions,
   getTutoringSubjectOptions,
   getTuitionAreaOptions,
+  getTuitionCityOptions,
   type TuitionPreferenceValues,
 } from "./tuitionPreferenceTypes";
 
 export default function TuitionPreferenceForm() {
   const form = Form.useFormInstance<TuitionPreferenceValues>();
+  const selectedCountry = Form.useWatch(
+    ["preferred_teaching_locations", "country"],
+    form,
+  );
   const selectedCity = Form.useWatch(
     ["preferred_teaching_locations", "city"],
     form,
@@ -32,7 +36,11 @@ export default function TuitionPreferenceForm() {
     (Form.useWatch(["preferred_tutoring", "courses"], form) as
       | string[]
       | undefined) ?? [];
-  const tuitionAreaOptions = getTuitionAreaOptions(selectedCity);
+  const tuitionCityOptions = getTuitionCityOptions(selectedCountry);
+  const tuitionAreaOptions = getTuitionAreaOptions(
+    selectedCity,
+    selectedCountry,
+  );
   const tutoringCourseOptions = getTutoringCourseOptions(
     selectedTutoringCategories,
   );
@@ -58,9 +66,16 @@ export default function TuitionPreferenceForm() {
   };
 
   const validateTuitionCity = () => {
+    const country = form.getFieldValue([
+      "preferred_teaching_locations",
+      "country",
+    ]);
     const city = form.getFieldValue(["preferred_teaching_locations", "city"]);
 
-    if (!city || TUITION_CITY_OPTIONS.some((option) => option.value === city)) {
+    if (
+      !city ||
+      getTuitionCityOptions(country).some((option) => option.value === city)
+    ) {
       return Promise.resolve();
     }
 
@@ -73,6 +88,7 @@ export default function TuitionPreferenceForm() {
     const validAreas = new Set(
       getTuitionAreaOptions(
         form.getFieldValue(["preferred_teaching_locations", "city"]),
+        form.getFieldValue(["preferred_teaching_locations", "country"]),
       ).map((option) => option.value),
     );
 
@@ -172,6 +188,10 @@ export default function TuitionPreferenceForm() {
             size="large"
             options={TUITION_COUNTRY_OPTIONS}
             placeholder="Select tuition country"
+            onChange={() => {
+              form.setFieldValue(["preferred_teaching_locations", "city"], "");
+              form.setFieldValue(["preferred_teaching_locations", "area"], []);
+            }}
           />
         </Form.Item>
 
@@ -187,8 +207,11 @@ export default function TuitionPreferenceForm() {
             size="large"
             showSearch
             optionFilterProp="label"
-            options={TUITION_CITY_OPTIONS}
-            placeholder="Select tuition city"
+            options={tuitionCityOptions}
+            disabled={!selectedCountry}
+            placeholder={
+              selectedCountry ? "Select tuition city" : "Select a country first"
+            }
             onChange={() =>
               form.setFieldValue(["preferred_teaching_locations", "area"], [])
             }

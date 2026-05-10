@@ -18,10 +18,12 @@ type TuitionLocationCity = {
   areas: string[];
 };
 
-type TuitionLocationsData = {
+type TuitionLocationCountry = {
   country: string;
   cities: TuitionLocationCity[];
 };
+
+type TuitionLocationsData = TuitionLocationCountry[];
 
 type TutoringSubject = {
   subject_id: number;
@@ -53,12 +55,21 @@ type TutoringCategoriesData = {
 
 const tuitionLocationData = tuitionLocations as TuitionLocationsData;
 const tutoringCategoryData = tutoringCategories as TutoringCategoriesData;
+const DEFAULT_TUITION_COUNTRY = tuitionLocationData[0]?.country ?? "";
 
 const toDedupedOptions = (values: string[]): LocationOption[] =>
   Array.from(new Set(values)).map((value) => ({
     label: value,
     value,
   }));
+
+const getTuitionCities = (countryName?: string): TuitionLocationCity[] => {
+  const locations = countryName
+    ? tuitionLocationData.filter((location) => location.country === countryName)
+    : tuitionLocationData;
+
+  return locations.flatMap((location) => location.cities);
+};
 
 const getSelectedTutoringCategories = (selectedCategories?: string[]) => {
   if (!selectedCategories?.length) return [];
@@ -93,35 +104,31 @@ export const AVAILABLE_DAY_OPTIONS = [
   { label: "Friday", value: "Friday" },
 ];
 
-export const TUITION_COUNTRY_OPTIONS: LocationOption[] = [
-  {
-    label: tuitionLocationData.country,
-    value: tuitionLocationData.country,
-  },
-];
+export const TUITION_COUNTRY_OPTIONS: LocationOption[] = toDedupedOptions(
+  tuitionLocationData.map((location) => location.country),
+);
 
-export const TUITION_CITY_OPTIONS: LocationOption[] =
-  tuitionLocationData.cities.map((city) => ({
-    label: city.name,
-    value: city.name,
-  }));
+export const getTuitionCityOptions = (
+  countryName?: string,
+): LocationOption[] =>
+  toDedupedOptions(getTuitionCities(countryName).map((city) => city.name));
+
+export const TUITION_CITY_OPTIONS: LocationOption[] = getTuitionCityOptions();
 
 export const TUTORING_CATEGORY_OPTIONS: LocationOption[] = toDedupedOptions(
   tutoringCategoryData.data.map((category) => category.name),
 );
 
-export const getTuitionAreaOptions = (cityName?: string): LocationOption[] => {
+export const getTuitionAreaOptions = (
+  cityName?: string,
+  countryName?: string,
+): LocationOption[] => {
   if (!cityName) return [];
 
-  const city = tuitionLocationData.cities.find(
-    (locationCity) => locationCity.name === cityName,
-  );
-
-  return (
-    city?.areas.map((area) => ({
-      label: area,
-      value: area,
-    })) ?? []
+  return toDedupedOptions(
+    getTuitionCities(countryName).flatMap((locationCity) =>
+      locationCity.name === cityName ? locationCity.areas : [],
+    ),
   );
 };
 
@@ -166,7 +173,7 @@ export const areValidOptionValues = (
 
 export const INITIAL_TUITION_PREFERENCE_VALUES: TuitionPreferenceValues = {
   preferred_teaching_locations: {
-    country: tuitionLocationData.country,
+    country: DEFAULT_TUITION_COUNTRY,
     city: "",
     area: [],
   },
