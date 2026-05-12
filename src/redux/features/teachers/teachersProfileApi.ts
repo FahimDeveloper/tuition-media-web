@@ -1,5 +1,6 @@
 import { authApiSlice } from "@/redux/api/httpSlice";
-import type { ITeacher, TeacherProfilePatchPayload } from "@/types/teacher";
+import type { ITeacher, TeacherProfilePatchPayload } from "@/types";
+import { isRecord } from "@/utils/api-error.utils";
 
 type TeacherProfile = Partial<ITeacher>;
 
@@ -7,9 +8,6 @@ type UpdateTeacherProfileArgs = {
   teacherId: string;
   patch: TeacherProfilePatchPayload;
 };
-
-const isRecord = (value: unknown): value is Record<string, unknown> =>
-  typeof value === "object" && value !== null && !Array.isArray(value);
 
 const unwrapTeacherProfile = (response: unknown): TeacherProfile | undefined => {
   if (!isRecord(response)) return undefined;

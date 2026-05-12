@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAppSelector } from "@/hooks/useAppHooks";
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
-import { getUserDisplayName } from "@/utils/userDisplay";
+import { getUserDisplayName } from "@/utils/user-display.utils";
 
 const SUPPORTING_COPY =
   "Welcome back to your dashboard. Review your latest activity and stay ready for new tuition opportunities.";

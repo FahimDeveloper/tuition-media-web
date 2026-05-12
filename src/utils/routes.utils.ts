@@ -1,6 +1,6 @@
 import { createElement } from "react";
 import { Navigate, type RouteObject } from "react-router-dom";
-import type { TPath } from "../types/path";
+import type { TPath } from "@/types";
 
 const getDefaultChildTarget = (
   routes: TPath[] | undefined,

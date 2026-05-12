@@ -17,7 +17,7 @@ import {
   getUserAvatar,
   getUserDisplayName,
   getUserInitials,
-} from "@/utils/userDisplay";
+} from "@/utils/user-display.utils";
 
 type ProfileAction = {
   label: string;

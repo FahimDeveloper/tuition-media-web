@@ -7,7 +7,7 @@ import {
 
 import { baseUrl } from "@/config";
 import { loggedInUser, loggedOutUser } from "@/redux/features/auth/authSlice";
-import type { AuthSuccessResponse } from "@/redux/features/auth/auth.types";
+import type { AuthSuccessResponse } from "@/types";
 import type { RootState } from "@/redux/store";
 
 const baseQuery = fetchBaseQuery({

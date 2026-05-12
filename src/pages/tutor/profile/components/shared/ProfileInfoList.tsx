@@ -1,5 +1,5 @@
 import ProfileInfoItem from "./ProfileInfoItem";
-import { getDisplayValue } from "../profileUtils";
+import { getDisplayValue } from "@/utils/display.utils";
 
 export type ProfileInfoField<TValues> = {
   key: keyof TValues | string;

@@ -1,4 +1,4 @@
-import type { ITeacher } from "@/types/teacher";
+import type { ITeacher } from "@/types";
 
 const IGNORED_COMPLETION_KEYS = [
   "status",

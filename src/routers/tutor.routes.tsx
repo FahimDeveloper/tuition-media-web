@@ -1,7 +1,7 @@
 import { createElement } from "react";
 import { GridIcon, ListIcon, UserCircleIcon } from "@/icons";
 import { lazy } from "react";
-import type { TPath } from "@/types/path";
+import type { TPath } from "@/types";
 import LazyLoad from "@/components/common/LazyLoad";
 
 const TutorDashboard = LazyLoad(

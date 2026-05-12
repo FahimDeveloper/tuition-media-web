@@ -10,7 +10,7 @@ import { useAppSelector } from "@/hooks/useAppHooks";
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { useTeacherProfileQuery } from "@/redux/features/teachers/teachersProfileApi";
 import { calculateTeacherProfileCompletion } from "@/pages/tutor/profile/components/profileCompletion";
-import { getUserDisplayName } from "@/utils/userDisplay";
+import { getUserDisplayName } from "@/utils/user-display.utils";
 
 export default function Home() {
   const currentUser = useAppSelector(selectCurrentUser);

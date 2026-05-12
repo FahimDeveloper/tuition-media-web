@@ -1,4 +1,4 @@
-import type { TPath, TSidebarNavItem, TSidebarSubItem } from "../types/path";
+import type { TPath, TSidebarNavItem, TSidebarSubItem } from "@/types";
 
 const buildPath = (role: string, segments: string[]) => {
   const resolvedSegments = [role, ...segments].filter(Boolean);

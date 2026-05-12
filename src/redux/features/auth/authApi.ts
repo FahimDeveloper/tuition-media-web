@@ -3,7 +3,7 @@ import type {
   AuthSuccessResponse,
   LoginPayload,
   RegistrationPayload,
-} from "@/redux/features/auth/auth.types";
+} from "@/types";
 
 const authApi = authApiSlice.injectEndpoints({
   endpoints: (builder) => ({

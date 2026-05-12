@@ -4,7 +4,7 @@ import {
   ProfileFormGrid,
   ProfileFormSection,
 } from "../shared/ProfileFormLayout";
-import { arrayRequiredRule, requiredRule } from "../profileUtils";
+import { arrayRequiredRule, requiredRule } from "@/utils/form-validation.utils";
 import {
   AVAILABLE_DAY_OPTIONS,
   TEACHING_METHOD_OPTIONS,

@@ -4,7 +4,7 @@ import {
   ProfileFormGrid,
   ProfileFormSection,
 } from "../shared/ProfileFormLayout";
-import { requiredRule } from "../profileUtils";
+import { requiredRule } from "@/utils/form-validation.utils";
 
 export default function EmergencyContactForm() {
   return (

@@ -1,13 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 import { tutorPath } from "@/routers/tutor.routes";
-import { routesGenerator } from "@/utils/routesGenerator";
+import { routesGenerator } from "@/utils/routes.utils";
 import { userRole } from "@/utils/role";
 import MainLayout from "@/components/layout/shell/MainLayout";
 import DashboardLayout from "@/components/layout/shell/DashboardLayout";
 import Login from "@/pages/login/Login";
 import SignUp from "@/pages/signup/SignUp";
 import Home from "@/pages/home/Home";
-import NotFound from "@/pages/Errors/NotFound";
+import NotFound from "@/pages/errors/NotFound";
 import Tuitions from "@/pages/tuition_jobs/TuitionsJobs";
 import PrivetRoute from "@/routers/PrivateRoute";
 import BookDemoClass from "@/pages/book_demo_class/BookDemoClass";

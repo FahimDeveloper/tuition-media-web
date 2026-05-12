@@ -10,4 +10,4 @@ export type {
   TeacherMaritalStatus,
   TeacherParentsInfo,
   TeacherProfilePatchPayload,
-} from "@/types/teacher";
+} from "@/types";

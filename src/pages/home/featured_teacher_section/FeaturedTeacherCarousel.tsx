@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Carousel } from "antd";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import TeacherProfileCard from "@/pages/home/featured_teacher_section/TeacherProfileCard";
-import type { FeaturedTeacherViewModel } from "@/pages/home/featured_teacher_section/featuredTeacherTypes";
+import type { FeaturedTeacherViewModel } from "@/types";
 import "@/pages/home/featured_teacher_section/featuredTeacher.css";
 
 type CardsPerSlide = 1 | 2 | 3;

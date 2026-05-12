@@ -1,5 +1,5 @@
 import { FiArrowRight, FiBookOpen, FiMapPin } from "react-icons/fi";
-import type { FeaturedTeacherViewModel } from "@/components/layout/home/featuredTeacher/featuredTeacherTypes";
+import type { FeaturedTeacherViewModel } from "@/types";
 
 type TeacherProfileCardProps = {
   teacher: FeaturedTeacherViewModel;

@@ -6,7 +6,7 @@ import {
   ProfileFormGrid,
   ProfileFormSection,
 } from "../shared/ProfileFormLayout";
-import { requiredRule } from "../profileUtils";
+import { requiredRule } from "@/utils/form-validation.utils";
 import {
   BLOOD_GROUP_OPTIONS,
   GENDER_OPTIONS,

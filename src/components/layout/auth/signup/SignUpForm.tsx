@@ -14,7 +14,14 @@ import { ChevronLeftIcon } from "@/icons";
 import { useAppDispatch } from "@/hooks/useAppHooks";
 import { useRegistrationMutation } from "@/redux/features/auth/authApi";
 import { loggedInUser } from "@/redux/features/auth/authSlice";
-import type { RegistrationPayload } from "@/redux/features/auth/auth.types";
+import type { RegistrationPayload } from "@/types";
+import { getApiErrorMessage, getApiErrorPayload, isRecord } from "@/utils/api-error.utils";
+import { isCapsLockActive, normalizeEmail } from "@/utils/auth-form.utils";
+import {
+  isValidBangladeshiPhoneNumber,
+  normalizeBangladeshiPhoneNumber,
+  sanitizePhoneInput,
+} from "@/utils/phone.utils";
 
 import {
   authFormClasses,
@@ -90,8 +97,6 @@ const SIGNUP_MESSAGES = {
 const NAME_PATTERN = /^(?=.*\p{L})[\p{L} .'-]+$/u;
 const EMAIL_NO_SPACES_PATTERN = /^\S+$/;
 const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d).+$/;
-const BANGLADESHI_PHONE_PATTERN = /^(?:\+8801\d{9}|01\d{9})$/;
-
 const DEFAULT_VALUES: SignupFormValues = {
   full_name: "",
   email: "",
@@ -122,62 +127,8 @@ const normalizeName = (value: unknown) =>
 const normalizeNameInput = (value: unknown) =>
   typeof value === "string" ? value.replace(/\s{2,}/g, " ") : "";
 
-const normalizeEmail = (value: unknown) =>
-  typeof value === "string" ? value.trim().toLowerCase() : "";
-
-const sanitizePhoneInput = (value: unknown) =>
-  typeof value === "string" ? value.replace(/[^\d+\s()-]/g, "") : "";
-
-const stripPhoneFormatting = (value: string) =>
-  value.replace(/[()\s-]/g, "").trim();
-
-const normalizePhoneNumber = (value: string) => {
-  const cleaned = stripPhoneFormatting(value);
-
-  /**
-   * User can type:
-   * - 01XXXXXXXXX
-   * - +8801XXXXXXXXX
-   *
-   * API will receive phone in international format:
-   * - +8801XXXXXXXXX
-   */
-  return cleaned.startsWith("01") ? `+88${cleaned}` : cleaned;
-};
-
-const isValidBangladeshiPhone = (value: string) =>
-  BANGLADESHI_PHONE_PATTERN.test(stripPhoneFormatting(value));
-
-const isCapsLockActive = (event: KeyboardEvent<HTMLInputElement>) =>
-  Boolean(event.getModifierState?.("CapsLock"));
-
-const isRecord = (value: unknown): value is Record<string, unknown> =>
-  typeof value === "object" && value !== null;
-
-const getApiErrorPayload = (error: unknown): ApiErrorPayload | null => {
-  if (!isRecord(error) || !("data" in error) || !isRecord(error.data)) {
-    return null;
-  }
-
-  return error.data;
-};
-
-const getApiErrorMessage = (error: unknown) => {
-  const payload = getApiErrorPayload(error);
-
-  if (typeof payload?.message === "string" && payload.message.trim()) {
-    return payload.message;
-  }
-
-  if (isRecord(error) && typeof error.message === "string" && error.message) {
-    return error.message;
-  }
-
-  return SIGNUP_COPY.genericError;
-};
-
 const getApiFieldErrors = (error: unknown): SignupFieldError[] => {
-  const payload = getApiErrorPayload(error);
+  const payload = getApiErrorPayload<ApiErrorPayload>(error);
 
   if (!payload) {
     return [];
@@ -246,7 +197,7 @@ const buildRegistrationPayload = (
   return {
     full_name: normalizeName(values.full_name),
     email: normalizeEmail(values.email),
-    phone: normalizePhoneNumber(values.phone),
+    phone: normalizeBangladeshiPhoneNumber(values.phone),
     password: values.password,
   } as RegistrationPayload;
 };
@@ -275,7 +226,7 @@ const phoneRules = [
   { required: true, message: SIGNUP_MESSAGES.phoneRequired },
   {
     validator: async (_: unknown, value?: string) => {
-      if (!value || isValidBangladeshiPhone(value)) {
+      if (!value || isValidBangladeshiPhoneNumber(value)) {
         return;
       }
 
@@ -378,7 +329,7 @@ export default function SignUpForm() {
         form.setFields(fieldErrors);
       }
 
-      setErrorMessage(getApiErrorMessage(error));
+      setErrorMessage(getApiErrorMessage(error, SIGNUP_COPY.genericError));
     }
   };
 

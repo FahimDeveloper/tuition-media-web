@@ -1,5 +1,5 @@
 import type { Rule } from "antd/es/form";
-import { getDisplayValue } from "../profileUtils";
+import { getDisplayValue } from "@/utils/display.utils";
 import type { ProfileInfoField } from "../shared/ProfileInfoList";
 import type { EducationStatus, TeacherEducation } from "../teacherProfileTypes";
 

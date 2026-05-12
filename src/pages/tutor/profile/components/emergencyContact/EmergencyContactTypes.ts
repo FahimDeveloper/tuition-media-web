@@ -1,4 +1,4 @@
-import { getDisplayValue } from "../profileUtils";
+import { getDisplayValue } from "@/utils/display.utils";
 import type { ProfileInfoField } from "../shared/ProfileInfoList";
 import type { TeacherParentsInfo } from "../teacherProfileTypes";
 

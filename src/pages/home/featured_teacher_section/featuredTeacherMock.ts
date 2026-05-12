@@ -1,5 +1,5 @@
-import { toFeaturedTeacherViewModel } from "@/pages/home/featured_teacher_section/featuredTeacherAdapters";
-import type { FeaturedTeacherApiRecord } from "@/pages/home/featured_teacher_section/featuredTeacherTypes";
+import type { FeaturedTeacherApiRecord } from "@/types";
+import { toFeaturedTeacherViewModel } from "@/utils/featured-teacher.utils";
 
 export const mockFeaturedTeacherRecords: FeaturedTeacherApiRecord[] = [
   {

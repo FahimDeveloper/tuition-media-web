@@ -5,7 +5,7 @@ const FeaturedTeacher = () => {
   /*
    * RTK Query handoff point:
    * Replace these mock assignments with useFeaturedTeachersQuery() later.
-   * Keep the adapter boundary in featuredTeacherAdapters.ts so backend field
+   * Keep the adapter boundary in featured-teacher.utils.ts so backend field
    * names do not leak into the presentational carousel or card components.
    */
   const isLoading = false;

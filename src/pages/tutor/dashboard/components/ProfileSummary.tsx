@@ -8,7 +8,7 @@ import {
   getUserAvatar,
   getUserDisplayName,
   getUserInitials,
-} from "@/utils/userDisplay";
+} from "@/utils/user-display.utils";
 
 const { Text, Paragraph } = Typography;
 

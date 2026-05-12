@@ -1,7 +1,7 @@
 import type {
   FeaturedTeacherApiRecord,
   FeaturedTeacherViewModel,
-} from "@/components/layout/home/featuredTeacher/featuredTeacherTypes";
+} from "@/types";
 
 const FALLBACK_AVATAR_URL = "/images/user/teacher.jpg";
 const FALLBACK_EDUCATION = "Education not added";
@@ -33,11 +33,11 @@ export const getLatestEducationName = (
   education: FeaturedTeacherApiRecord["education"],
 ) => {
   const latestEducationName =
-    education.post_graduation?.name ||
-    education.graduation?.name ||
-    education.diploma?.name ||
-    education.college?.name ||
-    education.school?.name;
+    education?.post_graduation?.name ||
+    education?.graduation?.name ||
+    education?.diploma?.name ||
+    education?.college?.name ||
+    education?.school?.name;
 
   return formatValue(latestEducationName) || FALLBACK_EDUCATION;
 };
@@ -90,7 +90,7 @@ export const toFeaturedTeacherViewModel = (
   id: teacher.teacherId,
   name: teacher.full_name,
   avatarUrl: formatValue(teacher.profile_picture) || FALLBACK_AVATAR_URL,
-  isVerified: teacher.is_verified,
+  isVerified: teacher.is_verified ?? false,
   maskedTeacherId: maskTeacherId(teacher.teacherId),
   ratingLabel: getRatingLabel(teacher.rating),
   experienceLabel: getExperienceLabel(teacher.years_of_experience),

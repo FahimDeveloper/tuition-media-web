@@ -2,11 +2,14 @@ import { useCallback } from "react";
 import { Button, Form, Input, Modal, Typography } from "antd";
 import { FiArrowRight } from "react-icons/fi";
 import { useCreateLeadMutation } from "@/redux/features/lead/leadApi";
+import { getApiErrorMessage } from "@/utils/api-error.utils";
+import {
+  isValidBangladeshiPhoneNumber,
+  stripPhoneFormatting,
+} from "@/utils/phone.utils";
 
 const { Text } = Typography;
 const { TextArea } = Input;
-
-const BANGLADESHI_MOBILE_PATTERN = /^(?:\+8801\d{9}|01\d{9})$/;
 
 type LeadFormValues = {
   name: string;
@@ -18,23 +21,8 @@ type CreateLeadResponse = {
   message?: string;
 };
 
-type ApiError = {
-  data?: {
-    message?: string;
-  };
-};
-
-const normalizePhoneNumber = (phoneNumber = "") =>
-  phoneNumber.replace(/[() -]/g, "").trim();
-
-const isBangladeshiMobileNumber = (phoneNumber = "") =>
-  BANGLADESHI_MOBILE_PATTERN.test(normalizePhoneNumber(phoneNumber));
-
-const getApiErrorMessage = (error: unknown) =>
-  (error as ApiError)?.data?.message || "Something went wrong";
-
 const validateBangladeshiMobileNumber = (_: unknown, value?: string) => {
-  if (!value || isBangladeshiMobileNumber(value)) {
+  if (!value || isValidBangladeshiPhoneNumber(value)) {
     return Promise.resolve();
   }
 
@@ -50,7 +38,7 @@ export default function LeadForm() {
       try {
         const response = (await createLead({
           ...formValues,
-          contact: normalizePhoneNumber(formValues.contact),
+          contact: stripPhoneFormatting(formValues.contact),
         }).unwrap()) as CreateLeadResponse;
 
         Modal.success({
@@ -64,7 +52,7 @@ export default function LeadForm() {
       } catch (error) {
         Modal.error({
           title: "Oops!..",
-          content: getApiErrorMessage(error),
+          content: getApiErrorMessage(error, "Something went wrong"),
           centered: true,
           okText: "Close",
         });

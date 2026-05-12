@@ -22,6 +22,7 @@ import type {
   TeacherProfilePatchPayload,
 } from "./teacherProfileTypes";
 import { calculateTeacherProfileCompletion } from "./profileCompletion";
+import { getApiErrorMessage, isRecord } from "@/utils/api-error.utils";
 
 export type { TeacherProfilePatchPayload } from "./teacherProfileTypes";
 
@@ -58,9 +59,6 @@ const DEFAULT_PROFILE_META_VALUES: ProfileMetaValues = {
   avatarUrl: "/images/user/teacher.jpg",
   completionPercentage: 0,
 };
-
-const isRecord = (value: unknown): value is Record<string, unknown> =>
-  typeof value === "object" && value !== null && !Array.isArray(value);
 
 const mergeSection = <TValues extends object>(
   fallback: TValues,
@@ -263,18 +261,4 @@ export const applyTeacherProfileUpdate = (
 export const getProfileErrorMessage = (
   error: unknown,
   fallbackMessage = "Unable to save this profile section. Please try again.",
-) => {
-  if (
-    isRecord(error) &&
-    isRecord(error.data) &&
-    typeof error.data.message === "string"
-  ) {
-    return error.data.message;
-  }
-
-  if (error instanceof Error && error.message) {
-    return error.message;
-  }
-
-  return fallbackMessage;
-};
+) => getApiErrorMessage(error, fallbackMessage);

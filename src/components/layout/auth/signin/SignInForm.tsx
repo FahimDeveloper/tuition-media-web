@@ -7,7 +7,9 @@ import { ChevronLeftIcon } from "@/icons";
 import { useAppDispatch } from "@/hooks/useAppHooks";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { loggedInUser } from "@/redux/features/auth/authSlice";
-import type { LoginPayload } from "@/redux/features/auth/auth.types";
+import type { LoginPayload } from "@/types";
+import { getApiErrorMessage, isRecord } from "@/utils/api-error.utils";
+import { isCapsLockActive, normalizeEmail } from "@/utils/auth-form.utils";
 import {
   authFormClasses,
   authInputClasses,
@@ -26,12 +28,6 @@ const DEFAULT_VALUES: SignInFormValues = {
   email: "",
   password: "",
 };
-
-const normalizeEmail = (value: unknown) =>
-  typeof value === "string" ? value.trim().toLowerCase() : "";
-
-const isCapsLockActive = (event: KeyboardEvent<HTMLInputElement>) =>
-  Boolean(event.getModifierState?.("CapsLock"));
 
 const emailRules = [
   { required: true, message: "Please enter your email." },
@@ -59,28 +55,11 @@ const passwordRules = [
 ];
 
 const getLoginErrorMessage = (error: unknown) => {
-  if (
-    typeof error === "object" &&
-    error !== null &&
-    "status" in error &&
-    error.status === 401
-  ) {
+  if (isRecord(error) && error.status === 401) {
     return "Incorrect email or password.";
   }
 
-  if (
-    typeof error === "object" &&
-    error !== null &&
-    "data" in error &&
-    typeof error.data === "object" &&
-    error.data !== null &&
-    "message" in error.data &&
-    typeof error.data.message === "string"
-  ) {
-    return error.data.message;
-  }
-
-  return "Something went wrong. Please try again.";
+  return getApiErrorMessage(error);
 };
 
 export default function SignInForm() {

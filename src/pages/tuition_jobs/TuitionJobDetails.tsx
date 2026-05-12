@@ -17,7 +17,7 @@ import {
 
 import type { IconType } from "react-icons";
 import { mockTuitionJobs } from "@/mocks/tuition/tuitionJobs";
-import { toTuitionJobView } from "@/types/tuitionJob";
+import { toTuitionJobView } from "@/utils/tuition-job.utils";
 
 type DetailItem = {
   label: string;

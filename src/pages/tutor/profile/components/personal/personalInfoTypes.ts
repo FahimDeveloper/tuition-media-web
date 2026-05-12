@@ -1,7 +1,7 @@
 import dayjs, { type Dayjs } from "dayjs";
 import type { Rule } from "antd/es/form";
-import { validateFullName } from "@/utils/formValidators";
-import { getDisplayValue } from "../profileUtils";
+import { validateFullName } from "@/utils/form-validation.utils";
+import { getDisplayValue } from "@/utils/display.utils";
 import type { ProfileInfoField } from "../shared/ProfileInfoList";
 import type {
   TeacherBloodGroup,

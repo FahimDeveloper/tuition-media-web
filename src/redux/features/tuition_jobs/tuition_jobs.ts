@@ -1,5 +1,4 @@
-import type { IncomingQueryType } from "@/types/index.types";
-import type { TuitionJob } from "@/types/tuitionJob";
+import type { IncomingQueryType, TuitionJob } from "@/types";
 
 export type TuitionJobsQueryResponse = IncomingQueryType<TuitionJob>;
 

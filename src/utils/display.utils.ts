@@ -1,18 +1,4 @@
-import type { Rule } from "antd/es/form";
 import type { UploadFile } from "antd/es/upload/interface";
-
-export const requiredRule = (message: string): Rule[] => [
-  { required: true, message },
-];
-
-export const arrayRequiredRule = (message: string): Rule[] => [
-  {
-    required: true,
-    type: "array",
-    min: 1,
-    message,
-  },
-];
 
 export const getDisplayValue = (value?: unknown) => {
   if (typeof value === "boolean") return value ? "Yes" : "No";
@@ -35,7 +21,7 @@ export const getUploadDisplayValue = (value?: UploadFile[] | string) => {
 };
 
 export const getTakaDisplayValue = (value?: number) => {
-  return value ? `৳${value}` : "Any";
+  return value ? `à§³${value}` : "Any";
 };
 
 export const getSalaryDisplayValue = (salaryRange?: {
