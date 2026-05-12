@@ -48,7 +48,7 @@ const TutorHub = () => {
               {totalResults} tutor {totalResults === 1 ? "profile" : "profiles"}{" "}
               available
             </p>
-          </div>
+          </div>  
         </div>
 
         {/* Search / Filter Panel */}

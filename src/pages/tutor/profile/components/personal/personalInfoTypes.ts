@@ -157,11 +157,11 @@ export const formatDateForDisplay = (value?: string) => {
 };
 
 export const formatPersonalInfoValue = (
-  key: keyof PersonalInfoValues,
-  value: PersonalInfoValues[keyof PersonalInfoValues] | unknown,
+  key: string,
+  value: unknown,
 ) => {
-  if (key === "date_of_birth") {
-    return formatDateForDisplay(value as string);
+  if (key === "date_of_birth" && typeof value === "string") {
+    return formatDateForDisplay(value);
   }
 
   if (key === "identification") {

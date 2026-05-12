@@ -1,6 +1,6 @@
 import { authApiSlice } from "@/redux/api/httpSlice";
 import type { ITeacher, TeacherProfilePatchPayload } from "@/types";
-import { isRecord } from "@/utils/api-error.utils";
+import { isRecord } from "@/utils/type-guards.utils";
 
 type TeacherProfile = Partial<ITeacher>;
 

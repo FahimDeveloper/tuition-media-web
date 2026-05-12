@@ -15,13 +15,14 @@ import { useAppDispatch } from "@/hooks/useAppHooks";
 import { useRegistrationMutation } from "@/redux/features/auth/authApi";
 import { loggedInUser } from "@/redux/features/auth/authSlice";
 import type { RegistrationPayload } from "@/types";
-import { getApiErrorMessage, getApiErrorPayload, isRecord } from "@/utils/api-error.utils";
+import { getApiErrorMessage, getApiErrorPayload } from "@/utils/api-error.utils";
 import { isCapsLockActive, normalizeEmail } from "@/utils/auth-form.utils";
 import {
   isValidBangladeshiPhoneNumber,
   normalizeBangladeshiPhoneNumber,
   sanitizePhoneInput,
 } from "@/utils/phone.utils";
+import { isRecord } from "@/utils/type-guards.utils";
 
 import {
   authFormClasses,
@@ -41,12 +42,6 @@ type SignupFormValues = {
 type SignupFieldError = {
   name: keyof SignupFormValues;
   errors: string[];
-};
-
-type ApiErrorPayload = {
-  message?: unknown;
-  errorSources?: unknown;
-  errors?: unknown;
 };
 
 const SIGNUP_LIMITS = {
@@ -128,7 +123,7 @@ const normalizeNameInput = (value: unknown) =>
   typeof value === "string" ? value.replace(/\s{2,}/g, " ") : "";
 
 const getApiFieldErrors = (error: unknown): SignupFieldError[] => {
-  const payload = getApiErrorPayload<ApiErrorPayload>(error);
+  const payload = getApiErrorPayload(error);
 
   if (!payload) {
     return [];

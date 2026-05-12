@@ -22,7 +22,8 @@ import type {
   TeacherProfilePatchPayload,
 } from "./teacherProfileTypes";
 import { calculateTeacherProfileCompletion } from "./profileCompletion";
-import { getApiErrorMessage, isRecord } from "@/utils/api-error.utils";
+import { getApiErrorMessage } from "@/utils/api-error.utils";
+import { isRecord } from "@/utils/type-guards.utils";
 
 export type { TeacherProfilePatchPayload } from "./teacherProfileTypes";
 

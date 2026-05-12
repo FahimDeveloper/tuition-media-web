@@ -1,21 +1,19 @@
-export const isRecord = (value: unknown): value is Record<string, unknown> =>
-  typeof value === "object" && value !== null && !Array.isArray(value);
+export { isRecord } from "./type-guards.utils";
+import { isRecord } from "./type-guards.utils";
 
-export const getApiErrorPayload = <TPayload>(
-  error: unknown,
-): TPayload | null => {
+export const getApiErrorPayload = (error: unknown) => {
   if (!isRecord(error) || !("data" in error) || !isRecord(error.data)) {
     return null;
   }
 
-  return error.data as TPayload;
+  return error.data;
 };
 
 export const getApiErrorMessage = (
   error: unknown,
   fallbackMessage = "Something went wrong. Please try again.",
 ) => {
-  const payload = getApiErrorPayload<{ message?: unknown }>(error);
+  const payload = getApiErrorPayload(error);
 
   if (typeof payload?.message === "string" && payload.message.trim()) {
     return payload.message;

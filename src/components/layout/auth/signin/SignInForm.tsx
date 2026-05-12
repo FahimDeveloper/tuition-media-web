@@ -8,8 +8,9 @@ import { useAppDispatch } from "@/hooks/useAppHooks";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { loggedInUser } from "@/redux/features/auth/authSlice";
 import type { LoginPayload } from "@/types";
-import { getApiErrorMessage, isRecord } from "@/utils/api-error.utils";
+import { getApiErrorMessage } from "@/utils/api-error.utils";
 import { isCapsLockActive, normalizeEmail } from "@/utils/auth-form.utils";
+import { isRecord } from "@/utils/type-guards.utils";
 import {
   authFormClasses,
   authInputClasses,

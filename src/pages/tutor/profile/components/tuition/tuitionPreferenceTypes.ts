@@ -1,7 +1,7 @@
 import {
-  getArrayDisplayValue,
   getDisplayValue,
   getSalaryDisplayValue,
+  formatStringList,
 } from "@/utils/display.utils";
 import type { ProfileInfoField } from "../shared/ProfileInfoList";
 import type { ITeacher } from "../teacherProfileTypes";
@@ -128,15 +128,15 @@ export const TUITION_PREFERENCE_ITEMS: ProfileInfoField<TuitionPreferenceValues>
   ];
 
 export const formatTuitionPreferenceValue = (
-  key: keyof TuitionPreferenceValues,
-  value: TuitionPreferenceValues[keyof TuitionPreferenceValues] | unknown,
+  key: string,
+  value: unknown,
 ) => {
   if (Array.isArray(value)) {
-    return getArrayDisplayValue(value);
+    return formatStringList(value);
   }
 
   if (String(key).includes("salary_range")) {
-    return getSalaryDisplayValue(value as { min?: number; max?: number });
+    return getSalaryDisplayValue(value);
   }
 
   return getDisplayValue(value);

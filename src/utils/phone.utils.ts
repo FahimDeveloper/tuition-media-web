@@ -1,4 +1,4 @@
-const BANGLADESHI_MOBILE_PATTERN = /^(?:\+8801\d{9}|01\d{9})$/;
+const BANGLADESHI_MOBILE_PATTERN = /^(?:\+8801[3-9]\d{8}|01[3-9]\d{8})$/;
 
 export const sanitizePhoneInput = (value: unknown) =>
   typeof value === "string" ? value.replace(/[^\d+\s()-]/g, "") : "";

@@ -33,7 +33,7 @@ type ProfileEditableSectionProps<
   scrollClassName?: string;
   toFormValues?: (values: TValues) => TFormValues;
   fromFormValues?: (values: TFormValues) => TValues;
-  formatValue?: (key: keyof TValues, value: unknown, values: TValues) => string;
+  formatValue?: (key: string, value: unknown, values: TValues) => string;
   renderAction?: (options: RenderActionOptions) => ReactNode;
 };
 
