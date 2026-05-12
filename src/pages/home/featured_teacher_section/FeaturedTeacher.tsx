@@ -1,5 +1,5 @@
 import FeaturedTeacherCarousel from "@/pages/home/featured_teacher_section/FeaturedTeacherCarousel";
-import { mockFeaturedTeachers } from "@/pages/home/featured_teacher_section/featuredTeacherMock";
+import { mockFeaturedTeachers } from "@/mocks/tutor/tutorMock";
 
 const FeaturedTeacher = () => {
   /*
