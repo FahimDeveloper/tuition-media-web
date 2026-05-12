@@ -9,7 +9,7 @@ import {
 import {
   type EducationValues,
 } from "./educationTypes";
-import type { EducationSectionKey } from "../profileAdapters";
+import type { EducationSectionKey } from "../../../../../pages/tutor/profile/components/profileAdapters";
 
 type EducationInfoSectionProps = {
   values: EducationValues;

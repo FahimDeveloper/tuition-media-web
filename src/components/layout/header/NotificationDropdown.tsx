@@ -50,7 +50,7 @@ export default function NotificationDropdown() {
       <Dropdown
         isOpen={isOpen}
         onClose={closeDropdown}
-        className="border-border bg-surface-elevated shadow-theme-lg absolute -right-[240px] mt-[17px] flex h-[480px] w-[350px] flex-col rounded-2xl border p-3 sm:w-[361px] lg:right-0"
+        className="border-border bg-surface-elevated shadow-theme-lg absolute -right-60 mt-4.25 flex h-120 w-87.5 flex-col rounded-2xl border p-3 sm:w-90.25 lg:right-0"
       >
         <div className="border-border mb-3 flex items-center justify-between border-b pb-3">
           <h5 className="text-text-strong text-lg font-semibold">

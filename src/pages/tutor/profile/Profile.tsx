@@ -2,12 +2,12 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { Alert, Button, Empty, Skeleton, message } from "antd";
 import PageBreadcrumb from "@/components/layout/shared/PageBreadcrumb";
-import UserMetaCard from "@/components/layout/tutor/profile/UserMetaCard";
-import PersonalInfoSection from "@/components/layout/tutor/profile/personal/PersonalInfoSection";
-import TuitionPreferenceSection from "@/components/layout/tutor/profile/tuition/TuitionPreferenceSection";
+import UserMetaCard from "@/pages/tutor/profile/components/UserMetaCard";
+import PersonalInfoSection from "@/pages/tutor/profile/components/personal/PersonalInfoSection";
+import TuitionPreferenceSection from "@/pages/tutor/profile/components/tuition/TuitionPreferenceSection";
 import PageMeta from "@/components/common/PageMeta";
-import EducationInfoSection from "@/components/layout/tutor/profile/education/EducationInfoSection";
-import EmergencyContactSection from "@/components/layout/tutor/profile/emergencyContact/EmergencyContactSection";
+import EducationInfoSection from "@/pages/tutor/profile/components/education/EducationInfoSection";
+import EmergencyContactSection from "@/pages/tutor/profile/components/emergencyContact/EmergencyContactSection";
 import {
   buildEducationProfilePatch,
   buildEmergencyContactProfilePatch,
@@ -21,11 +21,11 @@ import {
   type ProfileSectionKey,
   type TeacherProfilePatchPayload,
   type TeacherProfile,
-} from "@/components/layout/tutor/profile/profileAdapters";
-import type { EmergencyContactValues } from "@/components/layout/tutor/profile/emergencyContact/EmergencyContactTypes";
-import type { EducationValues } from "@/components/layout/tutor/profile/education/educationTypes";
-import type { PersonalInfoValues } from "@/components/layout/tutor/profile/personal/personalInfoTypes";
-import type { TuitionPreferenceValues } from "@/components/layout/tutor/profile/tuition/tuitionPreferenceTypes";
+} from "@/pages/tutor/profile/components/profileAdapters";
+import type { EmergencyContactValues } from "@/pages/tutor/profile/components/emergencyContact/EmergencyContactTypes";
+import type { EducationValues } from "@/pages/tutor/profile/components/education/educationTypes";
+import type { PersonalInfoValues } from "@/pages/tutor/profile/components/personal/personalInfoTypes";
+import type { TuitionPreferenceValues } from "@/pages/tutor/profile/components/tuition/tuitionPreferenceTypes";
 import {
   useTeacherProfileQuery,
   useUpdateTeacherProfileMutation,
@@ -119,7 +119,10 @@ export default function TutorProfile() {
   );
 
   const saveProfileSection = useCallback(
-    async (sectionKey: ProfileSectionKey, patch: TeacherProfilePatchPayload) => {
+    async (
+      sectionKey: ProfileSectionKey,
+      patch: TeacherProfilePatchPayload,
+    ) => {
       setSavingSectionKey(sectionKey);
       clearSaveError(sectionKey);
 
@@ -149,10 +152,7 @@ export default function TutorProfile() {
 
   const handlePersonalInfoSave = useCallback(
     (values: PersonalInfoValues) =>
-      saveProfileSection(
-        "personalInfo",
-        buildPersonalInfoProfilePatch(values),
-      ),
+      saveProfileSection("personalInfo", buildPersonalInfoProfilePatch(values)),
     [saveProfileSection],
   );
 
@@ -181,29 +181,41 @@ export default function TutorProfile() {
     ) =>
       saveProfileSection(
         sectionKey,
-        buildEducationProfilePatch(activeProfile?.education, sectionKey, values),
+        buildEducationProfilePatch(
+          activeProfile?.education,
+          sectionKey,
+          values,
+        ),
       ),
     [activeProfile?.education, saveProfileSection],
   );
 
-  const handleDiplomaToggle = useCallback((checked: boolean) => {
-    const education = getEducationValuesForDiplomaMode(
-      profileValues.education,
-      checked,
-    );
+  const handleDiplomaToggle = useCallback(
+    (checked: boolean) => {
+      const education = getEducationValuesForDiplomaMode(
+        profileValues.education,
+        checked,
+      );
 
-    setEditedProfile((currentProfile) =>
-      applyTeacherProfileUpdate(currentProfile ?? activeProfile, { education }),
-    );
-  }, [activeProfile, profileValues.education]);
+      setEditedProfile((currentProfile) =>
+        applyTeacherProfileUpdate(currentProfile ?? activeProfile, {
+          education,
+        }),
+      );
+    },
+    [activeProfile, profileValues.education],
+  );
 
-  const handleAvatarChange = useCallback((avatarUrl: string) => {
-    setEditedProfile((currentProfile) =>
-      applyTeacherProfileUpdate(currentProfile ?? activeProfile, {
-        profile_picture: avatarUrl,
-      }),
-    );
-  }, [activeProfile]);
+  const handleAvatarChange = useCallback(
+    (avatarUrl: string) => {
+      setEditedProfile((currentProfile) =>
+        applyTeacherProfileUpdate(currentProfile ?? activeProfile, {
+          profile_picture: avatarUrl,
+        }),
+      );
+    },
+    [activeProfile],
+  );
 
   const educationSaveErrors: Partial<Record<EducationSectionKey, string>> = {
     school: sectionErrors.school,

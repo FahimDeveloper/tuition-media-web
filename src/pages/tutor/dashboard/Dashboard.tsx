@@ -1,14 +1,15 @@
 import { skipToken } from "@reduxjs/toolkit/query";
-import ProfileSummary from "@/components/layout/tutor/dashboard/ProfileSummary";
-import Stats from "@/components/layout/tutor/dashboard/Stats";
+import ProfileSummary from "@/pages/tutor/dashboard/components/ProfileSummary";
+import Stats from "@/pages/tutor/dashboard/components/Stats";
 import PageMeta from "@/components/common/PageMeta";
-import WelcomeMessage from "@/components/layout/tutor/dashboard/WelcomeMessage";
-import ProfileComplete from "@/components/layout/tutor/dashboard/ProfileComplete";
-import StatusStatsCards from "@/components/layout/tutor/dashboard/StatusStatsCards";
+import WelcomeMessage from "@/pages/tutor/dashboard/components/WelcomeMessage";
+import ProfileComplete from "@/pages/tutor/dashboard/components/ProfileComplete";
+import StatusStatsCards from "@/pages/tutor/dashboard/components/StatusStatsCards";
+
 import { useAppSelector } from "@/hooks/useAppHooks";
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { useTeacherProfileQuery } from "@/redux/features/teachers/teachersProfileApi";
-import { calculateTeacherProfileCompletion } from "@/components/layout/tutor/profile/profileCompletion";
+import { calculateTeacherProfileCompletion } from "@/pages/tutor/profile/components/profileCompletion";
 import { getUserDisplayName } from "@/utils/userDisplay";
 
 export default function Home() {

@@ -1,7 +1,7 @@
 import PageBreadcrumb from "@/components/layout/shared/PageBreadcrumb";
 import PageMeta from "@/components/common/PageMeta";
-import JobBoardCard from "@/components/layout/tutor/job-board/JobBoardCard";
-import JobBoardSearchPanel from "@/components/layout/tutor/job-board/JobBoardSearchPanel";
+import JobBoardCard from "@/pages/tutor/Job_board/components/JobBoardCard";
+import JobBoardSearchPanel from "@/pages/tutor/Job_board/components/JobBoardSearchPanel";
 import { tuitionMockListings } from "@/mocks/tuition/tuitionListings";
 import { FiBriefcase, FiGrid, FiTrendingUp } from "react-icons/fi";
 
