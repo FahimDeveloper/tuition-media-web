@@ -48,7 +48,7 @@ export const tutorPath: TPath[] = [
     path: "history",
     name: "History",
     icon: GridIcon,
-    showInSidebar: true,
+    showInSidebar: false,
     children: [
       {
         path: "current-status",
@@ -59,13 +59,13 @@ export const tutorPath: TPath[] = [
       {
         path: "applied-jobs",
         name: "Applied Jobs",
-        showInSidebar: true,
+        showInSidebar: false,
         element: createElement("h1", null, "Applied Jobs"),
       },
       {
         path: "applied-opportunities",
         name: "Applied Opportunities",
-        showInSidebar: true,
+        showInSidebar: false,
         element: createElement("h1", null, "Applied Opportunities"),
       },
       {

@@ -1,6 +1,6 @@
 import TuitionCard from "@/pages/tutor_hub/components/TutorCard";
 import TuitionSearchBar from "@/pages/tutor_hub/components/TutorSearchBar";
-import { mockFeaturedTeachers } from "@/mocks/tutor/tutorMock";
+import { mockTeachers } from "@/mocks/tutor/tutorMock";
 import { MdOutlineManageSearch } from "react-icons/md";
 
 const TutorHub = () => {
@@ -12,7 +12,7 @@ const TutorHub = () => {
   const isLoading = false;
   const isError = false;
   const errorMessage = "";
-  const teachers = mockFeaturedTeachers;
+  const teachers = mockTeachers;
 
   const totalResults = teachers.length;
 
@@ -48,7 +48,7 @@ const TutorHub = () => {
               {totalResults} tutor {totalResults === 1 ? "profile" : "profiles"}{" "}
               available
             </p>
-          </div>  
+          </div>
         </div>
 
         {/* Search / Filter Panel */}

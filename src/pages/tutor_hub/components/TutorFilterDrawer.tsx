@@ -173,10 +173,10 @@ export default function JobBoardFilterDrawer({
                 </div>
                 <div>
                   <p className="text-text-muted text-xs font-semibold tracking-[0.14em] uppercase">
-                    Job board filters
+                    Tutor filters
                   </p>
                   <h2 className="text-text-strong mt-1 text-lg font-semibold">
-                    Refine tuition jobs
+                    Search tutors by filters
                   </h2>
                 </div>
               </div>
@@ -202,7 +202,7 @@ export default function JobBoardFilterDrawer({
                     <Form.Item
                       label="Country"
                       name={["preferred_teaching_locations", "country"]}
-                      className="[&_.ant-form-item-label>label]:text-text-muted [&_.ant-form-item-label>label]:text-xs [&_.ant-form-item-label>label]:font-semibold [&_.ant-form-item-label>label]:tracking-[0.12em] [&_.ant-form-item-label>label]:uppercase [&_.ant-form-item]:mb-0"
+                      className="[&_.ant-form-item-label>label]:text-text-muted [&_.ant-form-item]:mb-0 [&_.ant-form-item-label>label]:text-xs [&_.ant-form-item-label>label]:font-semibold [&_.ant-form-item-label>label]:tracking-[0.12em] [&_.ant-form-item-label>label]:uppercase"
                     >
                       <Select
                         allowClear
@@ -229,7 +229,7 @@ export default function JobBoardFilterDrawer({
                     <Form.Item
                       label="City"
                       name={["preferred_teaching_locations", "city"]}
-                      className="[&_.ant-form-item-label>label]:text-text-muted [&_.ant-form-item-label>label]:text-xs [&_.ant-form-item-label>label]:font-semibold [&_.ant-form-item-label>label]:tracking-[0.12em] [&_.ant-form-item-label>label]:uppercase [&_.ant-form-item]:mb-0"
+                      className="[&_.ant-form-item-label>label]:text-text-muted [&_.ant-form-item]:mb-0 [&_.ant-form-item-label>label]:text-xs [&_.ant-form-item-label>label]:font-semibold [&_.ant-form-item-label>label]:tracking-[0.12em] [&_.ant-form-item-label>label]:uppercase"
                     >
                       <Select
                         allowClear
@@ -257,7 +257,7 @@ export default function JobBoardFilterDrawer({
                     <Form.Item
                       label="Preferred tuition locations"
                       name={["preferred_teaching_locations", "area"]}
-                      className="[&_.ant-form-item-label>label]:text-text-muted [&_.ant-form-item-label>label]:text-xs [&_.ant-form-item-label>label]:font-semibold [&_.ant-form-item-label>label]:tracking-[0.12em] [&_.ant-form-item-label>label]:uppercase [&_.ant-form-item]:mb-0"
+                      className="[&_.ant-form-item-label>label]:text-text-muted [&_.ant-form-item]:mb-0 [&_.ant-form-item-label>label]:text-xs [&_.ant-form-item-label>label]:font-semibold [&_.ant-form-item-label>label]:tracking-[0.12em] [&_.ant-form-item-label>label]:uppercase"
                     >
                       <Select
                         allowClear
@@ -287,7 +287,7 @@ export default function JobBoardFilterDrawer({
                     <Form.Item
                       label="Select category"
                       name={["preferred_tutoring", "categories"]}
-                      className="[&_.ant-form-item-label>label]:text-text-muted [&_.ant-form-item-label>label]:text-xs [&_.ant-form-item-label>label]:font-semibold [&_.ant-form-item-label>label]:tracking-[0.12em] [&_.ant-form-item-label>label]:uppercase [&_.ant-form-item]:mb-0"
+                      className="[&_.ant-form-item-label>label]:text-text-muted [&_.ant-form-item]:mb-0 [&_.ant-form-item-label>label]:text-xs [&_.ant-form-item-label>label]:font-semibold [&_.ant-form-item-label>label]:tracking-[0.12em] [&_.ant-form-item-label>label]:uppercase"
                     >
                       <Select
                         allowClear
@@ -315,7 +315,7 @@ export default function JobBoardFilterDrawer({
                     <Form.Item
                       label="Courses / class"
                       name={["preferred_tutoring", "courses"]}
-                      className="[&_.ant-form-item-label>label]:text-text-muted [&_.ant-form-item-label>label]:text-xs [&_.ant-form-item-label>label]:font-semibold [&_.ant-form-item-label>label]:tracking-[0.12em] [&_.ant-form-item-label>label]:uppercase [&_.ant-form-item]:mb-0"
+                      className="[&_.ant-form-item-label>label]:text-text-muted [&_.ant-form-item]:mb-0 [&_.ant-form-item-label>label]:text-xs [&_.ant-form-item-label>label]:font-semibold [&_.ant-form-item-label>label]:tracking-[0.12em] [&_.ant-form-item-label>label]:uppercase"
                     >
                       <Select
                         allowClear
@@ -344,7 +344,7 @@ export default function JobBoardFilterDrawer({
                     <Form.Item
                       label="Subject"
                       name={["preferred_tutoring", "subjects"]}
-                      className="[&_.ant-form-item-label>label]:text-text-muted [&_.ant-form-item-label>label]:text-xs [&_.ant-form-item-label>label]:font-semibold [&_.ant-form-item-label>label]:tracking-[0.12em] [&_.ant-form-item-label>label]:uppercase [&_.ant-form-item]:mb-0"
+                      className="[&_.ant-form-item-label>label]:text-text-muted [&_.ant-form-item]:mb-0 [&_.ant-form-item-label>label]:text-xs [&_.ant-form-item-label>label]:font-semibold [&_.ant-form-item-label>label]:tracking-[0.12em] [&_.ant-form-item-label>label]:uppercase"
                     >
                       <Select
                         allowClear
