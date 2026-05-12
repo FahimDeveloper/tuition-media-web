@@ -1,16 +1,4 @@
-const marqueeItems = [
-  "Math Tutors",
-  "English Tutors",
-  "Science Tutors",
-  "University Prep",
-  "Spoken English",
-  "Coding Mentors",
-  "Exam Coaching",
-  "Music Tutors",
-  "Physics Tutors",
-];
-
-const Marquee = () => {
+export default function Marquee({ marqueeItems }: { marqueeItems: string[] }) {
   const tickerItems = [...marqueeItems, ...marqueeItems];
 
   return (
@@ -79,6 +67,4 @@ const Marquee = () => {
       </style>
     </div>
   );
-};
-
-export default Marquee;
+}

@@ -30,7 +30,7 @@ const BecomeTutor = () => {
                     Create Tutor Account
                   </Link>
                   <Link
-                    to="/signup"
+                    to="/tuitions"
                     className="border-brand-600 text-text-on-brand hover:bg-brand-600 hover:text-text-on-brand focus-visible:ring-brand-400 focus-visible:ring-offset-page dark:border-brand-400 dark:text-brand-300 dark:hover:bg-brand-500 rounded-lg border-2 px-8 py-3 transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none dark:hover:text-white"
                   >
                     See tuition jobs

@@ -152,7 +152,7 @@ const TuitionDetails = () => {
                 <DetailGrid items={scheduleDetails} tuitionId={tuition.id} />
               </section>
 
-              <section className="border-brand-100/70 bg-surface-subtle/60 dark:border-border dark:bg-brand-500/[0.04] rounded-3xl border p-5">
+              <section className="border-brand-100/70 bg-surface-subtle/60 dark:border-border dark:bg-brand-500/4 rounded-3xl border p-5">
                 <SectionTitle icon={FiBookOpen} title="Subjects" />
 
                 {tuition.subjects.length > 0 ? (

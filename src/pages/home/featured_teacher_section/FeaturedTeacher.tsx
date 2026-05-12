@@ -1,5 +1,5 @@
-import FeaturedTeacherCarousel from "@/components/layout/home/featuredTeacher/FeaturedTeacherCarousel";
-import { mockFeaturedTeachers } from "@/components/layout/home/featuredTeacher/featuredTeacherMock";
+import FeaturedTeacherCarousel from "@/pages/home/featured_teacher_section/FeaturedTeacherCarousel";
+import { mockFeaturedTeachers } from "@/pages/home/featured_teacher_section/featuredTeacherMock";
 
 const FeaturedTeacher = () => {
   /*

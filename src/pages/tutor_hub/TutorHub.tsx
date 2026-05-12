@@ -1,5 +1,5 @@
-import TuitionCard from "@/components/layout/tuitions/TuitionCard";
-import TuitionSearchBar from "@/components/layout/tuitions/TuitionSearchBar";
+import TuitionCard from "@/pages/tuition_jobs/components/TuitionCard";
+import TuitionSearchBar from "@/pages/tuition_jobs/components/TuitionSearchBar";
 import { mockTuitionJobs } from "@/mocks/tuition/tuitionJobs";
 import { toTuitionJobView } from "@/types/tuitionJob";
 import { MdOutlineManageSearch } from "react-icons/md";

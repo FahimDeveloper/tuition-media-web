@@ -2,9 +2,9 @@ import type { CSSProperties, MouseEventHandler } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { Carousel } from "antd";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import TeacherProfileCard from "@/components/layout/home/featuredTeacher/TeacherProfileCard";
-import type { FeaturedTeacherViewModel } from "@/components/layout/home/featuredTeacher/featuredTeacherTypes";
-import "@/components/layout/home/featuredTeacher/featuredTeacher.css";
+import TeacherProfileCard from "@/pages/home/featured_teacher_section/TeacherProfileCard";
+import type { FeaturedTeacherViewModel } from "@/pages/home/featured_teacher_section/featuredTeacherTypes";
+import "@/pages/home/featured_teacher_section/featuredTeacher.css";
 
 type CardsPerSlide = 1 | 2 | 3;
 type ArrowDirection = "previous" | "next";
@@ -152,7 +152,9 @@ const FeaturedTeacherCarousel = ({
   const hasMultipleSlides = teachersBySlide.length > 1;
 
   if (isLoading) {
-    return <FeaturedTeacherCarouselState title="Loading featured teachers..." />;
+    return (
+      <FeaturedTeacherCarouselState title="Loading featured teachers..." />
+    );
   }
 
   if (isError) {

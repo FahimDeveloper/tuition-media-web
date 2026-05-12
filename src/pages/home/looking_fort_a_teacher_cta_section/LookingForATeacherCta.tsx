@@ -1,6 +1,6 @@
 import { type ReactNode } from "react";
 import { FiClock, FiPhoneCall, FiShield } from "react-icons/fi";
-import LeadForm from "../forms/LeadForm";
+import LeadForm from "../../../components/layout/forms/LeadForm";
 
 type TrustPoint = {
   title: string;

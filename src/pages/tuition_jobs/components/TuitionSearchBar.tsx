@@ -1,6 +1,6 @@
 import { Button, Input } from "antd";
 import { MdOutlineManageSearch } from "react-icons/md";
-import JobBoardFilterDrawer from "../shared/JobBoardFilterDrawer";
+import JobBoardFilterDrawer from "./JobBoardFilterDrawer";
 
 const TuitionSearchBar = () => {
   return (
@@ -13,7 +13,7 @@ const TuitionSearchBar = () => {
               <MdOutlineManageSearch className="text-text-soft text-lg" />
             }
             placeholder="Search by area, location, or address (e.g. Dhanmondi)"
-            className="border-border bg-surface-elevated text-text-strong h-[44px] rounded-xl shadow-none"
+            className="border-border bg-surface-elevated text-text-strong h-11 rounded-xl shadow-none"
           />
         </div>
 

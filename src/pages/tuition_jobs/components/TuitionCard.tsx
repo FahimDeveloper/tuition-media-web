@@ -54,7 +54,7 @@ const TuitionCard = ({ tuition }: TuitionCardProps) => {
           </div>
         </div>
 
-        <div className="bg-surface-subtle/70 dark:bg-brand-500/[0.06] flex items-start gap-2.5 rounded-xl px-3 py-3">
+        <div className="bg-surface-subtle/70 dark:bg-brand-500/6 flex items-start gap-2.5 rounded-xl px-3 py-3">
           <FiMapPin
             className="text-brand-600 dark:text-brand-300 mt-0.5 shrink-0"
             size={16}
@@ -73,7 +73,7 @@ const TuitionCard = ({ tuition }: TuitionCardProps) => {
           return (
             <div
               key={`${tuition.id}-${item.label}`}
-              className="border-brand-100/70 bg-brand-50/40 dark:border-border dark:bg-brand-500/[0.06] rounded-xl border px-3 py-3"
+              className="border-brand-100/70 bg-brand-50/40 dark:border-border dark:bg-brand-500/6 rounded-xl border px-3 py-3"
             >
               <div className="text-brand-700 dark:text-brand-300 flex items-center gap-1.5 text-[11px] font-semibold tracking-[0.14em] uppercase">
                 <Icon size={14} aria-hidden="true" />

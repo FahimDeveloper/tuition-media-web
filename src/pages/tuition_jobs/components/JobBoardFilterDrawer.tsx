@@ -2,22 +2,11 @@ import { useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import {
   BookOutlined,
-  CalendarOutlined,
   EnvironmentOutlined,
   FilterOutlined,
   ReloadOutlined,
 } from "@ant-design/icons";
-import {
-  Button,
-  Col,
-  DatePicker,
-  Drawer,
-  Form,
-  Input,
-  Row,
-  Select,
-  Space,
-} from "antd";
+import { Button, Col, Drawer, Form, Input, Row, Select, Space } from "antd";
 import { FiSliders } from "react-icons/fi";
 
 type FilterDateValue = unknown;
@@ -131,7 +120,7 @@ export default function JobBoardFilterDrawer() {
         icon={<FiSliders />}
         size="large"
         onClick={() => setOpen(true)}
-        className="border-border bg-surface-elevated text-text-strong shadow-theme-xs hover:!border-brand-300 hover:!bg-brand-50/60 h-11 rounded-lg px-4 text-sm font-medium"
+        className="border-border bg-surface-elevated text-text-strong shadow-theme-xs hover:border-brand-300! hover:bg-brand-50/60! h-11 rounded-lg px-4 text-sm font-medium"
       >
         Filters
       </Button>
@@ -175,46 +164,11 @@ export default function JobBoardFilterDrawer() {
               className="space-y-4"
             >
               <DrawerSection
-                icon={<CalendarOutlined style={{ fontSize: 18 }} />}
-                title="Posted date"
-              >
-                <Row gutter={[12, 12]}>
-                  <Col xs={24} sm={12}>
-                    <Form.Item
-                      label="Posted date from"
-                      name="postedDateFrom"
-                      className={formItemClassName}
-                    >
-                      <DatePicker
-                        className={`w-full ${controlClassName}`}
-                        format="DD MMM YYYY"
-                        placeholder="Select start date"
-                      />
-                    </Form.Item>
-                  </Col>
-
-                  <Col xs={24} sm={12}>
-                    <Form.Item
-                      label="Posted date to"
-                      name="postedDateTo"
-                      className={formItemClassName}
-                    >
-                      <DatePicker
-                        className={`w-full ${controlClassName}`}
-                        format="DD MMM YYYY"
-                        placeholder="Select end date"
-                      />
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </DrawerSection>
-
-              <DrawerSection
                 icon={<EnvironmentOutlined style={{ fontSize: 18 }} />}
                 title="Location"
               >
                 <Row gutter={[12, 12]}>
-                  <Col xs={24} sm={12}>
+                  <Col xs={24} sm={24}>
                     <Form.Item
                       label="Country"
                       name="country"
@@ -231,7 +185,7 @@ export default function JobBoardFilterDrawer() {
                     </Form.Item>
                   </Col>
 
-                  <Col xs={24} sm={12}>
+                  <Col xs={24} sm={24}>
                     <Form.Item
                       label="City"
                       name="city"
@@ -264,7 +218,7 @@ export default function JobBoardFilterDrawer() {
                 title="Academic details"
               >
                 <Row gutter={[12, 12]}>
-                  <Col xs={24} sm={12}>
+                  <Col xs={24} sm={24}>
                     <Form.Item
                       label="Select category"
                       name="category"
@@ -280,7 +234,7 @@ export default function JobBoardFilterDrawer() {
                     </Form.Item>
                   </Col>
 
-                  <Col xs={24} sm={12}>
+                  <Col xs={24} sm={24}>
                     <Form.Item
                       label="Courses / class"
                       name="courseClass"
