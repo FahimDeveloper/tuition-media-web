@@ -34,7 +34,7 @@ const Hero = () => {
               <div className="from-brand-700 to-brand-500 flex h-64 w-64 items-center justify-center rounded-full bg-linear-to-br shadow-2xl md:h-80 md:w-80 lg:h-96 lg:w-96">
                 <div className="bg-surface-elevated shadow-theme-xl flex h-60 w-60 items-center justify-center rounded-full text-8xl md:h-72 md:w-72 lg:h-88 lg:w-88">
                   <img
-                    src="/images/hero/call-center-illustration.jpg"
+                    src="/images/hero/call-center-illustration.png"
                     className="h-full w-full rounded-full object-cover"
                     alt=""
                     aria-hidden="true"
