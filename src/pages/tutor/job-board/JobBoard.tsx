@@ -1,4 +1,4 @@
-import PageBreadcrumb from "@/components/layout/shared/PageBreadcrumb";
+import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import PageMeta from "@/components/common/PageMeta";
 import JobBoardCard from "@/pages/tutor/job-board/components/JobBoardCard";
 import JobBoardSearchPanel from "@/pages/tutor/job-board/components/JobBoardSearchPanel";

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { Alert, Button, Empty, Skeleton, message } from "antd";
-import PageBreadcrumb from "@/components/layout/shared/PageBreadcrumb";
+import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import UserMetaCard from "@/pages/tutor/profile/components/UserMetaCard";
 import PersonalInfoSection from "@/pages/tutor/profile/components/personal/PersonalInfoSection";
 import TuitionPreferenceSection from "@/pages/tutor/profile/components/tuition/TuitionPreferenceSection";
