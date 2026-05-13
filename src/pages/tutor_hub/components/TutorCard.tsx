@@ -6,81 +6,38 @@ import {
   FiMapPin,
   FiUser,
 } from "react-icons/fi";
-import type { TeacherSummary } from "@/mocks/tutor/tutorMock";
+import type { PublicTeacher } from "@/types";
+import {
+  formatPublicTeacherCardLocation,
+  formatPublicTeacherGender,
+  formatPublicTeacherLimitedList,
+  formatPublicTeacherSalary,
+  getPublicTeacherInitials,
+  getPublicTeacherLatestEducationName,
+} from "@/utils/public-teacher.utils";
 
 type TeacherProfileCardProps = {
-  teacher: TeacherSummary;
-};
-
-const formatList = (items?: string[], limit = 2) => {
-  if (!items?.length) return "Not specified";
-
-  const visibleItems = items.slice(0, limit);
-  const hiddenCount = items.length - visibleItems.length;
-
-  return hiddenCount > 0
-    ? `${visibleItems.join(", ")} +${hiddenCount}`
-    : visibleItems.join(", ");
-};
-
-const formatSalary = (min?: number, max?: number) => {
-  if (!min && !max) return "Negotiable";
-  if (min && max) return `৳${min.toLocaleString()} - ৳${max.toLocaleString()}`;
-  if (min) return `From ৳${min.toLocaleString()}`;
-  return `Up to ৳${max?.toLocaleString()}`;
-};
-
-const formatGender = (gender?: string) => {
-  if (!gender) return "Not specified";
-  return gender.charAt(0).toUpperCase() + gender.slice(1);
-};
-
-const getInitials = (name: string) => {
-  return name
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join("")
-    .toUpperCase();
-};
-
-const getLatestEducationName = (teacher: TeacherSummary) => {
-  const education = teacher.education;
-
-  if (!education) return "Education not specified";
-
-  return (
-    education.post_graduation?.name ||
-    education.graduation?.name ||
-    education.college?.name ||
-    education.school?.name ||
-    "Education not specified"
-  );
+  teacher: PublicTeacher;
 };
 
 const TeacherProfileCard = ({ teacher }: TeacherProfileCardProps) => {
-  const preferredArea =
-    [
-      teacher.preferred_teaching_locations?.city,
-      teacher.preferred_teaching_locations?.area?.[0],
-    ]
-      .filter(Boolean)
-      .join(", ") || "Area not specified";
-
-  const subjects = formatList(teacher.preferred_tutoring?.subjects);
-  const salary = formatSalary(
-    teacher.preferred_tutoring?.salary_range?.min,
-    teacher.preferred_tutoring?.salary_range?.max,
+  const preferredArea = formatPublicTeacherCardLocation(
+    teacher.preferred_teaching_locations,
   );
-
-  const latestEducationName = getLatestEducationName(teacher);
+  const subjects = formatPublicTeacherLimitedList(
+    teacher.preferred_tutoring?.subjects,
+  );
+  const salary = formatPublicTeacherSalary(
+    teacher.preferred_tutoring?.salary_range,
+    "Negotiable",
+  );
+  const latestEducationName = getPublicTeacherLatestEducationName(teacher);
 
   return (
     <article className="group border-brand-200/70 bg-surface-elevated shadow-theme-sm hover:border-brand-400/70 hover:shadow-theme-lg dark:border-border dark:hover:bg-brand-500/4 flex h-full flex-col rounded-2xl border p-5 transition-all duration-300 hover:-translate-y-1">
       <div className="flex items-start gap-4">
         <div className="bg-brand-100 text-brand-700 ring-brand-200/80 dark:bg-brand-500/15 dark:text-brand-200 flex h-14 w-14 shrink-0 items-center justify-center rounded-full text-base font-bold ring-2">
-          {getInitials(teacher.full_name)}
+          {getPublicTeacherInitials(teacher.full_name)}
         </div>
 
         <div className="min-w-0 flex-1">
@@ -110,7 +67,7 @@ const TeacherProfileCard = ({ teacher }: TeacherProfileCardProps) => {
           <div className="mt-3 flex flex-wrap gap-2">
             <span className="bg-brand-50 text-brand-700 dark:bg-brand-500/15 dark:text-brand-300 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold">
               <FiUser size={13} aria-hidden="true" />
-              {formatGender(teacher.gender)}
+              {formatPublicTeacherGender(teacher.gender)}
             </span>
 
             <span className="bg-brand-50 text-brand-700 dark:bg-brand-500/15 dark:text-brand-300 inline-flex rounded-full px-2.5 py-1 text-xs font-semibold">
@@ -121,8 +78,7 @@ const TeacherProfileCard = ({ teacher }: TeacherProfileCardProps) => {
       </div>
 
       <p className="text-text-muted mt-4 line-clamp-2 text-sm leading-6">
-        {teacher.about_me ||
-          "Experienced tutor ready to help students learn better."}
+        {teacher.about_me || "Experienced tutor ready to help students learn better."}
       </p>
 
       <div className="mt-4 space-y-3">

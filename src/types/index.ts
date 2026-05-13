@@ -3,10 +3,16 @@ export type {
   AuthSession,
   AuthState,
   AuthSuccessResponse,
+  AuthTeacher,
   AuthUser,
   LoginPayload,
+  PreferredTeachingLocations,
+  PreferredTutoring,
+  PublicTeacher,
   RegistrationPayload,
-} from "./auth.types";
+  TeacherAvailability,
+  TeacherSalaryRange,
+} from "./teacher.types";
 export type { IncomingQueryType } from "./api.types";
 export type {
   FeaturedTeacherApiRecord,

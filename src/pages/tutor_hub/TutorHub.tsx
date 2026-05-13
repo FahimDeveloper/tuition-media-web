@@ -1,18 +1,17 @@
 import TuitionCard from "@/pages/tutor_hub/components/TutorCard";
 import TuitionSearchBar from "@/pages/tutor_hub/components/TutorSearchBar";
-import { mockTeachers } from "@/mocks/tutor/tutorMock";
+import { useMockPublicTeachersQuery } from "@/mocks/tutor/tutorMock";
 import { MdOutlineManageSearch } from "react-icons/md";
 
 const TutorHub = () => {
   /*
    * RTK Query handoff point:
-   * Replace these mock assignments with useFeaturedTeachersQuery() later.
+   * Replace this mock hook with useGetPublicTeachersQuery() later.
    * Keep the render states below so loading/error handling stays consistent.
    */
-  const isLoading = false;
-  const isError = false;
-  const errorMessage = "";
-  const teachers = mockTeachers;
+  const { data, isLoading, isError, error } = useMockPublicTeachersQuery();
+  const teachers = data ?? [];
+  const errorMessage = getErrorMessage(error);
 
   const totalResults = teachers.length;
 
@@ -59,7 +58,7 @@ const TutorHub = () => {
           {teachers.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {teachers.map((teacher) => (
-                <TuitionCard key={teacher.id} teacher={teacher} />
+                <TuitionCard key={teacher._id} teacher={teacher} />
               ))}
             </div>
           ) : (
@@ -94,3 +93,14 @@ const TutorListState = ({
 );
 
 export default TutorHub;
+
+const getErrorMessage = (error: unknown) => {
+  if (!error) return "";
+
+  if (typeof error === "object" && "message" in error) {
+    const message = (error as { message?: string }).message;
+    if (message) return message;
+  }
+
+  return "Please try again later. The tutor profiles could not be loaded.";
+};

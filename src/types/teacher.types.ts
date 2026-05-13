@@ -16,7 +16,31 @@ export type TeacherIdentificationType =
   | "birth_certificate";
 export type EducationStatus = "graduated" | "studying";
 
-export interface ITeacher {
+export type TeacherSalaryRange = {
+  min?: number;
+  max?: number;
+};
+
+export type PreferredTeachingLocations = {
+  country?: string;
+  city?: string;
+  area?: string[];
+};
+
+export type PreferredTutoring = {
+  categories?: string[];
+  courses?: string[];
+  subjects?: string[];
+  tutoring_types?: string[];
+  salary_range?: TeacherSalaryRange;
+};
+
+export type TeacherAvailability = {
+  days: string[];
+};
+
+export interface AuthTeacher {
+  _id?: string;
   full_name: string;
   email: string;
   password: string;
@@ -25,29 +49,14 @@ export interface ITeacher {
   additional_phone: string;
   preset_address?: string;
   permanent_address?: string;
-  preferred_teaching_locations?: {
-    country: string;
-    city: string;
-    area: string[];
-  };
+  preferred_teaching_locations?: PreferredTeachingLocations;
   about_me?: string;
-  preferred_tutoring?: {
-    categories: string[];
-    courses: string[];
-    subjects: string[];
-    tutoring_types: string[];
-    salary_range: {
-      min?: number;
-      max?: number;
-    };
-  };
-  education: TeacherEducation;
+  preferred_tutoring?: PreferredTutoring;
+  education?: TeacherEducation;
   years_of_experience?: number;
-  tutoring_availability?: {
-    days: string[];
-  };
-  gender: TeacherGender;
-  date_of_birth: string;
+  tutoring_availability?: TeacherAvailability;
+  gender?: TeacherGender;
+  date_of_birth?: string;
   blood_group?: TeacherBloodGroup;
   profile_picture?: string;
   religion?: string;
@@ -61,7 +70,67 @@ export interface ITeacher {
   is_deleted: boolean;
   created_at?: string;
   updated_at?: string;
+  will_teach_online?: boolean;
+  isProfileCompleted?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+  avatar?: string | null;
+  image?: string | null;
+  profile_image?: string | null;
+  profileImage?: string | null;
 }
+
+export type ITeacher = AuthTeacher;
+export type AuthUser = AuthTeacher;
+export type AuthGender = TeacherGender;
+
+export interface PublicTeacher {
+  _id: string;
+  full_name: string;
+  is_profile_completed?: boolean;
+  is_verified: boolean;
+  is_active: boolean;
+  is_deleted?: boolean;
+  created_at?: string;
+  updated_at?: string;
+  about_me?: string;
+  gender?: TeacherGender;
+  profile_picture?: string;
+  years_of_experience?: number;
+  preferred_teaching_locations?: PreferredTeachingLocations;
+  preferred_tutoring?: PreferredTutoring;
+  education?: TeacherEducation;
+  tutoring_availability?: TeacherAvailability;
+}
+
+export type AuthSession = {
+  user: AuthTeacher;
+  accessToken: string;
+  refreshToken: string;
+};
+
+export type AuthState = {
+  user: AuthTeacher | null;
+  accessToken: string | null;
+  refreshToken: string | null;
+};
+
+export type AuthSuccessResponse = {
+  message?: string;
+  results: AuthSession;
+};
+
+export type LoginPayload = {
+  email: string;
+  password: string;
+};
+
+export type RegistrationPayload = {
+  full_name: string;
+  phone: string;
+  email: string;
+  password: string;
+};
 
 export type TeacherEducation = {
   school?: {

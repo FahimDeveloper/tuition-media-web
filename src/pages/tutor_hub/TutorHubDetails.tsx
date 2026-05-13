@@ -5,7 +5,6 @@ import {
   FiArrowLeft,
   FiAward,
   FiBookOpen,
-  FiCalendar,
   FiCheckCircle,
   FiClock,
   FiDollarSign,
@@ -19,6 +18,19 @@ import {
   FiUserCheck,
 } from "react-icons/fi";
 
+import { useMockPublicTeacherByIdQuery } from "@/mocks/tutor/tutorMock";
+import type { PublicTeacher, TeacherEducation } from "@/types";
+import {
+  formatPublicTeacherAvailability,
+  formatPublicTeacherGender,
+  formatPublicTeacherList,
+  formatPublicTeacherLocation,
+  formatPublicTeacherSalary,
+  formatPublicTeacherStatus,
+  formatPublicTeacherTutoringType,
+  formatPublicTeacherValue,
+  getPublicTeacherInitials,
+} from "@/utils/public-teacher.utils";
 import type { IconType } from "react-icons";
 
 type DetailItem = {
@@ -32,13 +44,35 @@ type SummaryItem = {
   value: string;
 };
 
-type TeacherQueryState = {
-  teacher?: Teacher;
-  isLoading: boolean;
-  isError: boolean;
-  errorMessage?: string;
-  refetch: () => void;
+type TeacherDetailsView = {
+  id: string;
+  name: string;
+  status: string;
+  about: string;
+  summary: SummaryItem[];
+  overviewDetails: DetailItem[];
+  tutoringDetails: DetailItem[];
+  locationDetails: DetailItem[];
+  profileDetails: DetailItem[];
+  education: EducationItem[];
 };
+
+type EducationItem = {
+  level: string;
+  name: string;
+  status?: string;
+  details: Array<{
+    label: string;
+    value: string;
+  }>;
+};
+
+type EducationRecord =
+  | NonNullable<TeacherEducation["school"]>
+  | NonNullable<TeacherEducation["college"]>
+  | NonNullable<TeacherEducation["diploma"]>
+  | NonNullable<TeacherEducation["graduation"]>
+  | NonNullable<TeacherEducation["post_graduation"]>;
 
 const TutorDetails = () => {
   const navigate = useNavigate();
@@ -46,10 +80,10 @@ const TutorDetails = () => {
 
   /*
    * RTK Query handoff point:
-   * Keep the UI below unchanged and replace useTeacherDetails(id) later.
+   * Replace this mock hook with useGetPublicTeacherByIdQuery(id) later.
    */
-  const { teacher, isLoading, isError, errorMessage, refetch } =
-    useTeacherDetails(id);
+  const { data: teacher, isLoading, isError, error, refetch } =
+    useMockPublicTeacherByIdQuery(id);
 
   const tutor = useMemo(
     () => (teacher ? toTeacherDetailsView(teacher) : undefined),
@@ -64,10 +98,7 @@ const TutorDetails = () => {
     return (
       <TutorDetailsState
         title="Unable to load tutor"
-        description={
-          errorMessage ||
-          "Please try again later. This tutor profile could not be loaded."
-        }
+        description={getErrorMessage(error)}
         onBack={() => navigate(-1)}
         onRetry={refetch}
       />
@@ -107,33 +138,6 @@ const TutorDetails = () => {
     </section>
   );
 };
-
-/*
- * MOCK DATA SOURCE FOR NOW
- *
- * RTK Query handoff point for later:
- * 1. Import your generated hook, for example:
- *    import { useSingleTeacherQuery } from "@/redux/features/teacher/teacherApi";
- *
- * 2. Replace the function body below with:
- *    const { data, isLoading, isError, error, refetch } =
- *      useSingleTeacherQuery(id as string, { skip: !id });
- *
- *    return {
- *      teacher: data?.results,
- *      isLoading,
- *      isError: !id || isError,
- *      errorMessage: !id ? "Tutor id is missing." : getErrorMessage(error),
- *      refetch,
- *    };
- */
-const useTeacherDetails = (id?: string): TeacherQueryState => ({
-  teacher: id ? mockTeacherResponse.results : undefined,
-  isLoading: false,
-  isError: !id,
-  errorMessage: !id ? "Tutor id is missing." : "",
-  refetch: () => undefined,
-});
 
 const BackButton = ({ onClick }: { onClick: () => void }) => (
   <button
@@ -176,7 +180,7 @@ const TutorHeader = ({ tutor }: { tutor: TeacherDetailsView }) => (
 
 const Avatar = ({ name }: { name: string }) => (
   <div className="from-brand-600 to-brand-400 text-text-on-brand shadow-theme-md flex h-20 w-20 shrink-0 items-center justify-center rounded-3xl bg-gradient-to-br text-2xl font-black sm:h-24 sm:w-24 sm:text-3xl">
-    {getInitials(name)}
+    {getPublicTeacherInitials(name)}
   </div>
 );
 
@@ -441,26 +445,25 @@ const SummaryRow = ({ label, value }: SummaryItem) => (
   </div>
 );
 
-const toTeacherDetailsView = (teacher: Teacher): TeacherDetailsView => {
+const toTeacherDetailsView = (teacher: PublicTeacher): TeacherDetailsView => {
   const tutoring = teacher.preferred_tutoring;
   const location = teacher.preferred_teaching_locations;
-  const availabilityCount = teacher.tutoring_availability?.days?.length || 0;
-
-  const salary = formatSalary(
-    tutoring?.salary_range?.min,
-    tutoring?.salary_range?.max,
+  const salary = formatPublicTeacherSalary(tutoring?.salary_range);
+  const availability = formatPublicTeacherAvailability(
+    teacher.tutoring_availability?.days,
   );
-  const availability = formatAvailability(availabilityCount);
-  const experience = `${formatValue(teacher.years_of_experience, "0")} years experience`;
-  const subjects = toCommaText(tutoring?.subjects);
-  const tutoringType = toCommaText(
-    tutoring?.tutoring_types?.map(formatTutoringType),
+  const experience = `${formatPublicTeacherValue(
+    teacher.years_of_experience,
+    "0",
+  )} years experience`;
+  const subjects = formatPublicTeacherList(tutoring?.subjects);
+  const tutoringType = formatPublicTeacherList(
+    tutoring?.tutoring_types?.map(formatPublicTeacherTutoringType),
   );
-  const shortLocation = formatLocation(location);
 
   return {
     id: teacher._id,
-    name: formatValue(teacher.full_name, "Unnamed tutor"),
+    name: formatPublicTeacherValue(teacher.full_name, "Unnamed tutor"),
     status: teacher.is_active ? "Active" : "Inactive",
     about: teacher.about_me || "No tutor bio has been added yet.",
     summary: [
@@ -478,12 +481,12 @@ const toTeacherDetailsView = (teacher: Teacher): TeacherDetailsView => {
     tutoringDetails: cleanDetails([
       {
         label: "Categories",
-        value: toCommaText(tutoring?.categories),
+        value: formatPublicTeacherList(tutoring?.categories),
         icon: FiTag,
       },
       {
         label: "Course",
-        value: toCommaText(tutoring?.courses),
+        value: formatPublicTeacherList(tutoring?.courses),
         icon: FiBookOpen,
       },
       { label: "Subjects", value: subjects, icon: FiAward },
@@ -491,39 +494,47 @@ const toTeacherDetailsView = (teacher: Teacher): TeacherDetailsView => {
     locationDetails: cleanDetails([
       {
         label: "Country",
-        value: formatValue(location?.country),
+        value: formatPublicTeacherValue(location?.country),
         icon: FiMapPin,
       },
-      { label: "City", value: formatValue(location?.city), icon: FiMapPin },
+      {
+        label: "City",
+        value: formatPublicTeacherValue(location?.city),
+        icon: FiMapPin,
+      },
       {
         label: "Preferred area",
-        value: toCommaText(location?.area),
+        value: formatPublicTeacherList(location?.area),
         icon: FiMapPin,
       },
       {
-        label: "Present address",
-        value: formatValue(teacher.preset_address),
+        label: "Location",
+        value: formatPublicTeacherLocation(location),
         icon: FiMapPin,
       },
     ]),
     profileDetails: cleanDetails([
-      { label: "Gender", value: formatValue(teacher.gender), icon: FiUser },
       {
-        label: "Date of birth",
-        value: formatDate(teacher.date_of_birth),
-        icon: FiCalendar,
+        label: "Gender",
+        value: formatPublicTeacherGender(teacher.gender),
+        icon: FiUser,
       },
       {
-        label: "Blood group",
-        value: formatValue(teacher.blood_group),
-        icon: FiUser,
+        label: "Verification",
+        value: teacher.is_verified ? "Verified" : "New",
+        icon: FiCheckCircle,
+      },
+      {
+        label: "Profile status",
+        value: teacher.is_active ? "Active" : "Inactive",
+        icon: FiUserCheck,
       },
     ]),
     education: buildEducationItems(teacher.education),
   };
 };
 
-const buildEducationItems = (education?: Education): EducationItem[] => {
+const buildEducationItems = (education?: TeacherEducation): EducationItem[] => {
   if (!education) return [];
 
   return [
@@ -540,6 +551,13 @@ const buildEducationItems = (education?: Education): EducationItem[] => {
       ["Board", education.college?.board],
       ["GPA", education.college?.gpa],
       ["Passing year", education.college?.year_of_passing],
+    ]),
+    createEducationItem("Diploma", education.diploma, [
+      ["Type", education.diploma?.type],
+      ["Department", education.diploma?.department],
+      ["Study level", education.diploma?.study_level],
+      ["CGPA", education.diploma?.cgpa],
+      ["Session", education.diploma?.session],
     ]),
     createEducationItem("Graduation", education.graduation, [
       ["Department", education.graduation?.department],
@@ -560,17 +578,19 @@ const buildEducationItems = (education?: Education): EducationItem[] => {
 
 const createEducationItem = (
   level: string,
-  education?: BasicEducation | HigherEducation,
+  education: EducationRecord | undefined,
   details: Array<[string, string | number | undefined]>,
 ): EducationItem => ({
   level,
-  name: formatValue(education?.name),
+  name: formatPublicTeacherValue(education?.name),
   status:
-    "status" in (education || {}) ? formatStatus(education?.status) : undefined,
+    education && "status" in education
+      ? formatPublicTeacherStatus(education.status)
+      : undefined,
   details: cleanEducationDetails(
     details.map(([label, value]) => ({
       label,
-      value: formatValue(value),
+      value: formatPublicTeacherValue(value),
     })),
   ),
 });
@@ -581,313 +601,13 @@ const cleanDetails = (items: DetailItem[]) =>
 const cleanEducationDetails = (items: EducationItem["details"]) =>
   items.filter((item) => item.value !== "N/A");
 
-const getInitials = (name: string) => {
-  const initials = name
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase())
-    .join("");
-
-  return initials || "T";
-};
-
-const formatAvailability = (days: number) => {
-  if (!days) return "N/A";
-  return `${days} ${days === 1 ? "day" : "days"} / week`;
-};
-
-const formatLocation = (location?: PreferredTeachingLocations) => {
-  const formatted = [
-    toCommaText(location?.area),
-    location?.city,
-    location?.country,
-  ]
-    .filter((item) => item && item !== "N/A")
-    .join(", ");
-
-  return formatted || "Location not specified";
-};
-
-const toCommaText = (items?: Array<string | number | null | undefined>) =>
-  items
-    ?.map((item) => formatValue(item))
-    .filter((item) => item !== "N/A")
-    .join(", ") || "N/A";
-
-const formatTutoringType = (value: string) =>
-  value
-    .split("_")
-    .map((word) => capitalize(word))
-    .join(" ");
-
-const formatValue = (value?: string | number | null, fallback = "N/A") => {
-  if (value === undefined || value === null || value === "") return fallback;
-  return String(value);
-};
-
-const formatStatus = (value?: string) => {
-  if (!value) return undefined;
-  return value
-    .split("_")
-    .map((word) => capitalize(word))
-    .join(" ");
-};
-
-const capitalize = (value: string) =>
-  value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
-
-const formatNumber = (value: number) =>
-  new Intl.NumberFormat("en-BD").format(value);
-
-const formatSalary = (min?: number, max?: number) => {
-  if (!min && !max) return "N/A";
-  if (min && max) return `৳${formatNumber(min)} - ৳${formatNumber(max)}`;
-  return `৳${formatNumber(min || max || 0)}`;
-};
-
-const formatDate = (value?: string) => {
-  if (!value) return "N/A";
-
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "N/A";
-
-  return new Intl.DateTimeFormat("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  }).format(date);
-};
-
-/*
- * Keep this helper for RTK Query later.
- * It reads common RTK Query error shapes and returns a user-friendly message.
- */
 const getErrorMessage = (error: unknown) => {
-  if (!error) return undefined;
-
-  if (typeof error === "object" && "data" in error) {
-    const data = (error as { data?: { message?: string } }).data;
-    if (data?.message) return data.message;
-  }
-
-  if (typeof error === "object" && "error" in error) {
-    const message = (error as { error?: string }).error;
+  if (typeof error === "object" && error && "message" in error) {
+    const message = (error as { message?: string }).message;
     if (message) return message;
   }
 
-  return "Something went wrong while loading this tutor profile.";
+  return "Please try again later. This tutor profile could not be loaded.";
 };
 
-const mockTeacherResponse: TeacherApiResponse = {
-  message: "Teacher retrieved successfully!",
-  results: {
-    preferred_teaching_locations: {
-      country: "Bangladesh",
-      city: "Chapai Nawabganj",
-      area: ["Manaksha"],
-    },
-    preferred_tutoring: {
-      salary_range: {
-        min: 4000,
-        max: 7000,
-      },
-      categories: ["Bangla Medium", "English Medium"],
-      courses: ["Pre-Schooling"],
-      subjects: ["Bangla"],
-      tutoring_types: ["home_tuition", "online_tuition", "group_tuition"],
-    },
-    education: {
-      school: {
-        name: "Savar cantonment school and college",
-        group: "Science",
-        curriculum: "English Version",
-        board: "Chattogram",
-        gpa: "5",
-        year_of_passing: 2017,
-      },
-      college: {
-        name: "Alaipur digree college",
-        group: "Business Studies",
-        curriculum: "Bangla Medium",
-        board: "Khulna",
-        status: "graduated",
-        gpa: "4",
-        year_of_passing: 2019,
-      },
-      graduation: {
-        name: "University of Scholars",
-        department: "BBA",
-        type: "Private",
-        study_level: "BBA",
-        status: "studying",
-        gpa: "",
-        session: "2025-2026",
-      },
-      post_graduation: {
-        name: "Savar cantonment school and college",
-        department: "computer science",
-        type: "Public",
-        study_level: "Engineering",
-        status: "graduated",
-        gpa: "5",
-        session: "2033-2033",
-      },
-    },
-    tutoring_availability: {
-      days: ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday"],
-    },
-    parents_info: {
-      father_name: "Sumon kabir",
-      father_phone: "01409746020",
-      mother_name: "arifa pervin",
-      mother_phone: "01409746019",
-      emergency_contact_name: "rifat",
-      emergency_contact_phone: "01925121315",
-    },
-    identification: {
-      type: "nid",
-      number: "2419561218888888888",
-    },
-    _id: "69ff987d30d8fcebe57f3112",
-    full_name: "Rifat kabir khan 1",
-    role: "teacher",
-    is_profile_completed: false,
-    is_verified: false,
-    is_active: true,
-    is_deleted: false,
-    certifications: [],
-    created_at: "2026-05-09T20:26:37.447Z",
-    updated_at: "2026-05-12T19:27:54.578Z",
-    about_me:
-      "Dedicated and student-focused tutor with a passion for making learning simple, engaging, and effective. Skilled at adapting teaching methods based on each student’s needs to help them build confidence and achieve better academic results.",
-    blood_group: "O+",
-    date_of_birth: "2003-12-24T00:00:00.000Z",
-    gender: "female",
-    marital_status: "married",
-    permanent_address: "L-1/A, Main Road, South",
-    preset_address: "L-1/A, Main Road, South",
-    religion: "Islam",
-    years_of_experience: 5,
-  },
-};
-
-type TeacherDetailsView = {
-  id: string;
-  name: string;
-  status: string;
-  about: string;
-  summary: SummaryItem[];
-  overviewDetails: DetailItem[];
-  tutoringDetails: DetailItem[];
-  locationDetails: DetailItem[];
-  profileDetails: DetailItem[];
-  education: EducationItem[];
-};
-
-type TeacherApiResponse = {
-  message: string;
-  results: Teacher;
-};
-
-type Teacher = {
-  preferred_teaching_locations?: PreferredTeachingLocations;
-  preferred_tutoring?: PreferredTutoring;
-  education?: Education;
-  tutoring_availability?: {
-    days: string[];
-  };
-  parents_info?: ParentsInfo;
-  identification?: Identification;
-  _id: string;
-  full_name: string;
-  role: string;
-  is_profile_completed: boolean;
-  is_verified: boolean;
-  is_active: boolean;
-  is_deleted: boolean;
-  certifications: string[];
-  created_at: string;
-  updated_at: string;
-  about_me?: string;
-  blood_group?: string;
-  date_of_birth?: string;
-  gender?: string;
-  marital_status?: string;
-  permanent_address?: string;
-  preset_address?: string;
-  religion?: string;
-  years_of_experience?: number;
-};
-
-type PreferredTeachingLocations = {
-  country?: string;
-  city?: string;
-  area?: string[];
-};
-
-type PreferredTutoring = {
-  salary_range?: {
-    min?: number;
-    max?: number;
-  };
-  categories?: string[];
-  courses?: string[];
-  subjects?: string[];
-  tutoring_types?: string[];
-};
-
-type Education = {
-  school?: BasicEducation;
-  college?: BasicEducation & {
-    status?: string;
-  };
-  graduation?: HigherEducation;
-  post_graduation?: HigherEducation;
-};
-
-type BasicEducation = {
-  name?: string;
-  group?: string;
-  curriculum?: string;
-  board?: string;
-  gpa?: string;
-  year_of_passing?: number;
-};
-
-type HigherEducation = {
-  name?: string;
-  department?: string;
-  type?: string;
-  study_level?: string;
-  status?: string;
-  gpa?: string;
-  session?: string;
-};
-
-type ParentsInfo = {
-  father_name?: string;
-  father_phone?: string;
-  mother_name?: string;
-  mother_phone?: string;
-  emergency_contact_name?: string;
-  emergency_contact_phone?: string;
-};
-
-type Identification = {
-  type?: string;
-  number?: string;
-};
-
-type EducationItem = {
-  level: string;
-  name: string;
-  status?: string;
-  details: Array<{
-    label: string;
-    value: string;
-  }>;
-};
-
-export type { TeacherApiResponse, Teacher };
 export default TutorDetails;
