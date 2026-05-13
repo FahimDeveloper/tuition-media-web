@@ -1,15 +1,10 @@
 import TuitionCard from "@/pages/tutor_hub/components/TutorCard";
 import TuitionSearchBar from "@/pages/tutor_hub/components/TutorSearchBar";
-import { useMockPublicTeachersQuery } from "@/mocks/tutor/tutorMock";
+import { useAllPublicTeachersQuery } from "@/redux/features/teachers/teachersProfileApi";
 import { MdOutlineManageSearch } from "react-icons/md";
 
 const TutorHub = () => {
-  /*
-   * RTK Query handoff point:
-   * Replace this mock hook with useGetPublicTeachersQuery() later.
-   * Keep the render states below so loading/error handling stays consistent.
-   */
-  const { data, isLoading, isError, error } = useMockPublicTeachersQuery();
+  const { data, isLoading, isError, error } = useAllPublicTeachersQuery();
   const teachers = data ?? [];
   const errorMessage = getErrorMessage(error);
 

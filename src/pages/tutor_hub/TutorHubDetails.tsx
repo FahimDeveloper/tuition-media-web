@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { skipToken } from "@reduxjs/toolkit/query";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   FiAlertCircle,
@@ -18,7 +19,7 @@ import {
   FiUserCheck,
 } from "react-icons/fi";
 
-import { useMockPublicTeacherByIdQuery } from "@/mocks/tutor/tutorMock";
+import { useSinglePublicTeacherQuery } from "@/redux/features/teachers/teachersProfileApi";
 import type { PublicTeacher, TeacherEducation } from "@/types";
 import {
   formatPublicTeacherAvailability,
@@ -78,12 +79,8 @@ const TutorDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
 
-  /*
-   * RTK Query handoff point:
-   * Replace this mock hook with useGetPublicTeacherByIdQuery(id) later.
-   */
   const { data: teacher, isLoading, isError, error, refetch } =
-    useMockPublicTeacherByIdQuery(id);
+    useSinglePublicTeacherQuery(id ?? skipToken);
 
   const tutor = useMemo(
     () => (teacher ? toTeacherDetailsView(teacher) : undefined),
