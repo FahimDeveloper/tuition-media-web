@@ -14,40 +14,46 @@ import BookDemoClass from "@/pages/book-demo-class/BookDemoClass";
 import TuitionDetailsPage from "@/pages/tuition-jobs/TuitionJobDetails";
 import TutorHub from "@/pages/tutor-hub/TutorHub";
 import TutorHubDetails from "@/pages/tutor-hub/TutorHubDetails";
+import RootLayout from "@/components/layout/shell/RootLayout";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <MainLayout />,
+    element: <RootLayout />,
     children: [
-      { index: true, element: <Home /> },
-      { path: "demo-class", element: <BookDemoClass /> },
-      { path: "tuitions", element: <Tuitions /> },
-      { path: "tuitions/:id", element: <TuitionDetailsPage /> },
-      { path: "hub", element: <TutorHub /> },
-      { path: "hub/:id", element: <TutorHubDetails /> },
+      {
+        path: "/",
+        element: <MainLayout />,
+        children: [
+          { index: true, element: <Home /> },
+          { path: "demo-class", element: <BookDemoClass /> },
+          { path: "tuitions", element: <Tuitions /> },
+          { path: "tuitions/:id", element: <TuitionDetailsPage /> },
+          { path: "hub", element: <TutorHub /> },
+          { path: "hub/:id", element: <TutorHubDetails /> },
+        ],
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/signup",
+        element: <SignUp />,
+      },
+      {
+        path: "/tutor",
+        element: (
+          <PrivateRoute role={userRole.TUTOR}>
+            <DashboardLayout />
+          </PrivateRoute>
+        ),
+        children: routesGenerator(tutorPath),
+      },
+      {
+        path: "*",
+        element: <NotFound />,
+      },
     ],
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/signup",
-    element: <SignUp />,
-  },
-  {
-    path: "/tutor",
-    element: (
-      <PrivateRoute role={userRole.TUTOR}>
-        <DashboardLayout />
-      </PrivateRoute>
-    ),
-    children: routesGenerator(tutorPath),
-  },
-  {
-    path: "*",
-    element: <NotFound />,
   },
 ]);
 
