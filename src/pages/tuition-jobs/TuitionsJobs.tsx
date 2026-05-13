@@ -1,51 +1,41 @@
-import { useMemo, useState } from "react";
+import {
+  JobBoardState,
+  useTuitionJobBoard,
+} from "@/components/common/job-board";
 import TuitionCard from "@/pages/tuition-jobs/components/TuitionCard";
 import TuitionSearchBar from "@/pages/tuition-jobs/components/TuitionSearchBar";
-import { useAllTuitionJobsQuery } from "@/redux/features/tuition-jobs/tuitionJobsApi";
-import type { JobBoardFilterQuery, TuitionJobsQuery } from "@/types";
-import { getApiErrorMessage } from "@/utils/api-error.utils";
-import { toTuitionJobView } from "@/utils/tuition-job.utils";
 import { MdOutlineManageSearch } from "react-icons/md";
 
 const Tuition = () => {
-  const [query, setQuery] = useState<TuitionJobsQuery>({});
-  const { data = [], isLoading, isFetching, isError, error } =
-    useAllTuitionJobsQuery(query);
-  const errorMessage = getApiErrorMessage(
-    error,
-    "Please try again later. The tuition listings could not be loaded.",
-  );
-
-  const tuitions = useMemo(() => data.map(toTuitionJobView), [data]);
-
-  const totalResults = tuitions.length;
-
-  const handleSearch = (search: string) => {
-    setQuery((currentQuery) => ({
-      ...currentQuery,
-      ...(search ? { search } : { search: undefined }),
-    }));
-  };
-
-  const handleFilter = (filterQuery: JobBoardFilterQuery) => {
-    setQuery((currentQuery) => ({
-      ...currentQuery,
-      ...filterQuery,
-    }));
-  };
+  const {
+    tuitions,
+    totalResults,
+    isLoading,
+    isFetching,
+    isError,
+    errorMessage,
+    handleSearch,
+    handleFilter,
+  } = useTuitionJobBoard();
 
   if (isLoading) {
-    return <TuitionListState title="Loading tuitions..." />;
+    return (
+      <JobBoardState
+        title="Loading tuitions..."
+        wrapperClassName="bg-page px-4 py-20 sm:px-6 lg:px-8"
+      />
+    );
   }
 
   if (isError) {
     return (
-      <TuitionListState
+      <JobBoardState
         title="Unable to load tuitions"
         description={
           errorMessage ||
           "Please try again later. The tuition listings could not be loaded."
         }
+        wrapperClassName="bg-page px-4 py-20 sm:px-6 lg:px-8"
       />
     );
   }
@@ -85,9 +75,10 @@ const Tuition = () => {
               ))}
             </div>
           ) : (
-            <TuitionListState
+            <JobBoardState
               title="No tuition found"
               description="There are no open tuition listings available right now."
+              wrapperClassName="bg-page px-4 py-20 sm:px-6 lg:px-8"
             />
           )}
         </div>
@@ -95,24 +86,5 @@ const Tuition = () => {
     </section>
   );
 };
-
-const TuitionListState = ({
-  title,
-  description,
-}: {
-  title: string;
-  description?: string;
-}) => (
-  <section className="bg-page px-4 py-20 sm:px-6 lg:px-8">
-    <div className="border-brand-200/70 bg-surface-elevated shadow-theme-md dark:border-border mx-auto max-w-3xl rounded-3xl border p-8 text-center">
-      <h2 className="text-text-strong text-2xl font-bold">{title}</h2>
-      {description ? (
-        <p className="text-text-muted mx-auto mt-3 max-w-md text-sm leading-6">
-          {description}
-        </p>
-      ) : null}
-    </div>
-  </section>
-);
 
 export default Tuition;

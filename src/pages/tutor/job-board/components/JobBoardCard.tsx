@@ -1,20 +1,19 @@
 import type { IconType } from "react-icons";
 import {
   FiBookOpen,
-  FiCalendar,
   FiClock,
   FiDollarSign,
-  FiEye,
   FiMapPin,
   FiTag,
   FiUserCheck,
   FiUsers,
 } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
-import type { TuitionData } from "@/mocks/tuition/tuitionListings";
+import type { TuitionJobView } from "@/types";
 
 type JobBoardCardProps = {
-  tuition: TuitionData;
+  tuition: TuitionJobView;
 };
 
 type MetaItem = {
@@ -23,38 +22,13 @@ type MetaItem = {
   icon: IconType;
 };
 
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  month: "short",
-  day: "numeric",
-  year: "numeric",
-});
-
-const formatPostedDate = (postedDate: string) => {
-  const parsedDate = new Date(postedDate);
-
-  if (Number.isNaN(parsedDate.getTime())) {
-    return postedDate;
-  }
-
-  return dateFormatter.format(parsedDate);
-};
-
-const getSubjectList = (subjects: TuitionData["subjects"]) => {
-  if (Array.isArray(subjects)) {
-    return subjects.filter(Boolean);
-  }
-
-  return subjects
-    .split(",")
-    .map((subject) => subject.trim())
-    .filter(Boolean);
-};
+const formatStudentCount = (value: string) =>
+  value === "1" ? "1 student" : value === "Not specified" ? value : `${value} students`;
 
 export default function JobBoardCard({ tuition }: JobBoardCardProps) {
-  const subjects = getSubjectList(tuition.subjects);
   const metaItems: MetaItem[] = [
     { label: "Category", value: tuition.category, icon: FiTag },
-    { label: "Class", value: tuition.course, icon: FiBookOpen },
+    { label: "Class", value: tuition.courseLevel, icon: FiBookOpen },
     { label: "Salary", value: tuition.salary, icon: FiDollarSign },
     { label: "Tutor", value: tuition.tutorGender, icon: FiUserCheck },
   ];
@@ -65,7 +39,7 @@ export default function JobBoardCard({ tuition }: JobBoardCardProps) {
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <span className="bg-brand-50 text-brand-700 dark:bg-brand-500/10 dark:text-brand-300 inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold tracking-[0.12em] uppercase">
-              Open job
+              {tuition.status}
             </span>
             <span className="bg-surface-muted text-text-muted inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium">
               ID #{tuition.id}
@@ -84,12 +58,12 @@ export default function JobBoardCard({ tuition }: JobBoardCardProps) {
 
       <div className="text-text-muted mt-4 flex flex-wrap items-center gap-2 text-xs">
         <span className="bg-surface-muted inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5">
-          <FiCalendar className="h-3.5 w-3.5" aria-hidden="true" />
-          Posted {formatPostedDate(tuition.postedDate)}
+          <FiUsers className="h-3.5 w-3.5" aria-hidden="true" />
+          {formatStudentCount(tuition.numberOfStudents)}
         </span>
         <span className="bg-surface-muted inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5">
           <FiClock className="h-3.5 w-3.5" aria-hidden="true" />
-          {tuition.tutoringTime}
+          {tuition.preferredTime}
         </span>
       </div>
 
@@ -136,46 +110,54 @@ export default function JobBoardCard({ tuition }: JobBoardCardProps) {
           Subjects
         </p>
         <div className="mt-2 flex flex-wrap gap-2">
-          {subjects.map((subject) => (
-            <span
-              key={`${tuition.id}-${subject}`}
-              className="border-border bg-surface-muted text-text-strong inline-flex items-center rounded-lg border px-2.5 py-1 text-xs font-medium"
-            >
-              {subject}
-            </span>
-          ))}
+          {tuition.subjects.length > 0 ? (
+            tuition.subjects.map((subject) => (
+              <span
+                key={`${tuition.id}-${subject}`}
+                className="border-border bg-surface-muted text-text-strong inline-flex items-center rounded-lg border px-2.5 py-1 text-xs font-medium"
+              >
+                {subject}
+              </span>
+            ))
+          ) : (
+            <span className="text-text-muted text-xs">Not specified</span>
+          )}
         </div>
       </div>
 
       <div className="mt-4 grid grid-cols-2 gap-2.5">
         <div className="border-border bg-surface-muted/70 rounded-xl border px-3 py-2.5">
           <div className="text-text-muted flex items-center gap-1.5 text-[11px] font-semibold tracking-[0.12em] uppercase">
-            <FiEye className="h-3.5 w-3.5" aria-hidden="true" />
-            <span>Views</span>
+            <FiClock className="h-3.5 w-3.5" aria-hidden="true" />
+            <span>Days</span>
           </div>
           <p className="text-text-strong mt-1.5 text-sm font-semibold">
-            {tuition.totalViews}
+            {tuition.daysPerWeek}
           </p>
         </div>
         <div className="border-border bg-surface-muted/70 rounded-xl border px-3 py-2.5">
           <div className="text-text-muted flex items-center gap-1.5 text-[11px] font-semibold tracking-[0.12em] uppercase">
             <FiUsers className="h-3.5 w-3.5" aria-hidden="true" />
-            <span>Applied</span>
+            <span>Type</span>
           </div>
           <p className="text-text-strong mt-1.5 text-sm font-semibold">
-            {tuition.totalApplied}
+            {tuition.tutoringType}
           </p>
         </div>
       </div>
 
       <div className="border-border mt-5 flex items-center justify-between gap-3 border-t pt-4">
-        <p className="text-text-muted text-xs font-medium">Updated recently</p>
-        <button
-          type="button"
-          className="bg-brand-600 text-text-on-brand hover:bg-brand-700 focus:ring-brand-400 focus:ring-offset-page inline-flex min-h-9 items-center justify-center rounded-lg px-3.5 py-2 text-sm font-semibold transition-colors duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none"
-        >
-          See details
-        </button>
+        <p className="text-text-muted text-xs font-medium">
+          {tuition.preferredDays}
+        </p>
+        <Link to={`/tutor/job-board/${tuition.id}`}>
+          <button
+            type="button"
+            className="bg-brand-600 text-text-on-brand hover:bg-brand-700 focus:ring-brand-400 focus:ring-offset-page inline-flex min-h-9 items-center justify-center rounded-lg px-3.5 py-2 text-sm font-semibold transition-colors duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+          >
+            See details
+          </button>
+        </Link>
       </div>
     </article>
   );

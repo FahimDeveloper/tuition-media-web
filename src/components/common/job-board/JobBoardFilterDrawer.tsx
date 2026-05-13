@@ -22,6 +22,7 @@ type FilterFormValues = JobBoardFilterQuery;
 
 type JobBoardFilterDrawerProps = {
   onApply?: (query: JobBoardFilterQuery) => void;
+  buttonClassName?: string;
 };
 
 type DrawerSectionProps = {
@@ -37,6 +38,9 @@ const drawerBodyStyles = {
   flexDirection: "column" as const,
   height: "100%",
 };
+
+const defaultButtonClassName =
+  "border-border bg-surface-elevated text-text-strong shadow-theme-xs hover:border-brand-300! hover:bg-brand-50/60! h-11 rounded-lg px-4 text-sm font-medium";
 
 const compactArray = (values?: string[]) =>
   values?.filter((value) => value.trim().length > 0);
@@ -91,6 +95,7 @@ function DrawerSection({ icon, title, children }: DrawerSectionProps) {
 
 export default function JobBoardFilterDrawer({
   onApply,
+  buttonClassName,
 }: JobBoardFilterDrawerProps) {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm<FilterFormValues>();
@@ -150,7 +155,7 @@ export default function JobBoardFilterDrawer({
         icon={<FiSliders />}
         size="large"
         onClick={() => setOpen(true)}
-        className="border-border bg-surface-elevated text-text-strong shadow-theme-xs hover:border-brand-300! hover:bg-brand-50/60! h-11 rounded-lg px-4 text-sm font-medium"
+        className={buttonClassName ?? defaultButtonClassName}
       >
         Filters
       </Button>

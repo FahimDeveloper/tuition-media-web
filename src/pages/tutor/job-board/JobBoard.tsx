@@ -1,14 +1,24 @@
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import PageMeta from "@/components/common/PageMeta";
+import {
+  JobBoardState,
+  useTuitionJobBoard,
+} from "@/components/common/job-board";
 import JobBoardCard from "@/pages/tutor/job-board/components/JobBoardCard";
 import JobBoardSearchPanel from "@/pages/tutor/job-board/components/JobBoardSearchPanel";
-import { tuitionMockListings } from "@/mocks/tuition/tuitionListings";
 import { FiBriefcase, FiGrid, FiTrendingUp } from "react-icons/fi";
 
-const tuitions = tuitionMockListings;
-
 export default function JobBoard() {
-  const totalResults = tuitions.length;
+  const {
+    tuitions,
+    totalResults,
+    isLoading,
+    isFetching,
+    isError,
+    errorMessage,
+    handleSearch,
+    handleFilter,
+  } = useTuitionJobBoard();
 
   return (
     <>
@@ -70,17 +80,62 @@ export default function JobBoard() {
             </article>
           </section>
 
-          <JobBoardSearchPanel />
+          <JobBoardSearchPanel
+            onSearch={handleSearch}
+            onFilter={handleFilter}
+          />
 
           <section>
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {tuitions.map((tuition) => (
-                <JobBoardCard key={tuition.id} tuition={tuition} />
-              ))}
-            </div>
+            {isLoading ? (
+              <DashboardJobBoardState title="Loading tuitions..." />
+            ) : isError ? (
+              <DashboardJobBoardState
+                title="Unable to load tuitions"
+                description={
+                  errorMessage ||
+                  "Please try again later. The tuition listings could not be loaded."
+                }
+              />
+            ) : (
+              <>
+                {isFetching ? (
+                  <p className="text-text-muted mb-4 text-sm">
+                    Updating listings...
+                  </p>
+                ) : null}
+
+                {tuitions.length > 0 ? (
+                  <div className="grid gap-4 md:grid-cols-2 2xl:grid-cols-3">
+                    {tuitions.map((tuition) => (
+                      <JobBoardCard key={tuition.id} tuition={tuition} />
+                    ))}
+                  </div>
+                ) : (
+                  <DashboardJobBoardState
+                    title="No tuition found"
+                    description="There are no open tuition listings available right now."
+                  />
+                )}
+              </>
+            )}
           </section>
         </div>
       </div>
     </>
   );
 }
+
+const DashboardJobBoardState = ({
+  title,
+  description,
+}: {
+  title: string;
+  description?: string;
+}) => (
+  <JobBoardState
+    title={title}
+    description={description}
+    panelClassName="border-border bg-surface-muted/70 max-w-none rounded-2xl shadow-none"
+    titleClassName="text-xl font-semibold"
+  />
+);

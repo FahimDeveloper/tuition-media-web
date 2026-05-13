@@ -17,6 +17,9 @@ const CurrentStatus = LazyLoad(
 const JobBoard = LazyLoad(
   lazy(() => import("@/pages/tutor/job-board/JobBoard")),
 );
+const JobBoardDetails = LazyLoad(
+  lazy(() => import("@/pages/tutor/job-board/JobBoardDetails")),
+);
 
 // Single source of truth for tutor dashboard routing and sidebar metadata.
 export const tutorPath: TPath[] = [
@@ -40,6 +43,12 @@ export const tutorPath: TPath[] = [
     icon: ListIcon,
     showInSidebar: true,
     element: <JobBoard />,
+  },
+  {
+    path: "job-board/:id",
+    name: "Job Board Details",
+    showInSidebar: false,
+    element: <JobBoardDetails />,
   },
   {
     // This parent must own the `history` segment so its children resolve under
