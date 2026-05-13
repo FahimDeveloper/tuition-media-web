@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import BrandLogo from "@/components/common/BrandLogo";
 import { ThemeToggleButton } from "@/components/common/ThemeToggleButton";
-import NotificationDropdown from "@/components/layout/header/NotificationDropdown";
+// import NotificationDropdown from "@/components/layout/header/NotificationDropdown";
 import { useSidebar } from "@/context/dashboard/SidebarContext";
 import ProfileDropdown from "./ProfileDropdown";
 
@@ -109,7 +109,7 @@ const AppHeader: React.FC = () => {
               </svg>
             </button>
 
-            <div className="hidden lg:block">
+            <div className="hidden">
               <form>
                 <div className="relative">
                   <span className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2">
@@ -152,7 +152,7 @@ const AppHeader: React.FC = () => {
           >
             <div className="2xsm:gap-3 flex items-center gap-2">
               <ThemeToggleButton />
-              <NotificationDropdown />
+              {/* <NotificationDropdown /> */}
             </div>
             <ProfileDropdown />
           </div>

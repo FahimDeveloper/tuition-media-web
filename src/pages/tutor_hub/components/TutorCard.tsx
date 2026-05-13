@@ -6,7 +6,7 @@ import {
   FiMapPin,
   FiUser,
 } from "react-icons/fi";
-import type { TeacherSummary } from "./mockTeachers";
+import type { TeacherSummary } from "@/mocks/tutor/tutorMock";
 
 type TeacherProfileCardProps = {
   teacher: TeacherSummary;
