@@ -103,6 +103,15 @@ export interface PublicTeacher {
   tutoring_availability?: TeacherAvailability;
 }
 
+export type PublicTeachersQuery = {
+  search?: string;
+  preferred_teaching_locations?: PreferredTeachingLocations;
+  preferred_tutoring?: Pick<
+    PreferredTutoring,
+    "categories" | "courses" | "subjects"
+  >;
+};
+
 export type AuthSession = {
   user: AuthTeacher;
   accessToken: string;

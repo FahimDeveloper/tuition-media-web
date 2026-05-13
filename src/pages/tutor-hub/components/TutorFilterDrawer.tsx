@@ -142,6 +142,8 @@ export default function JobBoardFilterDrawer({
 
   const onReset = () => {
     form.resetFields();
+    // Reset should clear both the drawer UI and the active server-side filters.
+    onApply?.({});
   };
 
   return (

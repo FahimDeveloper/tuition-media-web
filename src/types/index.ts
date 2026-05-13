@@ -9,6 +9,7 @@ export type {
   PreferredTeachingLocations,
   PreferredTutoring,
   PublicTeacher,
+  PublicTeachersQuery,
   RegistrationPayload,
   TeacherAvailability,
   TeacherSalaryRange,

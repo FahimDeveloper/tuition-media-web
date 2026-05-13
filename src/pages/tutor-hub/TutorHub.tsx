@@ -1,14 +1,32 @@
+import { useState } from "react";
 import TuitionCard from "@/pages/tutor-hub/components/TutorCard";
 import TuitionSearchBar from "@/pages/tutor-hub/components/TutorSearchBar";
 import { useAllPublicTeachersQuery } from "@/redux/features/teachers/teachersProfileApi";
+import type { JobBoardFilterQuery, PublicTeachersQuery } from "@/types";
 import { MdOutlineManageSearch } from "react-icons/md";
 
 const TutorHub = () => {
-  const { data, isLoading, isError, error } = useAllPublicTeachersQuery();
+  const [query, setQuery] = useState<PublicTeachersQuery>({});
+  const { data, isLoading, isFetching, isError, error } =
+    useAllPublicTeachersQuery(query);
   const teachers = data ?? [];
   const errorMessage = getErrorMessage(error);
 
   const totalResults = teachers.length;
+
+  const handleSearch = (search: string) => {
+    setQuery((currentQuery) => ({
+      ...currentQuery,
+      ...(search ? { search } : { search: undefined }),
+    }));
+  };
+
+  const handleFilter = (filterQuery: JobBoardFilterQuery) => {
+    setQuery((currentQuery) => ({
+      ...(currentQuery.search ? { search: currentQuery.search } : {}),
+      ...filterQuery,
+    }));
+  };
 
   if (isLoading) {
     return <TutorListState title="Loading tutors..." />;
@@ -46,10 +64,14 @@ const TutorHub = () => {
         </div>
 
         {/* Search / Filter Panel */}
-        <TuitionSearchBar />
+        <TuitionSearchBar onSearch={handleSearch} onFilter={handleFilter} />
 
         {/* Listings */}
         <div className="mt-12">
+          {isFetching ? (
+            <p className="text-text-muted mb-4 text-sm">Updating tutors...</p>
+          ) : null}
+
           {teachers.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {teachers.map((teacher) => (

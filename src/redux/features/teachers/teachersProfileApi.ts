@@ -1,5 +1,10 @@
 import { authApiSlice } from "@/redux/api/httpSlice";
-import type { ITeacher, PublicTeacher, TeacherProfilePatchPayload } from "@/types";
+import type {
+  ITeacher,
+  PublicTeacher,
+  PublicTeachersQuery,
+  TeacherProfilePatchPayload,
+} from "@/types";
 import { isRecord } from "@/utils/type-guards.utils";
 
 type TeacherProfile = Partial<ITeacher>;
@@ -16,7 +21,9 @@ const isPublicTeacher = (value: unknown): value is PublicTeacher =>
   typeof value.is_verified === "boolean" &&
   typeof value.is_active === "boolean";
 
-const unwrapTeacherProfile = (response: unknown): TeacherProfile | undefined => {
+const unwrapTeacherProfile = (
+  response: unknown,
+): TeacherProfile | undefined => {
   if (!isRecord(response)) return undefined;
 
   const profile =
@@ -30,21 +37,22 @@ const unwrapTeacherProfile = (response: unknown): TeacherProfile | undefined => 
 };
 
 const unwrapPublicTeachers = (response: unknown): PublicTeacher[] => {
-  const teachers =
-    Array.isArray(response)
-      ? response
-      : isRecord(response) && Array.isArray(response.results)
-        ? response.results
-        : isRecord(response) && Array.isArray(response.data)
-          ? response.data
-          : [];
+  const teachers = Array.isArray(response)
+    ? response
+    : isRecord(response) && Array.isArray(response.results)
+      ? response.results
+      : isRecord(response) && Array.isArray(response.data)
+        ? response.data
+        : [];
 
   return teachers.filter(isPublicTeacher);
 };
 
 const unwrapPublicTeacher = (response: unknown): PublicTeacher | undefined => {
   if (isRecord(response) && Array.isArray(response.results)) {
-    return isPublicTeacher(response.results[0]) ? response.results[0] : undefined;
+    return isPublicTeacher(response.results[0])
+      ? response.results[0]
+      : undefined;
   }
 
   const teacher =
@@ -59,10 +67,14 @@ const unwrapPublicTeacher = (response: unknown): PublicTeacher | undefined => {
 
 const profileApi = authApiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    allPublicTeachers: builder.query<PublicTeacher[], void>({
-      query: () => ({
+    allPublicTeachers: builder.query<
+      PublicTeacher[],
+      PublicTeachersQuery | void
+    >({
+      query: (query) => ({
         url: "/teachers/public",
         method: "GET",
+        params: toPublicTeachersParams(query),
       }),
       transformResponse: unwrapPublicTeachers,
     }),
@@ -106,3 +118,24 @@ export const {
   useTeacherProfileQuery,
   useUpdateTeacherProfileMutation,
 } = profileApi;
+
+function toPublicTeachersParams(query?: PublicTeachersQuery | void) {
+  const location = query?.preferred_teaching_locations;
+  const tutoring = query?.preferred_tutoring;
+
+  return {
+    ...(query?.search ? { search: query.search } : {}),
+    ...(location?.country ? { country: location.country } : {}),
+    ...(location?.city ? { city: location.city } : {}),
+    ...(location?.area?.length ? { area: location.area.join(",") } : {}),
+    ...(tutoring?.categories?.length
+      ? { categories: tutoring.categories.join(",") }
+      : {}),
+    ...(tutoring?.courses?.length
+      ? { courses: tutoring.courses.join(",") }
+      : {}),
+    ...(tutoring?.subjects?.length
+      ? { subjects: tutoring.subjects.join(",") }
+      : {}),
+  };
+}
