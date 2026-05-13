@@ -1,7 +1,5 @@
 import Marquee from "@/pages/home/components/Marquee";
 
-// TODO: Replace with actual categories
-// * use categories json file.
 const categories = [
   "Math Tutors",
   "English Tutors",

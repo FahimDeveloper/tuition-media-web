@@ -3,7 +3,7 @@ import { Form, Input, Select } from "antd";
 import ProfileEditableSection from "../shared/ProfileEditableSection";
 import { ProfileFormGrid } from "../shared/ProfileFormLayout";
 import type { ProfileInfoField } from "../shared/ProfileInfoList";
-import { requiredRule } from "@/utils/form-validation.utils";
+import { requiredRule } from "@/validations/form.validation";
 import { EducationCredentialFields } from "./EducationFormFields";
 import {
   GRADUATION_INFO_ITEMS,

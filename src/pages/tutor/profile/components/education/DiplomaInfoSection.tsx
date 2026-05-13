@@ -2,7 +2,7 @@ import { Checkbox, Form, Input, Select } from "antd";
 
 import ProfileEditableSection from "../shared/ProfileEditableSection";
 import { ProfileFormGrid } from "../shared/ProfileFormLayout";
-import { requiredRule } from "@/utils/form-validation.utils";
+import { requiredRule } from "@/validations/form.validation";
 import { EducationCredentialFields } from "./EducationFormFields";
 import {
   DIPLOMA_INFO_ITEMS,

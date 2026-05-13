@@ -7,53 +7,23 @@ import { ChevronLeftIcon } from "@/icons";
 import { useAppDispatch } from "@/hooks/useAppHooks";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { loggedInUser } from "@/redux/features/auth/authSlice";
-import type { LoginPayload } from "@/types";
 import { getApiErrorMessage } from "@/utils/api-error.utils";
-import { isCapsLockActive, normalizeEmail } from "@/utils/auth-form.utils";
+import { isCapsLockActive } from "@/utils/keyboard.utils";
+import { normalizeEmail } from "@/utils/string.utils";
 import { isRecord } from "@/utils/type-guards.utils";
+import {
+  AUTH_FORM_LIMITS,
+  SIGN_IN_INITIAL_VALUES,
+  signInEmailRules,
+  signInPasswordRules,
+  type SignInFormValues,
+} from "@/validations/auth.validation";
 import {
   authFormClasses,
   authInputClasses,
   authLinkClasses,
   authPrimaryButtonClasses,
 } from "../formStyles";
-
-type SignInFormValues = LoginPayload;
-
-const EMAIL_MAX_LENGTH = 100;
-const PASSWORD_MIN_LENGTH = 6;
-const PASSWORD_MAX_LENGTH = 128;
-const EMAIL_NO_SPACES_PATTERN = /^\S+$/;
-
-const DEFAULT_VALUES: SignInFormValues = {
-  email: "",
-  password: "",
-};
-
-const emailRules = [
-  { required: true, message: "Please enter your email." },
-  { type: "email" as const, message: "Please enter a valid email address." },
-  { max: EMAIL_MAX_LENGTH, message: "Email is too long." },
-  { pattern: EMAIL_NO_SPACES_PATTERN, message: "Email cannot contain spaces." },
-];
-
-const passwordRules = [
-  { required: true, message: "Please enter your password." },
-  {
-    min: PASSWORD_MIN_LENGTH,
-    message: "Password must be at least 6 characters.",
-  },
-  { max: PASSWORD_MAX_LENGTH, message: "Password is too long." },
-  {
-    validator: async (_: unknown, value?: string) => {
-      if (!value || value.trim()) {
-        return;
-      }
-
-      throw new Error("Password cannot be only spaces.");
-    },
-  },
-];
 
 const getLoginErrorMessage = (error: unknown) => {
   if (isRecord(error) && error.status === 401) {
@@ -136,7 +106,7 @@ export default function SignInForm() {
           form={form}
           layout="vertical"
           requiredMark={false}
-          initialValues={DEFAULT_VALUES}
+          initialValues={SIGN_IN_INITIAL_VALUES}
           onFinish={handleSubmit}
           onValuesChange={handleValuesChange}
           autoComplete="on"
@@ -147,7 +117,7 @@ export default function SignInForm() {
             name="email"
             normalize={normalizeEmail}
             validateFirst
-            rules={emailRules}
+            rules={signInEmailRules}
           >
             <Input
               size="large"
@@ -156,7 +126,7 @@ export default function SignInForm() {
               prefix={<MailOutlined className="text-brand-500" />}
               autoComplete="email"
               allowClear
-              maxLength={EMAIL_MAX_LENGTH}
+              maxLength={AUTH_FORM_LIMITS.emailMaxLength}
               disabled={isLoading}
               className={authInputClasses}
             />
@@ -166,7 +136,7 @@ export default function SignInForm() {
             label="Password"
             name="password"
             validateFirst
-            rules={passwordRules}
+            rules={signInPasswordRules}
             extra={
               isCapsLockOn ? (
                 <span className="text-amber-700">Caps Lock is on.</span>

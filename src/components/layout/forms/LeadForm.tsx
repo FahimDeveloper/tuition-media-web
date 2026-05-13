@@ -3,10 +3,11 @@ import { Button, Form, Input, Modal, Typography } from "antd";
 import { FiArrowRight } from "react-icons/fi";
 import { useCreateLeadMutation } from "@/redux/features/lead/leadApi";
 import { getApiErrorMessage } from "@/utils/api-error.utils";
+import { stripPhoneFormatting } from "@/utils/phone.utils";
 import {
-  isValidBangladeshiPhoneNumber,
-  stripPhoneFormatting,
-} from "@/utils/phone.utils";
+  bangladeshiPhoneRule,
+  requiredRule,
+} from "@/validations/form.validation";
 
 const { Text } = Typography;
 const { TextArea } = Input;
@@ -19,14 +20,6 @@ type LeadFormValues = {
 
 type CreateLeadResponse = {
   message?: string;
-};
-
-const validateBangladeshiMobileNumber = (_: unknown, value?: string) => {
-  if (!value || isValidBangladeshiPhoneNumber(value)) {
-    return Promise.resolve();
-  }
-
-  return Promise.reject(new Error("Enter a valid Bangladeshi mobile number."));
 };
 
 export default function LeadForm() {
@@ -72,7 +65,7 @@ export default function LeadForm() {
       <Form.Item
         label={<Text className="text-text-strong!">Name</Text>}
         name="name"
-        rules={[{ required: true, message: "Please enter your name." }]}
+        rules={requiredRule("Please enter your name.")}
       >
         <Input
           size="large"
@@ -90,8 +83,8 @@ export default function LeadForm() {
         }
         name="contact"
         rules={[
-          { required: true, message: "Please enter your phone number." },
-          { validator: validateBangladeshiMobileNumber },
+          ...requiredRule("Please enter your phone number."),
+          bangladeshiPhoneRule("Enter a valid Bangladeshi mobile number."),
         ]}
       >
         <Input

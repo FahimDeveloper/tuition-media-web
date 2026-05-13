@@ -1,13 +1,7 @@
-import FeaturedTeacherCarousel from "@/pages/home/featured_teacher_section/FeaturedTeacherCarousel";
+import FeaturedTeacherCarousel from "@/pages/home/featured-teacher-section/FeaturedTeacherCarousel";
 import { mockFeaturedTeachers } from "@/mocks/tutor/tutorMock";
 
 const FeaturedTeacher = () => {
-  /*
-   * RTK Query handoff point:
-   * Replace these mock assignments with useFeaturedTeachersQuery() later.
-   * Keep the adapter boundary in featured-teacher.utils.ts so backend field
-   * names do not leak into the presentational carousel or card components.
-   */
   const isLoading = false;
   const isError = false;
   const errorMessage = "";

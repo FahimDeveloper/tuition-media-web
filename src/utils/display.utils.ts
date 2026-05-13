@@ -30,7 +30,7 @@ export const getUploadDisplayValue = (value?: UploadFile[] | string) => {
 };
 
 export const getTakaDisplayValue = (value?: number) => {
-  return value ? `à§³${value}` : "Any";
+  return value ? `৳${value}` : "Any";
 };
 
 export const getSalaryDisplayValue = (salaryRange?: unknown) => {

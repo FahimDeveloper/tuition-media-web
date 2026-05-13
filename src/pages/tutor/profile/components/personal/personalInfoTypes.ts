@@ -1,7 +1,7 @@
 import dayjs, { type Dayjs } from "dayjs";
 import type { Rule } from "antd/es/form";
-import { validateFullName } from "@/utils/form-validation.utils";
 import { getDisplayValue } from "@/utils/display.utils";
+import { validateFullName } from "@/validations/form.validation";
 import type { ProfileInfoField } from "../shared/ProfileInfoList";
 import type {
   TeacherBloodGroup,
@@ -40,19 +40,10 @@ export const phoneRules: Rule[] = [
   },
 ];
 
-export const optionalUrlRules: Rule[] = [
-  {
-    type: "url",
-    message: "Enter a valid URL",
-  },
-];
-
-export const idNumberRules: Rule[] = [
-  {
-    pattern: /^[A-Za-z0-9-]{6,32}$/,
-    message: "Enter a valid identification number",
-  },
-];
+export {
+  idNumberRules,
+  optionalUrlRules,
+} from "@/validations/form.validation";
 
 export const GENDER_OPTIONS: { label: string; value: TeacherGender }[] = [
   { label: "Male", value: "male" },

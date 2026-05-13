@@ -17,7 +17,7 @@ import {
 } from "react-icons/fi";
 
 import type { IconType } from "react-icons";
-import { useSingleTuitionJobsQuery } from "@/redux/features/tuition_jobs/tuitionJobsApi";
+import { useSingleTuitionJobsQuery } from "@/redux/features/tuition-jobs/tuitionJobsApi";
 import { getApiErrorMessage } from "@/utils/api-error.utils";
 import { toTuitionJobView } from "@/utils/tuition-job.utils";
 

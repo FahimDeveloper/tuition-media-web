@@ -15,7 +15,7 @@ const CurrentStatus = LazyLoad(
 );
 
 const JobBoard = LazyLoad(
-  lazy(() => import("@/pages/tutor/Job_board/JobBoard")),
+  lazy(() => import("@/pages/tutor/job-board/JobBoard")),
 );
 
 // Single source of truth for tutor dashboard routing and sidebar metadata.

@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
-import TuitionCard from "@/pages/tuition_jobs/components/TuitionCard";
-import TuitionSearchBar from "@/pages/tuition_jobs/components/TuitionSearchBar";
-import { useAllTuitionJobsQuery } from "@/redux/features/tuition_jobs/tuitionJobsApi";
+import TuitionCard from "@/pages/tuition-jobs/components/TuitionCard";
+import TuitionSearchBar from "@/pages/tuition-jobs/components/TuitionSearchBar";
+import { useAllTuitionJobsQuery } from "@/redux/features/tuition-jobs/tuitionJobsApi";
 import type { JobBoardFilterQuery, TuitionJobsQuery } from "@/types";
 import { getApiErrorMessage } from "@/utils/api-error.utils";
 import { toTuitionJobView } from "@/utils/tuition-job.utils";

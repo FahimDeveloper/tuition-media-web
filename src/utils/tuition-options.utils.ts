@@ -1,5 +1,5 @@
-import tuitionLocations from "@/constant/bangladesh_tuition_locations.json";
-import tutoringCategories from "@/constant/tutoring_category_courses_subjects.json";
+import tuitionLocations from "@/constants/bangladesh_tuition_locations.json";
+import tutoringCategories from "@/constants/tutoring_category_courses_subjects.json";
 import type {
   SelectOption,
   TuitionLocationCity,

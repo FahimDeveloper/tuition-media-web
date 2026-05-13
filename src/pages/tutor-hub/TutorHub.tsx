@@ -1,5 +1,5 @@
-import TuitionCard from "@/pages/tutor_hub/components/TutorCard";
-import TuitionSearchBar from "@/pages/tutor_hub/components/TutorSearchBar";
+import TuitionCard from "@/pages/tutor-hub/components/TutorCard";
+import TuitionSearchBar from "@/pages/tutor-hub/components/TutorSearchBar";
 import { useAllPublicTeachersQuery } from "@/redux/features/teachers/teachersProfileApi";
 import { MdOutlineManageSearch } from "react-icons/md";
 

@@ -8,12 +8,12 @@ import Login from "@/pages/login/Login";
 import SignUp from "@/pages/signup/SignUp";
 import Home from "@/pages/home/Home";
 import NotFound from "@/pages/errors/NotFound";
-import Tuitions from "@/pages/tuition_jobs/TuitionsJobs";
-import PrivetRoute from "@/routers/PrivateRoute";
-import BookDemoClass from "@/pages/book_demo_class/BookDemoClass";
-import TuitionDetailsPage from "@/pages/tuition_jobs/TuitionJobDetails";
-import TutorHub from "@/pages/tutor_hub/TutorHub";
-import TutorHubDetails from "@/pages/tutor_hub/TutorHubDetails";
+import Tuitions from "@/pages/tuition-jobs/TuitionsJobs";
+import PrivateRoute from "@/routers/PrivateRoute";
+import BookDemoClass from "@/pages/book-demo-class/BookDemoClass";
+import TuitionDetailsPage from "@/pages/tuition-jobs/TuitionJobDetails";
+import TutorHub from "@/pages/tutor-hub/TutorHub";
+import TutorHubDetails from "@/pages/tutor-hub/TutorHubDetails";
 
 const router = createBrowserRouter([
   {
@@ -37,12 +37,11 @@ const router = createBrowserRouter([
     element: <SignUp />,
   },
   {
-    // TODO: NEED TO GIVE A BETTER NAME OF THE ROUTE.
     path: "/tutor",
     element: (
-      <PrivetRoute role={userRole.TUTOR}>
+      <PrivateRoute role={userRole.TUTOR}>
         <DashboardLayout />
-      </PrivetRoute>
+      </PrivateRoute>
     ),
     children: routesGenerator(tutorPath),
   },

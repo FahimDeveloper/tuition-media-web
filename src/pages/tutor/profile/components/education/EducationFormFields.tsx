@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Form, Input, InputNumber, Select } from "antd";
 
 import { ProfileFormGrid } from "../shared/ProfileFormLayout";
-import { requiredRule } from "@/utils/form-validation.utils";
+import { requiredRule } from "@/validations/form.validation";
 import {
   BOARD_OPTIONS,
   CURRICULUM_OPTIONS,

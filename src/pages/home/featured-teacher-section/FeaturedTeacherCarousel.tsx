@@ -2,9 +2,9 @@ import type { CSSProperties, MouseEventHandler } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { Carousel } from "antd";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import TeacherProfileCard from "@/pages/home/featured_teacher_section/TeacherProfileCard";
+import TeacherProfileCard from "@/pages/home/featured-teacher-section/TeacherProfileCard";
 import type { FeaturedTeacherViewModel } from "@/types";
-import "@/pages/home/featured_teacher_section/featuredTeacher.css";
+import "@/pages/home/featured-teacher-section/featuredTeacher.css";
 
 type CardsPerSlide = 1 | 2 | 3;
 type ArrowDirection = "previous" | "next";

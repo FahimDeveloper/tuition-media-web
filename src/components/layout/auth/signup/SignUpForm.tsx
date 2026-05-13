@@ -16,13 +16,28 @@ import { useRegistrationMutation } from "@/redux/features/auth/authApi";
 import { loggedInUser } from "@/redux/features/auth/authSlice";
 import type { RegistrationPayload } from "@/types";
 import { getApiErrorMessage, getApiErrorPayload } from "@/utils/api-error.utils";
-import { isCapsLockActive, normalizeEmail } from "@/utils/auth-form.utils";
+import { isCapsLockActive } from "@/utils/keyboard.utils";
 import {
-  isValidBangladeshiPhoneNumber,
   normalizeBangladeshiPhoneNumber,
   sanitizePhoneInput,
 } from "@/utils/phone.utils";
+import {
+  normalizeEmail,
+  normalizeName,
+  normalizeNameInput,
+} from "@/utils/string.utils";
 import { isRecord } from "@/utils/type-guards.utils";
+import {
+  AUTH_FORM_LIMITS,
+  SIGN_UP_COPY,
+  SIGN_UP_INITIAL_VALUES,
+  SIGN_UP_MESSAGES,
+  signUpEmailRules,
+  signUpFullNameRules,
+  signUpPasswordRules,
+  signUpPhoneRules,
+  type SignUpFormValues,
+} from "@/validations/auth.validation";
 
 import {
   authFormClasses,
@@ -31,76 +46,12 @@ import {
   authPrimaryButtonClasses,
 } from "../formStyles";
 
-type SignupFormValues = {
-  full_name: string;
-  email: string;
-  phone: string;
-  password: string;
-  confirmPassword: string;
-};
-
 type SignupFieldError = {
-  name: keyof SignupFormValues;
+  name: keyof SignUpFormValues;
   errors: string[];
 };
 
-const SIGNUP_LIMITS = {
-  nameMinLength: 2,
-  nameMaxLength: 80,
-  emailMaxLength: 100,
-  passwordMinLength: 8,
-  passwordMaxLength: 128,
-} as const;
-
-const SIGNUP_COPY = {
-  title: "Sign Up",
-  description: "Enter your information to create your teacher account.",
-  phoneHint:
-    "Use a Bangladeshi mobile number, for example 01XXXXXXXXX or +8801XXXXXXXXX.",
-  passwordHint: "",
-  capsLockWarning: "Caps Lock is on.",
-  submit: "Sign Up",
-  submitting: "Creating account...",
-  genericError: "Something went wrong. Please try again.",
-} as const;
-
-const SIGNUP_MESSAGES = {
-  fullNameRequired: "Please enter your full name.",
-  fullNameTooShort: "Full name must be at least 2 characters.",
-  fullNameTooLong: "Full name is too long.",
-  fullNameInvalid:
-    "Use letters and common name characters only, such as spaces, dots, apostrophes, or hyphens.",
-
-  emailRequired: "Please enter your email.",
-  emailInvalid: "Please enter a valid email address.",
-  emailSpaces: "Email cannot contain spaces.",
-  emailTooLong: "Email is too long.",
-
-  phoneRequired: "Please enter your phone number.",
-  phoneInvalid: "Enter a valid Bangladeshi mobile number.",
-
-  passwordRequired: "Please create a password.",
-  passwordTooShort: "Password must be at least 8 characters.",
-  passwordTooLong: "Password is too long.",
-  passwordNeedsLetterAndNumber:
-    "Password must include at least one letter and one number.",
-
-  confirmPasswordRequired: "Please confirm your password.",
-  confirmPasswordMismatch: "Passwords do not match.",
-} as const;
-
-const NAME_PATTERN = /^(?=.*\p{L})[\p{L} .'-]+$/u;
-const EMAIL_NO_SPACES_PATTERN = /^\S+$/;
-const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d).+$/;
-const DEFAULT_VALUES: SignupFormValues = {
-  full_name: "",
-  email: "",
-  phone: "",
-  password: "",
-  confirmPassword: "",
-};
-
-const SERVER_FIELD_NAME_MAP: Partial<Record<string, keyof SignupFormValues>> = {
+const SERVER_FIELD_NAME_MAP: Partial<Record<string, keyof SignUpFormValues>> = {
   full_name: "full_name",
   fullName: "full_name",
   fullname: "full_name",
@@ -112,15 +63,6 @@ const SERVER_FIELD_NAME_MAP: Partial<Record<string, keyof SignupFormValues>> = {
   confirmPassword: "confirmPassword",
   confirm_password: "confirmPassword",
 };
-
-const normalizeWhitespace = (value: string) =>
-  value.trim().replace(/\s+/g, " ");
-
-const normalizeName = (value: unknown) =>
-  typeof value === "string" ? normalizeWhitespace(value) : "";
-
-const normalizeNameInput = (value: unknown) =>
-  typeof value === "string" ? value.replace(/\s{2,}/g, " ") : "";
 
 const getApiFieldErrors = (error: unknown): SignupFieldError[] => {
   const payload = getApiErrorPayload(error);
@@ -135,7 +77,7 @@ const getApiFieldErrors = (error: unknown): SignupFieldError[] => {
       ? payload.errors
       : [];
 
-  const fieldErrors = new Map<keyof SignupFormValues, string[]>();
+  const fieldErrors = new Map<keyof SignUpFormValues, string[]>();
 
   for (const fieldError of rawFieldErrors) {
     if (!isRecord(fieldError)) {
@@ -167,8 +109,8 @@ const getApiFieldErrors = (error: unknown): SignupFieldError[] => {
 };
 
 const clearFieldErrors = (
-  form: FormInstance<SignupFormValues>,
-  fieldNames: Array<keyof SignupFormValues>,
+  form: FormInstance<SignUpFormValues>,
+  fieldNames: Array<keyof SignUpFormValues>,
 ) => {
   if (fieldNames.length === 0) {
     return;
@@ -178,17 +120,8 @@ const clearFieldErrors = (
 };
 
 const buildRegistrationPayload = (
-  values: SignupFormValues,
+  values: SignUpFormValues,
 ): RegistrationPayload => {
-  /**
-   * RTK Query integration point.
-   *
-   * Keep backend field mapping here.
-   * If your backend changes field names later, update only this function.
-   *
-   * confirmPassword is intentionally not included because it is only needed
-   * for frontend validation.
-   */
   return {
     full_name: normalizeName(values.full_name),
     email: normalizeEmail(values.email),
@@ -197,57 +130,8 @@ const buildRegistrationPayload = (
   } as RegistrationPayload;
 };
 
-const fullNameRules = [
-  { required: true, message: SIGNUP_MESSAGES.fullNameRequired },
-  {
-    min: SIGNUP_LIMITS.nameMinLength,
-    message: SIGNUP_MESSAGES.fullNameTooShort,
-  },
-  {
-    max: SIGNUP_LIMITS.nameMaxLength,
-    message: SIGNUP_MESSAGES.fullNameTooLong,
-  },
-  { pattern: NAME_PATTERN, message: SIGNUP_MESSAGES.fullNameInvalid },
-];
-
-const emailRules = [
-  { required: true, message: SIGNUP_MESSAGES.emailRequired },
-  { type: "email" as const, message: SIGNUP_MESSAGES.emailInvalid },
-  { max: SIGNUP_LIMITS.emailMaxLength, message: SIGNUP_MESSAGES.emailTooLong },
-  { pattern: EMAIL_NO_SPACES_PATTERN, message: SIGNUP_MESSAGES.emailSpaces },
-];
-
-const phoneRules = [
-  { required: true, message: SIGNUP_MESSAGES.phoneRequired },
-  {
-    validator: async (_: unknown, value?: string) => {
-      if (!value || isValidBangladeshiPhoneNumber(value)) {
-        return;
-      }
-
-      throw new Error(SIGNUP_MESSAGES.phoneInvalid);
-    },
-  },
-];
-
-const passwordRules = [
-  { required: true, message: SIGNUP_MESSAGES.passwordRequired },
-  {
-    min: SIGNUP_LIMITS.passwordMinLength,
-    message: SIGNUP_MESSAGES.passwordTooShort,
-  },
-  {
-    max: SIGNUP_LIMITS.passwordMaxLength,
-    message: SIGNUP_MESSAGES.passwordTooLong,
-  },
-  {
-    pattern: PASSWORD_PATTERN,
-    message: SIGNUP_MESSAGES.passwordNeedsLetterAndNumber,
-  },
-];
-
 export default function SignUpForm() {
-  const [form] = Form.useForm<SignupFormValues>();
+  const [form] = Form.useForm<SignUpFormValues>();
   const [registerTeacher, { isLoading }] = useRegistrationMutation();
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -260,7 +144,7 @@ export default function SignUpForm() {
     setIsCapsLockOn(isCapsLockActive(event));
   };
 
-  const handleValuesChange: FormProps<SignupFormValues>["onValuesChange"] = (
+  const handleValuesChange: FormProps<SignUpFormValues>["onValuesChange"] = (
     changedValues,
   ) => {
     if (errorMessage) {
@@ -268,53 +152,38 @@ export default function SignUpForm() {
     }
 
     const changedFieldNames = Object.keys(changedValues) as Array<
-      keyof SignupFormValues
+      keyof SignUpFormValues
     >;
 
     clearFieldErrors(form, changedFieldNames);
 
-    /**
-     * If the user changes password after typing confirm password,
-     * re-check confirm password immediately.
-     */
     if ("password" in changedValues && form.getFieldValue("confirmPassword")) {
       void form.validateFields(["confirmPassword"]);
     }
   };
 
   const confirmPasswordRules = [
-    { required: true, message: SIGNUP_MESSAGES.confirmPasswordRequired },
+    { required: true, message: SIGN_UP_MESSAGES.confirmPasswordRequired },
     {
       validator: async (_: unknown, value?: string) => {
         if (!value || value === form.getFieldValue("password")) {
           return;
         }
 
-        throw new Error(SIGNUP_MESSAGES.confirmPasswordMismatch);
+        throw new Error(SIGN_UP_MESSAGES.confirmPasswordMismatch);
       },
     },
   ];
 
-  const handleSubmit: FormProps<SignupFormValues>["onFinish"] = async (
+  const handleSubmit: FormProps<SignUpFormValues>["onFinish"] = async (
     values,
   ) => {
     setErrorMessage("");
 
     try {
-      /**
-       * RTK Query mutation flow:
-       * 1. Build clean API payload.
-       * 2. Call mutation.
-       * 3. Use unwrap() so API errors go to catch block.
-       */
       const payload = buildRegistrationPayload(values);
       const response = await registerTeacher(payload).unwrap();
 
-      /**
-       * Keep this if your signup API returns logged-in user data.
-       * If your API only creates the account, remove this dispatch
-       * and navigate to `/login` instead.
-       */
       dispatch(loggedInUser(response.results));
       navigate("/tutor", { replace: true });
     } catch (error) {
@@ -324,7 +193,7 @@ export default function SignUpForm() {
         form.setFields(fieldErrors);
       }
 
-      setErrorMessage(getApiErrorMessage(error, SIGNUP_COPY.genericError));
+      setErrorMessage(getApiErrorMessage(error, SIGN_UP_COPY.genericError));
     }
   };
 
@@ -343,10 +212,10 @@ export default function SignUpForm() {
       <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center pb-4">
         <div className="mb-6 sm:mb-8">
           <h1 className="text-title-sm sm:text-title-md mb-2 font-semibold text-gray-800 dark:text-white/90">
-            {SIGNUP_COPY.title}
+            {SIGN_UP_COPY.title}
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            {SIGNUP_COPY.description}
+            {SIGN_UP_COPY.description}
           </p>
         </div>
 
@@ -359,11 +228,11 @@ export default function SignUpForm() {
           />
         ) : null}
 
-        <Form<SignupFormValues>
+        <Form<SignUpFormValues>
           form={form}
           layout="vertical"
           requiredMark={false}
-          initialValues={DEFAULT_VALUES}
+          initialValues={SIGN_UP_INITIAL_VALUES}
           onFinish={handleSubmit}
           onValuesChange={handleValuesChange}
           autoComplete="on"
@@ -376,7 +245,7 @@ export default function SignUpForm() {
               name="full_name"
               normalize={normalizeNameInput}
               validateFirst
-              rules={fullNameRules}
+              rules={signUpFullNameRules}
               className="sm:col-span-2"
             >
               <Input
@@ -385,7 +254,7 @@ export default function SignUpForm() {
                 prefix={<UserOutlined className="text-brand-500" />}
                 autoComplete="name"
                 allowClear
-                maxLength={SIGNUP_LIMITS.nameMaxLength}
+                maxLength={AUTH_FORM_LIMITS.fullNameMaxLength}
                 disabled={isLoading}
                 className={authInputClasses}
               />
@@ -396,7 +265,7 @@ export default function SignUpForm() {
               name="email"
               normalize={normalizeEmail}
               validateFirst
-              rules={emailRules}
+              rules={signUpEmailRules}
             >
               <Input
                 size="large"
@@ -405,7 +274,7 @@ export default function SignUpForm() {
                 prefix={<MailOutlined className="text-brand-500" />}
                 autoComplete="email"
                 allowClear
-                maxLength={SIGNUP_LIMITS.emailMaxLength}
+                maxLength={AUTH_FORM_LIMITS.emailMaxLength}
                 disabled={isLoading}
                 className={authInputClasses}
               />
@@ -416,7 +285,7 @@ export default function SignUpForm() {
               name="phone"
               normalize={sanitizePhoneInput}
               validateFirst
-              rules={phoneRules}
+              rules={signUpPhoneRules}
               extra="Use a bangladeshi phone number"
             >
               <Input
@@ -434,11 +303,11 @@ export default function SignUpForm() {
               label="Password"
               name="password"
               validateFirst
-              rules={passwordRules}
+              rules={signUpPasswordRules}
               extra={
                 isCapsLockOn
-                  ? SIGNUP_COPY.capsLockWarning
-                  : SIGNUP_COPY.passwordHint
+                  ? SIGN_UP_COPY.capsLockWarning
+                  : SIGN_UP_COPY.passwordHint
               }
             >
               <Input.Password
@@ -446,7 +315,7 @@ export default function SignUpForm() {
                 placeholder="Create a password"
                 prefix={<LockOutlined className="text-brand-500" />}
                 autoComplete="new-password"
-                maxLength={SIGNUP_LIMITS.passwordMaxLength}
+                maxLength={AUTH_FORM_LIMITS.passwordMaxLength}
                 disabled={isLoading}
                 className={authInputClasses}
                 onKeyUp={handlePasswordKeyEvent}
@@ -462,8 +331,8 @@ export default function SignUpForm() {
               rules={confirmPasswordRules}
               extra={
                 isCapsLockOn
-                  ? SIGNUP_COPY.capsLockWarning
-                  : SIGNUP_COPY.passwordHint
+                  ? SIGN_UP_COPY.capsLockWarning
+                  : SIGN_UP_COPY.passwordHint
               }
             >
               <Input.Password
@@ -471,7 +340,7 @@ export default function SignUpForm() {
                 placeholder="Re-enter your password"
                 prefix={<LockOutlined className="text-brand-500" />}
                 autoComplete="new-password"
-                maxLength={SIGNUP_LIMITS.passwordMaxLength}
+                maxLength={AUTH_FORM_LIMITS.passwordMaxLength}
                 disabled={isLoading}
                 className={authInputClasses}
                 onKeyUp={handlePasswordKeyEvent}
@@ -489,7 +358,7 @@ export default function SignUpForm() {
               block
               className={authPrimaryButtonClasses}
             >
-              {isLoading ? SIGNUP_COPY.submitting : SIGNUP_COPY.submit}
+              {isLoading ? SIGN_UP_COPY.submitting : SIGN_UP_COPY.submit}
             </Button>
           </Form.Item>
         </Form>
