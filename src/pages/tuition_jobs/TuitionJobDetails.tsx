@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { skipToken } from "@reduxjs/toolkit/query";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   FiArrowLeft,
@@ -16,7 +17,8 @@ import {
 } from "react-icons/fi";
 
 import type { IconType } from "react-icons";
-import { mockTuitionJobs } from "@/mocks/tuition/tuitionJobs";
+import { useSingleTuitionJobsQuery } from "@/redux/features/tuition_jobs/tuitionJobsApi";
+import { getApiErrorMessage } from "@/utils/api-error.utils";
 import { toTuitionJobView } from "@/utils/tuition-job.utils";
 
 type DetailItem = {
@@ -28,22 +30,17 @@ type DetailItem = {
 const TuitionDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-
-  /*
-   * RTK Query handoff point:
-   * Replace the mock lookup with useSingleTuitionJobQuery(id) later.
-   * The loading/error/not-found branches below are already ready for that hook.
-   */
-  const isLoading = false;
-  const isError = false;
-  const errorMessage = "";
+  const { data, isLoading, isError, error } = useSingleTuitionJobsQuery(
+    id ?? skipToken,
+  );
+  const errorMessage = getApiErrorMessage(
+    error,
+    "Please try again later. This tuition could not be loaded.",
+  );
 
   const tuition = useMemo(
-    () =>
-      mockTuitionJobs
-        .map(toTuitionJobView)
-        .find((tuitionJob) => tuitionJob.id === id),
-    [id],
+    () => (data ? toTuitionJobView(data) : undefined),
+    [data],
   );
 
   if (isLoading) {

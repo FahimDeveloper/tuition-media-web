@@ -33,6 +33,20 @@ export type TuitionJob = {
   status: TuitionJobStatus;
 };
 
+export type TuitionJobsQuery = {
+  search?: string;
+  preferred_teaching_locations?: {
+    country?: string;
+    city?: string;
+    area?: string[];
+  };
+  preferred_tutoring?: {
+    categories?: string[];
+    courses?: string[];
+    subjects?: string[];
+  };
+};
+
 export type TuitionJobView = {
   id: string;
   title: string;

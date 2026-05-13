@@ -46,6 +46,7 @@ export type {
   TuitionJobStatus,
   TuitionJobTutorGender,
   TuitionJobTutoringType,
+  TuitionJobsQuery,
   TuitionJobView,
 } from "./tuition-job.types";
 export type {

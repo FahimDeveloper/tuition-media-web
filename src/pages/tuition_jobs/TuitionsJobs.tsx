@@ -1,21 +1,38 @@
+import { useMemo, useState } from "react";
 import TuitionCard from "@/pages/tuition_jobs/components/TuitionCard";
 import TuitionSearchBar from "@/pages/tuition_jobs/components/TuitionSearchBar";
-import { mockTuitionJobs } from "@/mocks/tuition/tuitionJobs";
+import { useAllTuitionJobsQuery } from "@/redux/features/tuition_jobs/tuitionJobsApi";
+import type { JobBoardFilterQuery, TuitionJobsQuery } from "@/types";
+import { getApiErrorMessage } from "@/utils/api-error.utils";
 import { toTuitionJobView } from "@/utils/tuition-job.utils";
 import { MdOutlineManageSearch } from "react-icons/md";
 
 const Tuition = () => {
-  /*
-   * RTK Query handoff point:
-   * Replace these mock assignments with useAllTuitionJobsQuery() later.
-   * Keep the render states below so loading/error handling stays consistent.
-   */
-  const isLoading = false;
-  const isError = false;
-  const errorMessage = "";
-  const tuitions = mockTuitionJobs.map(toTuitionJobView);
+  const [query, setQuery] = useState<TuitionJobsQuery>({});
+  const { data = [], isLoading, isFetching, isError, error } =
+    useAllTuitionJobsQuery(query);
+  const errorMessage = getApiErrorMessage(
+    error,
+    "Please try again later. The tuition listings could not be loaded.",
+  );
+
+  const tuitions = useMemo(() => data.map(toTuitionJobView), [data]);
 
   const totalResults = tuitions.length;
+
+  const handleSearch = (search: string) => {
+    setQuery((currentQuery) => ({
+      ...currentQuery,
+      ...(search ? { search } : { search: undefined }),
+    }));
+  };
+
+  const handleFilter = (filterQuery: JobBoardFilterQuery) => {
+    setQuery((currentQuery) => ({
+      ...currentQuery,
+      ...filterQuery,
+    }));
+  };
 
   if (isLoading) {
     return <TuitionListState title="Loading tuitions..." />;
@@ -53,10 +70,14 @@ const Tuition = () => {
         </div>
 
         {/* Search / Filter Panel */}
-        <TuitionSearchBar />
+        <TuitionSearchBar onSearch={handleSearch} onFilter={handleFilter} />
 
         {/* Listings */}
         <div className="mt-12">
+          {isFetching ? (
+            <p className="text-text-muted mb-4 text-sm">Updating listings...</p>
+          ) : null}
+
           {tuitions.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {tuitions.map((tuition) => (
