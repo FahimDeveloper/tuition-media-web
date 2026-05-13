@@ -4,13 +4,7 @@ import {
   selectCurrentUser,
 } from "@/redux/features/auth/authSlice";
 import { type ReactNode, useEffect, useId, useRef, useState } from "react";
-import {
-  FiChevronDown,
-  FiGrid,
-  FiLogOut,
-  FiSettings,
-  FiUser,
-} from "react-icons/fi";
+import { FiChevronDown, FiGrid, FiLogOut, FiUser } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import {
@@ -38,12 +32,6 @@ const profileActions: ProfileAction[] = [
     href: "/tutor/profile",
     description: "Update your personal info",
     icon: <FiUser size={18} />,
-  },
-  {
-    label: "Settings",
-    href: "/tutor/settings",
-    description: "Manage preferences and alerts",
-    icon: <FiSettings size={18} />,
   },
 ];
 
@@ -236,14 +224,9 @@ const ProfileDropdown = () => {
               <p className="text-neutral truncate text-sm font-bold">
                 {displayName}
               </p>
-              <p className="bg-brand-50 text-brand-700 dark:bg-brand-500/15 dark:text-brand-300 mt-0.5 inline-flex rounded-full px-2 py-0.5 text-xs font-semibold">
+              <p className="bg-brand-50 text-brand-700 dark:bg-brand-500/15 dark:text-brand-300 mt-0.5 mb-2 inline-flex rounded-full px-2 py-0.5 text-xs font-semibold">
                 {profileBadge}
               </p>
-              {currentUser?.email ? (
-                <p className="text-text-muted mt-1 truncate text-xs">
-                  {currentUser.email}
-                </p>
-              ) : null}
               {currentUser?.phone ? (
                 <p className="text-text-muted truncate text-xs">
                   {currentUser.phone}
