@@ -46,7 +46,7 @@ export default function Home() {
         <div className="col-span-12 h-full xl:col-span-7">
           <Stats />
         </div>
-        <div className="col-span-12">
+        <div className="col-span-12 hidden">
           <StatusStatsCards />
         </div>
       </div>

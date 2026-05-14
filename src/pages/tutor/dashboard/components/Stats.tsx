@@ -1,6 +1,9 @@
 import type { DashboardStatCardProps } from "@/pages/tutor/dashboard/components/DashboardStatCard";
 import DashboardStatCard from "@/pages/tutor/dashboard/components/DashboardStatCard";
-import { IoLocationSharp, IoPulseSharp } from "react-icons/io5";
+import { IoLocationSharp } from "react-icons/io5";
+import NoticeBoard, {
+  type NoticeItem,
+} from "@/pages/tutor/dashboard/components/NoticeBoard";
 
 type DashboardHomeStat = Omit<DashboardStatCardProps, "className"> & {
   id: string;
@@ -17,12 +20,29 @@ const dashboardHomeStats: DashboardHomeStat = {
   },
 };
 
+const notices: NoticeItem[] = [
+  {
+    id: 1,
+    title: "System maintenance scheduled",
+    description:
+      "The portal will be unavailable on Friday from 10 PM to 12 AM.",
+    date: "Today",
+    to: "/notices/1",
+  },
+  {
+    id: 2,
+    title: "New admission form released",
+    description: "Students can now submit admission forms online.",
+    date: "May 15",
+  },
+];
+
 export default function Stats() {
   return (
     <div className="grid h-full grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6 xl:auto-rows-fr xl:grid-cols-1">
       <DashboardStatCard {...dashboardHomeStats} />
-      {/* I need a notice board here. tha should have a seminar look */}
-      <DashboardStatCard {...dashboardHomeStats} />
+
+      <NoticeBoard notices={notices} />
     </div>
   );
 }
