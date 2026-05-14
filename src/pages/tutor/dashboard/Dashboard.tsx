@@ -9,7 +9,7 @@ import StatusStatsCards from "@/pages/tutor/dashboard/components/StatusStatsCard
 import { useAppSelector } from "@/hooks/useAppHooks";
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { useTeacherProfileQuery } from "@/redux/features/teachers/teachersProfileApi";
-import { calculateTeacherProfileCompletion } from "@/pages/tutor/profile/components/profileCompletion";
+import { calculateTeacherProfileCompletion } from "@/pages/tutor/profile/utils/profileCompletion";
 import { getUserDisplayName } from "@/utils/user-display.utils";
 
 export default function Home() {
