@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import type { ReactNode } from "react";
 import {
   BookOutlined,
@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { Button, Col, Drawer, Form, Row, Select, Space } from "antd";
 import { FiSliders } from "react-icons/fi";
-import type { JobBoardFilterQuery } from "@/types";
+import type { PublicTeachersQuery } from "@/types";
 import {
   TUTORING_CATEGORY_OPTIONS,
   TUITION_COUNTRY_OPTIONS,
@@ -18,10 +18,10 @@ import {
   getTuitionCityOptions,
 } from "@/utils/tuition-options.utils";
 
-type FilterFormValues = JobBoardFilterQuery;
+type FilterFormValues = Omit<PublicTeachersQuery, "search">;
 
-type JobBoardFilterDrawerProps = {
-  onApply?: (query: JobBoardFilterQuery) => void;
+type TutorFilterDrawerProps = {
+  onApply?: (query: PublicTeachersQuery) => void;
 };
 
 type DrawerSectionProps = {
@@ -38,12 +38,23 @@ const drawerBodyStyles = {
   height: "100%",
 };
 
+const DRAWER_WIDTH = "min(100vw, 500px)";
+
+const FORM_ITEM_CLASS =
+  "[&_.ant-form-item-label>label]:text-text-muted [&_.ant-form-item]:mb-0 [&_.ant-form-item-label>label]:text-xs [&_.ant-form-item-label>label]:font-semibold [&_.ant-form-item-label>label]:tracking-[0.12em] [&_.ant-form-item-label>label]:uppercase";
+
+const SELECT_CLASS =
+  "border-border bg-surface-elevated text-text-strong shadow-theme-xs placeholder:text-text-soft hover:border-brand-300 focus-within:border-brand-300 focus-within:ring-brand-500/10 h-11 rounded-lg focus-within:ring-3";
+
+const MULTI_SELECT_CLASS =
+  "border-border bg-surface-elevated text-text-strong shadow-theme-xs placeholder:text-text-soft hover:border-brand-300 focus-within:border-brand-300 focus-within:ring-brand-500/10 min-h-11 rounded-lg focus-within:ring-3";
+
 const compactArray = (values?: string[]) =>
   values?.filter((value) => value.trim().length > 0);
 
-const buildJobBoardFilterQuery = (
+const buildTutorFilterQuery = (
   values: FilterFormValues,
-): JobBoardFilterQuery => {
+): PublicTeachersQuery => {
   const location = values.preferred_teaching_locations;
   const tutoring = values.preferred_tutoring;
   const areas = compactArray(location?.area);
@@ -73,25 +84,21 @@ const buildJobBoardFilterQuery = (
   };
 };
 
-function DrawerSection({ icon, title, children }: DrawerSectionProps) {
-  return (
-    <section className="border-border bg-surface-elevated shadow-theme-sm rounded-2xl border p-4">
-      <div className="mb-4 flex items-center gap-3">
-        <div className="bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-300 flex h-10 w-10 items-center justify-center rounded-xl">
-          {icon}
-        </div>
-        <div>
-          <h3 className="text-text-strong text-sm font-semibold">{title}</h3>
-        </div>
+const DrawerSection = ({ icon, title, children }: DrawerSectionProps) => (
+  <section className="border-border bg-surface-elevated shadow-theme-sm rounded-2xl border p-4">
+    <div className="mb-4 flex items-center gap-3">
+      <div className="bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-300 flex h-10 w-10 items-center justify-center rounded-xl">
+        {icon}
       </div>
-      <div className="space-y-4">{children}</div>
-    </section>
-  );
-}
+      <h3 className="text-text-strong text-sm font-semibold">{title}</h3>
+    </div>
+    <div className="space-y-4">{children}</div>
+  </section>
+);
 
-export default function JobBoardFilterDrawer({
+export default function TutorFilterDrawer({
   onApply,
-}: JobBoardFilterDrawerProps) {
+}: TutorFilterDrawerProps) {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm<FilterFormValues>();
   const selectedCountry = Form.useWatch(
@@ -118,23 +125,10 @@ export default function JobBoardFilterDrawer({
     selectedCourses,
   );
 
-  const drawerWidth = useMemo(() => {
-    if (typeof window === "undefined") {
-      return 440;
-    }
-
-    if (window.innerWidth >= 1536) return 500;
-    if (window.innerWidth >= 1280) return 460;
-    if (window.innerWidth >= 1024) return 430;
-    if (window.innerWidth >= 768) return 400;
-    if (window.innerWidth >= 640) return "88vw";
-    return "100vw";
-  }, []);
-
   const onClose = () => setOpen(false);
 
   const onFinish = (values: FilterFormValues) => {
-    const filterQuery = buildJobBoardFilterQuery(values);
+    const filterQuery = buildTutorFilterQuery(values);
 
     onApply?.(filterQuery);
     setOpen(false);
@@ -142,8 +136,25 @@ export default function JobBoardFilterDrawer({
 
   const onReset = () => {
     form.resetFields();
-    // Reset should clear both the drawer UI and the active server-side filters.
     onApply?.({});
+  };
+
+  const resetLocationFields = () => {
+    form.setFieldValue(["preferred_teaching_locations", "city"], undefined);
+    form.setFieldValue(["preferred_teaching_locations", "area"], []);
+  };
+
+  const resetAreaField = () => {
+    form.setFieldValue(["preferred_teaching_locations", "area"], []);
+  };
+
+  const resetTutoringFields = () => {
+    form.setFieldValue(["preferred_tutoring", "courses"], []);
+    form.setFieldValue(["preferred_tutoring", "subjects"], []);
+  };
+
+  const resetSubjectsField = () => {
+    form.setFieldValue(["preferred_tutoring", "subjects"], []);
   };
 
   return (
@@ -161,7 +172,7 @@ export default function JobBoardFilterDrawer({
         open={open}
         onClose={onClose}
         placement="right"
-        width={drawerWidth}
+        width={DRAWER_WIDTH}
         destroyOnHidden
         title={null}
         styles={{ body: drawerBodyStyles }}
@@ -204,7 +215,7 @@ export default function JobBoardFilterDrawer({
                     <Form.Item
                       label="Country"
                       name={["preferred_teaching_locations", "country"]}
-                      className="[&_.ant-form-item-label>label]:text-text-muted [&_.ant-form-item]:mb-0 [&_.ant-form-item-label>label]:text-xs [&_.ant-form-item-label>label]:font-semibold [&_.ant-form-item-label>label]:tracking-[0.12em] [&_.ant-form-item-label>label]:uppercase"
+                      className={FORM_ITEM_CLASS}
                     >
                       <Select
                         allowClear
@@ -212,17 +223,8 @@ export default function JobBoardFilterDrawer({
                         placeholder="Select country"
                         options={TUITION_COUNTRY_OPTIONS}
                         optionFilterProp="label"
-                        className="border-border bg-surface-elevated text-text-strong shadow-theme-xs placeholder:text-text-soft hover:border-brand-300 focus-within:border-brand-300 focus-within:ring-brand-500/10 h-11 rounded-lg focus-within:ring-3"
-                        onChange={() => {
-                          form.setFieldValue(
-                            ["preferred_teaching_locations", "city"],
-                            undefined,
-                          );
-                          form.setFieldValue(
-                            ["preferred_teaching_locations", "area"],
-                            [],
-                          );
-                        }}
+                        className={SELECT_CLASS}
+                        onChange={resetLocationFields}
                       />
                     </Form.Item>
                   </Col>
@@ -231,7 +233,7 @@ export default function JobBoardFilterDrawer({
                     <Form.Item
                       label="City"
                       name={["preferred_teaching_locations", "city"]}
-                      className="[&_.ant-form-item-label>label]:text-text-muted [&_.ant-form-item]:mb-0 [&_.ant-form-item-label>label]:text-xs [&_.ant-form-item-label>label]:font-semibold [&_.ant-form-item-label>label]:tracking-[0.12em] [&_.ant-form-item-label>label]:uppercase"
+                      className={FORM_ITEM_CLASS}
                     >
                       <Select
                         allowClear
@@ -244,13 +246,8 @@ export default function JobBoardFilterDrawer({
                         options={cityOptions}
                         optionFilterProp="label"
                         disabled={!selectedCountry}
-                        className="border-border bg-surface-elevated text-text-strong shadow-theme-xs placeholder:text-text-soft hover:border-brand-300 focus-within:border-brand-300 focus-within:ring-brand-500/10 h-11 rounded-lg focus-within:ring-3"
-                        onChange={() =>
-                          form.setFieldValue(
-                            ["preferred_teaching_locations", "area"],
-                            [],
-                          )
-                        }
+                        className={SELECT_CLASS}
+                        onChange={resetAreaField}
                       />
                     </Form.Item>
                   </Col>
@@ -259,7 +256,7 @@ export default function JobBoardFilterDrawer({
                     <Form.Item
                       label="Preferred tuition locations"
                       name={["preferred_teaching_locations", "area"]}
-                      className="[&_.ant-form-item-label>label]:text-text-muted [&_.ant-form-item]:mb-0 [&_.ant-form-item-label>label]:text-xs [&_.ant-form-item-label>label]:font-semibold [&_.ant-form-item-label>label]:tracking-[0.12em] [&_.ant-form-item-label>label]:uppercase"
+                      className={FORM_ITEM_CLASS}
                     >
                       <Select
                         allowClear
@@ -273,7 +270,7 @@ export default function JobBoardFilterDrawer({
                         options={areaOptions}
                         optionFilterProp="label"
                         disabled={!selectedCity}
-                        className="border-border bg-surface-elevated text-text-strong shadow-theme-xs placeholder:text-text-soft hover:border-brand-300 focus-within:border-brand-300 focus-within:ring-brand-500/10 min-h-11 rounded-lg focus-within:ring-3"
+                        className={MULTI_SELECT_CLASS}
                       />
                     </Form.Item>
                   </Col>
@@ -289,7 +286,7 @@ export default function JobBoardFilterDrawer({
                     <Form.Item
                       label="Select category"
                       name={["preferred_tutoring", "categories"]}
-                      className="[&_.ant-form-item-label>label]:text-text-muted [&_.ant-form-item]:mb-0 [&_.ant-form-item-label>label]:text-xs [&_.ant-form-item-label>label]:font-semibold [&_.ant-form-item-label>label]:tracking-[0.12em] [&_.ant-form-item-label>label]:uppercase"
+                      className={FORM_ITEM_CLASS}
                     >
                       <Select
                         allowClear
@@ -298,17 +295,8 @@ export default function JobBoardFilterDrawer({
                         placeholder="Choose category"
                         options={TUTORING_CATEGORY_OPTIONS}
                         optionFilterProp="label"
-                        className="border-border bg-surface-elevated text-text-strong shadow-theme-xs placeholder:text-text-soft hover:border-brand-300 focus-within:border-brand-300 focus-within:ring-brand-500/10 min-h-11 rounded-lg focus-within:ring-3"
-                        onChange={() => {
-                          form.setFieldValue(
-                            ["preferred_tutoring", "courses"],
-                            [],
-                          );
-                          form.setFieldValue(
-                            ["preferred_tutoring", "subjects"],
-                            [],
-                          );
-                        }}
+                        className={MULTI_SELECT_CLASS}
+                        onChange={resetTutoringFields}
                       />
                     </Form.Item>
                   </Col>
@@ -317,7 +305,7 @@ export default function JobBoardFilterDrawer({
                     <Form.Item
                       label="Courses / class"
                       name={["preferred_tutoring", "courses"]}
-                      className="[&_.ant-form-item-label>label]:text-text-muted [&_.ant-form-item]:mb-0 [&_.ant-form-item-label>label]:text-xs [&_.ant-form-item-label>label]:font-semibold [&_.ant-form-item-label>label]:tracking-[0.12em] [&_.ant-form-item-label>label]:uppercase"
+                      className={FORM_ITEM_CLASS}
                     >
                       <Select
                         allowClear
@@ -331,13 +319,8 @@ export default function JobBoardFilterDrawer({
                         options={courseOptions}
                         optionFilterProp="label"
                         disabled={selectedCategories.length === 0}
-                        className="border-border bg-surface-elevated text-text-strong shadow-theme-xs placeholder:text-text-soft hover:border-brand-300 focus-within:border-brand-300 focus-within:ring-brand-500/10 min-h-11 rounded-lg focus-within:ring-3"
-                        onChange={() =>
-                          form.setFieldValue(
-                            ["preferred_tutoring", "subjects"],
-                            [],
-                          )
-                        }
+                        className={MULTI_SELECT_CLASS}
+                        onChange={resetSubjectsField}
                       />
                     </Form.Item>
                   </Col>
@@ -346,7 +329,7 @@ export default function JobBoardFilterDrawer({
                     <Form.Item
                       label="Subject"
                       name={["preferred_tutoring", "subjects"]}
-                      className="[&_.ant-form-item-label>label]:text-text-muted [&_.ant-form-item]:mb-0 [&_.ant-form-item-label>label]:text-xs [&_.ant-form-item-label>label]:font-semibold [&_.ant-form-item-label>label]:tracking-[0.12em] [&_.ant-form-item-label>label]:uppercase"
+                      className={FORM_ITEM_CLASS}
                     >
                       <Select
                         allowClear
@@ -363,7 +346,7 @@ export default function JobBoardFilterDrawer({
                           selectedCourses.length === 0 ||
                           subjectOptions.length === 0
                         }
-                        className="border-border bg-surface-elevated text-text-strong shadow-theme-xs placeholder:text-text-soft hover:border-brand-300 focus-within:border-brand-300 focus-within:ring-brand-500/10 min-h-11 rounded-lg focus-within:ring-3"
+                        className={MULTI_SELECT_CLASS}
                       />
                     </Form.Item>
                   </Col>

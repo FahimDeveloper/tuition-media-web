@@ -3,6 +3,7 @@ import { Button, Form, Input, Typography } from "antd";
 import type { FormProps } from "antd";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { useNavigate, useParams } from "react-router-dom";
+import type { IconType } from "react-icons";
 import {
   FiAlertCircle,
   FiArrowLeft,
@@ -37,10 +38,24 @@ import {
 import { requiredRule } from "@/validations/form.validation";
 import { useModal } from "@/hooks/useModal";
 import { Modal } from "@/components/ui/modal";
-import type { IconType } from "react-icons";
 
 const { Text } = Typography;
 const { TextArea } = Input;
+
+const TUTOR_DETAIL_LOAD_ERROR =
+  "Please try again later. This tutor profile could not be loaded.";
+
+const APPLICATION_INPUT_CLASS =
+  "border-border! bg-surface-elevated! text-text-strong! shadow-theme-xs! placeholder:text-text-soft! hover:border-brand-300! focus:border-brand-300! focus:shadow-focus-ring! min-h-12! rounded-xl!";
+
+const APPLICATION_TEXTAREA_CLASS =
+  "border-border! bg-surface-elevated! text-text-strong! shadow-theme-xs! placeholder:text-text-soft! hover:border-brand-300! focus:border-brand-300! focus:shadow-focus-ring! rounded-xl!";
+
+const SECONDARY_BUTTON_CLASS =
+  "border-border! bg-surface-elevated! text-text-strong! hover:border-brand-300! hover:text-brand-700! min-h-12! rounded-xl! px-6! font-semibold!";
+
+const PRIMARY_BUTTON_CLASS =
+  "bg-brand-600! text-text-on-brand! hover:bg-brand-700! min-h-12! rounded-xl! px-6! font-semibold!";
 
 type DetailItem = {
   label: string;
@@ -53,7 +68,7 @@ type SummaryItem = {
   value: string;
 };
 
-type TeacherDetailsView = {
+type TutorDetailsView = {
   id: string;
   name: string;
   status: string;
@@ -94,7 +109,7 @@ type EducationRecord =
   | NonNullable<TeacherEducation["graduation"]>
   | NonNullable<TeacherEducation["post_graduation"]>;
 
-const TutorDetails = () => {
+const TutorHubDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const applyModal = useModal();
@@ -103,7 +118,7 @@ const TutorDetails = () => {
     useSinglePublicTeacherQuery(id ?? skipToken);
 
   const tutor = useMemo(
-    () => (teacher ? toTeacherDetailsView(teacher) : undefined),
+    () => (teacher ? toTutorDetailsView(teacher) : undefined),
     [teacher],
   );
 
@@ -174,7 +189,7 @@ const BackButton = ({ onClick }: { onClick: () => void }) => (
   </button>
 );
 
-const TutorHeader = ({ tutor }: { tutor: TeacherDetailsView }) => (
+const TutorHeader = ({ tutor }: { tutor: TutorDetailsView }) => (
   <header className="from-brand-50/80 via-surface-elevated to-brand-100/70 dark:from-brand-500/10 dark:via-surface-elevated dark:to-brand-500/5 relative overflow-hidden bg-gradient-to-br px-5 py-8 sm:px-8 lg:px-10">
     <div
       className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(102,153,207,0.22),transparent_40%),radial-gradient(circle_at_top_right,rgba(63,114,175,0.14),transparent_38%)]"
@@ -208,7 +223,7 @@ const Avatar = ({ name }: { name: string }) => (
   </div>
 );
 
-const TutorMainContent = ({ tutor }: { tutor: TeacherDetailsView }) => (
+const TutorMainContent = ({ tutor }: { tutor: TutorDetailsView }) => (
   <div className="space-y-8">
     <DetailsSection
       icon={FiCheckCircle}
@@ -391,7 +406,7 @@ const TutorApplicationForm = ({
           size="large"
           placeholder="Enter your full name"
           autoComplete="name"
-          className="border-border! bg-surface-elevated! text-text-strong! shadow-theme-xs! placeholder:text-text-soft! hover:border-brand-300! focus:border-brand-300! focus:shadow-focus-ring! min-h-12! rounded-xl!"
+          className={APPLICATION_INPUT_CLASS}
         />
       </Form.Item>
 
@@ -405,7 +420,7 @@ const TutorApplicationForm = ({
           placeholder="Enter your phone number"
           inputMode="tel"
           autoComplete="tel"
-          className="border-border! bg-surface-elevated! text-text-strong! shadow-theme-xs! placeholder:text-text-soft! hover:border-brand-300! focus:border-brand-300! focus:shadow-focus-ring! min-h-12! rounded-xl!"
+          className={APPLICATION_INPUT_CLASS}
         />
       </Form.Item>
     </div>
@@ -419,7 +434,7 @@ const TutorApplicationForm = ({
         size="large"
         placeholder="Enter your address"
         autoComplete="street-address"
-        className="border-border! bg-surface-elevated! text-text-strong! shadow-theme-xs! placeholder:text-text-soft! hover:border-brand-300! focus:border-brand-300! focus:shadow-focus-ring! min-h-12! rounded-xl!"
+        className={APPLICATION_INPUT_CLASS}
       />
     </Form.Item>
 
@@ -435,7 +450,7 @@ const TutorApplicationForm = ({
       <TextArea
         rows={4}
         placeholder="Tell us about your requirement"
-        className="border-border! bg-surface-elevated! text-text-strong! shadow-theme-xs! placeholder:text-text-soft! hover:border-brand-300! focus:border-brand-300! focus:shadow-focus-ring! rounded-xl!"
+        className={APPLICATION_TEXTAREA_CLASS}
       />
     </Form.Item>
 
@@ -444,7 +459,7 @@ const TutorApplicationForm = ({
         size="large"
         onClick={onCancel}
         disabled={isSubmitting}
-        className="border-border! bg-surface-elevated! text-text-strong! hover:border-brand-300! hover:text-brand-700! min-h-12! rounded-xl! px-6! font-semibold!"
+        className={SECONDARY_BUTTON_CLASS}
       >
         Cancel
       </Button>
@@ -453,7 +468,7 @@ const TutorApplicationForm = ({
         size="large"
         htmlType="submit"
         loading={isSubmitting}
-        className="bg-brand-600! text-text-on-brand! hover:bg-brand-700! min-h-12! rounded-xl! px-6! font-semibold!"
+        className={PRIMARY_BUTTON_CLASS}
       >
         Submit application
       </Button>
@@ -664,7 +679,7 @@ const useTutorApplicationForm = ({
   };
 };
 
-const toTeacherDetailsView = (teacher: PublicTeacher): TeacherDetailsView => {
+const toTutorDetailsView = (teacher: PublicTeacher): TutorDetailsView => {
   const tutoring = teacher.preferred_tutoring;
   const location = teacher.preferred_teaching_locations;
   const salary = formatPublicTeacherSalary(tutoring?.salary_range);
@@ -799,20 +814,24 @@ const createEducationItem = (
   level: string,
   education: EducationRecord | undefined,
   details: Array<[string, string | number | undefined]>,
-): EducationItem => ({
-  level,
-  name: formatPublicTeacherValue(education?.name),
-  status:
+): EducationItem => {
+  const status =
     education && "status" in education
       ? formatPublicTeacherStatus(education.status)
-      : undefined,
-  details: cleanEducationDetails(
-    details.map(([label, value]) => ({
-      label,
-      value: formatPublicTeacherValue(value),
-    })),
-  ),
-});
+      : undefined;
+
+  return {
+    level,
+    name: formatPublicTeacherValue(education?.name),
+    ...(status ? { status } : {}),
+    details: cleanEducationDetails(
+      details.map(([label, value]) => ({
+        label,
+        value: formatPublicTeacherValue(value),
+      })),
+    ),
+  };
+};
 
 const cleanDetails = (items: DetailItem[]) =>
   items.filter((item) => item.value !== "N/A");
@@ -826,7 +845,7 @@ const getErrorMessage = (error: unknown) => {
     if (message) return message;
   }
 
-  return "Please try again later. This tutor profile could not be loaded.";
+  return TUTOR_DETAIL_LOAD_ERROR;
 };
 
-export default TutorDetails;
+export default TutorHubDetails;

@@ -4,6 +4,7 @@ import {
   JobBoardState,
   useTuitionJobDetails,
 } from "@/components/common/job-board";
+import { useApplyTuitionJob } from "@/hooks/useApplyTuitionJob";
 import type { IconType } from "react-icons";
 import {
   FiArrowLeft,
@@ -27,20 +28,19 @@ type DetailItem = {
   icon: IconType;
 };
 
-type ApplicationState =
-  | "not_applied"
-  | "already_applied"
-  | "pending"
-  | "submitted"
-  | "error";
-
-const initialApplicationState: ApplicationState = "not_applied";
-
 export default function JobBoardDetails() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const { tuition, isLoading, isError, errorMessage } =
     useTuitionJobDetails(id);
+  const {
+    handleApply,
+    isApplying,
+    isCheckingAppliedJobs,
+    isApplyDisabled,
+    applyButtonLabel,
+    appliedJobsErrorMessage,
+  } = useApplyTuitionJob(id ?? "");
 
   if (isLoading) {
     return <DashboardDetailsState title="Loading tuition details..." />;
@@ -225,16 +225,22 @@ export default function JobBoardDetails() {
                   Application action
                 </h2>
                 <p className="text-text-muted mt-2 text-sm leading-6">
-                  Job ID {id} is ready for the future application flow.
+                  Submit your tutor profile for job ID {tuition.id}.
                 </p>
                 <button
                   type="button"
-                  disabled
-                  data-application-state={initialApplicationState}
-                  className="bg-brand-600/60 text-text-on-brand mt-4 inline-flex min-h-11 w-full cursor-not-allowed items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold"
+                  onClick={handleApply}
+                  disabled={isApplyDisabled}
+                  aria-busy={isApplying || isCheckingAppliedJobs}
+                  className="bg-brand-600 text-text-on-brand hover:bg-brand-700 focus:ring-brand-400 focus:ring-offset-surface-elevated disabled:bg-brand-600/60 mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold transition focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:hover:bg-brand-600/60"
                 >
-                  Apply button coming soon
+                  {applyButtonLabel}
                 </button>
+                {appliedJobsErrorMessage ? (
+                  <p className="text-error-600 dark:text-error-400 mt-3 text-sm leading-6">
+                    {appliedJobsErrorMessage}
+                  </p>
+                ) : null}
               </section>
             </aside>
           </div>

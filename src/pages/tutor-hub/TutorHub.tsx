@@ -1,9 +1,12 @@
 import { useState } from "react";
-import TuitionCard from "@/pages/tutor-hub/components/TutorCard";
-import TuitionSearchBar from "@/pages/tutor-hub/components/TutorSearchBar";
+import TutorCard from "@/pages/tutor-hub/components/TutorCard";
+import TutorSearchBar from "@/pages/tutor-hub/components/TutorSearchBar";
 import { useAllPublicTeachersQuery } from "@/redux/features/teachers/teachersProfileApi";
-import type { JobBoardFilterQuery, PublicTeachersQuery } from "@/types";
+import type { PublicTeachersQuery } from "@/types";
 import { MdOutlineManageSearch } from "react-icons/md";
+
+const TUTOR_LOAD_ERROR =
+  "Please try again later. The tutor profiles could not be loaded.";
 
 const TutorHub = () => {
   const [query, setQuery] = useState<PublicTeachersQuery>({});
@@ -17,11 +20,11 @@ const TutorHub = () => {
   const handleSearch = (search: string) => {
     setQuery((currentQuery) => ({
       ...currentQuery,
-      ...(search ? { search } : { search: undefined }),
+      search: search || undefined,
     }));
   };
 
-  const handleFilter = (filterQuery: JobBoardFilterQuery) => {
+  const handleFilter = (filterQuery: PublicTeachersQuery) => {
     setQuery((currentQuery) => ({
       ...(currentQuery.search ? { search: currentQuery.search } : {}),
       ...filterQuery,
@@ -36,10 +39,7 @@ const TutorHub = () => {
     return (
       <TutorListState
         title="Unable to load tutors"
-        description={
-          errorMessage ||
-          "Please try again later. The tutor profiles could not be loaded."
-        }
+        description={errorMessage || TUTOR_LOAD_ERROR}
       />
     );
   }
@@ -52,7 +52,6 @@ const TutorHub = () => {
       />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="border-brand-100 bg-surface-elevated/82 text-text-strong shadow-theme-xs mb-2 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm font-medium backdrop-blur">
@@ -63,10 +62,8 @@ const TutorHub = () => {
           </div>
         </div>
 
-        {/* Search / Filter Panel */}
-        <TuitionSearchBar onSearch={handleSearch} onFilter={handleFilter} />
+        <TutorSearchBar onSearch={handleSearch} onFilter={handleFilter} />
 
-        {/* Listings */}
         <div className="mt-12">
           {isFetching ? (
             <p className="text-text-muted mb-4 text-sm">Updating tutors...</p>
@@ -75,7 +72,7 @@ const TutorHub = () => {
           {teachers.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {teachers.map((teacher) => (
-                <TuitionCard key={teacher._id} teacher={teacher} />
+                <TutorCard key={teacher._id} teacher={teacher} />
               ))}
             </div>
           ) : (
@@ -119,5 +116,5 @@ const getErrorMessage = (error: unknown) => {
     if (message) return message;
   }
 
-  return "Please try again later. The tutor profiles could not be loaded.";
+  return TUTOR_LOAD_ERROR;
 };

@@ -16,11 +16,11 @@ import {
   getPublicTeacherLatestEducationName,
 } from "@/utils/public-teacher.utils";
 
-type TeacherProfileCardProps = {
+type TutorCardProps = {
   teacher: PublicTeacher;
 };
 
-const TeacherProfileCard = ({ teacher }: TeacherProfileCardProps) => {
+const TutorCard = ({ teacher }: TutorCardProps) => {
   const preferredArea = formatPublicTeacherCardLocation(
     teacher.preferred_teaching_locations,
   );
@@ -124,4 +124,4 @@ const TeacherProfileCard = ({ teacher }: TeacherProfileCardProps) => {
   );
 };
 
-export default TeacherProfileCard;
+export default TutorCard;

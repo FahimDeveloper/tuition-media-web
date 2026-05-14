@@ -1,15 +1,15 @@
-import { Button, Input } from "antd";
 import { useState } from "react";
+import { Button, Input } from "antd";
 import { MdOutlineManageSearch } from "react-icons/md";
-import type { JobBoardFilterQuery } from "@/types";
-import JobBoardFilterDrawer from "./TutorFilterDrawer";
+import type { PublicTeachersQuery } from "@/types";
+import TutorFilterDrawer from "./TutorFilterDrawer";
 
-type TuitionSearchBarProps = {
-  onFilter?: (query: JobBoardFilterQuery) => void;
+type TutorSearchBarProps = {
+  onFilter?: (query: PublicTeachersQuery) => void;
   onSearch?: (search: string) => void;
 };
 
-const TuitionSearchBar = ({ onFilter, onSearch }: TuitionSearchBarProps) => {
+const TutorSearchBar = ({ onFilter, onSearch }: TutorSearchBarProps) => {
   const [search, setSearch] = useState("");
 
   const applySearch = () => {
@@ -33,7 +33,7 @@ const TuitionSearchBar = ({ onFilter, onSearch }: TuitionSearchBarProps) => {
           />
         </div>
 
-        <JobBoardFilterDrawer onApply={onFilter} />
+        <TutorFilterDrawer onApply={onFilter} />
 
         <Button
           type="primary"
@@ -48,4 +48,4 @@ const TuitionSearchBar = ({ onFilter, onSearch }: TuitionSearchBarProps) => {
   );
 };
 
-export default TuitionSearchBar;
+export default TutorSearchBar;
