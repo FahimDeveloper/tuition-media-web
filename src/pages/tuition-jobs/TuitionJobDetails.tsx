@@ -5,7 +5,6 @@ import {
   FiCalendar,
   FiCheckCircle,
   FiClock,
-  FiDollarSign,
   FiHash,
   FiMapPin,
   FiMessageSquare,
@@ -18,11 +17,12 @@ import type { IconType } from "react-icons";
 import { useTuitionJobDetails } from "@/components/common/job-board";
 import { useApplyTuitionJob } from "@/hooks/useApplyTuitionJob";
 import { TakaIcon } from "@/icons/TakaIcon";
+import type { ComponentType } from "react";
 
 type DetailItem = {
   label: string;
   value: string;
-  icon: IconType;
+  icon: IconType | ComponentType;
 };
 
 const TuitionDetails = () => {
