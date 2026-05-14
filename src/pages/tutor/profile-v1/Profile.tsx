@@ -10,36 +10,31 @@ import {
   useUpdateTeacherProfileMutation,
 } from "@/redux/features/teachers/teachersProfileApi";
 
-import UserMetaCard from "@/pages/tutor/profile/UserMetaCard";
-import PersonalInfoSection from "@/pages/tutor/profile/sections/PersonalInfo";
-import TuitionPreferenceSection from "@/pages/tutor/profile/sections/TuitionPreference";
-import EmergencyContactSection from "@/pages/tutor/profile/sections/EmergencyContact";
-import EducationInfoSection from "@/pages/tutor/profile/sections/Education";
+import UserMetaCard from "@/pages/tutor/profile/components/UserMetaCard";
+import PersonalInfoSection from "@/pages/tutor/profile/components/sections/PersonalInfo";
+import TuitionPreferenceSection from "@/pages/tutor/profile/components/sections/TuitionPreference";
+import EmergencyContactSection from "@/pages/tutor/profile/components/sections/EmergencyContact";
+import EducationInfoSection from "@/pages/tutor/profile/components/sections/Education";
 import {
   applyTeacherProfileUpdate,
   buildEducationProfilePatch,
   buildEmergencyContactProfilePatch,
   buildPersonalInfoProfilePatch,
   buildTuitionPreferenceProfilePatch,
-  createBlankEducationSectionValues,
-  createBlankEmergencyContactValues,
-  createBlankPersonalInfoValues,
-  createBlankTuitionPreferenceValues,
   getEducationValuesForDiplomaMode,
   getProfileErrorMessage,
   mapTeacherToProfileViewModel,
   type EducationSectionKey,
   type EducationValues,
+  type EmergencyContactValues,
+  type PersonalInfoValues,
   type ProfileSectionKey,
   type TeacherProfile,
   type TeacherProfilePatchPayload,
-} from "@/pages/tutor/profile/profileModel";
+  type TuitionPreferenceValues,
+} from "@/pages/tutor/profile/components/profileModel";
 
 type SectionErrors = Partial<Record<ProfileSectionKey, string>>;
-
-type ProfilePatchBuilder<TValues> = (
-  values: TValues,
-) => TeacherProfilePatchPayload;
 
 const EDUCATION_SECTION_KEYS = new Set<ProfileSectionKey>([
   "school",
@@ -129,7 +124,6 @@ export default function TutorProfile() {
     async (
       sectionKey: ProfileSectionKey,
       patch: TeacherProfilePatchPayload,
-      successMessage = "Profile updated successfully.",
     ) => {
       setSavingSectionKey(sectionKey);
       clearSaveError(sectionKey);
@@ -144,7 +138,7 @@ export default function TutorProfile() {
             serverProfile,
           ),
         );
-        messageApi.success(successMessage);
+        messageApi.success("Profile updated successfully.");
       } catch (error) {
         setSectionErrors((previous) => ({
           ...previous,
@@ -158,77 +152,28 @@ export default function TutorProfile() {
     [activeProfile, clearSaveError, messageApi, patchTeacherProfile],
   );
 
-  const createSectionSaveHandler = useCallback(
-    <TValues,>(
-      sectionKey: ProfileSectionKey,
-      buildPatch: ProfilePatchBuilder<TValues>,
-    ) =>
-      (values: TValues) =>
-        saveProfileSection(sectionKey, buildPatch(values)),
+  const handlePersonalInfoSave = useCallback(
+    (values: PersonalInfoValues) =>
+      saveProfileSection("personalInfo", buildPersonalInfoProfilePatch(values)),
     [saveProfileSection],
   );
 
-  const clearProfileSection = useCallback(
-    (sectionKey: ProfileSectionKey, patch: TeacherProfilePatchPayload) =>
+  const handleEmergencyContactSave = useCallback(
+    (values: EmergencyContactValues) =>
       saveProfileSection(
-        sectionKey,
-        patch,
-        "Profile section cleared successfully.",
+        "emergencyContact",
+        buildEmergencyContactProfilePatch(values),
       ),
     [saveProfileSection],
   );
 
-  const handlePersonalInfoDelete = useCallback(
-    () =>
-      clearProfileSection(
-        "personalInfo",
-        buildPersonalInfoProfilePatch(createBlankPersonalInfoValues()),
-      ),
-    [clearProfileSection],
-  );
-
-  const handleEmergencyContactDelete = useCallback(
-    () =>
-      clearProfileSection(
-        "emergencyContact",
-        buildEmergencyContactProfilePatch(createBlankEmergencyContactValues()),
-      ),
-    [clearProfileSection],
-  );
-
-  const handleTuitionPreferenceDelete = useCallback(
-    () =>
-      clearProfileSection(
+  const handleTuitionPreferenceSave = useCallback(
+    (values: TuitionPreferenceValues) =>
+      saveProfileSection(
         "tuitionPreference",
-        buildTuitionPreferenceProfilePatch(
-          createBlankTuitionPreferenceValues(),
-        ),
+        buildTuitionPreferenceProfilePatch(values),
       ),
-    [clearProfileSection],
-  );
-
-  const handlePersonalInfoSave = useMemo(
-    () =>
-      createSectionSaveHandler("personalInfo", buildPersonalInfoProfilePatch),
-    [createSectionSaveHandler],
-  );
-
-  const handleEmergencyContactSave = useMemo(
-    () =>
-      createSectionSaveHandler(
-        "emergencyContact",
-        buildEmergencyContactProfilePatch,
-      ),
-    [createSectionSaveHandler],
-  );
-
-  const handleTuitionPreferenceSave = useMemo(
-    () =>
-      createSectionSaveHandler(
-        "tuitionPreference",
-        buildTuitionPreferenceProfilePatch,
-      ),
-    [createSectionSaveHandler],
+    [saveProfileSection],
   );
 
   const handleEducationSave = useCallback(
@@ -245,19 +190,6 @@ export default function TutorProfile() {
         ),
       ),
     [activeProfile?.education, saveProfileSection],
-  );
-
-  const handleEducationDelete = useCallback(
-    <TKey extends EducationSectionKey>(sectionKey: TKey) =>
-      clearProfileSection(
-        sectionKey,
-        buildEducationProfilePatch(
-          activeProfile?.education,
-          sectionKey,
-          createBlankEducationSectionValues(sectionKey),
-        ),
-      ),
-    [activeProfile?.education, clearProfileSection],
   );
 
   const handleDiplomaToggle = useCallback(
@@ -359,7 +291,6 @@ export default function TutorProfile() {
             <PersonalInfoSection
               values={profileValues.personalInfo}
               onSave={handlePersonalInfoSave}
-              onDelete={handlePersonalInfoDelete}
               isSaving={savingSectionKey === "personalInfo"}
               saveError={sectionErrors.personalInfo}
               onClearSaveError={() => clearSaveError("personalInfo")}
@@ -368,7 +299,6 @@ export default function TutorProfile() {
             <TuitionPreferenceSection
               values={profileValues.tuitionPreference}
               onSave={handleTuitionPreferenceSave}
-              onDelete={handleTuitionPreferenceDelete}
               isSaving={savingSectionKey === "tuitionPreference"}
               saveError={sectionErrors.tuitionPreference}
               onClearSaveError={() => clearSaveError("tuitionPreference")}
@@ -377,7 +307,6 @@ export default function TutorProfile() {
             <EmergencyContactSection
               values={profileValues.emergencyContact}
               onSave={handleEmergencyContactSave}
-              onDelete={handleEmergencyContactDelete}
               isSaving={savingSectionKey === "emergencyContact"}
               saveError={sectionErrors.emergencyContact}
               onClearSaveError={() => clearSaveError("emergencyContact")}
@@ -386,7 +315,6 @@ export default function TutorProfile() {
             <EducationInfoSection
               values={profileValues.education}
               onSave={handleEducationSave}
-              onDelete={handleEducationDelete}
               onDiplomaToggle={handleDiplomaToggle}
               savingSection={educationSavingSection}
               saveErrors={educationSaveErrors}
