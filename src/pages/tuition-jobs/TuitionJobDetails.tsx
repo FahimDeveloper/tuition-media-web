@@ -16,6 +16,7 @@ import {
 
 import type { IconType } from "react-icons";
 import { useTuitionJobDetails } from "@/components/common/job-board";
+import { useApplyTuitionJob } from "@/hooks/useApplyTuitionJob";
 
 type DetailItem = {
   label: string;
@@ -28,6 +29,14 @@ const TuitionDetails = () => {
   const { id } = useParams<{ id: string }>();
   const { tuition, isLoading, isError, errorMessage } =
     useTuitionJobDetails(id);
+  const {
+    handleApply,
+    isApplying,
+    isCheckingAppliedJobs,
+    isApplyDisabled,
+    applyButtonLabel,
+    appliedJobsErrorMessage,
+  } = useApplyTuitionJob(id ?? "");
 
   if (isLoading) {
     return <TuitionDetailsState title="Loading tuition details..." />;
@@ -204,11 +213,18 @@ const TuitionDetails = () => {
 
                 <button
                   type="button"
-                  onClick={() => navigate(`/tuitions/${tuition.id}/apply`)}
-                  className="bg-brand-600 text-text-on-brand hover:bg-brand-700 focus:ring-brand-400 focus:ring-offset-surface-elevated mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-2xl px-5 py-3 text-sm font-bold transition focus:ring-2 focus:ring-offset-2 focus:outline-none"
+                  onClick={handleApply}
+                  disabled={isApplyDisabled}
+                  aria-busy={isApplying || isCheckingAppliedJobs}
+                  className="bg-brand-600 text-text-on-brand hover:bg-brand-700 focus:ring-brand-400 focus:ring-offset-surface-elevated disabled:bg-brand-600/60 mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-2xl px-5 py-3 text-sm font-bold transition focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:hover:bg-brand-600/60"
                 >
-                  Apply now
+                  {applyButtonLabel}
                 </button>
+                {appliedJobsErrorMessage ? (
+                  <p className="text-error-600 dark:text-error-400 mt-3 text-sm leading-6">
+                    {appliedJobsErrorMessage}
+                  </p>
+                ) : null}
               </aside>
             </aside>
           </div>

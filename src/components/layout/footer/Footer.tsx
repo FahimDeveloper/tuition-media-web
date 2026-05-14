@@ -8,7 +8,6 @@ import {
 } from "react-icons/fi";
 import { Link, NavLink } from "react-router-dom";
 import BrandLogo from "@/components/common/BrandLogo";
-import { BsFillThreadsFill } from "react-icons/bs";
 import { FaSquareWhatsapp, FaThreads } from "react-icons/fa6";
 
 type FooterLink = {

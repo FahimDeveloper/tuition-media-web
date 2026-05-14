@@ -40,6 +40,13 @@ export type {
 } from "./teacher.types";
 export type { JobBoardFilterQuery } from "./tuition-filters.types";
 export type {
+  AppliedApplication,
+  AppliedApplicationJob,
+  AppliedApplicationPayload,
+  AppliedApplicationStatus,
+  ApplyTuitionJobResponse,
+} from "./jobApplication.types";
+export type {
   TuitionJob,
   TuitionJobCategory,
   TuitionJobGender,

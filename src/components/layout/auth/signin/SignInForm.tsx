@@ -2,7 +2,7 @@ import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import { Alert, Button, Form, Input } from "antd";
 import type { FormProps } from "antd";
 import { type KeyboardEvent, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ChevronLeftIcon } from "@/icons";
 import { useAppDispatch } from "@/hooks/useAppHooks";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
@@ -33,6 +33,24 @@ const getLoginErrorMessage = (error: unknown) => {
   return getApiErrorMessage(error);
 };
 
+const getSafeRedirectPath = (state: unknown) => {
+  if (!isRecord(state) || typeof state.from !== "string") {
+    return "/tutor";
+  }
+
+  const redirectPath = state.from.trim();
+
+  if (
+    !redirectPath.startsWith("/") ||
+    redirectPath.startsWith("//") ||
+    redirectPath.includes("://")
+  ) {
+    return "/tutor";
+  }
+
+  return redirectPath;
+};
+
 export default function SignInForm() {
   const [form] = Form.useForm<SignInFormValues>();
   const [login, { isLoading }] = useLoginMutation();
@@ -40,6 +58,7 @@ export default function SignInForm() {
   const [isCapsLockOn, setIsCapsLockOn] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handlePasswordKeyEvent = (event: KeyboardEvent<HTMLInputElement>) => {
     setIsCapsLockOn(isCapsLockActive(event));
@@ -65,7 +84,7 @@ export default function SignInForm() {
 
       dispatch(loggedInUser(response.results));
       form.resetFields(["password"]);
-      navigate("/tutor", { replace: true });
+      navigate(getSafeRedirectPath(location.state), { replace: true });
     } catch (error) {
       setErrorMessage(getLoginErrorMessage(error));
     }
