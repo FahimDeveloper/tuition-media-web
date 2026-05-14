@@ -1,4 +1,6 @@
-import { useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
+import { Button, Form, Input, Typography } from "antd";
+import type { FormProps } from "antd";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -32,7 +34,13 @@ import {
   formatPublicTeacherValue,
   getPublicTeacherInitials,
 } from "@/utils/public-teacher.utils";
+import { requiredRule } from "@/validations/form.validation";
+import { useModal } from "@/hooks/useModal";
+import { Modal } from "@/components/ui/modal";
 import type { IconType } from "react-icons";
+
+const { Text } = Typography;
+const { TextArea } = Input;
 
 type DetailItem = {
   label: string;
@@ -58,6 +66,17 @@ type TeacherDetailsView = {
   education: EducationItem[];
 };
 
+type TutorApplicationFormValues = {
+  full_name: string;
+  phone_number: string;
+  address: string;
+  message: string;
+};
+
+type TutorApplicationPayload = TutorApplicationFormValues & {
+  tutor_id: string;
+};
+
 type EducationItem = {
   level: string;
   name: string;
@@ -78,6 +97,7 @@ type EducationRecord =
 const TutorDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
+  const applyModal = useModal();
 
   const { data: teacher, isLoading, isError, error, refetch } =
     useSinglePublicTeacherQuery(id ?? skipToken);
@@ -126,12 +146,19 @@ const TutorDetails = () => {
             <aside className="lg:sticky lg:top-6 lg:self-start">
               <ProfileSummaryCard
                 summary={tutor.summary}
-                onContact={() => navigate(`/contact-us?tutorId=${tutor.id}`)}
+                onApply={applyModal.openModal}
               />
             </aside>
           </div>
         </article>
       </div>
+
+      <TutorApplicationModal
+        tutorId={tutor.id}
+        tutorName={tutor.name}
+        isOpen={applyModal.isOpen}
+        onClose={applyModal.closeModal}
+      />
     </section>
   );
 };
@@ -252,10 +279,10 @@ const EducationSection = ({ education }: { education: EducationItem[] }) => (
 
 const ProfileSummaryCard = ({
   summary,
-  onContact,
+  onApply,
 }: {
   summary: SummaryItem[];
-  onContact: () => void;
+  onApply: () => void;
 }) => (
   <section className="border-brand-100/80 bg-surface-elevated shadow-theme-sm dark:border-border rounded-3xl border p-5">
     <SectionTitle icon={FiCheckCircle} title="Profile summary" />
@@ -279,13 +306,159 @@ const ProfileSummaryCard = ({
 
     <button
       type="button"
-      onClick={onContact}
+      onClick={onApply}
       className="bg-brand-600 text-text-on-brand hover:bg-brand-700 focus:ring-brand-400 focus:ring-offset-surface-elevated mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-bold transition focus:ring-2 focus:ring-offset-2 focus:outline-none"
     >
       <FiSend size={16} aria-hidden="true" />
-      Contact us
+      Apply for this tutor
     </button>
   </section>
+);
+
+const TutorApplicationModal = ({
+  tutorId,
+  tutorName,
+  isOpen,
+  onClose,
+}: {
+  tutorId: string;
+  tutorName: string;
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
+  const { form, isSubmitting, handleSubmit } = useTutorApplicationForm({
+    tutorId,
+    onSuccess: onClose,
+  });
+
+  return (
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      className="mx-4 max-w-2xl"
+      showCloseButton
+    >
+      <div className="px-5 py-6 sm:px-7 sm:py-8">
+        <div className="pr-10">
+          <p className="text-brand-700 dark:text-brand-300 text-xs font-semibold tracking-[0.14em] uppercase">
+            Tutor application
+          </p>
+          <h2 className="text-text-strong mt-2 text-2xl font-bold">
+            Apply for this tutor
+          </h2>
+          <p className="text-text-muted mt-2 text-sm leading-6">
+            Send your requirement for {tutorName}. Our team will review it and
+            contact you for the next step.
+          </p>
+        </div>
+
+        <TutorApplicationForm
+          form={form}
+          isSubmitting={isSubmitting}
+          onCancel={onClose}
+          onSubmit={handleSubmit}
+        />
+      </div>
+    </Modal>
+  );
+};
+
+const TutorApplicationForm = ({
+  form,
+  isSubmitting,
+  onCancel,
+  onSubmit,
+}: {
+  form: ReturnType<typeof Form.useForm<TutorApplicationFormValues>>[0];
+  isSubmitting: boolean;
+  onCancel: () => void;
+  onSubmit: FormProps<TutorApplicationFormValues>["onFinish"];
+}) => (
+  <Form<TutorApplicationFormValues>
+    form={form}
+    layout="vertical"
+    requiredMark={false}
+    onFinish={onSubmit}
+    className="[&_.ant-form-item-extra]:text-text-soft! [&_.ant-form-item-label>label]:text-text-strong! mt-6"
+  >
+    <div className="grid gap-x-4 sm:grid-cols-2">
+      <Form.Item
+        label={<Text className="text-text-strong!">Full name</Text>}
+        name="full_name"
+        rules={requiredRule("Please enter your full name.")}
+      >
+        <Input
+          size="large"
+          placeholder="Enter your full name"
+          autoComplete="name"
+          className="border-border! bg-surface-elevated! text-text-strong! shadow-theme-xs! placeholder:text-text-soft! hover:border-brand-300! focus:border-brand-300! focus:shadow-focus-ring! min-h-12! rounded-xl!"
+        />
+      </Form.Item>
+
+      <Form.Item
+        label={<Text className="text-text-strong!">Phone number</Text>}
+        name="phone_number"
+        rules={requiredRule("Please enter your phone number.")}
+      >
+        <Input
+          size="large"
+          placeholder="Enter your phone number"
+          inputMode="tel"
+          autoComplete="tel"
+          className="border-border! bg-surface-elevated! text-text-strong! shadow-theme-xs! placeholder:text-text-soft! hover:border-brand-300! focus:border-brand-300! focus:shadow-focus-ring! min-h-12! rounded-xl!"
+        />
+      </Form.Item>
+    </div>
+
+    <Form.Item
+      label={<Text className="text-text-strong!">Address</Text>}
+      name="address"
+      rules={requiredRule("Please enter your address.")}
+    >
+      <Input
+        size="large"
+        placeholder="Enter your address"
+        autoComplete="street-address"
+        className="border-border! bg-surface-elevated! text-text-strong! shadow-theme-xs! placeholder:text-text-soft! hover:border-brand-300! focus:border-brand-300! focus:shadow-focus-ring! min-h-12! rounded-xl!"
+      />
+    </Form.Item>
+
+    <Form.Item
+      label={
+        <Text className="text-text-strong!">
+          Tell us about your requirement
+        </Text>
+      }
+      name="message"
+      rules={requiredRule("Please tell us about your requirement.")}
+    >
+      <TextArea
+        rows={4}
+        placeholder="Tell us about your requirement"
+        className="border-border! bg-surface-elevated! text-text-strong! shadow-theme-xs! placeholder:text-text-soft! hover:border-brand-300! focus:border-brand-300! focus:shadow-focus-ring! rounded-xl!"
+      />
+    </Form.Item>
+
+    <div className="mt-2 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+      <Button
+        size="large"
+        onClick={onCancel}
+        disabled={isSubmitting}
+        className="border-border! bg-surface-elevated! text-text-strong! hover:border-brand-300! hover:text-brand-700! min-h-12! rounded-xl! px-6! font-semibold!"
+      >
+        Cancel
+      </Button>
+      <Button
+        type="primary"
+        size="large"
+        htmlType="submit"
+        loading={isSubmitting}
+        className="bg-brand-600! text-text-on-brand! hover:bg-brand-700! min-h-12! rounded-xl! px-6! font-semibold!"
+      >
+        Submit application
+      </Button>
+    </div>
+  </Form>
 );
 
 const TutorDetailsState = ({
@@ -441,6 +614,55 @@ const SummaryRow = ({ label, value }: SummaryItem) => (
     </dd>
   </div>
 );
+
+const useTutorApplicationForm = ({
+  tutorId,
+  onSuccess,
+}: {
+  tutorId: string;
+  onSuccess: () => void;
+}) => {
+  const [form] = Form.useForm<TutorApplicationFormValues>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const submitTutorApplication = useCallback(
+    async (payload: TutorApplicationPayload) => {
+      // Replace this placeholder with an RTK Query mutation when the endpoint is ready.
+      // await createTutorApplication(payload).unwrap();
+      void payload;
+    },
+    [],
+  );
+
+  const handleSubmit = useCallback(
+    async (values: TutorApplicationFormValues) => {
+      const payload: TutorApplicationPayload = {
+        tutor_id: tutorId,
+        full_name: values.full_name,
+        phone_number: values.phone_number,
+        address: values.address,
+        message: values.message,
+      };
+
+      setIsSubmitting(true);
+
+      try {
+        await submitTutorApplication(payload);
+        form.resetFields();
+        onSuccess();
+      } finally {
+        setIsSubmitting(false);
+      }
+    },
+    [form, onSuccess, submitTutorApplication, tutorId],
+  );
+
+  return {
+    form,
+    isSubmitting,
+    handleSubmit,
+  };
+};
 
 const toTeacherDetailsView = (teacher: PublicTeacher): TeacherDetailsView => {
   const tutoring = teacher.preferred_tutoring;
