@@ -8,9 +8,12 @@ import {
   FiUserCheck,
 } from "react-icons/fi";
 
+import { TakaIcon } from "@/icons/TakaIcon";
+
 import type { IconType } from "react-icons";
 import type { TuitionJobView } from "@/types";
 import { Link } from "react-router-dom";
+import type { ComponentType } from "react";
 
 type TuitionCardProps = {
   tuition: TuitionJobView;
@@ -19,7 +22,7 @@ type TuitionCardProps = {
 type MetaItem = {
   label: string;
   value: string;
-  icon: IconType;
+  icon: IconType | ComponentType;
 };
 
 const TuitionCard = ({ tuition }: TuitionCardProps) => {
@@ -27,7 +30,7 @@ const TuitionCard = ({ tuition }: TuitionCardProps) => {
   const metaItems: MetaItem[] = [
     { label: "subjects", value: tuition.category, icon: FiTag },
     { label: "Class", value: tuition.courseLevel, icon: FiBookOpen },
-    { label: "Salary", value: tuition.salary, icon: FiDollarSign },
+    { label: "Salary", value: tuition.salary, icon: TakaIcon },
     { label: "Tutor Gender", value: tuition.tutorGender, icon: FiUserCheck },
   ];
 

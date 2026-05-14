@@ -4,6 +4,8 @@ import type { FormProps } from "antd";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { useNavigate, useParams } from "react-router-dom";
 import type { IconType } from "react-icons";
+import { TakaIcon } from "@/icons/TakaIcon";
+
 import {
   FiAlertCircle,
   FiArrowLeft,
@@ -11,7 +13,6 @@ import {
   FiBookOpen,
   FiCheckCircle,
   FiClock,
-  FiDollarSign,
   FiHash,
   FiMapPin,
   FiRefreshCw,
@@ -114,8 +115,13 @@ const TutorHubDetails = () => {
   const { id } = useParams<{ id: string }>();
   const applyModal = useModal();
 
-  const { data: teacher, isLoading, isError, error, refetch } =
-    useSinglePublicTeacherQuery(id ?? skipToken);
+  const {
+    data: teacher,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useSinglePublicTeacherQuery(id ?? skipToken);
 
   const tutor = useMemo(
     () => (teacher ? toTutorDetailsView(teacher) : undefined),
@@ -707,7 +713,7 @@ const toTutorDetailsView = (teacher: PublicTeacher): TutorDetailsView => {
       { label: "Subjects", value: subjects },
     ],
     overviewDetails: cleanDetails([
-      { label: "Salary", value: salary, icon: FiDollarSign },
+      { label: "Salary", value: salary, icon: TakaIcon },
       { label: "Availability", value: availability, icon: FiClock },
       { label: "Experience", value: experience, icon: FiUserCheck },
       { label: "Tutoring type", value: tutoringType, icon: FiMapPin },

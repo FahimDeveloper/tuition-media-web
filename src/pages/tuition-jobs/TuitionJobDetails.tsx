@@ -17,6 +17,7 @@ import {
 import type { IconType } from "react-icons";
 import { useTuitionJobDetails } from "@/components/common/job-board";
 import { useApplyTuitionJob } from "@/hooks/useApplyTuitionJob";
+import { TakaIcon } from "@/icons/TakaIcon";
 
 type DetailItem = {
   label: string;
@@ -68,7 +69,7 @@ const TuitionDetails = () => {
   const primaryDetails: DetailItem[] = [
     { label: "Category", value: tuition.category, icon: FiTag },
     { label: "Course", value: tuition.courseLevel, icon: FiBookOpen },
-    { label: "Salary", value: tuition.salary, icon: FiDollarSign },
+    { label: "Salary", value: tuition.salary, icon: TakaIcon },
     { label: "Tuition Type", value: tuition.tutoringType, icon: FiMapPin },
   ];
 
@@ -216,7 +217,7 @@ const TuitionDetails = () => {
                   onClick={handleApply}
                   disabled={isApplyDisabled}
                   aria-busy={isApplying || isCheckingAppliedJobs}
-                  className="bg-brand-600 text-text-on-brand hover:bg-brand-700 focus:ring-brand-400 focus:ring-offset-surface-elevated disabled:bg-brand-600/60 mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-2xl px-5 py-3 text-sm font-bold transition focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:hover:bg-brand-600/60"
+                  className="bg-brand-600 text-text-on-brand hover:bg-brand-700 focus:ring-brand-400 focus:ring-offset-surface-elevated disabled:bg-brand-600/60 disabled:hover:bg-brand-600/60 mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-2xl px-5 py-3 text-sm font-bold transition focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed"
                 >
                   {applyButtonLabel}
                 </button>
