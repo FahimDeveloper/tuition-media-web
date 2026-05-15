@@ -68,6 +68,7 @@ export default function TutorProfile() {
     isSuccess: isProfileSuccess,
     refetch: refetchTeacherProfile,
   } = useTeacherProfileQuery(teacherId ?? skipToken);
+  
   const [updateTeacherProfile] = useUpdateTeacherProfileMutation();
 
   const [editedProfile, setEditedProfile] = useState<TeacherProfile | null>(

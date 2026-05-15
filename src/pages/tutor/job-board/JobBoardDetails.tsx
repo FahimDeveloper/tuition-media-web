@@ -5,6 +5,8 @@ import {
   useTuitionJobDetails,
 } from "@/components/common/job-board";
 import { useApplyTuitionJob } from "@/hooks/useApplyTuitionJob";
+import { ArrowLeftOutlined, ExclamationCircleFilled } from "@ant-design/icons";
+import { Alert, Button, Card, Skeleton, Typography } from "antd";
 import type { IconType } from "react-icons";
 import {
   FiArrowLeft,
@@ -21,6 +23,12 @@ import {
   FiUsers,
 } from "react-icons/fi";
 import { useNavigate, useParams } from "react-router-dom";
+
+import {
+  DetailsPageSkeleton,
+  EmptyPanel,
+  ErrorPanel,
+} from "@/components/ui/feedback";
 
 type DetailItem = {
   label: string;
@@ -43,28 +51,29 @@ export default function JobBoardDetails() {
   } = useApplyTuitionJob(id ?? "");
 
   if (isLoading) {
-    return <DashboardDetailsState title="Loading tuition details..." />;
+    return <DetailsPageSkeleton />;
   }
 
   if (isError) {
     return (
-      <DashboardDetailsState
+      <ErrorPanel
         title="Unable to load tuition"
-        description={
-          errorMessage ||
-          "Please try again later. This tuition could not be loaded."
-        }
-        onBack={() => navigate(-1)}
+        description={errorMessage ?? "Please try again later."}
+        onAction={() => {
+          navigate(-1);
+        }}
+        actionLabel="Go back"
       />
     );
   }
 
   if (!tuition) {
     return (
-      <DashboardDetailsState
-        title="Tuition not found"
-        description="The tuition you are looking for does not exist or may have been removed."
-        onBack={() => navigate(-1)}
+      <EmptyPanel
+        title="No tuition found"
+        description="use a valid id"
+        onAction={() => navigate(-1)}
+        actionLabel="Go back"
       />
     );
   }
@@ -232,7 +241,7 @@ export default function JobBoardDetails() {
                   onClick={handleApply}
                   disabled={isApplyDisabled}
                   aria-busy={isApplying || isCheckingAppliedJobs}
-                  className="bg-brand-600 text-text-on-brand hover:bg-brand-700 focus:ring-brand-400 focus:ring-offset-surface-elevated disabled:bg-brand-600/60 mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold transition focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:hover:bg-brand-600/60"
+                  className="bg-brand-600 text-text-on-brand hover:bg-brand-700 focus:ring-brand-400 focus:ring-offset-surface-elevated disabled:bg-brand-600/60 disabled:hover:bg-brand-600/60 mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold transition focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed"
                 >
                   {applyButtonLabel}
                 </button>
@@ -249,37 +258,6 @@ export default function JobBoardDetails() {
     </>
   );
 }
-
-const DashboardDetailsState = ({
-  title,
-  description,
-  onBack,
-}: {
-  title: string;
-  description?: string;
-  onBack?: () => void;
-}) => (
-  <div className="border-border bg-surface-elevated rounded-2xl border p-5 lg:p-6">
-    <JobBoardState
-      title={title}
-      description={description}
-      panelClassName="border-border bg-surface-muted/70 max-w-none rounded-2xl shadow-none"
-      titleClassName="text-xl font-semibold"
-    />
-    {onBack ? (
-      <div className="mt-4 text-center">
-        <button
-          type="button"
-          onClick={onBack}
-          className="bg-brand-600 text-text-on-brand hover:bg-brand-700 focus:ring-brand-400 focus:ring-offset-surface-elevated inline-flex min-h-10 items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition focus:ring-2 focus:ring-offset-2 focus:outline-none"
-        >
-          <FiArrowLeft size={16} aria-hidden="true" />
-          Go back
-        </button>
-      </div>
-    ) : null}
-  </div>
-);
 
 const SectionTitle = ({
   icon: Icon,

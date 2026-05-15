@@ -1,7 +1,7 @@
 import { type ReactNode } from "react";
 import { Typography } from "antd";
 import { FiBookOpen, FiClock, FiPhoneCall } from "react-icons/fi";
-import LeadForm from "@/components/layout/forms/LeadForm";
+import LeadForm from "@/components/ui/forms/LeadForm";
 
 const { Title, Paragraph } = Typography;
 
