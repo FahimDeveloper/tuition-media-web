@@ -1,3 +1,4 @@
+import PageMeta from "@/components/common/PageMeta";
 import BecomeTutor from "@/pages/home/become-a-tutor-section/BecomeTutor";
 import Hero from "@/pages/home/hero-section/Hero";
 import LookingForATeacherCta from "@/pages/home/looking-for-teacher-cta-section/LookingForATeacherCta";
@@ -6,13 +7,19 @@ import WhyChooseUsSection from "@/pages/home/why-choose-us-section/WhyChooseUsSe
 
 const Home = () => {
   return (
-    <div>
-      <Hero />
-      <TuitionCategory />
-      <BecomeTutor />
-      <WhyChooseUsSection />
-      <LookingForATeacherCta />
-    </div>
+    <>
+      <PageMeta
+        title="Home | TutoriumBD"
+        description="Discover tuition opportunities from TutoriumBD."
+      />
+      <div>
+        <Hero />
+        <TuitionCategory />
+        <BecomeTutor />
+        <WhyChooseUsSection />
+        <LookingForATeacherCta />
+      </div>
+    </>
   );
 };
 
