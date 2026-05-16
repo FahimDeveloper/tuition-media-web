@@ -15,7 +15,6 @@ const { Title, Text, Paragraph } = Typography;
 const ALLOWED_AVATAR_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 const MAX_AVATAR_SIZE_MB = 2;
 const MAX_AVATAR_SIZE_BYTES = MAX_AVATAR_SIZE_MB * 1024 * 1024;
-const SAFE_IMAGE_URL_PATTERN = /^(https?:\/\/|\/(?!\/))/i;
 
 type TeacherMetaCardProps = {
   values: ProfileMetaValues;
@@ -35,9 +34,6 @@ const validateAvatarFile = (file: File): string | null => {
   return null;
 };
 
-const isSafeImageUrl = (url: unknown): url is string =>
-  typeof url === "string" && SAFE_IMAGE_URL_PATTERN.test(url);
-
 export default function TeacherMetaCard({
   values,
   isFetching = false,
@@ -47,7 +43,6 @@ export default function TeacherMetaCard({
 
   const uploadProps: UploadProps = {
     showUploadList: false,
-    maxCount: 1,
     accept: "image/png,image/jpeg,image/webp",
     disabled: isAvatarUploading,
 
@@ -70,17 +65,14 @@ export default function TeacherMetaCard({
 
         const uploadedImageUrl = await imageUpload(file);
 
-        if (!isSafeImageUrl(uploadedImageUrl)) {
-          throw new Error("Unsafe image URL returned from upload service.");
-        }
-
         onAvatarChange?.(uploadedImageUrl);
 
         message.success({
           content: "Profile image uploaded.",
           key,
         });
-      } catch {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (error) {
         message.error({
           content: "Image upload failed. Please try again.",
 

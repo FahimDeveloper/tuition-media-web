@@ -14,15 +14,13 @@ import {
   requiredRule,
   validateFullName,
 } from "@/validations/form.validation";
-import {
-  ALLOWED_IDENTIFICATION_TYPES,
-  normalizeIdentificationType,
-  type AllowedIdentificationType,
-  type EditableSectionProps,
-  type PersonalInfoValues,
-  type TeacherBloodGroup,
-  type TeacherGender,
-  type TeacherMaritalStatus,
+import type {
+  EditableSectionProps,
+  PersonalInfoValues,
+  TeacherBloodGroup,
+  TeacherGender,
+  TeacherIdentificationType,
+  TeacherMaritalStatus,
 } from "../profileModel";
 
 export type PersonalInfoFormValues = Omit<
@@ -77,21 +75,19 @@ const RELIGION_OPTIONS = [
   { label: "Other", value: "Other" },
 ];
 
-const ID_TYPE_LABELS: Record<AllowedIdentificationType, string> = {
-  nid: "NID",
-  passport: "Passport",
-  birth_certificate: "Birth Certificate",
-};
-
-const ID_TYPE_OPTIONS = ALLOWED_IDENTIFICATION_TYPES.map((value) => ({
-  label: ID_TYPE_LABELS[value],
-  value,
-}));
+const ID_TYPE_OPTIONS: {
+  label: string;
+  value: TeacherIdentificationType;
+}[] = [
+  { label: "Passport", value: "passport" },
+  { label: "NID", value: "nid" },
+  { label: "Driving License", value: "driving_license" },
+  { label: "Birth Certificate", value: "birth_certificate" },
+];
 
 const PERSONAL_INFO_ITEMS: ProfileInfoField<PersonalInfoValues>[] = [
   { key: "full_name", label: "Full Name" },
   { key: "phone", label: "Phone Number" },
-  { key: "additional_phone", label: "Additional Phone Number" },
   { key: "gender", label: "Gender" },
   { key: "marital_status", label: "Marital Status" },
   { key: "blood_group", label: "Blood Group" },
@@ -134,6 +130,10 @@ const formatPersonalInfoValue = (key: string, value: unknown) => {
     return formatDateForDisplay(value);
   }
 
+  if (key === "identification") {
+    return "Configured";
+  }
+
   return getDisplayValue(value);
 };
 
@@ -146,27 +146,20 @@ const toPersonalInfoFormValues = (
     ...values,
     date_of_birth: parsedDate?.isValid() ? parsedDate : null,
     identification: {
-      type: normalizeIdentificationType(values.identification.type),
+      type: values.identification.type,
       number: values.identification.number,
     },
   };
 };
 
-const cleanText = (value?: string) => value?.trim() ?? "";
-
 const fromPersonalInfoFormValues = (
   values: PersonalInfoFormValues,
 ): PersonalInfoValues => ({
   ...values,
-  full_name: cleanText(values.full_name),
-  phone: cleanText(values.phone),
-  additional_phone: cleanText(values.additional_phone),
-  preset_address: cleanText(values.preset_address),
-  permanent_address: cleanText(values.permanent_address),
   date_of_birth: values.date_of_birth?.format("YYYY-MM-DD") ?? "",
   identification: {
-    type: normalizeIdentificationType(values.identification.type),
-    number: cleanText(values.identification.number),
+    type: values.identification.type,
+    number: values.identification.number,
   },
 });
 
@@ -203,11 +196,7 @@ function PersonalInfoForm() {
           validateTrigger="onBlur"
           rules={fullNameRules}
         >
-          <Input
-            size="large"
-            maxLength={100}
-            placeholder="Enter your full name"
-          />
+          <Input size="large" placeholder="Enter your full name" />
         </Form.Item>
 
         <Form.Item
@@ -220,29 +209,7 @@ function PersonalInfoForm() {
             ...phoneRules,
           ]}
         >
-          <Input
-            size="large"
-            inputMode="tel"
-            maxLength={14}
-            autoComplete="tel"
-            placeholder="Enter your primary phone number"
-          />
-        </Form.Item>
-
-        <Form.Item
-          label="Additional Phone Number"
-          name="additional_phone"
-          className="col-span-2 lg:col-span-1"
-          validateTrigger="onBlur"
-          rules={phoneRules}
-        >
-          <Input
-            size="large"
-            inputMode="tel"
-            maxLength={14}
-            autoComplete="tel"
-            placeholder="Enter additional phone number"
-          />
+          <Input size="large" placeholder="Enter your primary phone number" />
         </Form.Item>
 
         <Form.Item
@@ -334,11 +301,7 @@ function PersonalInfoForm() {
                 className="mb-0"
                 rules={[...idNumberRules, ...requiredRule("Enter ID number")]}
               >
-                <Input
-                  size="large"
-                  maxLength={40}
-                  placeholder="Enter ID number"
-                />
+                <Input size="large" placeholder="Enter ID number" />
               </Form.Item>
             </div>
           </Form.Item>
@@ -354,11 +317,7 @@ function PersonalInfoForm() {
             { min: 5, message: "Address must be at least 5 characters" },
           ]}
         >
-          <Input
-            size="large"
-            maxLength={250}
-            placeholder="Enter your present address"
-          />
+          <Input size="large" placeholder="Enter your present address" />
         </Form.Item>
 
         <Form.Item
@@ -373,7 +332,6 @@ function PersonalInfoForm() {
         >
           <Input
             size="large"
-            maxLength={250}
             disabled={isPermanentAddressSame}
             placeholder="Enter your permanent address"
           />
@@ -397,6 +355,7 @@ function PersonalInfoForm() {
 export default function PersonalInfoSection({
   values,
   onSave,
+  onDelete,
   isSaving = false,
   saveError,
   onClearSaveError,
@@ -405,13 +364,14 @@ export default function PersonalInfoSection({
     <ProfileEditableSection<PersonalInfoValues, PersonalInfoFormValues>
       title="Personal Information"
       modalTitle="Edit Personal Information"
-      modalDescription="Update your personal details, phone numbers, and identification."
+      modalDescription="Update your personal details and optional social profile links."
       values={values}
       items={PERSONAL_INFO_ITEMS}
       formatValue={formatPersonalInfoValue}
       toFormValues={toPersonalInfoFormValues}
       fromFormValues={fromPersonalInfoFormValues}
       onSave={onSave}
+      onDelete={onDelete}
       isSaving={isSaving}
       saveError={saveError}
       onClearSaveError={onClearSaveError}

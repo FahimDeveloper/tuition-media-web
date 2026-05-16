@@ -4,11 +4,6 @@ type MaybeRecord = Record<string, unknown> | null | undefined;
 
 const SECTION_WEIGHT = 25;
 const STUDYING_STATUS = "studying";
-const ALLOWED_IDENTIFICATION_TYPES = new Set([
-  "nid",
-  "passport",
-  "birth_certificate",
-]);
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   Boolean(value && typeof value === "object" && !Array.isArray(value));
@@ -45,11 +40,6 @@ const hasNestedField = (
 const isStudying = (section: MaybeRecord): boolean =>
   isRecord(section) && section.status === STUDYING_STATUS;
 
-const hasAllowedIdentificationType = (identification: unknown): boolean =>
-  isRecord(identification) &&
-  typeof identification.type === "string" &&
-  ALLOWED_IDENTIFICATION_TYPES.has(identification.type);
-
 export const isPersonalInfoComplete = (
   teacher?: Partial<ITeacher> | null,
 ): boolean => {
@@ -67,7 +57,7 @@ export const isPersonalInfoComplete = (
       "preset_address",
       "permanent_address",
     ]) &&
-    hasAllowedIdentificationType(teacher.identification) &&
+    hasNestedField(teacher.identification, ["type"]) &&
     hasNestedField(teacher.identification, ["number"])
   );
 };
@@ -102,6 +92,8 @@ export const isEmergencyContactComplete = (
     "father_phone",
     "mother_name",
     "mother_phone",
+    "emergency_contact_name",
+    "emergency_contact_phone",
   ]);
 };
 

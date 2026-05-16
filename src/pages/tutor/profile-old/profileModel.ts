@@ -9,7 +9,7 @@ import type {
   TeacherIdentificationType,
   TeacherMaritalStatus,
   TeacherParentsInfo,
-  TeacherProfilePatchPayload as BaseTeacherProfilePatchPayload,
+  TeacherProfilePatchPayload,
 } from "@/types";
 import { getApiErrorMessage } from "@/utils/api-error.utils";
 import { isRecord } from "@/utils/type-guards.utils";
@@ -27,38 +27,10 @@ export type {
   TeacherIdentificationType,
   TeacherMaritalStatus,
   TeacherParentsInfo,
+  TeacherProfilePatchPayload,
 };
 
 export type TeacherProfile = Partial<ITeacher>;
-
-export const ALLOWED_IDENTIFICATION_TYPES = [
-  "nid",
-  "passport",
-  "birth_certificate",
-] as const;
-
-export type AllowedIdentificationType =
-  (typeof ALLOWED_IDENTIFICATION_TYPES)[number];
-
-const ALLOWED_IDENTIFICATION_TYPE_SET = new Set<string>(
-  ALLOWED_IDENTIFICATION_TYPES,
-);
-
-export type TeacherProfilePatchPayload = BaseTeacherProfilePatchPayload & {
-  additional_phone?: string;
-};
-
-type PersonalIdentification = Omit<TeacherIdentification, "type"> & {
-  type?: AllowedIdentificationType;
-  number: string;
-};
-
-export const normalizeIdentificationType = (
-  type: unknown,
-): AllowedIdentificationType | undefined =>
-  typeof type === "string" && ALLOWED_IDENTIFICATION_TYPE_SET.has(type)
-    ? (type as AllowedIdentificationType)
-    : undefined;
 
 export type EditableSectionProps<TValues> = {
   values: TValues;
@@ -72,7 +44,6 @@ export type EditableSectionProps<TValues> = {
 export type PersonalInfoValues = {
   full_name: string;
   phone: string;
-  additional_phone?: string;
   preset_address?: string;
   permanent_address?: string;
   gender?: TeacherGender;
@@ -80,7 +51,7 @@ export type PersonalInfoValues = {
   blood_group?: TeacherBloodGroup;
   religion?: string;
   marital_status?: TeacherMaritalStatus;
-  identification: PersonalIdentification;
+  identification: TeacherIdentification;
 };
 
 export type EmergencyContactValues = TeacherParentsInfo;
@@ -136,7 +107,6 @@ export type TutorProfileViewModel = {
 export const INITIAL_PERSONAL_INFO_VALUES: PersonalInfoValues = {
   full_name: "Shakibul Islam",
   phone: "",
-  additional_phone: "",
   preset_address: "",
   permanent_address: "",
   gender: undefined,
@@ -301,7 +271,6 @@ export const createDefaultTuitionPreferenceValues =
 export const createBlankPersonalInfoValues = (): PersonalInfoValues => ({
   full_name: "",
   phone: "",
-  additional_phone: "",
   preset_address: "",
   permanent_address: "",
   gender: undefined,
@@ -386,11 +355,7 @@ export const mapTeacherToProfileViewModel = (
   teacher?: TeacherProfile | null,
 ): TutorProfileViewModel => {
   const defaults = createDefaultProfileViewModel();
-  const teacherRecord = teacher as
-    | (TeacherProfile & {
-        additional_phone?: string;
-      })
-    | undefined;
+  const teacherRecord = teacher ?? undefined;
   const defaultLocations = defaults.tuitionPreference
     .preferred_teaching_locations ?? {
     country: "",
@@ -419,9 +384,6 @@ export const mapTeacherToProfileViewModel = (
       ...defaults.personalInfo,
       full_name: teacherRecord?.full_name ?? defaults.personalInfo.full_name,
       phone: teacherRecord?.phone ?? defaults.personalInfo.phone,
-      additional_phone:
-        teacherRecord?.additional_phone ??
-        defaults.personalInfo.additional_phone,
       preset_address:
         teacherRecord?.preset_address ?? defaults.personalInfo.preset_address,
       permanent_address:
@@ -435,13 +397,10 @@ export const mapTeacherToProfileViewModel = (
       religion: teacherRecord?.religion ?? defaults.personalInfo.religion,
       marital_status:
         teacherRecord?.marital_status ?? defaults.personalInfo.marital_status,
-      identification: {
-        ...mergeSection(
-          defaults.personalInfo.identification,
-          teacherRecord?.identification,
-        ),
-        type: normalizeIdentificationType(teacherRecord?.identification?.type),
-      },
+      identification: mergeSection(
+        defaults.personalInfo.identification,
+        teacherRecord?.identification,
+      ),
     },
     emergencyContact: mergeSection(
       defaults.emergencyContact,
@@ -488,7 +447,6 @@ export const buildPersonalInfoProfilePatch = (
 ): TeacherProfilePatchPayload => ({
   full_name: values.full_name,
   phone: values.phone,
-  additional_phone: values.additional_phone,
   preset_address: values.preset_address,
   permanent_address: values.permanent_address,
   gender: values.gender,
@@ -497,9 +455,7 @@ export const buildPersonalInfoProfilePatch = (
   religion: values.religion,
   marital_status: values.marital_status,
   identification: {
-    type: normalizeIdentificationType(
-      values.identification.type,
-    ) as TeacherIdentificationType,
+    type: values.identification.type,
     number: values.identification.number,
   },
 });

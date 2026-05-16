@@ -1,4 +1,9 @@
 import { useState } from "react";
+import {
+  EmptyPanel,
+  ErrorPanel,
+  ListingPageSkeleton,
+} from "@/components/ui/feedback";
 import TutorCard from "@/pages/tutor-hub/components/TutorCard";
 import TutorSearchBar from "@/pages/tutor-hub/components/TutorSearchBar";
 import { useAllPublicTeachersQuery } from "@/redux/features/teachers/teachersProfileApi";
@@ -8,13 +13,35 @@ import { MdOutlineManageSearch } from "react-icons/md";
 const TUTOR_LOAD_ERROR =
   "Please try again later. The tutor profiles could not be loaded.";
 
+const getErrorMessage = (error: unknown) => {
+  if (!error || typeof error !== "object" || !("message" in error)) {
+    return TUTOR_LOAD_ERROR;
+  }
+
+  return (error as { message?: string }).message || TUTOR_LOAD_ERROR;
+};
+
+function TutorHubShell({ children }: { children: React.ReactNode }) {
+  return (
+    <section className="from-brand-50 via-page to-page dark:from-surface-strong dark:via-page dark:to-page relative overflow-hidden bg-linear-to-b py-20 transition-colors duration-300 sm:py-24">
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-[40%] bg-[radial-gradient(circle_at_top_left,rgba(102,153,207,0.22),transparent_50%),radial-gradient(circle_at_top_right,rgba(63,114,175,0.16),transparent_45%)]"
+        aria-hidden="true"
+      />
+
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {children}
+      </div>
+    </section>
+  );
+}
+
 const TutorHub = () => {
   const [query, setQuery] = useState<PublicTeachersQuery>({});
   const { data, isLoading, isFetching, isError, error } =
     useAllPublicTeachersQuery(query);
-  const teachers = data ?? [];
-  const errorMessage = getErrorMessage(error);
 
+  const teachers = data ?? [];
   const totalResults = teachers.length;
 
   const handleSearch = (search: string) => {
@@ -32,89 +59,61 @@ const TutorHub = () => {
   };
 
   if (isLoading) {
-    return <TutorListState title="Loading tutors..." />;
+    return <ListingPageSkeleton />;
   }
 
   if (isError) {
     return (
-      <TutorListState
-        title="Unable to load tutors"
-        description={errorMessage || TUTOR_LOAD_ERROR}
-      />
+      <TutorHubShell>
+        <ErrorPanel
+          title="Unable to load tutors"
+          description={getErrorMessage(error)}
+          className="py-12"
+        />
+      </TutorHubShell>
     );
   }
 
   return (
-    <section className="from-brand-50 via-page to-page dark:from-surface-strong dark:via-page dark:to-page relative overflow-hidden bg-linear-to-b py-20 transition-colors duration-300 sm:py-24">
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-[40%] bg-[radial-gradient(circle_at_top_left,rgba(102,153,207,0.22),transparent_50%),radial-gradient(circle_at_top_right,rgba(63,114,175,0.16),transparent_45%)]"
-        aria-hidden="true"
-      />
-
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="border-brand-100 bg-surface-elevated/82 text-text-strong shadow-theme-xs mb-2 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm font-medium backdrop-blur">
-              <MdOutlineManageSearch className="text-primary dark:text-brand-300 text-lg" />
-              {totalResults} tutor {totalResults === 1 ? "profile" : "profiles"}{" "}
-              available
-            </p>
-          </div>
-        </div>
-
-        <TutorSearchBar onSearch={handleSearch} onFilter={handleFilter} />
-
-        <div className="mt-12">
-          {isFetching ? (
-            <p className="text-text-muted mb-4 text-sm">Updating tutors...</p>
-          ) : null}
-
-          {teachers.length > 0 ? (
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {teachers.map((teacher) => (
-                <TutorCard key={teacher._id} teacher={teacher} />
-              ))}
-            </div>
-          ) : (
-            <TutorListState
-              title="No tutors found"
-              description="Tutor profiles will appear here when they are available."
-            />
-          )}
-        </div>
+    <TutorHubShell>
+      <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <p className="border-brand-100 bg-surface-elevated/82 text-text-strong shadow-theme-xs inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm font-medium backdrop-blur">
+          <MdOutlineManageSearch className="text-primary dark:text-brand-300 text-lg" />
+          {totalResults} tutor {totalResults === 1 ? "profile" : "profiles"}{" "}
+          available
+        </p>
       </div>
-    </section>
+
+      <TutorSearchBar onSearch={handleSearch} onFilter={handleFilter} />
+
+      <div className="mt-12">
+        {isFetching ? (
+          <p
+            role="status"
+            aria-live="polite"
+            className="text-text-muted mb-4 text-sm"
+          >
+            Updating tutors...
+          </p>
+        ) : null}
+
+        {teachers.length > 0 ? (
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {teachers.map((teacher) => (
+              <TutorCard key={teacher._id} teacher={teacher} />
+            ))}
+          </div>
+        ) : (
+          <EmptyPanel
+            icon={MdOutlineManageSearch}
+            title="No tutors found"
+            description="Tutor profiles will appear here when they are available."
+            className="py-12"
+          />
+        )}
+      </div>
+    </TutorHubShell>
   );
 };
 
-const TutorListState = ({
-  title,
-  description,
-}: {
-  title: string;
-  description?: string;
-}) => (
-  <section className="bg-page px-4 py-20 sm:px-6 lg:px-8">
-    <div className="border-brand-200/70 bg-surface-elevated shadow-theme-md dark:border-border mx-auto max-w-3xl rounded-3xl border p-8 text-center">
-      <h2 className="text-text-strong text-2xl font-bold">{title}</h2>
-      {description ? (
-        <p className="text-text-muted mx-auto mt-3 max-w-md text-sm leading-6">
-          {description}
-        </p>
-      ) : null}
-    </div>
-  </section>
-);
-
 export default TutorHub;
-
-const getErrorMessage = (error: unknown) => {
-  if (!error) return "";
-
-  if (typeof error === "object" && "message" in error) {
-    const message = (error as { message?: string }).message;
-    if (message) return message;
-  }
-
-  return TUTOR_LOAD_ERROR;
-};

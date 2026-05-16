@@ -1,5 +1,4 @@
 import { Form, Input } from "antd";
-import type { Rule } from "antd/es/form";
 
 import ProfileEditableSection, {
   ProfileFormGrid,
@@ -8,25 +7,14 @@ import ProfileEditableSection, {
 } from "../shared/ProfileEditableSection";
 import { getDisplayValue } from "@/utils/display.utils";
 import { requiredRule } from "@/validations/form.validation";
-import type {
-  EditableSectionProps,
-  EmergencyContactValues,
-} from "../profileModel";
+import type { EditableSectionProps, EmergencyContactValues } from "../profileModel";
 
 type EmergencyContactField = {
   name: keyof EmergencyContactValues;
   label: string;
   placeholder: string;
-  requiredMessage?: string;
-  rules?: Rule[];
+  requiredMessage: string;
 };
-
-const phoneRules: Rule[] = [
-  {
-    pattern: /^(\+8801|01)[3-9]\d{8}$/,
-    message: "Enter a valid Bangladeshi phone number",
-  },
-];
 
 const EMERGENCY_CONTACT_FIELDS: EmergencyContactField[] = [
   {
@@ -40,7 +28,6 @@ const EMERGENCY_CONTACT_FIELDS: EmergencyContactField[] = [
     label: "Father Phone Number",
     placeholder: "Enter father phone number",
     requiredMessage: "Please enter father phone number",
-    rules: phoneRules,
   },
   {
     name: "mother_name",
@@ -53,18 +40,18 @@ const EMERGENCY_CONTACT_FIELDS: EmergencyContactField[] = [
     label: "Mother Phone Number",
     placeholder: "Enter mother phone number",
     requiredMessage: "Please enter mother phone number",
-    rules: phoneRules,
   },
   {
     name: "emergency_contact_name",
-    label: "Additional Contact Name",
-    placeholder: "Enter additional contact name",
+    label: "Emergency Contact Name",
+    placeholder: "Enter emergency contact name",
+    requiredMessage: "Please enter emergency contact name",
   },
   {
     name: "emergency_contact_phone",
     label: "Additional Contact Phone",
-    placeholder: "Enter additional contact number",
-    rules: phoneRules,
+    placeholder: "Enter emergency contact number",
+    requiredMessage: "Please enter emergency contact number",
   },
 ];
 
@@ -80,26 +67,15 @@ function EmergencyContactForm() {
     <ProfileFormSection title="Emergency Contact">
       <ProfileFormGrid className="gap-x-6 gap-y-7">
         {EMERGENCY_CONTACT_FIELDS.map(
-          ({ name, label, placeholder, requiredMessage, rules = [] }) => (
+          ({ name, label, placeholder, requiredMessage }) => (
             <Form.Item
               key={String(name)}
               label={label}
               name={name}
               validateTrigger="onBlur"
-              rules={[
-                ...(requiredMessage ? requiredRule(requiredMessage) : []),
-                ...rules,
-              ]}
+              rules={requiredRule(requiredMessage)}
             >
-              <Input
-                size="large"
-                maxLength={60}
-                inputMode={String(name).includes("phone") ? "tel" : undefined}
-                autoComplete={
-                  String(name).includes("phone") ? "tel" : undefined
-                }
-                placeholder={placeholder}
-              />
+              <Input size="large" placeholder={placeholder} />
             </Form.Item>
           ),
         )}
@@ -111,6 +87,7 @@ function EmergencyContactForm() {
 export default function EmergencyContactSection({
   values,
   onSave,
+  onDelete,
   isSaving = false,
   saveError,
   onClearSaveError,
@@ -119,12 +96,13 @@ export default function EmergencyContactSection({
     <ProfileEditableSection
       title="Emergency Contact"
       modalTitle="Edit Emergency Contact"
-      modalDescription="Update required father and mother information. Additional contact is optional."
+      modalDescription="Update your father, mother, and emergency contact information."
       values={values}
       items={EMERGENCY_CONTACT_ITEMS}
       formatValue={formatEmergencyContactValue}
       formClassName="[&_.ant-form-item]:mb-2"
       onSave={onSave}
+      onDelete={onDelete}
       isSaving={isSaving}
       saveError={saveError}
       onClearSaveError={onClearSaveError}

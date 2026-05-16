@@ -21,10 +21,7 @@ import {
   getTuitionAreaOptions,
   getTuitionCityOptions,
 } from "@/utils/tuition-options.utils";
-import type {
-  EditableSectionProps,
-  TuitionPreferenceValues,
-} from "../profileModel";
+import type { EditableSectionProps, TuitionPreferenceValues } from "../profileModel";
 
 const TEACHING_METHOD_OPTIONS = [
   { label: "Home Tuition", value: "home_tuition" },
@@ -179,7 +176,8 @@ function TuitionPreferenceForm() {
     );
 
     return resolveValidation(
-      areas.length === 0 || areas.every((area: string) => validAreas.has(area)),
+      areas.length === 0 ||
+        areas.every((area: string) => validAreas.has(area)),
       "Please select valid areas for the selected city",
     );
   };
@@ -481,6 +479,7 @@ function TuitionPreferenceForm() {
 export default function TuitionPreferenceSection({
   values,
   onSave,
+  onDelete,
   isSaving = false,
   saveError,
   onClearSaveError,
@@ -495,6 +494,7 @@ export default function TuitionPreferenceSection({
       formatValue={formatTuitionPreferenceValue}
       formClassName="[&_.ant-form-item]:mb-2"
       onSave={onSave}
+      onDelete={onDelete}
       isSaving={isSaving}
       saveError={saveError}
       onClearSaveError={onClearSaveError}
