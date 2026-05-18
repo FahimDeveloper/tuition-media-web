@@ -1,15 +1,15 @@
-import flatpickr from 'flatpickr';
-import 'flatpickr/dist/flatpickr.css';
-import {useEffect} from 'react';
-import Label from '@/components/layout/shared/forms/Label';
-import {CalenderIcon} from '@/icons';
+import flatpickr from "flatpickr";
+import "flatpickr/dist/flatpickr.css";
+import { useEffect } from "react";
+import Label from "@/components/layout/shared/forms/Label";
+import { CalenderIcon } from "@/icons";
 
 type Hook = flatpickr.Options.Hook;
 type DateOption = flatpickr.Options.DateOption;
 
 type PropsType = {
   id: string;
-  mode?: 'single' | 'multiple' | 'range' | 'time';
+  mode?: "single" | "multiple" | "range" | "time";
   onChange?: Hook | Hook[];
   defaultDate?: DateOption;
   label?: string;
@@ -26,10 +26,10 @@ export default function DatePicker({
 }: PropsType) {
   useEffect(() => {
     const flatPickr = flatpickr(`#${id}`, {
-      mode: mode || 'single',
+      mode: mode || "single",
       static: true,
-      monthSelectorType: 'static',
-      dateFormat: 'Y-m-d',
+      monthSelectorType: "static",
+      dateFormat: "Y-m-d",
       defaultDate,
       onChange,
     });
@@ -49,10 +49,10 @@ export default function DatePicker({
         <input
           id={id}
           placeholder={placeholder}
-          className="h-11 w-full appearance-none rounded-lg border border-border bg-surface-elevated px-4 py-2.5 text-sm text-text-strong shadow-theme-xs placeholder:text-text-soft focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/20"
+          className="border-border bg-surface-elevated text-text-strong shadow-theme-xs placeholder:text-text-soft focus:border-brand-300 focus:ring-brand-500/20 h-11 w-full appearance-none rounded-lg border px-4 py-2.5 text-sm focus:ring-3 focus:outline-hidden"
         />
 
-        <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-text-muted">
+        <span className="text-text-muted pointer-events-none absolute top-1/2 right-3 -translate-y-1/2">
           <CalenderIcon className="size-6" />
         </span>
       </div>

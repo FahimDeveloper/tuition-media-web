@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from "react";
 
 interface Option {
   value: string;
@@ -15,10 +15,10 @@ interface SelectProps {
 
 const Select: React.FC<SelectProps> = ({
   options,
-  placeholder = 'Select an option',
+  placeholder = "Select an option",
   onChange,
-  className = '',
-  defaultValue = '',
+  className = "",
+  defaultValue = "",
 }) => {
   const [selectedValue, setSelectedValue] = useState<string>(defaultValue);
 
@@ -30,8 +30,8 @@ const Select: React.FC<SelectProps> = ({
 
   return (
     <select
-      className={`h-11 w-full appearance-none rounded-lg border border-border bg-surface-elevated px-4 py-2.5 pr-11 text-sm shadow-theme-xs placeholder:text-text-soft focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 ${
-        selectedValue ? 'text-text-strong' : 'text-text-soft'
+      className={`border-border bg-surface-elevated shadow-theme-xs placeholder:text-text-soft focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full appearance-none rounded-lg border px-4 py-2.5 pr-11 text-sm focus:ring-3 focus:outline-hidden ${
+        selectedValue ? "text-text-strong" : "text-text-soft"
       } ${className}`}
       value={selectedValue}
       onChange={handleChange}

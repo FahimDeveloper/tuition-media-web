@@ -1,4 +1,4 @@
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 interface AlertProps {
   variant: "success" | "error" | "warning" | "info"; // Alert type
@@ -27,7 +27,7 @@ const Alert: React.FC<AlertProps> = ({
     error: {
       container:
         "border-error-500 bg-error-50 dark:border-error-500/30 dark:bg-error-500/15",
-      icon: 'text-error-500',
+      icon: "text-error-500",
     },
     warning: {
       container:
@@ -121,16 +121,16 @@ const Alert: React.FC<AlertProps> = ({
         </div>
 
         <div>
-          <h4 className="mb-1 text-sm font-semibold text-text-strong">
+          <h4 className="text-text-strong mb-1 text-sm font-semibold">
             {title}
           </h4>
 
-          <p className="text-sm text-text-muted">{message}</p>
+          <p className="text-text-muted text-sm">{message}</p>
 
           {showLink && (
             <Link
               to={linkHref}
-              className="mt-3 inline-block text-sm font-medium text-brand-700 underline dark:text-brand-300"
+              className="text-brand-700 dark:text-brand-300 mt-3 inline-block text-sm font-medium underline"
             >
               {linkText}
             </Link>

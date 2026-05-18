@@ -47,8 +47,9 @@ const Badge: React.FC<BadgeProps> = ({
       warning:
         "bg-warning-50 text-warning-600 dark:bg-warning-500/15 dark:text-orange-400",
       info: "bg-blue-light-50 text-blue-light-500 dark:bg-blue-light-500/15 dark:text-blue-light-500",
-      light: 'bg-surface-muted text-text-muted dark:bg-surface-muted dark:text-text-strong',
-      dark: 'bg-text-soft text-text-on-brand dark:bg-surface-strong dark:text-text-on-brand',
+      light:
+        "bg-surface-muted text-text-muted dark:bg-surface-muted dark:text-text-strong",
+      dark: "bg-text-soft text-text-on-brand dark:bg-surface-strong dark:text-text-on-brand",
     },
     solid: {
       primary: "bg-brand-500 text-white dark:text-white",
@@ -56,8 +57,9 @@ const Badge: React.FC<BadgeProps> = ({
       error: "bg-error-500 text-white dark:text-white",
       warning: "bg-warning-500 text-white dark:text-white",
       info: "bg-blue-light-500 text-white dark:text-white",
-      light: 'bg-border-strong text-text-inverse dark:bg-surface-muted dark:text-text-strong',
-      dark: 'bg-surface-strong text-text-on-brand dark:text-text-on-brand',
+      light:
+        "bg-border-strong text-text-inverse dark:bg-surface-muted dark:text-text-strong",
+      dark: "bg-surface-strong text-text-on-brand dark:text-text-on-brand",
     },
   };
 

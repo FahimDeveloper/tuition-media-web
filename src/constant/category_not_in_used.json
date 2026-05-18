@@ -1,0 +1,1572 @@
+{
+  "categoriesCourseData": [
+    {
+      "id": 3,
+      "name": "Bangla Medium",
+      "subjects": {
+        "headers": {},
+        "original": {
+          "status": true,
+          "message": "All Course get Successfully!",
+          "data": [
+            {
+              "course_id": 7,
+              "course_name": "Pre-Schooling",
+              "category_id": 3,
+              "category_name": "Bangla Medium",
+              "course_image": "7_7778_1734767843.svg"
+            },
+            {
+              "course_id": 8,
+              "course_name": "Play",
+              "category_id": 3,
+              "category_name": "Bangla Medium",
+              "course_image": "8_8559_1734767852.svg"
+            },
+            {
+              "course_id": 9,
+              "course_name": "Nursery",
+              "category_id": 3,
+              "category_name": "Bangla Medium",
+              "course_image": "9_6956_1734767864.svg"
+            },
+            {
+              "course_id": 10,
+              "course_name": "KG",
+              "category_id": 3,
+              "category_name": "Bangla Medium",
+              "course_image": "10_9124_1734767874.svg"
+            },
+            {
+              "course_id": 11,
+              "course_name": "Class 1",
+              "category_id": 3,
+              "category_name": "Bangla Medium",
+              "course_image": "11_6164_1734767888.svg"
+            },
+            {
+              "course_id": 12,
+              "course_name": "Class 2",
+              "category_id": 3,
+              "category_name": "Bangla Medium",
+              "course_image": "12_5164_1734767668.svg"
+            },
+            {
+              "course_id": 13,
+              "course_name": "Class 3",
+              "category_id": 3,
+              "category_name": "Bangla Medium",
+              "course_image": "13_5692_1734767688.svg"
+            },
+            {
+              "course_id": 14,
+              "course_name": "Class 4",
+              "category_id": 3,
+              "category_name": "Bangla Medium",
+              "course_image": "14_7174_1734767706.svg"
+            },
+            {
+              "course_id": 15,
+              "course_name": "Class 5",
+              "category_id": 3,
+              "category_name": "Bangla Medium",
+              "course_image": "15_5538_1734767715.svg"
+            },
+            {
+              "course_id": 16,
+              "course_name": "Class 6",
+              "category_id": 3,
+              "category_name": "Bangla Medium",
+              "course_image": "16_3284_1734767723.svg"
+            },
+            {
+              "course_id": 17,
+              "course_name": "Class 7",
+              "category_id": 3,
+              "category_name": "Bangla Medium",
+              "course_image": "17_6630_1734767741.svg"
+            },
+            {
+              "course_id": 18,
+              "course_name": "Class 8",
+              "category_id": 3,
+              "category_name": "Bangla Medium",
+              "course_image": "18_6776_1734767761.svg"
+            },
+            {
+              "course_id": 19,
+              "course_name": "Class 9",
+              "category_id": 3,
+              "category_name": "Bangla Medium",
+              "course_image": "19_1395_1734767788.svg"
+            },
+            {
+              "course_id": 20,
+              "course_name": "Class 10",
+              "category_id": 3,
+              "category_name": "Bangla Medium",
+              "course_image": "20_5617_1734767799.svg"
+            },
+            {
+              "course_id": 21,
+              "course_name": "HSC 1st Year",
+              "category_id": 3,
+              "category_name": "Bangla Medium",
+              "course_image": "21_4044_1734767933.svg"
+            },
+            {
+              "course_id": 22,
+              "course_name": "HSC 2nd Year",
+              "category_id": 3,
+              "category_name": "Bangla Medium",
+              "course_image": "22_7178_1734767951.svg"
+            },
+            {
+              "course_id": 112,
+              "course_name": "SSC Candidate",
+              "category_id": 3,
+              "category_name": "Bangla Medium",
+              "course_image": null
+            },
+            {
+              "course_id": 113,
+              "course_name": "HSC Candidate",
+              "category_id": 3,
+              "category_name": "Bangla Medium",
+              "course_image": null
+            }
+          ]
+        },
+        "exception": null
+      }
+    },
+    {
+      "id": 4,
+      "name": "English Medium",
+      "subjects": {
+        "headers": {},
+        "original": {
+          "status": true,
+          "message": "All Course get Successfully!",
+          "data": [
+            {
+              "course_id": 39,
+              "course_name": "Pre-Schooling",
+              "category_id": 4,
+              "category_name": "English Medium",
+              "course_image": "39_5889_1738558517.svg"
+            },
+            {
+              "course_id": 40,
+              "course_name": "Play",
+              "category_id": 4,
+              "category_name": "English Medium",
+              "course_image": "40_5013_1738558545.svg"
+            },
+            {
+              "course_id": 41,
+              "course_name": "Nursery",
+              "category_id": 4,
+              "category_name": "English Medium",
+              "course_image": "41_5628_1738558638.svg"
+            },
+            {
+              "course_id": 42,
+              "course_name": "KG",
+              "category_id": 4,
+              "category_name": "English Medium",
+              "course_image": "42_4891_1738558652.svg"
+            },
+            {
+              "course_id": 43,
+              "course_name": "Standard 1",
+              "category_id": 4,
+              "category_name": "English Medium",
+              "course_image": "43_9453_1738558700.svg"
+            },
+            {
+              "course_id": 44,
+              "course_name": "Standard 2",
+              "category_id": 4,
+              "category_name": "English Medium",
+              "course_image": "44_3359_1738558714.svg"
+            },
+            {
+              "course_id": 45,
+              "course_name": "Standard 3",
+              "category_id": 4,
+              "category_name": "English Medium",
+              "course_image": "45_2332_1738558726.svg"
+            },
+            {
+              "course_id": 46,
+              "course_name": "Standard 4",
+              "category_id": 4,
+              "category_name": "English Medium",
+              "course_image": "46_7078_1738558751.svg"
+            },
+            {
+              "course_id": 47,
+              "course_name": "Standard 5",
+              "category_id": 4,
+              "category_name": "English Medium",
+              "course_image": "47_3231_1738558763.svg"
+            },
+            {
+              "course_id": 48,
+              "course_name": "Standard 6",
+              "category_id": 4,
+              "category_name": "English Medium",
+              "course_image": "48_8892_1738558774.svg"
+            },
+            {
+              "course_id": 49,
+              "course_name": "Standard 7",
+              "category_id": 4,
+              "category_name": "English Medium",
+              "course_image": "49_7383_1738558785.svg"
+            },
+            {
+              "course_id": 50,
+              "course_name": "Standard 8",
+              "category_id": 4,
+              "category_name": "English Medium",
+              "course_image": "50_8488_1738558800.svg"
+            },
+            {
+              "course_id": 51,
+              "course_name": "Standard 9",
+              "category_id": 4,
+              "category_name": "English Medium",
+              "course_image": "51_2354_1738558812.svg"
+            },
+            {
+              "course_id": 52,
+              "course_name": "O Level",
+              "category_id": 4,
+              "category_name": "English Medium",
+              "course_image": "52_9125_1738558837.svg"
+            },
+            {
+              "course_id": 53,
+              "course_name": "A Level ( AS )",
+              "category_id": 4,
+              "category_name": "English Medium",
+              "course_image": "53_3781_1738558869.svg"
+            },
+            {
+              "course_id": 54,
+              "course_name": "A Level ( A2 )",
+              "category_id": 4,
+              "category_name": "English Medium",
+              "course_image": "54_9730_1738558882.svg"
+            }
+          ]
+        },
+        "exception": null
+      }
+    },
+    {
+      "id": 5,
+      "name": "English Version",
+      "subjects": {
+        "headers": {},
+        "original": {
+          "status": true,
+          "message": "All Course get Successfully!",
+          "data": [
+            {
+              "course_id": 23,
+              "course_name": "Pre-Schooling",
+              "category_id": 5,
+              "category_name": "English Version",
+              "course_image": "23_6374_1744262754.svg"
+            },
+            {
+              "course_id": 24,
+              "course_name": "Play",
+              "category_id": 5,
+              "category_name": "English Version",
+              "course_image": "24_4972_1744262722.svg"
+            },
+            {
+              "course_id": 25,
+              "course_name": "Nursery",
+              "category_id": 5,
+              "category_name": "English Version",
+              "course_image": "25_9076_1744262709.svg"
+            },
+            {
+              "course_id": 26,
+              "course_name": "KG",
+              "category_id": 5,
+              "category_name": "English Version",
+              "course_image": "26_8636_1744262690.svg"
+            },
+            {
+              "course_id": 27,
+              "course_name": "Class 1",
+              "category_id": 5,
+              "category_name": "English Version",
+              "course_image": "27_5359_1744262409.svg"
+            },
+            {
+              "course_id": 28,
+              "course_name": "Class 2",
+              "category_id": 5,
+              "category_name": "English Version",
+              "course_image": "28_6608_1744262440.svg"
+            },
+            {
+              "course_id": 29,
+              "course_name": "Class 3",
+              "category_id": 5,
+              "category_name": "English Version",
+              "course_image": "29_5438_1744262451.svg"
+            },
+            {
+              "course_id": 30,
+              "course_name": "Class 4",
+              "category_id": 5,
+              "category_name": "English Version",
+              "course_image": "30_5441_1744262482.svg"
+            },
+            {
+              "course_id": 31,
+              "course_name": "Class 5",
+              "category_id": 5,
+              "category_name": "English Version",
+              "course_image": "31_6972_1744262509.svg"
+            },
+            {
+              "course_id": 32,
+              "course_name": "Class 6",
+              "category_id": 5,
+              "category_name": "English Version",
+              "course_image": "32_9266_1744262583.svg"
+            },
+            {
+              "course_id": 33,
+              "course_name": "Class 7",
+              "category_id": 5,
+              "category_name": "English Version",
+              "course_image": "33_7827_1744262593.svg"
+            },
+            {
+              "course_id": 34,
+              "course_name": "Class 8",
+              "category_id": 5,
+              "category_name": "English Version",
+              "course_image": "34_3625_1744262604.svg"
+            },
+            {
+              "course_id": 35,
+              "course_name": "Class 9",
+              "category_id": 5,
+              "category_name": "English Version",
+              "course_image": "35_5851_1744262615.svg"
+            },
+            {
+              "course_id": 36,
+              "course_name": "Class 10",
+              "category_id": 5,
+              "category_name": "English Version",
+              "course_image": "36_7492_1744262630.svg"
+            },
+            {
+              "course_id": 37,
+              "course_name": "HSC 1st Year",
+              "category_id": 5,
+              "category_name": "English Version",
+              "course_image": "37_2214_1744262663.svg"
+            },
+            {
+              "course_id": 38,
+              "course_name": "HSC 2nd Year",
+              "category_id": 5,
+              "category_name": "English Version",
+              "course_image": "38_5926_1744262677.svg"
+            },
+            {
+              "course_id": 114,
+              "course_name": "SSC Candidate",
+              "category_id": 5,
+              "category_name": "English Version",
+              "course_image": null
+            },
+            {
+              "course_id": 115,
+              "course_name": "HSC Candidate",
+              "category_id": 5,
+              "category_name": "English Version",
+              "course_image": null
+            }
+          ]
+        },
+        "exception": null
+      }
+    },
+    {
+      "id": 6,
+      "name": "Madrasah Medium",
+      "subjects": {
+        "headers": {},
+        "original": {
+          "status": true,
+          "message": "All Course get Successfully!",
+          "data": [
+            {
+              "course_id": 55,
+              "course_name": "Play",
+              "category_id": 6,
+              "category_name": "Madrasah Medium",
+              "course_image": "55_4487_1744263203.svg"
+            },
+            {
+              "course_id": 56,
+              "course_name": "Nursery",
+              "category_id": 6,
+              "category_name": "Madrasah Medium",
+              "course_image": "56_5944_1744263171.svg"
+            },
+            {
+              "course_id": 57,
+              "course_name": "Class 1",
+              "category_id": 6,
+              "category_name": "Madrasah Medium",
+              "course_image": "57_9440_1744262816.svg"
+            },
+            {
+              "course_id": 58,
+              "course_name": "Class 2",
+              "category_id": 6,
+              "category_name": "Madrasah Medium",
+              "course_image": "58_7595_1744262876.svg"
+            },
+            {
+              "course_id": 59,
+              "course_name": "Class 3",
+              "category_id": 6,
+              "category_name": "Madrasah Medium",
+              "course_image": "59_1327_1744262888.svg"
+            },
+            {
+              "course_id": 60,
+              "course_name": "Class 4",
+              "category_id": 6,
+              "category_name": "Madrasah Medium",
+              "course_image": "60_4619_1744262909.svg"
+            },
+            {
+              "course_id": 61,
+              "course_name": "Class 5",
+              "category_id": 6,
+              "category_name": "Madrasah Medium",
+              "course_image": "61_9480_1744262921.svg"
+            },
+            {
+              "course_id": 62,
+              "course_name": "Class 6",
+              "category_id": 6,
+              "category_name": "Madrasah Medium",
+              "course_image": "62_1689_1744262933.svg"
+            },
+            {
+              "course_id": 63,
+              "course_name": "Class 7",
+              "category_id": 6,
+              "category_name": "Madrasah Medium",
+              "course_image": "63_1853_1744262944.svg"
+            },
+            {
+              "course_id": 64,
+              "course_name": "Class 8",
+              "category_id": 6,
+              "category_name": "Madrasah Medium",
+              "course_image": "64_6444_1744262956.svg"
+            },
+            {
+              "course_id": 65,
+              "course_name": "Class 9",
+              "category_id": 6,
+              "category_name": "Madrasah Medium",
+              "course_image": "65_7550_1744262966.svg"
+            },
+            {
+              "course_id": 66,
+              "course_name": "Class 10",
+              "category_id": 6,
+              "category_name": "Madrasah Medium",
+              "course_image": "66_6103_1744262983.svg"
+            },
+            {
+              "course_id": 67,
+              "course_name": "Alim 1st Year",
+              "category_id": 6,
+              "category_name": "Madrasah Medium",
+              "course_image": "67_5329_1744267554.svg"
+            },
+            {
+              "course_id": 68,
+              "course_name": "Alim 2nd Year",
+              "category_id": 6,
+              "category_name": "Madrasah Medium",
+              "course_image": "68_3472_1744267572.svg"
+            },
+            {
+              "course_id": 154,
+              "course_name": "Alim Candidate",
+              "category_id": 6,
+              "category_name": "Madrasah Medium",
+              "course_image": null
+            },
+            {
+              "course_id": 202,
+              "course_name": "KG",
+              "category_id": 6,
+              "category_name": "Madrasah Medium",
+              "course_image": "202_4531_1744267649.svg"
+            },
+            {
+              "course_id": 203,
+              "course_name": "Pre-Schooling",
+              "category_id": 6,
+              "category_name": "Madrasah Medium",
+              "course_image": "203_8097_1744267740.svg"
+            }
+          ]
+        },
+        "exception": null
+      }
+    },
+    {
+      "id": 7,
+      "name": "Admission Help",
+      "subjects": {
+        "headers": {},
+        "original": {
+          "status": true,
+          "message": "All Course get Successfully!",
+          "data": [
+            {
+              "course_id": 69,
+              "course_name": "Public University Admission Test",
+              "category_id": 7,
+              "category_name": "Admission Help",
+              "course_image": "69_1547_1715084954.svg"
+            },
+            {
+              "course_id": 70,
+              "course_name": "Private University Admission Test",
+              "category_id": 7,
+              "category_name": "Admission Help",
+              "course_image": "70_1289_1715084966.svg"
+            },
+            {
+              "course_id": 71,
+              "course_name": "Medical College Admission Test",
+              "category_id": 7,
+              "category_name": "Admission Help",
+              "course_image": "71_6031_1715084978.svg"
+            },
+            {
+              "course_id": 72,
+              "course_name": "Engineering University Admission Test",
+              "category_id": 7,
+              "category_name": "Admission Help",
+              "course_image": "72_4985_1738559798.svg"
+            },
+            {
+              "course_id": 73,
+              "course_name": "School Admission Test",
+              "category_id": 7,
+              "category_name": "Admission Help",
+              "course_image": "73_5002_1715084923.svg"
+            },
+            {
+              "course_id": 129,
+              "course_name": "IBA  Admission Test",
+              "category_id": 7,
+              "category_name": "Admission Help",
+              "course_image": "129_7749_1715084343.svg"
+            },
+            {
+              "course_id": 164,
+              "course_name": "MBA  Admission Help",
+              "category_id": 7,
+              "category_name": "Admission Help",
+              "course_image": "164_9451_1715082010.svg"
+            },
+            {
+              "course_id": 165,
+              "course_name": "Cadet Admission Help",
+              "category_id": 7,
+              "category_name": "Admission Help",
+              "course_image": "165_4129_1715081996.svg"
+            },
+            {
+              "course_id": 205,
+              "course_name": "College Admission Test",
+              "category_id": 7,
+              "category_name": "Admission Help",
+              "course_image": null
+            },
+            {
+              "course_id": 221,
+              "course_name": "7 College Admission help",
+              "category_id": 7,
+              "category_name": "Admission Help",
+              "course_image": null
+            }
+          ]
+        },
+        "exception": null
+      }
+    },
+    {
+      "id": 8,
+      "name": "Int. Exam Preparation",
+      "subjects": {
+        "headers": {},
+        "original": {
+          "status": true,
+          "message": "All Course get Successfully!",
+          "data": [
+            {
+              "course_id": 74,
+              "course_name": "IELTS",
+              "category_id": 8,
+              "category_name": "Int. Exam Preparation",
+              "course_image": "74_3040_1715004363.svg"
+            },
+            {
+              "course_id": 75,
+              "course_name": "TOEFL",
+              "category_id": 8,
+              "category_name": "Int. Exam Preparation",
+              "course_image": "75_3306_1715004378.svg"
+            },
+            {
+              "course_id": 76,
+              "course_name": "GMAT",
+              "category_id": 8,
+              "category_name": "Int. Exam Preparation",
+              "course_image": "76_4965_1715004397.svg"
+            },
+            {
+              "course_id": 77,
+              "course_name": "GRE",
+              "category_id": 8,
+              "category_name": "Int. Exam Preparation",
+              "course_image": "77_2712_1715004418.svg"
+            },
+            {
+              "course_id": 78,
+              "course_name": "SAT",
+              "category_id": 8,
+              "category_name": "Int. Exam Preparation",
+              "course_image": "78_3331_1715004472.svg"
+            },
+            {
+              "course_id": 79,
+              "course_name": "GED",
+              "category_id": 8,
+              "category_name": "Int. Exam Preparation",
+              "course_image": "79_7375_1715004493.svg"
+            },
+            {
+              "course_id": 173,
+              "course_name": "Math Olympiad",
+              "category_id": 8,
+              "category_name": "Int. Exam Preparation",
+              "course_image": null
+            }
+          ]
+        },
+        "exception": null
+      }
+    },
+    {
+      "id": 9,
+      "name": "Religious & Moral Studies",
+      "subjects": {
+        "headers": {},
+        "original": {
+          "status": true,
+          "message": "All Course get Successfully!",
+          "data": [
+            {
+              "course_id": 80,
+              "course_name": "Islamic Studies",
+              "category_id": 9,
+              "category_name": "Religious & Moral Studies",
+              "course_image": "80_6755_1715084802.svg"
+            },
+            {
+              "course_id": 81,
+              "course_name": "Hinduism Studies",
+              "category_id": 9,
+              "category_name": "Religious & Moral Studies",
+              "course_image": "81_9913_1715084816.svg"
+            },
+            {
+              "course_id": 82,
+              "course_name": "Buddhism Studies",
+              "category_id": 9,
+              "category_name": "Religious & Moral Studies",
+              "course_image": "82_5369_1715084832.svg"
+            },
+            {
+              "course_id": 83,
+              "course_name": "Christianity Studies",
+              "category_id": 9,
+              "category_name": "Religious & Moral Studies",
+              "course_image": "83_4821_1715084858.svg"
+            }
+          ]
+        },
+        "exception": null
+      }
+    },
+    {
+      "id": 10,
+      "name": "Language Proficiency",
+      "subjects": {
+        "headers": {},
+        "original": {
+          "status": true,
+          "message": "All Course get Successfully!",
+          "data": [
+            {
+              "course_id": 84,
+              "course_name": "English",
+              "category_id": 10,
+              "category_name": "Language Proficiency",
+              "course_image": "84_7342_1715084872.svg"
+            },
+            {
+              "course_id": 85,
+              "course_name": "German",
+              "category_id": 10,
+              "category_name": "Language Proficiency",
+              "course_image": "85_3946_1715084885.svg"
+            },
+            {
+              "course_id": 86,
+              "course_name": "Bangla",
+              "category_id": 10,
+              "category_name": "Language Proficiency",
+              "course_image": "86_4112_1715084898.svg"
+            },
+            {
+              "course_id": 87,
+              "course_name": "Korean",
+              "category_id": 10,
+              "category_name": "Language Proficiency",
+              "course_image": "87_6247_1738559828.svg"
+            },
+            {
+              "course_id": 88,
+              "course_name": "Chinese",
+              "category_id": 10,
+              "category_name": "Language Proficiency",
+              "course_image": "88_1644_1715004570.svg"
+            },
+            {
+              "course_id": 89,
+              "course_name": "Spanish",
+              "category_id": 10,
+              "category_name": "Language Proficiency",
+              "course_image": "89_5256_1715004601.svg"
+            },
+            {
+              "course_id": 90,
+              "course_name": "French",
+              "category_id": 10,
+              "category_name": "Language Proficiency",
+              "course_image": "90_3360_1715004652.svg"
+            },
+            {
+              "course_id": 166,
+              "course_name": "Hindi",
+              "category_id": 10,
+              "category_name": "Language Proficiency",
+              "course_image": "166_4024_1727774938.svg"
+            },
+            {
+              "course_id": 167,
+              "course_name": "Turkish",
+              "category_id": 10,
+              "category_name": "Language Proficiency",
+              "course_image": "167_2207_1715081951.svg"
+            },
+            {
+              "course_id": 168,
+              "course_name": "Italian",
+              "category_id": 10,
+              "category_name": "Language Proficiency",
+              "course_image": "168_6310_1715081861.svg"
+            },
+            {
+              "course_id": 171,
+              "course_name": "Arabic",
+              "category_id": 10,
+              "category_name": "Language Proficiency",
+              "course_image": "171_5681_1715081876.svg"
+            },
+            {
+              "course_id": 208,
+              "course_name": "Japanese",
+              "category_id": 10,
+              "category_name": "Language Proficiency",
+              "course_image": null
+            }
+          ]
+        },
+        "exception": null
+      }
+    },
+    {
+      "id": 11,
+      "name": "Arts & Crafts",
+      "subjects": {
+        "headers": {},
+        "original": {
+          "status": true,
+          "message": "All Course get Successfully!",
+          "data": [
+            {
+              "course_id": 91,
+              "course_name": "Crafting",
+              "category_id": 11,
+              "category_name": "Arts & Crafts",
+              "course_image": "91_4733_1738559494.svg"
+            },
+            {
+              "course_id": 92,
+              "course_name": "Dance",
+              "category_id": 11,
+              "category_name": "Arts & Crafts",
+              "course_image": "92_4937_1738559508.svg"
+            },
+            {
+              "course_id": 93,
+              "course_name": "Instrumental Music",
+              "category_id": 11,
+              "category_name": "Arts & Crafts",
+              "course_image": "93_6828_1738559526.svg"
+            },
+            {
+              "course_id": 94,
+              "course_name": "Music",
+              "category_id": 11,
+              "category_name": "Arts & Crafts",
+              "course_image": "94_5195_1738559612.svg"
+            },
+            {
+              "course_id": 95,
+              "course_name": "Drawing & Painting",
+              "category_id": 11,
+              "category_name": "Arts & Crafts",
+              "course_image": "95_7946_1738559629.svg"
+            },
+            {
+              "course_id": 96,
+              "course_name": "Handwriting",
+              "category_id": 11,
+              "category_name": "Arts & Crafts",
+              "course_image": "96_7658_1738559647.svg"
+            },
+            {
+              "course_id": 132,
+              "course_name": "Guitar",
+              "category_id": 11,
+              "category_name": "Arts & Crafts",
+              "course_image": "132_9414_1738559229.svg"
+            },
+            {
+              "course_id": 142,
+              "course_name": "Make Up Tutoring",
+              "category_id": 11,
+              "category_name": "Arts & Crafts",
+              "course_image": "142_9676_1738559285.svg"
+            },
+            {
+              "course_id": 143,
+              "course_name": "Miming",
+              "category_id": 11,
+              "category_name": "Arts & Crafts",
+              "course_image": "143_5911_1738559305.svg"
+            },
+            {
+              "course_id": 144,
+              "course_name": "Film Direction",
+              "category_id": 11,
+              "category_name": "Arts & Crafts",
+              "course_image": "144_9433_1738559340.svg"
+            },
+            {
+              "course_id": 145,
+              "course_name": "Reciting",
+              "category_id": 11,
+              "category_name": "Arts & Crafts",
+              "course_image": "145_3818_1738559360.svg"
+            },
+            {
+              "course_id": 146,
+              "course_name": "Acting & Modeling",
+              "category_id": 11,
+              "category_name": "Arts & Crafts",
+              "course_image": "146_1371_1738559373.svg"
+            }
+          ]
+        },
+        "exception": null
+      }
+    },
+    {
+      "id": 12,
+      "name": "Special Skills Mastery",
+      "subjects": {
+        "headers": {},
+        "original": {
+          "status": true,
+          "message": "All Course get Successfully!",
+          "data": [
+            {
+              "course_id": 97,
+              "course_name": "Cooking",
+              "category_id": 12,
+              "category_name": "Special Skills Mastery",
+              "course_image": "97_3718_1715004845.svg"
+            },
+            {
+              "course_id": 98,
+              "course_name": "Photography",
+              "category_id": 12,
+              "category_name": "Special Skills Mastery",
+              "course_image": "98_5263_1715004860.svg"
+            },
+            {
+              "course_id": 99,
+              "course_name": "Yoga",
+              "category_id": 12,
+              "category_name": "Special Skills Mastery",
+              "course_image": "99_1606_1715004875.svg"
+            },
+            {
+              "course_id": 100,
+              "course_name": "Driving",
+              "category_id": 12,
+              "category_name": "Special Skills Mastery",
+              "course_image": "100_6615_1715004888.svg"
+            },
+            {
+              "course_id": 101,
+              "course_name": "Kung Fu",
+              "category_id": 12,
+              "category_name": "Special Skills Mastery",
+              "course_image": "101_5920_1715004912.svg"
+            },
+            {
+              "course_id": 102,
+              "course_name": "Karate",
+              "category_id": 12,
+              "category_name": "Special Skills Mastery",
+              "course_image": "102_4680_1715004930.svg"
+            },
+            {
+              "course_id": 133,
+              "course_name": "Baby Sitting",
+              "category_id": 12,
+              "category_name": "Special Skills Mastery",
+              "course_image": "133_1350_1715084400.svg"
+            },
+            {
+              "course_id": 134,
+              "course_name": "Scout Tutoring",
+              "category_id": 12,
+              "category_name": "Special Skills Mastery",
+              "course_image": "134_8270_1715084426.svg"
+            },
+            {
+              "course_id": 135,
+              "course_name": "Fitness Training",
+              "category_id": 12,
+              "category_name": "Special Skills Mastery",
+              "course_image": "135_8521_1715084441.svg"
+            },
+            {
+              "course_id": 136,
+              "course_name": "Riding",
+              "category_id": 12,
+              "category_name": "Special Skills Mastery",
+              "course_image": "136_3780_1715084454.svg"
+            },
+            {
+              "course_id": 137,
+              "course_name": "Cycling",
+              "category_id": 12,
+              "category_name": "Special Skills Mastery",
+              "course_image": "137_8629_1715084470.svg"
+            },
+            {
+              "course_id": 139,
+              "course_name": "Debating & Public Speaking",
+              "category_id": 12,
+              "category_name": "Special Skills Mastery",
+              "course_image": "139_5054_1715083045.svg"
+            },
+            {
+              "course_id": 140,
+              "course_name": "Swimming",
+              "category_id": 12,
+              "category_name": "Special Skills Mastery",
+              "course_image": "140_7557_1738559897.svg"
+            },
+            {
+              "course_id": 178,
+              "course_name": "Astrophysics",
+              "category_id": 12,
+              "category_name": "Special Skills Mastery",
+              "course_image": "178_9229_1738559741.svg"
+            },
+            {
+              "course_id": 180,
+              "course_name": "Biking",
+              "category_id": 12,
+              "category_name": "Special Skills Mastery",
+              "course_image": "180_8262_1731928581.svg"
+            },
+            {
+              "course_id": 181,
+              "course_name": "Scooty Riding",
+              "category_id": 12,
+              "category_name": "Special Skills Mastery",
+              "course_image": "181_9052_1731933313.svg"
+            },
+            {
+              "course_id": 220,
+              "course_name": "Tailoring",
+              "category_id": 12,
+              "category_name": "Special Skills Mastery",
+              "course_image": null
+            }
+          ]
+        },
+        "exception": null
+      }
+    },
+    {
+      "id": 13,
+      "name": "Professional Skills Mastery",
+      "subjects": {
+        "headers": {},
+        "original": {
+          "status": true,
+          "message": "All Course get Successfully!",
+          "data": [
+            {
+              "course_id": 103,
+              "course_name": "Computer Programming",
+              "category_id": 13,
+              "category_name": "Professional Skills Mastery",
+              "course_image": "103_6784_1715004944.svg"
+            },
+            {
+              "course_id": 104,
+              "course_name": "Digital Marketing",
+              "category_id": 13,
+              "category_name": "Professional Skills Mastery",
+              "course_image": "104_2987_1715004966.svg"
+            },
+            {
+              "course_id": 105,
+              "course_name": "Sewing and Tailoring",
+              "category_id": 13,
+              "category_name": "Professional Skills Mastery",
+              "course_image": "105_7913_1715004985.svg"
+            },
+            {
+              "course_id": 106,
+              "course_name": "Fashion Design",
+              "category_id": 13,
+              "category_name": "Professional Skills Mastery",
+              "course_image": "106_2651_1715005000.svg"
+            },
+            {
+              "course_id": 107,
+              "course_name": "Microsoft Office",
+              "category_id": 13,
+              "category_name": "Professional Skills Mastery",
+              "course_image": "107_8857_1715084672.svg"
+            },
+            {
+              "course_id": 108,
+              "course_name": "Web Development",
+              "category_id": 13,
+              "category_name": "Professional Skills Mastery",
+              "course_image": "108_9896_1715084685.svg"
+            },
+            {
+              "course_id": 109,
+              "course_name": "Web Design",
+              "category_id": 13,
+              "category_name": "Professional Skills Mastery",
+              "course_image": "109_2182_1715084697.svg"
+            },
+            {
+              "course_id": 110,
+              "course_name": "Adobe Photoshop",
+              "category_id": 13,
+              "category_name": "Professional Skills Mastery",
+              "course_image": "110_8430_1715084715.svg"
+            },
+            {
+              "course_id": 111,
+              "course_name": "Adobe Illustrator",
+              "category_id": 13,
+              "category_name": "Professional Skills Mastery",
+              "course_image": "111_8922_1720606183.png"
+            },
+            {
+              "course_id": 138,
+              "course_name": "Content Writing",
+              "category_id": 13,
+              "category_name": "Professional Skills Mastery",
+              "course_image": "138_9976_1715083031.svg"
+            },
+            {
+              "course_id": 141,
+              "course_name": "Script Writing",
+              "category_id": 13,
+              "category_name": "Professional Skills Mastery",
+              "course_image": "141_9727_1715083086.svg"
+            },
+            {
+              "course_id": 162,
+              "course_name": "Basic Computer Operating",
+              "category_id": 13,
+              "category_name": "Professional Skills Mastery",
+              "course_image": "162_2542_1715082060.svg"
+            },
+            {
+              "course_id": 198,
+              "course_name": "SEO",
+              "category_id": 13,
+              "category_name": "Professional Skills Mastery",
+              "course_image": "198_8613_1738559884.svg"
+            },
+            {
+              "course_id": 200,
+              "course_name": "Video Editing",
+              "category_id": 13,
+              "category_name": "Professional Skills Mastery",
+              "course_image": "200_3033_1738559909.svg"
+            },
+            {
+              "course_id": 206,
+              "course_name": "Graphic Design",
+              "category_id": 13,
+              "category_name": "Professional Skills Mastery",
+              "course_image": null
+            },
+            {
+              "course_id": 207,
+              "course_name": "Graphic Design",
+              "category_id": 13,
+              "category_name": "Professional Skills Mastery",
+              "course_image": null
+            }
+          ]
+        },
+        "exception": null
+      }
+    },
+    {
+      "id": 14,
+      "name": "Graduate Program",
+      "subjects": {
+        "headers": {},
+        "original": {
+          "status": true,
+          "message": "All Course get Successfully!",
+          "data": [
+            {
+              "course_id": 116,
+              "course_name": "BA",
+              "category_id": 14,
+              "category_name": "Graduate Program",
+              "course_image": "116_9378_1715084750.svg"
+            },
+            {
+              "course_id": 117,
+              "course_name": "BBA",
+              "category_id": 14,
+              "category_name": "Graduate Program",
+              "course_image": "117_3421_1715084488.svg"
+            },
+            {
+              "course_id": 118,
+              "course_name": "BSC",
+              "category_id": 14,
+              "category_name": "Graduate Program",
+              "course_image": "118_8767_1715084503.svg"
+            },
+            {
+              "course_id": 119,
+              "course_name": "Degree",
+              "category_id": 14,
+              "category_name": "Graduate Program",
+              "course_image": "119_6132_1715084520.svg"
+            },
+            {
+              "course_id": 120,
+              "course_name": "Diploma Engineering",
+              "category_id": 14,
+              "category_name": "Graduate Program",
+              "course_image": "120_8865_1715084540.svg"
+            },
+            {
+              "course_id": 121,
+              "course_name": "Engineering",
+              "category_id": 14,
+              "category_name": "Graduate Program",
+              "course_image": "121_1754_1715084559.svg"
+            },
+            {
+              "course_id": 122,
+              "course_name": "Medical - MBBS",
+              "category_id": 14,
+              "category_name": "Graduate Program",
+              "course_image": "122_9451_1715084578.svg"
+            },
+            {
+              "course_id": 123,
+              "course_name": "Medical - BDS",
+              "category_id": 14,
+              "category_name": "Graduate Program",
+              "course_image": "123_7356_1715084596.svg"
+            },
+            {
+              "course_id": 127,
+              "course_name": "Law",
+              "category_id": 14,
+              "category_name": "Graduate Program",
+              "course_image": "127_5771_1715084324.svg"
+            },
+            {
+              "course_id": 172,
+              "course_name": "Honours",
+              "category_id": 14,
+              "category_name": "Graduate Program",
+              "course_image": "172_7455_1715081891.svg"
+            },
+            {
+              "course_id": 175,
+              "course_name": "Research Methodology",
+              "category_id": 14,
+              "category_name": "Graduate Program",
+              "course_image": "175_7208_1738559871.svg"
+            },
+            {
+              "course_id": 176,
+              "course_name": "Biotechnology",
+              "category_id": 14,
+              "category_name": "Graduate Program",
+              "course_image": "176_7188_1738559764.svg"
+            }
+          ]
+        },
+        "exception": null
+      }
+    },
+    {
+      "id": 15,
+      "name": "Post-Graduate Program",
+      "subjects": {
+        "headers": {},
+        "original": {
+          "status": true,
+          "message": "All Course get Successfully!",
+          "data": [
+            {
+              "course_id": 124,
+              "course_name": "MSC",
+              "category_id": 15,
+              "category_name": "Post-Graduate Program",
+              "course_image": null
+            },
+            {
+              "course_id": 125,
+              "course_name": "MA",
+              "category_id": 15,
+              "category_name": "Post-Graduate Program",
+              "course_image": null
+            },
+            {
+              "course_id": 126,
+              "course_name": "MBA",
+              "category_id": 15,
+              "category_name": "Post-Graduate Program",
+              "course_image": "126_4162_1715084645.svg"
+            },
+            {
+              "course_id": 163,
+              "course_name": "LLM",
+              "category_id": 15,
+              "category_name": "Post-Graduate Program",
+              "course_image": null
+            }
+          ]
+        },
+        "exception": null
+      }
+    },
+    {
+      "id": 16,
+      "name": "Job Preparation",
+      "subjects": {
+        "headers": {},
+        "original": {
+          "status": true,
+          "message": "All Course get Successfully!",
+          "data": [
+            {
+              "course_id": 130,
+              "course_name": "BCS",
+              "category_id": 16,
+              "category_name": "Job Preparation",
+              "course_image": "130_5044_1715084357.svg"
+            },
+            {
+              "course_id": 155,
+              "course_name": "Bank",
+              "category_id": 16,
+              "category_name": "Job Preparation",
+              "course_image": "155_2655_1715082323.svg"
+            },
+            {
+              "course_id": 156,
+              "course_name": "Primary Teacher",
+              "category_id": 16,
+              "category_name": "Job Preparation",
+              "course_image": "156_6761_1715082337.svg"
+            },
+            {
+              "course_id": 157,
+              "course_name": "Sub: Inspector",
+              "category_id": 16,
+              "category_name": "Job Preparation",
+              "course_image": "157_9520_1715082357.svg"
+            },
+            {
+              "course_id": 158,
+              "course_name": "NTRCA",
+              "category_id": 16,
+              "category_name": "Job Preparation",
+              "course_image": null
+            },
+            {
+              "course_id": 159,
+              "course_name": "Judiciary",
+              "category_id": 16,
+              "category_name": "Job Preparation",
+              "course_image": "159_2262_1738559816.svg"
+            },
+            {
+              "course_id": 160,
+              "course_name": "Bar Council",
+              "category_id": 16,
+              "category_name": "Job Preparation",
+              "course_image": null
+            },
+            {
+              "course_id": 161,
+              "course_name": "Non Cadre",
+              "category_id": 16,
+              "category_name": "Job Preparation",
+              "course_image": null
+            },
+            {
+              "course_id": 177,
+              "course_name": "Office Assistant",
+              "category_id": 16,
+              "category_name": "Job Preparation",
+              "course_image": "177_2381_1738559845.svg"
+            }
+          ]
+        },
+        "exception": null
+      }
+    },
+    {
+      "id": 17,
+      "name": "Official Job Expertness",
+      "subjects": {
+        "headers": {},
+        "original": {
+          "status": true,
+          "message": "All Course get Successfully!",
+          "data": [
+            {
+              "course_id": 131,
+              "course_name": "Desk Job",
+              "category_id": 17,
+              "category_name": "Official Job Expertness",
+              "course_image": "131_3221_1715084371.svg"
+            }
+          ]
+        },
+        "exception": null
+      }
+    },
+    {
+      "id": 18,
+      "name": "Sports",
+      "subjects": {
+        "headers": {},
+        "original": {
+          "status": true,
+          "message": "All Course get Successfully!",
+          "data": [
+            {
+              "course_id": 147,
+              "course_name": "Cricket",
+              "category_id": 18,
+              "category_name": "Sports",
+              "course_image": "147_5787_1715083183.svg"
+            },
+            {
+              "course_id": 148,
+              "course_name": "Football",
+              "category_id": 18,
+              "category_name": "Sports",
+              "course_image": "148_8585_1715082118.svg"
+            },
+            {
+              "course_id": 149,
+              "course_name": "Hockey",
+              "category_id": 18,
+              "category_name": "Sports",
+              "course_image": "149_1460_1715082135.svg"
+            },
+            {
+              "course_id": 150,
+              "course_name": "Chess",
+              "category_id": 18,
+              "category_name": "Sports",
+              "course_image": "150_6845_1715082150.svg"
+            },
+            {
+              "course_id": 151,
+              "course_name": "Table Tennis",
+              "category_id": 18,
+              "category_name": "Sports",
+              "course_image": "151_6670_1715082166.svg"
+            },
+            {
+              "course_id": 152,
+              "course_name": "Golf",
+              "category_id": 18,
+              "category_name": "Sports",
+              "course_image": "152_8204_1715082276.svg"
+            },
+            {
+              "course_id": 153,
+              "course_name": "volleyball",
+              "category_id": 18,
+              "category_name": "Sports",
+              "course_image": "153_2804_1715082290.svg"
+            }
+          ]
+        },
+        "exception": null
+      }
+    },
+    {
+      "id": 19,
+      "name": "Subjects Speciality",
+      "subjects": {
+        "headers": {},
+        "original": {
+          "status": true,
+          "message": "All Course get Successfully!",
+          "data": [
+            {
+              "course_id": 209,
+              "course_name": "Accounting",
+              "category_id": 19,
+              "category_name": "Subjects Speciality",
+              "course_image": "209_1485_1756875814.svg"
+            },
+            {
+              "course_id": 210,
+              "course_name": "Bangla",
+              "category_id": 19,
+              "category_name": "Subjects Speciality",
+              "course_image": "210_8805_1756876013.svg"
+            },
+            {
+              "course_id": 211,
+              "course_name": "Biology",
+              "category_id": 19,
+              "category_name": "Subjects Speciality",
+              "course_image": "211_9608_1756876905.svg"
+            },
+            {
+              "course_id": 212,
+              "course_name": "Chemistry",
+              "category_id": 19,
+              "category_name": "Subjects Speciality",
+              "course_image": "212_8725_1756876943.svg"
+            },
+            {
+              "course_id": 213,
+              "course_name": "English",
+              "category_id": 19,
+              "category_name": "Subjects Speciality",
+              "course_image": "213_5727_1756877016.svg"
+            },
+            {
+              "course_id": 214,
+              "course_name": "Finance & Banking",
+              "category_id": 19,
+              "category_name": "Subjects Speciality",
+              "course_image": "214_8911_1756877074.svg"
+            },
+            {
+              "course_id": 215,
+              "course_name": "Higher Mathematics",
+              "category_id": 19,
+              "category_name": "Subjects Speciality",
+              "course_image": "215_3237_1756877354.svg"
+            },
+            {
+              "course_id": 216,
+              "course_name": "Information & Technology",
+              "category_id": 19,
+              "category_name": "Subjects Speciality",
+              "course_image": "216_3223_1756877421.svg"
+            },
+            {
+              "course_id": 218,
+              "course_name": "Mathematics",
+              "category_id": 19,
+              "category_name": "Subjects Speciality",
+              "course_image": "218_2609_1756877631.svg"
+            },
+            {
+              "course_id": 219,
+              "course_name": "Physics",
+              "category_id": 19,
+              "category_name": "Subjects Speciality",
+              "course_image": "219_1830_1756877667.svg"
+            }
+          ]
+        },
+        "exception": null
+      }
+    }
+  ]
+}

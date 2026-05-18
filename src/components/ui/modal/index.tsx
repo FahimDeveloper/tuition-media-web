@@ -1,4 +1,4 @@
-import {useEffect, useRef} from 'react';
+import { useEffect, useRef } from "react";
 
 interface ModalProps {
   isOpen: boolean;
@@ -21,55 +21,55 @@ export const Modal: React.FC<ModalProps> = ({
 
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
+      if (event.key === "Escape") {
         onClose();
       }
     };
 
     if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
+      document.addEventListener("keydown", handleEscape);
     }
 
     return () => {
-      document.removeEventListener('keydown', handleEscape);
+      document.removeEventListener("keydown", handleEscape);
     };
   }, [isOpen, onClose]);
 
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     }
 
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     };
   }, [isOpen]);
 
   if (!isOpen) return null;
 
   const contentClasses = isFullscreen
-    ? 'h-full w-full'
-    : 'relative w-full rounded-3xl border border-border bg-surface-elevated shadow-theme-xl';
+    ? "h-full w-full"
+    : "relative w-full rounded-3xl border border-border bg-surface-elevated shadow-theme-xl";
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center overflow-y-auto modal z-999">
+    <div className="modal fixed inset-0 z-999 flex items-center justify-center overflow-y-auto">
       {!isFullscreen && (
         <div
-          className="fixed inset-0 h-full w-full bg-overlay-strong/90 backdrop-blur-[2px]"
+          className="bg-overlay-strong/90 fixed inset-0 h-full w-full backdrop-blur-[2px]"
           onClick={onClose}
         ></div>
       )}
       <div
         ref={modalRef}
-        className={`${contentClasses}  ${className}`}
+        className={`${contentClasses} ${className}`}
         onClick={(e) => e.stopPropagation()}
       >
         {showCloseButton && (
           <button
             onClick={onClose}
-            className="tm-icon-button absolute right-3 top-3 z-999 flex h-9.5 w-9.5 sm:right-6 sm:top-6 sm:h-11 sm:w-11"
+            className="tm-icon-button absolute top-3 right-3 z-999 flex h-9.5 w-9.5 sm:top-6 sm:right-6 sm:h-11 sm:w-11"
           >
             <svg
               width="24"

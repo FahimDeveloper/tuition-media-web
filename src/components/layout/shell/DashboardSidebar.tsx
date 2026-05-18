@@ -1,20 +1,20 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 
-import {useEffect, useRef, useState} from 'react';
-import {Link, useLocation} from 'react-router-dom';
-import BrandLogo from '@/components/common/BrandLogo';
-import {ChevronDownIcon} from '@/icons';
-import {useSidebar} from '@/context/dashboard/SidebarContext';
-import {tutorPath} from '@/routers/tutor.routes';
-import type {TSidebarNavItem} from '@/types/path';
-import {navigationGenerator} from '@/utils/navigationGenerator';
+import { useEffect, useRef, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import BrandLogo from "@/components/common/BrandLogo";
+import { ChevronDownIcon } from "@/icons";
+import { useSidebar } from "@/context/dashboard/SidebarContext";
+import { tutorPath } from "@/routers/tutor.routes";
+import type { TSidebarNavItem } from "@/types/path";
+import { navigationGenerator } from "@/utils/navigationGenerator";
 
 // The sidebar reads directly from the shared tutor route config so menu items
 // and `/tutor/*` routes stay aligned.
-const navItems: TSidebarNavItem[] = navigationGenerator(tutorPath, 'tutor');
+const navItems: TSidebarNavItem[] = navigationGenerator(tutorPath, "tutor");
 
 const AppSidebar: React.FC = () => {
-  const {isExpanded, isMobileOpen, isHovered, setIsHovered} = useSidebar();
+  const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const location = useLocation();
 
   const [openSubmenu, setOpenSubmenu] = useState<number | null>(null);
@@ -65,19 +65,19 @@ const AppSidebar: React.FC = () => {
               onClick={() => handleSubmenuToggle(index)}
               className={`menu-item group ${
                 openSubmenu === index
-                  ? 'menu-item-active'
-                  : 'menu-item-inactive'
+                  ? "menu-item-active"
+                  : "menu-item-inactive"
               } cursor-pointer ${
                 !isExpanded && !isHovered
-                  ? 'lg:justify-center'
-                  : 'lg:justify-start'
+                  ? "lg:justify-center"
+                  : "lg:justify-start"
               }`}
             >
               <span
-                className={`menu-item-icon-size  ${
+                className={`menu-item-icon-size ${
                   openSubmenu === index
-                    ? 'menu-item-icon-active'
-                    : 'menu-item-icon-inactive'
+                    ? "menu-item-icon-active"
+                    : "menu-item-icon-inactive"
                 }`}
               >
                 {nav.icon ? <nav.icon /> : null}
@@ -87,8 +87,8 @@ const AppSidebar: React.FC = () => {
               )}
               {(isExpanded || isHovered || isMobileOpen) && (
                 <ChevronDownIcon
-                  className={`ml-auto w-5 h-5 transition-transform duration-200 ${
-                    openSubmenu === index ? 'rotate-180 text-brand-500' : ''
+                  className={`ml-auto h-5 w-5 transition-transform duration-200 ${
+                    openSubmenu === index ? "text-brand-500 rotate-180" : ""
                   }`}
                 />
               )}
@@ -98,14 +98,14 @@ const AppSidebar: React.FC = () => {
               <Link
                 to={nav.path}
                 className={`menu-item group ${
-                  isActive(nav.path) ? 'menu-item-active' : 'menu-item-inactive'
+                  isActive(nav.path) ? "menu-item-active" : "menu-item-inactive"
                 }`}
               >
                 <span
                   className={`menu-item-icon-size ${
                     isActive(nav.path)
-                      ? 'menu-item-icon-active'
-                      : 'menu-item-icon-inactive'
+                      ? "menu-item-icon-active"
+                      : "menu-item-icon-inactive"
                   }`}
                 >
                   {nav.icon ? <nav.icon /> : null}
@@ -126,28 +126,28 @@ const AppSidebar: React.FC = () => {
                 height:
                   openSubmenu === index
                     ? `${subMenuHeight[index] || 0}px`
-                    : '0px',
+                    : "0px",
               }}
             >
-              <ul className="mt-2 space-y-1 ml-9">
+              <ul className="mt-2 ml-9 space-y-1">
                 {nav.subItems.map((subItem) => (
                   <li key={subItem.name}>
                     <Link
                       to={subItem.path}
                       className={`menu-dropdown-item ${
                         isActive(subItem.path)
-                          ? 'menu-dropdown-item-active'
-                          : 'menu-dropdown-item-inactive'
+                          ? "menu-dropdown-item-active"
+                          : "menu-dropdown-item-inactive"
                       }`}
                     >
                       {subItem.name}
-                      <span className="flex items-center gap-1 ml-auto">
+                      <span className="ml-auto flex items-center gap-1">
                         {subItem.new && (
                           <span
                             className={`ml-auto ${
                               isActive(subItem.path)
-                                ? 'menu-dropdown-badge-active'
-                                : 'menu-dropdown-badge-inactive'
+                                ? "menu-dropdown-badge-active"
+                                : "menu-dropdown-badge-inactive"
                             } menu-dropdown-badge`}
                           >
                             new
@@ -157,8 +157,8 @@ const AppSidebar: React.FC = () => {
                           <span
                             className={`ml-auto ${
                               isActive(subItem.path)
-                                ? 'menu-dropdown-badge-active'
-                                : 'menu-dropdown-badge-inactive'
+                                ? "menu-dropdown-badge-active"
+                                : "menu-dropdown-badge-inactive"
                             } menu-dropdown-badge`}
                           >
                             pro
@@ -178,28 +178,21 @@ const AppSidebar: React.FC = () => {
 
   return (
     <aside
-      className={`fixed top-0 left-0 z-50 mt-16 flex h-screen flex-col border-r border-border bg-surface-elevated px-5 text-text-strong transition-all duration-300 ease-in-out lg:mt-0 
-        ${
-          isExpanded || isMobileOpen
-            ? 'w-72.5'
-            : isHovered
-              ? 'w-72.5'
-              : 'w-22.5'
-        }
-        ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}
-        lg:translate-x-0`}
+      className={`border-border bg-surface-elevated text-text-strong fixed top-0 left-0 z-50 mt-16 flex h-screen flex-col border-r px-5 transition-all duration-300 ease-in-out lg:mt-0 ${
+        isExpanded || isMobileOpen ? "w-72.5" : isHovered ? "w-72.5" : "w-22.5"
+      } ${isMobileOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}
       onMouseEnter={() => !isExpanded && setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
-        className={`py-8 flex ${
-          !isExpanded && !isHovered ? 'lg:justify-center' : 'justify-start'
+        className={`flex py-8 ${
+          !isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
         }`}
       >
         <Link
           to="/"
           aria-label="TutoriumBD home"
-          className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+          className="focus-visible:ring-brand-400 rounded-lg focus-visible:ring-2 focus-visible:outline-none"
         >
           {isExpanded || isHovered || isMobileOpen ? (
             <BrandLogo imgClassName="h-10 w-auto" width={150} height={40} />
@@ -213,7 +206,7 @@ const AppSidebar: React.FC = () => {
           )}
         </Link>
       </div>
-      <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
+      <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
         <nav className="mb-6">
           <div className="flex flex-col gap-4">
             <div>{renderMenuItems()}</div>

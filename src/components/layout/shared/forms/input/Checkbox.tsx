@@ -1,4 +1,4 @@
-import type React from 'react';
+import type React from "react";
 
 interface CheckboxProps {
   label?: string;
@@ -14,27 +14,27 @@ const Checkbox: React.FC<CheckboxProps> = ({
   checked,
   id,
   onChange,
-  className = '',
+  className = "",
   disabled = false,
 }) => {
   return (
     <label
       className={`group flex items-center space-x-3 ${
-        disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'
+        disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer"
       }`}
     >
       <div className="relative h-5 w-5">
         <input
           id={id}
           type="checkbox"
-          className={`h-5 w-5 appearance-none rounded-md border border-border checked:border-transparent checked:bg-brand-500 disabled:opacity-60 ${className}`}
+          className={`border-border checked:bg-brand-500 h-5 w-5 appearance-none rounded-md border checked:border-transparent disabled:opacity-60 ${className}`}
           checked={checked}
           onChange={(e) => onChange(e.target.checked)}
           disabled={disabled}
         />
         {checked ? (
           <svg
-            className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform"
+            className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform"
             xmlns="http://www.w3.org/2000/svg"
             width="14"
             height="14"
@@ -52,7 +52,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
         ) : null}
         {disabled ? (
           <svg
-            className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform"
+            className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform"
             xmlns="http://www.w3.org/2000/svg"
             width="14"
             height="14"
@@ -69,7 +69,9 @@ const Checkbox: React.FC<CheckboxProps> = ({
           </svg>
         ) : null}
       </div>
-      {label ? <span className="text-sm font-medium text-text-strong">{label}</span> : null}
+      {label ? (
+        <span className="text-text-strong text-sm font-medium">{label}</span>
+      ) : null}
     </label>
   );
 };

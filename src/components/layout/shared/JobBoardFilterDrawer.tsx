@@ -1,14 +1,24 @@
-import {useMemo, useState} from 'react';
-import type {ReactNode} from 'react';
+import { useMemo, useState } from "react";
+import type { ReactNode } from "react";
 import {
   BookOutlined,
   CalendarOutlined,
   EnvironmentOutlined,
   FilterOutlined,
   ReloadOutlined,
-} from '@ant-design/icons';
-import {Button, Col, DatePicker, Drawer, Form, Input, Row, Select, Space} from 'antd';
-import {FiSliders} from 'react-icons/fi';
+} from "@ant-design/icons";
+import {
+  Button,
+  Col,
+  DatePicker,
+  Drawer,
+  Form,
+  Input,
+  Row,
+  Select,
+  Space,
+} from "antd";
+import { FiSliders } from "react-icons/fi";
 
 type FilterDateValue = unknown;
 
@@ -24,46 +34,46 @@ type FilterFormValues = {
 };
 
 const categoryOptions = [
-  {label: 'School', value: 'school'},
-  {label: 'College', value: 'college'},
-  {label: 'University', value: 'university'},
-  {label: 'Admission Test', value: 'admission-test'},
-  {label: 'Language Learning', value: 'language-learning'},
-  {label: 'Skill Development', value: 'skill-development'},
+  { label: "School", value: "school" },
+  { label: "College", value: "college" },
+  { label: "University", value: "university" },
+  { label: "Admission Test", value: "admission-test" },
+  { label: "Language Learning", value: "language-learning" },
+  { label: "Skill Development", value: "skill-development" },
 ];
 
 const subjectOptions = [
-  {label: 'Mathematics', value: 'mathematics'},
-  {label: 'English', value: 'english'},
-  {label: 'Physics', value: 'physics'},
-  {label: 'Chemistry', value: 'chemistry'},
-  {label: 'Biology', value: 'biology'},
-  {label: 'Bangla', value: 'bangla'},
-  {label: 'ICT', value: 'ict'},
-  {label: 'Accounting', value: 'accounting'},
-  {label: 'Economics', value: 'economics'},
+  { label: "Mathematics", value: "mathematics" },
+  { label: "English", value: "english" },
+  { label: "Physics", value: "physics" },
+  { label: "Chemistry", value: "chemistry" },
+  { label: "Biology", value: "biology" },
+  { label: "Bangla", value: "bangla" },
+  { label: "ICT", value: "ict" },
+  { label: "Accounting", value: "accounting" },
+  { label: "Economics", value: "economics" },
 ];
 
 const countryOptions = [
-  {label: 'Bangladesh', value: 'bangladesh'},
-  {label: 'India', value: 'india'},
-  {label: 'Pakistan', value: 'pakistan'},
-  {label: 'Nepal', value: 'nepal'},
+  { label: "Bangladesh", value: "bangladesh" },
+  { label: "India", value: "india" },
+  { label: "Pakistan", value: "pakistan" },
+  { label: "Nepal", value: "nepal" },
 ];
 
 const drawerBodyStyles = {
   padding: 0,
-  background: 'var(--color-surface-muted)',
-  display: 'flex',
-  flexDirection: 'column' as const,
-  height: '100%',
+  background: "var(--color-surface-muted)",
+  display: "flex",
+  flexDirection: "column" as const,
+  height: "100%",
 };
 
 const formItemClassName =
-  '[&_.ant-form-item-label>label]:text-xs [&_.ant-form-item-label>label]:font-semibold [&_.ant-form-item-label>label]:uppercase [&_.ant-form-item-label>label]:tracking-[0.12em] [&_.ant-form-item-label>label]:text-text-muted [&_.ant-form-item]:mb-0';
+  "[&_.ant-form-item-label>label]:text-xs [&_.ant-form-item-label>label]:font-semibold [&_.ant-form-item-label>label]:uppercase [&_.ant-form-item-label>label]:tracking-[0.12em] [&_.ant-form-item-label>label]:text-text-muted [&_.ant-form-item]:mb-0";
 
 const controlClassName =
-  'h-11 rounded-lg border-border bg-surface-elevated text-text-strong shadow-theme-xs placeholder:text-text-soft hover:border-brand-300 focus-within:border-brand-300 focus-within:ring-3 focus-within:ring-brand-500/10';
+  "h-11 rounded-lg border-border bg-surface-elevated text-text-strong shadow-theme-xs placeholder:text-text-soft hover:border-brand-300 focus-within:border-brand-300 focus-within:ring-3 focus-within:ring-brand-500/10";
 
 type DrawerSectionProps = {
   icon: ReactNode;
@@ -71,15 +81,15 @@ type DrawerSectionProps = {
   children: ReactNode;
 };
 
-function DrawerSection({icon, title, children}: DrawerSectionProps) {
+function DrawerSection({ icon, title, children }: DrawerSectionProps) {
   return (
-    <section className="rounded-2xl border border-border bg-surface-elevated p-4 shadow-theme-sm">
+    <section className="border-border bg-surface-elevated shadow-theme-sm rounded-2xl border p-4">
       <div className="mb-4 flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-300">
+        <div className="bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-300 flex h-10 w-10 items-center justify-center rounded-xl">
           {icon}
         </div>
         <div>
-          <h3 className="text-sm font-semibold text-text-strong">{title}</h3>
+          <h3 className="text-text-strong text-sm font-semibold">{title}</h3>
         </div>
       </div>
       <div className="space-y-4">{children}</div>
@@ -92,7 +102,7 @@ export default function JobBoardFilterDrawer() {
   const [form] = Form.useForm<FilterFormValues>();
 
   const drawerWidth = useMemo(() => {
-    if (typeof window === 'undefined') {
+    if (typeof window === "undefined") {
       return 440;
     }
 
@@ -100,14 +110,14 @@ export default function JobBoardFilterDrawer() {
     if (window.innerWidth >= 1280) return 460;
     if (window.innerWidth >= 1024) return 430;
     if (window.innerWidth >= 768) return 400;
-    if (window.innerWidth >= 640) return '88vw';
-    return '100vw';
+    if (window.innerWidth >= 640) return "88vw";
+    return "100vw";
   }, []);
 
   const onClose = () => setOpen(false);
 
   const onFinish = (values: FilterFormValues) => {
-    console.log('Applied filters:', values);
+    console.log("Applied filters:", values);
     setOpen(false);
   };
 
@@ -121,7 +131,7 @@ export default function JobBoardFilterDrawer() {
         icon={<FiSliders />}
         size="large"
         onClick={() => setOpen(true)}
-        className="h-11 rounded-lg border-border bg-surface-elevated px-4 text-sm font-medium text-text-strong shadow-theme-xs hover:!border-brand-300 hover:!bg-brand-50/60"
+        className="border-border bg-surface-elevated text-text-strong shadow-theme-xs hover:!border-brand-300 hover:!bg-brand-50/60 h-11 rounded-lg px-4 text-sm font-medium"
       >
         Filters
       </Button>
@@ -133,20 +143,20 @@ export default function JobBoardFilterDrawer() {
         width={drawerWidth}
         destroyOnHidden
         title={null}
-        styles={{body: drawerBodyStyles}}
+        styles={{ body: drawerBodyStyles }}
       >
         <div className="flex h-full flex-col">
-          <div className="border-b border-border bg-surface-elevated px-5 py-4 sm:px-6">
+          <div className="border-border bg-surface-elevated border-b px-5 py-4 sm:px-6">
             <div className="flex items-start justify-between gap-4">
               <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-300">
-                  <FilterOutlined style={{fontSize: 18}} />
+                <div className="bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-300 flex h-11 w-11 items-center justify-center rounded-xl">
+                  <FilterOutlined style={{ fontSize: 18 }} />
                 </div>
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-text-muted">
+                  <p className="text-text-muted text-xs font-semibold tracking-[0.14em] uppercase">
                     Job board filters
                   </p>
-                  <h2 className="mt-1 text-lg font-semibold text-text-strong">
+                  <h2 className="text-text-strong mt-1 text-lg font-semibold">
                     Refine tuition jobs
                   </h2>
                 </div>
@@ -165,7 +175,7 @@ export default function JobBoardFilterDrawer() {
               className="space-y-4"
             >
               <DrawerSection
-                icon={<CalendarOutlined style={{fontSize: 18}} />}
+                icon={<CalendarOutlined style={{ fontSize: 18 }} />}
                 title="Posted date"
               >
                 <Row gutter={[12, 12]}>
@@ -200,7 +210,7 @@ export default function JobBoardFilterDrawer() {
               </DrawerSection>
 
               <DrawerSection
-                icon={<EnvironmentOutlined style={{fontSize: 18}} />}
+                icon={<EnvironmentOutlined style={{ fontSize: 18 }} />}
                 title="Location"
               >
                 <Row gutter={[12, 12]}>
@@ -222,7 +232,11 @@ export default function JobBoardFilterDrawer() {
                   </Col>
 
                   <Col xs={24} sm={12}>
-                    <Form.Item label="City" name="city" className={formItemClassName}>
+                    <Form.Item
+                      label="City"
+                      name="city"
+                      className={formItemClassName}
+                    >
                       <Input
                         placeholder="Enter city"
                         className={controlClassName}
@@ -246,7 +260,7 @@ export default function JobBoardFilterDrawer() {
               </DrawerSection>
 
               <DrawerSection
-                icon={<BookOutlined style={{fontSize: 18}} />}
+                icon={<BookOutlined style={{ fontSize: 18 }} />}
                 title="Academic details"
               >
                 <Row gutter={[12, 12]}>
@@ -300,7 +314,7 @@ export default function JobBoardFilterDrawer() {
             </Form>
           </div>
 
-          <div className="border-t border-border bg-surface-elevated px-4 py-4 sm:px-5">
+          <div className="border-border bg-surface-elevated border-t px-4 py-4 sm:px-5">
             <Space size="middle" wrap className="flex w-full justify-end">
               <Button icon={<ReloadOutlined />} size="large" onClick={onReset}>
                 Reset

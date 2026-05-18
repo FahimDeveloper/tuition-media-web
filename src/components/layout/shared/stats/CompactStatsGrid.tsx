@@ -1,5 +1,5 @@
-import {useEffect, useRef, useState} from 'react';
-import type {IconType} from 'react-icons';
+import { useEffect, useRef, useState } from "react";
+import type { IconType } from "react-icons";
 
 export type CompactStatItem = {
   label: string;
@@ -35,9 +35,9 @@ const getColumnCount = (width: number) => {
 };
 
 const cardBaseClassName =
-  'flex h-full min-h-[112px] flex-col justify-center rounded-2xl border border-border bg-surface-elevated p-4 shadow-theme-sm sm:min-h-[120px] sm:p-5 lg:min-h-[118px]';
+  "flex h-full min-h-[112px] flex-col justify-center rounded-2xl border border-border bg-surface-elevated p-4 shadow-theme-sm sm:min-h-[120px] sm:p-5 lg:min-h-[118px]";
 
-function CompactStatsCard({item}: {item: CompactStatItem}) {
+function CompactStatsCard({ item }: { item: CompactStatItem }) {
   const Icon = item.icon;
 
   return (
@@ -52,10 +52,10 @@ function CompactStatsCard({item}: {item: CompactStatItem}) {
         </div>
 
         <div className="min-w-0 flex-1">
-          <p className="text-2xl font-semibold leading-none text-text-strong sm:text-3xl lg:text-[1.75rem]">
+          <p className="text-text-strong text-2xl leading-none font-semibold sm:text-3xl lg:text-[1.75rem]">
             {item.value}
           </p>
-          <p className="mt-2 text-sm font-medium leading-5 text-text-muted sm:text-theme-sm sm:leading-6">
+          <p className="text-text-muted sm:text-theme-sm mt-2 text-sm leading-5 font-medium sm:leading-6">
             {item.label}
           </p>
         </div>
@@ -67,7 +67,7 @@ function CompactStatsCard({item}: {item: CompactStatItem}) {
 export default function CompactStatsGrid({
   items,
   ariaLabel,
-  className = '',
+  className = "",
 }: CompactStatsGridProps) {
   const sectionRef = useRef<HTMLElement | null>(null);
   const [containerWidth, setContainerWidth] = useState(0);
@@ -85,7 +85,7 @@ export default function CompactStatsGrid({
 
     updateWidth();
 
-    if (typeof ResizeObserver === 'undefined') {
+    if (typeof ResizeObserver === "undefined") {
       return undefined;
     }
 
@@ -107,7 +107,7 @@ export default function CompactStatsGrid({
       ref={sectionRef}
       aria-label={ariaLabel}
       className={`grid gap-4 md:gap-5 xl:gap-4 ${className}`.trim()}
-      style={{gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`}}
+      style={{ gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))` }}
     >
       {items.map((item) => (
         <CompactStatsCard key={item.label} item={item} />

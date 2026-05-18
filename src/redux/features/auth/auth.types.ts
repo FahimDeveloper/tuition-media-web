@@ -1,4 +1,4 @@
-export type AuthGender = 'male' | 'female' | 'other';
+export type AuthGender = "male" | "female" | "other";
 
 export type AuthUser = {
   _id: string;
@@ -44,12 +44,8 @@ export type LoginPayload = {
 };
 
 export type RegistrationPayload = {
-  first_name: string;
-  last_name: string;
+  full_name: string;
   phone: string;
   email: string;
-  gender: AuthGender;
-  city: string;
-  location: string;
   password: string;
 };

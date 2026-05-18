@@ -1,12 +1,12 @@
-import {Spin} from 'antd';
-import {Suspense, type JSX} from 'react';
+import { Spin } from "antd";
+import { Suspense, type JSX } from "react";
 
 const LazyLoad = (Component: React.FC) => (props: JSX.IntrinsicAttributes) => {
   return (
     <Suspense
       fallback={
-        <div className="h-screen w-full flex justify-center items-center">
-          <Spin className="size-8 text-primary" />
+        <div className="flex h-screen w-full items-center justify-center">
+          <Spin className="text-primary size-8" />
         </div>
       }
     >

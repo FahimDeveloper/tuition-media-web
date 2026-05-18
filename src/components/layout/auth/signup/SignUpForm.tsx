@@ -3,42 +3,30 @@ import {
   MailOutlined,
   PhoneOutlined,
   UserOutlined,
-} from '@ant-design/icons';
-import {Alert, Button, Form, Input, Select} from 'antd';
-import type {FormInstance, FormProps} from 'antd';
-import {type KeyboardEvent, useState} from 'react';
-import {Link, useNavigate} from 'react-router-dom';
-import {ChevronLeftIcon} from '@/icons';
-import {useAppDispatch} from '@/hooks/useAppHooks';
-import {useRegistrationMutation} from '@/redux/features/auth/authApi';
-import {loggedInUser} from '@/redux/features/auth/authSlice';
-import type {
-  AuthGender,
-  RegistrationPayload,
-} from '@/redux/features/auth/auth.types';
+} from "@ant-design/icons";
+
+import { Alert, Button, Form, Input } from "antd";
+import type { FormInstance, FormProps } from "antd";
+import { type KeyboardEvent, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+import { ChevronLeftIcon } from "@/icons";
+import { useAppDispatch } from "@/hooks/useAppHooks";
+import { useRegistrationMutation } from "@/redux/features/auth/authApi";
+import { loggedInUser } from "@/redux/features/auth/authSlice";
+import type { RegistrationPayload } from "@/redux/features/auth/auth.types";
+
 import {
   authFormClasses,
   authInputClasses,
   authLinkClasses,
   authPrimaryButtonClasses,
-  authSelectClasses,
-} from '../formStyles';
-import {
-  GENDER_OPTIONS,
-  getLocationOptionsForCity,
-  isCityName,
-  isLocationForCity,
-  SIGNUP_CITY_OPTIONS,
-} from './options';
+} from "../formStyles";
 
 type SignupFormValues = {
-  first_name: string;
-  last_name: string;
-  phone: string;
+  full_name: string;
   email: string;
-  gender?: AuthGender;
-  city?: string;
-  location?: string;
+  phone: string;
   password: string;
   confirmPassword: string;
 };
@@ -63,50 +51,40 @@ const SIGNUP_LIMITS = {
 } as const;
 
 const SIGNUP_COPY = {
-  title: 'Sign Up',
-  description: 'Enter your information to create your teacher account.',
-  phoneHint: 'Use a Bangladeshi mobile number.',
-  genderPlaceholder: 'Select gender',
-  cityPlaceholder: 'Select city',
-  locationPlaceholder: 'Select location',
-  locationDisabledPlaceholder: 'Select a city first',
-  passwordHint: '',
-  capsLockWarning: 'Caps Lock is on.',
-  submit: 'Sign Up',
-  submitting: 'Creating account...',
-  noCityMatch: 'No matching city found.',
-  noLocationMatch: 'No matching location found.',
-  genericError: 'Something went wrong. Please try again.',
+  title: "Sign Up",
+  description: "Enter your information to create your teacher account.",
+  phoneHint:
+    "Use a Bangladeshi mobile number, for example 01XXXXXXXXX or +8801XXXXXXXXX.",
+  passwordHint: "",
+  capsLockWarning: "Caps Lock is on.",
+  submit: "Sign Up",
+  submitting: "Creating account...",
+  genericError: "Something went wrong. Please try again.",
 } as const;
 
 const SIGNUP_MESSAGES = {
-  firstNameRequired: 'Please enter your first name.',
-  firstNameTooShort: 'First name must be at least 2 characters.',
-  firstNameTooLong: 'First name is too long.',
-  firstNameInvalid:
-    'Use letters and common name characters only, such as spaces, dots, apostrophes, or hyphens.',
-  lastNameRequired: 'Please enter your last name.',
-  lastNameTooShort: 'Last name must be at least 2 characters.',
-  lastNameTooLong: 'Last name is too long.',
-  lastNameInvalid:
-    'Use letters and common name characters only, such as spaces, dots, apostrophes, or hyphens.',
-  phoneRequired: 'Please enter your phone number.',
-  phoneInvalid: 'Enter a valid Bangladeshi mobile number.',
-  emailRequired: 'Please enter your email.',
-  emailInvalid: 'Please enter a valid email address.',
-  emailSpaces: 'Email cannot contain spaces.',
-  emailTooLong: 'Email is too long.',
-  genderRequired: 'Please select your gender.',
-  cityRequired: 'Please select your city.',
-  locationRequired: 'Please select your location.',
-  locationInvalid: 'Please choose a valid location for the selected city.',
-  passwordRequired: 'Please create a password.',
-  passwordTooShort: 'Password must be at least 8 characters.',
-  passwordTooLong: 'Password is too long.',
+  fullNameRequired: "Please enter your full name.",
+  fullNameTooShort: "Full name must be at least 2 characters.",
+  fullNameTooLong: "Full name is too long.",
+  fullNameInvalid:
+    "Use letters and common name characters only, such as spaces, dots, apostrophes, or hyphens.",
+
+  emailRequired: "Please enter your email.",
+  emailInvalid: "Please enter a valid email address.",
+  emailSpaces: "Email cannot contain spaces.",
+  emailTooLong: "Email is too long.",
+
+  phoneRequired: "Please enter your phone number.",
+  phoneInvalid: "Enter a valid Bangladeshi mobile number.",
+
+  passwordRequired: "Please create a password.",
+  passwordTooShort: "Password must be at least 8 characters.",
+  passwordTooLong: "Password is too long.",
   passwordNeedsLetterAndNumber:
-    'Password must include at least one letter and one number.',
-  confirmPasswordRequired: 'Please confirm your password.',
-  confirmPasswordMismatch: 'Passwords do not match.',
+    "Password must include at least one letter and one number.",
+
+  confirmPasswordRequired: "Please confirm your password.",
+  confirmPasswordMismatch: "Passwords do not match.",
 } as const;
 
 const NAME_PATTERN = /^(?=.*\p{L})[\p{L} .'-]+$/u;
@@ -115,63 +93,69 @@ const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d).+$/;
 const BANGLADESHI_PHONE_PATTERN = /^(?:\+8801\d{9}|01\d{9})$/;
 
 const DEFAULT_VALUES: SignupFormValues = {
-  first_name: '',
-  last_name: '',
-  phone: '',
-  email: '',
-  gender: undefined,
-  city: undefined,
-  location: undefined,
-  password: '',
-  confirmPassword: '',
+  full_name: "",
+  email: "",
+  phone: "",
+  password: "",
+  confirmPassword: "",
 };
 
 const SERVER_FIELD_NAME_MAP: Partial<Record<string, keyof SignupFormValues>> = {
-  first_name: 'first_name',
-  firstName: 'first_name',
-  last_name: 'last_name',
-  lastName: 'last_name',
-  phone: 'phone',
-  email: 'email',
-  gender: 'gender',
-  city: 'city',
-  location: 'location',
-  password: 'password',
-  confirmPassword: 'confirmPassword',
-  confirm_password: 'confirmPassword',
+  full_name: "full_name",
+  fullName: "full_name",
+  fullname: "full_name",
+  name: "full_name",
+  email: "email",
+  phone: "phone",
+  phone_number: "phone",
+  password: "password",
+  confirmPassword: "confirmPassword",
+  confirm_password: "confirmPassword",
 };
 
 const normalizeWhitespace = (value: string) =>
-  value.trim().replace(/\s+/g, ' ');
+  value.trim().replace(/\s+/g, " ");
 
 const normalizeName = (value: unknown) =>
-  typeof value === 'string' ? normalizeWhitespace(value) : '';
+  typeof value === "string" ? normalizeWhitespace(value) : "";
+
+const normalizeNameInput = (value: unknown) =>
+  typeof value === "string" ? value.replace(/\s{2,}/g, " ") : "";
 
 const normalizeEmail = (value: unknown) =>
-  typeof value === 'string' ? value.trim().toLowerCase() : '';
+  typeof value === "string" ? value.trim().toLowerCase() : "";
 
 const sanitizePhoneInput = (value: unknown) =>
-  typeof value === 'string' ? value.replace(/[^\d+\s()-]/g, '') : '';
+  typeof value === "string" ? value.replace(/[^\d+\s()-]/g, "") : "";
 
 const stripPhoneFormatting = (value: string) =>
-  value.replace(/[()\s-]/g, '').trim();
+  value.replace(/[()\s-]/g, "").trim();
 
 const normalizePhoneNumber = (value: string) => {
   const cleaned = stripPhoneFormatting(value);
-  return cleaned.startsWith('01') ? `+88${cleaned}` : cleaned;
+
+  /**
+   * User can type:
+   * - 01XXXXXXXXX
+   * - +8801XXXXXXXXX
+   *
+   * API will receive phone in international format:
+   * - +8801XXXXXXXXX
+   */
+  return cleaned.startsWith("01") ? `+88${cleaned}` : cleaned;
 };
 
 const isValidBangladeshiPhone = (value: string) =>
   BANGLADESHI_PHONE_PATTERN.test(stripPhoneFormatting(value));
 
 const isCapsLockActive = (event: KeyboardEvent<HTMLInputElement>) =>
-  Boolean(event.getModifierState?.('CapsLock'));
+  Boolean(event.getModifierState?.("CapsLock"));
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
-  typeof value === 'object' && value !== null;
+  typeof value === "object" && value !== null;
 
 const getApiErrorPayload = (error: unknown): ApiErrorPayload | null => {
-  if (!isRecord(error) || !('data' in error) || !isRecord(error.data)) {
+  if (!isRecord(error) || !("data" in error) || !isRecord(error.data)) {
     return null;
   }
 
@@ -181,11 +165,11 @@ const getApiErrorPayload = (error: unknown): ApiErrorPayload | null => {
 const getApiErrorMessage = (error: unknown) => {
   const payload = getApiErrorPayload(error);
 
-  if (typeof payload?.message === 'string' && payload.message.trim()) {
+  if (typeof payload?.message === "string" && payload.message.trim()) {
     return payload.message;
   }
 
-  if (isRecord(error) && typeof error.message === 'string' && error.message) {
+  if (isRecord(error) && typeof error.message === "string" && error.message) {
     return error.message;
   }
 
@@ -213,11 +197,12 @@ const getApiFieldErrors = (error: unknown): SignupFieldError[] => {
     }
 
     const fieldName =
-      typeof fieldError.path === 'string'
+      typeof fieldError.path === "string"
         ? (SERVER_FIELD_NAME_MAP[fieldError.path] ?? null)
         : null;
+
     const message =
-      typeof fieldError.message === 'string' ? fieldError.message : undefined;
+      typeof fieldError.message === "string" ? fieldError.message : undefined;
 
     if (!fieldName || !message) {
       continue;
@@ -243,73 +228,51 @@ const clearFieldErrors = (
     return;
   }
 
-  form.setFields(fieldNames.map((name) => ({name, errors: []})));
+  form.setFields(fieldNames.map((name) => ({ name, errors: [] })));
 };
 
 const buildRegistrationPayload = (
   values: SignupFormValues,
 ): RegistrationPayload => {
-  if (
-    !values.gender ||
-    !isCityName(values.city) ||
-    !values.location ||
-    !isLocationForCity(values.city, values.location)
-  ) {
-    throw new Error(SIGNUP_COPY.genericError);
-  }
-
+  /**
+   * RTK Query integration point.
+   *
+   * Keep backend field mapping here.
+   * If your backend changes field names later, update only this function.
+   *
+   * confirmPassword is intentionally not included because it is only needed
+   * for frontend validation.
+   */
   return {
-    first_name: normalizeName(values.first_name),
-    last_name: normalizeName(values.last_name),
-    phone: normalizePhoneNumber(values.phone),
+    full_name: normalizeName(values.full_name),
     email: normalizeEmail(values.email),
-    gender: values.gender,
-    city: values.city,
-    location: values.location,
+    phone: normalizePhoneNumber(values.phone),
     password: values.password,
-  };
+  } as RegistrationPayload;
 };
 
-const createNameRules = ({
-  requiredMessage,
-  tooShortMessage,
-  tooLongMessage,
-  invalidMessage,
-}: {
-  requiredMessage: string;
-  tooShortMessage: string;
-  tooLongMessage: string;
-  invalidMessage: string;
-}) => [
-  {required: true, message: requiredMessage},
-  {min: SIGNUP_LIMITS.nameMinLength, message: tooShortMessage},
-  {max: SIGNUP_LIMITS.nameMaxLength, message: tooLongMessage},
-  {pattern: NAME_PATTERN, message: invalidMessage},
+const fullNameRules = [
+  { required: true, message: SIGNUP_MESSAGES.fullNameRequired },
+  {
+    min: SIGNUP_LIMITS.nameMinLength,
+    message: SIGNUP_MESSAGES.fullNameTooShort,
+  },
+  {
+    max: SIGNUP_LIMITS.nameMaxLength,
+    message: SIGNUP_MESSAGES.fullNameTooLong,
+  },
+  { pattern: NAME_PATTERN, message: SIGNUP_MESSAGES.fullNameInvalid },
 ];
 
-const firstNameRules = createNameRules({
-  requiredMessage: SIGNUP_MESSAGES.firstNameRequired,
-  tooShortMessage: SIGNUP_MESSAGES.firstNameTooShort,
-  tooLongMessage: SIGNUP_MESSAGES.firstNameTooLong,
-  invalidMessage: SIGNUP_MESSAGES.firstNameInvalid,
-});
-
-const lastNameRules = createNameRules({
-  requiredMessage: SIGNUP_MESSAGES.lastNameRequired,
-  tooShortMessage: SIGNUP_MESSAGES.lastNameTooShort,
-  tooLongMessage: SIGNUP_MESSAGES.lastNameTooLong,
-  invalidMessage: SIGNUP_MESSAGES.lastNameInvalid,
-});
-
 const emailRules = [
-  {required: true, message: SIGNUP_MESSAGES.emailRequired},
-  {type: 'email' as const, message: SIGNUP_MESSAGES.emailInvalid},
-  {max: SIGNUP_LIMITS.emailMaxLength, message: SIGNUP_MESSAGES.emailTooLong},
-  {pattern: EMAIL_NO_SPACES_PATTERN, message: SIGNUP_MESSAGES.emailSpaces},
+  { required: true, message: SIGNUP_MESSAGES.emailRequired },
+  { type: "email" as const, message: SIGNUP_MESSAGES.emailInvalid },
+  { max: SIGNUP_LIMITS.emailMaxLength, message: SIGNUP_MESSAGES.emailTooLong },
+  { pattern: EMAIL_NO_SPACES_PATTERN, message: SIGNUP_MESSAGES.emailSpaces },
 ];
 
 const phoneRules = [
-  {required: true, message: SIGNUP_MESSAGES.phoneRequired},
+  { required: true, message: SIGNUP_MESSAGES.phoneRequired },
   {
     validator: async (_: unknown, value?: string) => {
       if (!value || isValidBangladeshiPhone(value)) {
@@ -321,12 +284,8 @@ const phoneRules = [
   },
 ];
 
-const genderRules = [{required: true, message: SIGNUP_MESSAGES.genderRequired}];
-
-const cityRules = [{required: true, message: SIGNUP_MESSAGES.cityRequired}];
-
 const passwordRules = [
-  {required: true, message: SIGNUP_MESSAGES.passwordRequired},
+  { required: true, message: SIGNUP_MESSAGES.passwordRequired },
   {
     min: SIGNUP_LIMITS.passwordMinLength,
     message: SIGNUP_MESSAGES.passwordTooShort,
@@ -343,64 +302,45 @@ const passwordRules = [
 
 export default function SignUpForm() {
   const [form] = Form.useForm<SignupFormValues>();
-  const [registerTeacher, {isLoading}] = useRegistrationMutation();
-  const [errorMessage, setErrorMessage] = useState('');
+  const [registerTeacher, { isLoading }] = useRegistrationMutation();
+
+  const [errorMessage, setErrorMessage] = useState("");
   const [isCapsLockOn, setIsCapsLockOn] = useState(false);
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  const watchedCity = Form.useWatch('city', form);
-  const selectedCity = isCityName(watchedCity) ? watchedCity : undefined;
-  const locationOptions = getLocationOptionsForCity(selectedCity);
 
   const handlePasswordKeyEvent = (event: KeyboardEvent<HTMLInputElement>) => {
     setIsCapsLockOn(isCapsLockActive(event));
   };
 
-  const handleValuesChange: FormProps<SignupFormValues>['onValuesChange'] = (
+  const handleValuesChange: FormProps<SignupFormValues>["onValuesChange"] = (
     changedValues,
   ) => {
     if (errorMessage) {
-      setErrorMessage('');
+      setErrorMessage("");
     }
 
     const changedFieldNames = Object.keys(changedValues) as Array<
       keyof SignupFormValues
     >;
+
     clearFieldErrors(form, changedFieldNames);
 
-    if ('city' in changedValues) {
-      form.setFieldsValue({location: undefined});
-      clearFieldErrors(form, ['location']);
-    }
-
-    if ('password' in changedValues && form.getFieldValue('confirmPassword')) {
-      void form.validateFields(['confirmPassword']);
+    /**
+     * If the user changes password after typing confirm password,
+     * re-check confirm password immediately.
+     */
+    if ("password" in changedValues && form.getFieldValue("confirmPassword")) {
+      void form.validateFields(["confirmPassword"]);
     }
   };
 
-  const locationRules = [
-    {required: true, message: SIGNUP_MESSAGES.locationRequired},
-    {
-      validator: async (_: unknown, value?: string) => {
-        if (!value) {
-          return;
-        }
-
-        const city = form.getFieldValue('city');
-
-        if (!isCityName(city) || !isLocationForCity(city, value)) {
-          throw new Error(SIGNUP_MESSAGES.locationInvalid);
-        }
-      },
-    },
-  ];
-
   const confirmPasswordRules = [
-    {required: true, message: SIGNUP_MESSAGES.confirmPasswordRequired},
+    { required: true, message: SIGNUP_MESSAGES.confirmPasswordRequired },
     {
       validator: async (_: unknown, value?: string) => {
-        if (!value || value === form.getFieldValue('password')) {
+        if (!value || value === form.getFieldValue("password")) {
           return;
         }
 
@@ -409,18 +349,28 @@ export default function SignUpForm() {
     },
   ];
 
-  const handleSubmit: FormProps<SignupFormValues>['onFinish'] = async (
+  const handleSubmit: FormProps<SignupFormValues>["onFinish"] = async (
     values,
   ) => {
-    setErrorMessage('');
+    setErrorMessage("");
 
     try {
-      const response = await registerTeacher(
-        buildRegistrationPayload(values),
-      ).unwrap();
+      /**
+       * RTK Query mutation flow:
+       * 1. Build clean API payload.
+       * 2. Call mutation.
+       * 3. Use unwrap() so API errors go to catch block.
+       */
+      const payload = buildRegistrationPayload(values);
+      const response = await registerTeacher(payload).unwrap();
 
+      /**
+       * Keep this if your signup API returns logged-in user data.
+       * If your API only creates the account, remove this dispatch
+       * and navigate to `/login` instead.
+       */
       dispatch(loggedInUser(response.results));
-      navigate('/dashboard');
+      navigate("/dashboard");
     } catch (error) {
       const fieldErrors = getApiFieldErrors(error);
 
@@ -433,8 +383,8 @@ export default function SignUpForm() {
   };
 
   return (
-    <div className="flex flex-col flex-1 w-full overflow-y-auto no-scrollbar px-6 py-10 sm:px-10 lg:px-12">
-      <div className="w-full max-w-2xl mx-auto mb-4">
+    <div className="no-scrollbar flex w-full flex-1 flex-col overflow-y-auto px-6 py-10 sm:px-10 lg:px-12">
+      <div className="mx-auto mb-4 w-full max-w-2xl">
         <Link
           to="/"
           className="inline-flex items-center gap-1 text-sm text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
@@ -444,9 +394,9 @@ export default function SignUpForm() {
         </Link>
       </div>
 
-      <div className="flex flex-col justify-center flex-1 w-full max-w-2xl mx-auto pb-4">
+      <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center pb-4">
         <div className="mb-6 sm:mb-8">
-          <h1 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md">
+          <h1 className="text-title-sm sm:text-title-md mb-2 font-semibold text-gray-800 dark:text-white/90">
             {SIGNUP_COPY.title}
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -476,57 +426,20 @@ export default function SignUpForm() {
         >
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <Form.Item
-              label="First Name"
-              name="first_name"
-              normalize={normalizeName}
+              label="Full Name"
+              name="full_name"
+              normalize={normalizeNameInput}
               validateFirst
-              rules={firstNameRules}
+              rules={fullNameRules}
+              className="sm:col-span-2"
             >
               <Input
                 size="large"
-                placeholder="Enter your first name"
+                placeholder="Enter your full name"
                 prefix={<UserOutlined className="text-brand-500" />}
-                autoComplete="given-name"
+                autoComplete="name"
                 allowClear
                 maxLength={SIGNUP_LIMITS.nameMaxLength}
-                disabled={isLoading}
-                className={authInputClasses}
-              />
-            </Form.Item>
-
-            <Form.Item
-              label="Last Name"
-              name="last_name"
-              normalize={normalizeName}
-              validateFirst
-              rules={lastNameRules}
-            >
-              <Input
-                size="large"
-                placeholder="Enter your last name"
-                prefix={<UserOutlined className="text-brand-500" />}
-                autoComplete="family-name"
-                allowClear
-                maxLength={SIGNUP_LIMITS.nameMaxLength}
-                disabled={isLoading}
-                className={authInputClasses}
-              />
-            </Form.Item>
-
-            <Form.Item
-              label="Phone"
-              name="phone"
-              normalize={sanitizePhoneInput}
-              validateFirst
-              rules={phoneRules}
-              extra={SIGNUP_COPY.phoneHint}
-            >
-              <Input
-                size="large"
-                placeholder="01 or +8801"
-                prefix={<PhoneOutlined className="text-brand-500" />}
-                autoComplete="tel"
-                allowClear
                 disabled={isLoading}
                 className={authInputClasses}
               />
@@ -552,54 +465,22 @@ export default function SignUpForm() {
               />
             </Form.Item>
 
-            <Form.Item label="Gender" name="gender" rules={genderRules}>
-              <Select
-                size="large"
-                placeholder={SIGNUP_COPY.genderPlaceholder}
-                options={GENDER_OPTIONS}
-                allowClear
-                showSearch
-                optionFilterProp="label"
-                disabled={isLoading}
-                className={authSelectClasses}
-              />
-            </Form.Item>
-
-            <Form.Item label="City" name="city" rules={cityRules}>
-              <Select
-                size="large"
-                placeholder={SIGNUP_COPY.cityPlaceholder}
-                options={SIGNUP_CITY_OPTIONS}
-                allowClear
-                showSearch
-                optionFilterProp="label"
-                disabled={isLoading}
-                notFoundContent={SIGNUP_COPY.noCityMatch}
-                className={authSelectClasses}
-              />
-            </Form.Item>
-
             <Form.Item
-              label="Location"
-              name="location"
+              label="Phone Number"
+              name="phone"
+              normalize={sanitizePhoneInput}
               validateFirst
-              rules={locationRules}
-              className="sm:col-span-2"
+              rules={phoneRules}
+              extra="Use a bangladeshi phone number"
             >
-              <Select
+              <Input
                 size="large"
-                placeholder={
-                  selectedCity
-                    ? SIGNUP_COPY.locationPlaceholder
-                    : SIGNUP_COPY.locationDisabledPlaceholder
-                }
-                options={locationOptions}
+                placeholder="01 or +8801"
+                prefix={<PhoneOutlined className="text-brand-500" />}
+                autoComplete="tel"
                 allowClear
-                showSearch
-                optionFilterProp="label"
-                disabled={isLoading || !selectedCity}
-                notFoundContent={SIGNUP_COPY.noLocationMatch}
-                className={authSelectClasses}
+                disabled={isLoading}
+                className={authInputClasses}
               />
             </Form.Item>
 
@@ -630,7 +511,7 @@ export default function SignUpForm() {
             <Form.Item
               label="Confirm Password"
               name="confirmPassword"
-              dependencies={['password']}
+              dependencies={["password"]}
               validateFirst
               rules={confirmPasswordRules}
               extra={
@@ -653,7 +534,7 @@ export default function SignUpForm() {
             </Form.Item>
           </div>
 
-          <Form.Item className="mb-0! mt-4!">
+          <Form.Item className="mt-4! mb-0!">
             <Button
               type="primary"
               htmlType="submit"
@@ -667,8 +548,8 @@ export default function SignUpForm() {
           </Form.Item>
         </Form>
 
-        <p className="mt-5 text-sm font-normal text-center text-gray-700 dark:text-gray-400 sm:text-start">
-          Already have an account?{' '}
+        <p className="mt-5 text-center text-sm font-normal text-gray-700 sm:text-start dark:text-gray-400">
+          Already have an account?{" "}
           <Link to="/login" className={authLinkClasses}>
             Sign In
           </Link>

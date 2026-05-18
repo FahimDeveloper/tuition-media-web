@@ -1,8 +1,8 @@
-import {createApi} from '@reduxjs/toolkit/query/react';
-import {baseQueryWithRefreshToken} from './baseQuery';
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { baseQueryWithRefreshToken } from "./baseQuery";
 
 export const authApiSlice = createApi({
-  reducerPath: 'authApi',
+  reducerPath: "authApi",
   baseQuery: baseQueryWithRefreshToken,
   endpoints: () => ({}),
 });

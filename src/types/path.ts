@@ -1,4 +1,4 @@
-import type {ComponentType, ReactNode, SVGProps} from 'react';
+import type { ComponentType, ReactNode, SVGProps } from "react";
 
 // Sidebar icons are stored as component references so route config can drive UI
 // without instantiating JSX at definition time.

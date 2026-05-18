@@ -1,18 +1,18 @@
-import {useAppDispatch, useAppSelector} from '@/hooks/useAppHooks';
+import { useAppDispatch, useAppSelector } from "@/hooks/useAppHooks";
 import {
   loggedOutUser,
   selectCurrentUser,
-} from '@/redux/features/auth/authSlice';
-import {type ReactNode, useEffect, useId, useRef, useState} from 'react';
+} from "@/redux/features/auth/authSlice";
+import { type ReactNode, useEffect, useId, useRef, useState } from "react";
 import {
   FiChevronDown,
   FiGrid,
   FiLogOut,
   FiSettings,
   FiUser,
-} from 'react-icons/fi';
-import {Link} from 'react-router-dom';
-import Swal from 'sweetalert2';
+} from "react-icons/fi";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 type ProfileAction = {
   label: string;
@@ -23,21 +23,21 @@ type ProfileAction = {
 
 const profileActions: ProfileAction[] = [
   {
-    label: 'Dashboard',
-    href: '/tutor',
-    description: 'Track your activity overview',
+    label: "Dashboard",
+    href: "/tutor",
+    description: "Track your activity overview",
     icon: <FiGrid size={18} />,
   },
   {
-    label: 'My Profile',
-    href: '/tutor/profile',
-    description: 'Update your personal info',
+    label: "My Profile",
+    href: "/tutor/profile",
+    description: "Update your personal info",
     icon: <FiUser size={18} />,
   },
   {
-    label: 'Settings',
-    href: '/tutor/settings',
-    description: 'Manage preferences and alerts',
+    label: "Settings",
+    href: "/tutor/settings",
+    description: "Manage preferences and alerts",
     icon: <FiSettings size={18} />,
   },
 ];
@@ -49,14 +49,14 @@ const getUserDisplayName = (
 ) => {
   const fullName = [firstName, lastName]
     .filter((value): value is string => Boolean(value?.trim()))
-    .join(' ')
+    .join(" ")
     .trim();
 
   if (fullName) {
     return fullName;
   }
 
-  return fallbackEmail?.trim() || 'Account';
+  return fallbackEmail?.trim() || "Account";
 };
 
 const getUserInitials = (
@@ -66,13 +66,13 @@ const getUserInitials = (
   const initials = [firstName, lastName]
     .filter((value): value is string => Boolean(value?.trim()))
     .map((value) => value.trim().charAt(0).toUpperCase())
-    .join('');
+    .join("");
 
   if (initials) {
     return initials.slice(0, 2);
   }
 
-  return 'A';
+  return "A";
 };
 
 const getAvatarSource = (
@@ -82,7 +82,7 @@ const getAvatarSource = (
   legacyProfileImage?: string | null,
 ) =>
   [avatar, image, profileImage, legacyProfileImage].find(
-    (value) => typeof value === 'string' && value.trim().length > 0,
+    (value) => typeof value === "string" && value.trim().length > 0,
   ) ?? null;
 
 type ProfileAvatarProps = {
@@ -119,7 +119,7 @@ const ProfileAvatar = ({
   return (
     <span
       aria-hidden="true"
-      className={`${sizeClassName} inline-flex items-center justify-center rounded-full bg-brand-100 font-poppins font-bold text-brand-700 ${ringClassName} ${textClassName}`}
+      className={`${sizeClassName} bg-brand-100 font-poppins text-brand-700 inline-flex items-center justify-center rounded-full font-bold ${ringClassName} ${textClassName}`}
     >
       {initials}
     </span>
@@ -144,8 +144,8 @@ const ProfileDropdown = () => {
   const profileBadge =
     currentUser?.role?.trim() ||
     (currentUser?.isProfileCompleted
-      ? 'Profile complete'
-      : 'Profile incomplete');
+      ? "Profile complete"
+      : "Profile incomplete");
   const avatarAlt = `${displayName} profile`;
   const userInitials = getUserInitials(
     currentUser?.first_name,
@@ -188,21 +188,21 @@ const ProfileDropdown = () => {
     };
 
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
+      if (event.key === "Escape") {
         closeMenu(true);
       }
     };
 
-    document.addEventListener('mousedown', handlePointerOutside);
-    document.addEventListener('touchstart', handlePointerOutside, {
+    document.addEventListener("mousedown", handlePointerOutside);
+    document.addEventListener("touchstart", handlePointerOutside, {
       passive: true,
     });
-    document.addEventListener('keydown', handleEscape);
+    document.addEventListener("keydown", handleEscape);
 
     return () => {
-      document.removeEventListener('mousedown', handlePointerOutside);
-      document.removeEventListener('touchstart', handlePointerOutside);
-      document.removeEventListener('keydown', handleEscape);
+      document.removeEventListener("mousedown", handlePointerOutside);
+      document.removeEventListener("touchstart", handlePointerOutside);
+      document.removeEventListener("keydown", handleEscape);
     };
   }, [isOpen]);
 
@@ -220,12 +220,12 @@ const ProfileDropdown = () => {
     closeMenu(true);
     dispatch(loggedOutUser());
     Swal.fire({
-      title: 'Success',
-      text: 'You have successfully logged out.',
-      icon: 'success',
+      title: "Success",
+      text: "You have successfully logged out.",
+      icon: "success",
       showConfirmButton: false,
       timer: 1500,
-      iconColor: 'var(--color-brand-700)',
+      iconColor: "var(--color-brand-700)",
     });
   };
 
@@ -238,11 +238,11 @@ const ProfileDropdown = () => {
         aria-haspopup="menu"
         aria-expanded={isOpen}
         aria-controls={menuId}
-        aria-label={isOpen ? 'Close account menu' : 'Open account menu'}
-        className={`inline-flex min-h-11 items-center rounded-full border bg-surface-elevated transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70 ${
+        aria-label={isOpen ? "Close account menu" : "Open account menu"}
+        className={`bg-surface-elevated focus-visible:ring-brand-400/70 inline-flex min-h-11 items-center rounded-full border transition-colors duration-200 focus-visible:ring-2 focus-visible:outline-none ${
           isOpen
-            ? 'border-brand-400 text-brand-700 dark:text-brand-300'
-            : 'border-border text-neutral hover:border-brand-500 hover:text-brand-700 dark:hover:border-brand-400 dark:hover:text-brand-200'
+            ? "border-brand-400 text-brand-700 dark:text-brand-300"
+            : "border-border text-neutral hover:border-brand-500 hover:text-brand-700 dark:hover:border-brand-400 dark:hover:text-brand-200"
         } px-1.5 md:gap-2 md:rounded-full md:px-2.5`}
       >
         <ProfileAvatar
@@ -260,7 +260,7 @@ const ProfileDropdown = () => {
         <FiChevronDown
           size={16}
           className={`hidden transition-transform duration-200 md:block ${
-            isOpen ? 'rotate-180' : 'rotate-0'
+            isOpen ? "rotate-180" : "rotate-0"
           }`}
           aria-hidden="true"
         />
@@ -271,9 +271,9 @@ const ProfileDropdown = () => {
           id={menuId}
           role="menu"
           aria-label="Account menu"
-          className="absolute right-0 z-1000 mt-2 w-[min(20rem,calc(100vw-1.5rem))] rounded-2xl border border-border bg-surface-elevated shadow-theme-lg"
+          className="border-border bg-surface-elevated shadow-theme-lg absolute right-0 z-1000 mt-2 w-[min(20rem,calc(100vw-1.5rem))] rounded-2xl border"
         >
-          <div className="flex items-center gap-3 border-b border-border px-4 py-4">
+          <div className="border-border flex items-center gap-3 border-b px-4 py-4">
             <ProfileAvatar
               avatarSrc={avatarSrc}
               alt={avatarAlt}
@@ -283,19 +283,19 @@ const ProfileDropdown = () => {
               textClassName="text-sm"
             />
             <div className="min-w-0">
-              <p className="truncate text-sm font-bold text-neutral">
+              <p className="text-neutral truncate text-sm font-bold">
                 {displayName}
               </p>
-              <p className="mt-0.5 inline-flex rounded-full bg-brand-50 px-2 py-0.5 text-xs font-semibold text-brand-700 dark:bg-brand-500/15 dark:text-brand-300">
+              <p className="bg-brand-50 text-brand-700 dark:bg-brand-500/15 dark:text-brand-300 mt-0.5 inline-flex rounded-full px-2 py-0.5 text-xs font-semibold">
                 {profileBadge}
               </p>
               {currentUser?.email ? (
-                <p className="mt-1 truncate text-xs text-text-muted">
+                <p className="text-text-muted mt-1 truncate text-xs">
                   {currentUser.email}
                 </p>
               ) : null}
               {currentUser?.phone ? (
-                <p className="truncate text-xs text-text-muted">
+                <p className="text-text-muted truncate text-xs">
                   {currentUser.phone}
                 </p>
               ) : null}
@@ -310,7 +310,7 @@ const ProfileDropdown = () => {
                   to={action.href}
                   role="menuitem"
                   onClick={() => closeMenu()}
-                  className="flex min-h-11 items-center gap-3 rounded-xl px-3 py-2 text-left transition-colors duration-200 hover:bg-brand-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70 dark:hover:bg-brand-500/12"
+                  className="hover:bg-brand-50 focus-visible:ring-brand-400/70 dark:hover:bg-brand-500/12 flex min-h-11 items-center gap-3 rounded-xl px-3 py-2 text-left transition-colors duration-200 focus-visible:ring-2 focus-visible:outline-none"
                 >
                   <span
                     className="text-brand-700 dark:text-brand-300"
@@ -319,10 +319,10 @@ const ProfileDropdown = () => {
                     {action.icon}
                   </span>
                   <span className="min-w-0">
-                    <span className="block text-sm font-semibold text-neutral">
+                    <span className="text-neutral block text-sm font-semibold">
                       {action.label}
                     </span>
-                    <span className="block truncate text-xs text-text-muted">
+                    <span className="text-text-muted block truncate text-xs">
                       {action.description}
                     </span>
                   </span>
@@ -331,12 +331,12 @@ const ProfileDropdown = () => {
             ))}
           </ul>
 
-          <div className="border-t border-border p-2">
+          <div className="border-border border-t p-2">
             <button
               type="button"
               role="menuitem"
               onClick={handleLogout}
-              className="flex min-h-11 w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm font-semibold text-neutral transition-colors duration-200 hover:bg-brand-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70 dark:hover:bg-brand-500/12"
+              className="text-neutral hover:bg-brand-50 focus-visible:ring-brand-400/70 dark:hover:bg-brand-500/12 flex min-h-11 w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm font-semibold transition-colors duration-200 focus-visible:ring-2 focus-visible:outline-none"
             >
               <FiLogOut
                 size={18}

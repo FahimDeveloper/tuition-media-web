@@ -1,9 +1,9 @@
-import ProfileSummary from '@/components/layout/tutor/dashboard/ProfileSummary';
-import Stats from '@/components/layout/tutor/dashboard/Stats';
-import PageMeta from '@/components/common/PageMeta';
-import WelcomeMessage from '@/components/layout/tutor/dashboard/WelcomeMessage';
-import ProfileComplete from '@/components/layout/tutor/dashboard/ProfileComplete';
-import StatusStatsCards from '@/components/layout/tutor/dashboard/StatusStatsCards';
+import ProfileSummary from "@/components/layout/tutor/dashboard/ProfileSummary";
+import Stats from "@/components/layout/tutor/dashboard/Stats";
+import PageMeta from "@/components/common/PageMeta";
+import WelcomeMessage from "@/components/layout/tutor/dashboard/WelcomeMessage";
+import ProfileComplete from "@/components/layout/tutor/dashboard/ProfileComplete";
+import StatusStatsCards from "@/components/layout/tutor/dashboard/StatusStatsCards";
 
 export default function Home() {
   return (

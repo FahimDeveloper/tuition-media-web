@@ -1,100 +1,79 @@
-import {Checkbox, Form} from 'antd';
+import { Checkbox } from "antd";
 
-import ProfileEditButton from '../shared/ProfileEditButton';
-import ProfileEditableFormModal from '../shared/ProfileEditableFormModal';
-import ProfileInfoList from '../shared/ProfileInfoList';
-import ProfileSectionCard, {
-  ProfileInfoGrid,
-} from '../shared/ProfileSectionCard';
-import useEditableProfileForm from '../shared/useEditableProfileForm';
-import AcademicInstitutionFields from './AcademicInstitutionFields';
+import ProfileEditableSection from "../shared/ProfileEditableSection";
+import { AcademicInstitutionFields } from "./EducationFormFields";
 import {
   COLLEGE_INFO_ITEMS,
   formatEducationValue,
+  prepareEducationPayload,
   type CollegeValues,
-} from './educationTypes';
+} from "./educationTypes";
 
-type CollegeFormValues = Omit<CollegeValues, 'isDiplomaStudent'>;
+type CollegeFormValues = Omit<CollegeValues, "is_diploma_student">;
 
 type CollegeInfoSectionProps = {
   values: CollegeValues;
-  disabled: boolean;
   isDiplomaStudent: boolean;
   onDiplomaToggle: (checked: boolean) => void;
-  onSave: (values: CollegeValues) => void;
+  onSave: (values: CollegeValues) => Promise<void> | void;
+  isSaving?: boolean;
+  saveError?: string;
+  onClearSaveError?: () => void;
 };
 
 export default function CollegeInfoSection({
   values,
-  disabled,
   isDiplomaStudent,
   onDiplomaToggle,
   onSave,
+  isSaving = false,
+  saveError,
+  onClearSaveError,
 }: CollegeInfoSectionProps) {
-  const editableForm = useEditableProfileForm<CollegeValues, CollegeFormValues>(
-    {
-      values,
-      onSave,
-      fromFormValues: (formValues) => ({
-        ...formValues,
-        isDiplomaStudent,
-      }),
-    },
-  );
-
   return (
-    <>
-      <ProfileSectionCard
-        title="College"
-        action={
-          <div className="flex flex-col gap-3 lg:items-end">
-            <Checkbox
-              checked={isDiplomaStudent}
-              disabled={disabled}
-              onChange={(event) => onDiplomaToggle(event.target.checked)}
-            >
-              I am a diploma student
-            </Checkbox>
-
-            <ProfileEditButton
-              onClick={editableForm.openModal}
-              disabled={disabled}
-            />
-          </div>
-        }
-      >
-        <ProfileInfoGrid>
-          <ProfileInfoList
-            items={COLLEGE_INFO_ITEMS}
-            values={values}
-            formatValue={formatEducationValue}
-          />
-        </ProfileInfoGrid>
-      </ProfileSectionCard>
-
-      <ProfileEditableFormModal
-        isOpen={editableForm.isOpen}
-        onClose={editableForm.closeModal}
-        title="Edit College Information"
-        description="Update your college information."
-        form={editableForm.form}
-        initialValues={editableForm.formValues}
-        onSubmit={editableForm.handleSubmit}
-      >
-        <AcademicInstitutionFields
-          nameField="collegeName"
-          nameLabel="College Name"
-          namePlaceholder="Enter your college name"
-        >
-          <Form.Item
-            name="isRunningStudent"
-            valuePropName="checked"
-            className="col-span-2"
+    <ProfileEditableSection<CollegeValues, CollegeFormValues>
+      title="College"
+      modalTitle="Edit College Information"
+      modalDescription="Update your college information."
+      values={values}
+      items={COLLEGE_INFO_ITEMS}
+      formatValue={formatEducationValue}
+      onSave={onSave}
+      isSaving={isSaving}
+      saveError={saveError}
+      onClearSaveError={onClearSaveError}
+      toFormValues={(collegeValues) => ({
+        name: collegeValues.name,
+        group: collegeValues.group,
+        curriculum: collegeValues.curriculum,
+        board: collegeValues.board,
+        gpa: collegeValues.gpa,
+        year_of_passing: collegeValues.year_of_passing,
+        status: collegeValues.status,
+      })}
+      fromFormValues={(formValues) => ({
+        ...prepareEducationPayload(formValues),
+        is_diploma_student: isDiplomaStudent,
+      })}
+      renderAction={({ defaultAction }) => (
+        <div className="flex flex-col gap-3 lg:items-end">
+          <Checkbox
+            checked={isDiplomaStudent}
+            disabled={isSaving}
+            onChange={(event) => onDiplomaToggle(event.target.checked)}
           >
-            <Checkbox>I&apos;m a running student</Checkbox>
-          </Form.Item>
-        </AcademicInstitutionFields>
-      </ProfileEditableFormModal>
-    </>
+            I am a diploma student
+          </Checkbox>
+
+          {defaultAction}
+        </div>
+      )}
+    >
+      <AcademicInstitutionFields
+        nameLabel="College Name"
+        namePlaceholder="Enter your college name"
+        includeStatus
+      />
+    </ProfileEditableSection>
   );
 }

@@ -15,7 +15,7 @@ type NavigationItem = {
 const navigationItems: NavigationItem[] = [
   { name: "Home", href: "/" },
   { name: "Book Demo Class", href: "/demo-class" },
-  { name: "Tuition", href: "/tuition" },
+  { name: "Job Board", href: "/tuitions" },
   { name: "Login", href: "/login", guestOnly: true },
   { name: "Sign Up", href: "/signup", guestOnly: true },
 ];
@@ -99,7 +99,7 @@ const Header = () => {
         <Link
           to="/"
           aria-label="TutoriumBD home"
-          className="shrink-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70"
+          className="focus-visible:ring-brand-400/70 shrink-0 rounded-lg focus-visible:ring-2 focus-visible:outline-none"
         >
           <BrandLogo imgClassName="h-10 w-auto" />
         </Link>
@@ -164,11 +164,11 @@ const Header = () => {
         </div>
 
         <div
-          className={`absolute left-0 top-full w-full px-4 pb-4 pt-2 transition-all duration-300 ease-out md:hidden ${mobileMenuVisibilityClasses}`}
+          className={`absolute top-full left-0 w-full px-4 pt-2 pb-4 transition-all duration-300 ease-out md:hidden ${mobileMenuVisibilityClasses}`}
         >
           <ul
             aria-label="Primary navigation"
-            className="space-y-2 rounded-2xl border border-border bg-surface-elevated/95 p-3 shadow-theme-lg backdrop-blur"
+            className="border-border bg-surface-elevated/95 shadow-theme-lg space-y-2 rounded-2xl border p-3 backdrop-blur"
           >
             {visibleNavItems.map((item) => (
               <li key={item.name}>

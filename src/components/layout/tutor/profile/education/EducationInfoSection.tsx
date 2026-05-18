@@ -1,116 +1,89 @@
-import {useMemo, useState} from 'react';
-
-import CollegeInfoSection from './CollegeInfoSection';
-import DegreeInfoSection from './DegreeInfoSection';
-import DiplomaInfoSection from './DiplomaInfoSection';
-import SchoolInfoSection from './SchoolInfoSection';
+import SchoolInfoSection from "./SchoolInfoSection";
+import CollegeInfoSection from "./CollegeInfoSection";
+import DiplomaInfoSection from "./DiplomaInfoSection";
 import {
-  INITIAL_COLLEGE_VALUES,
-  INITIAL_DIPLOMA_VALUES,
-  INITIAL_EDUCATION_VALUES,
+  GraduationInfoSection,
+  PostGraduationInfoSection,
+} from "./HigherEducationInfoSection";
+
+import {
   type EducationValues,
-} from './educationTypes';
+} from "./educationTypes";
+import type { EducationSectionKey } from "../profileAdapters";
 
-export default function EducationInfoSection() {
-  const [educationValues, setEducationValues] = useState<EducationValues>(
-    INITIAL_EDUCATION_VALUES,
-  );
+type EducationInfoSectionProps = {
+  values: EducationValues;
+  onSave: <TKey extends EducationSectionKey>(
+    key: TKey,
+    values: EducationValues[TKey],
+  ) => Promise<void> | void;
+  onDiplomaToggle: (checked: boolean) => void;
+  savingSection?: EducationSectionKey | null;
+  saveErrors?: Partial<Record<EducationSectionKey, string>>;
+  onClearSaveError?: (key: EducationSectionKey) => void;
+};
 
-  const isDiplomaStudent = educationValues.college.isDiplomaStudent;
-
-  const handleDiplomaToggle = (checked: boolean) => {
-    setEducationValues((previous) => ({
-      ...previous,
-      college: {
-        ...INITIAL_COLLEGE_VALUES,
-        isDiplomaStudent: checked,
-      },
-      diploma: INITIAL_DIPLOMA_VALUES,
-    }));
+export default function EducationInfoSection({
+  values,
+  onSave,
+  onDiplomaToggle,
+  savingSection = null,
+  saveErrors = {},
+  onClearSaveError,
+}: EducationInfoSectionProps) {
+  const isDiplomaStudent = Boolean(values.college.is_diploma_student);
+  const clearSaveError = (key: EducationSectionKey) => {
+    onClearSaveError?.(key);
   };
-
-  const disabledSections = useMemo(() => {
-    const isCollegeOrDiplomaRunning = isDiplomaStudent
-      ? educationValues.diploma.isRunningStudent
-      : educationValues.college.isRunningStudent;
-
-    return {
-      collegeOrDiploma: educationValues.school.isRunningStudent,
-      graduation:
-        educationValues.school.isRunningStudent || isCollegeOrDiplomaRunning,
-      postGraduation:
-        educationValues.school.isRunningStudent ||
-        isCollegeOrDiplomaRunning ||
-        educationValues.graduation.isRunningStudent,
-    };
-  }, [educationValues, isDiplomaStudent]);
 
   return (
     <div className="space-y-6">
       <SchoolInfoSection
-        values={educationValues.school}
-        onSave={(school) =>
-          setEducationValues((previous) => ({
-            ...previous,
-            school,
-          }))
-        }
+        values={values.school}
+        onSave={(school) => onSave("school", school)}
+        isSaving={savingSection === "school"}
+        saveError={saveErrors.school}
+        onClearSaveError={() => clearSaveError("school")}
       />
 
       {isDiplomaStudent ? (
         <DiplomaInfoSection
-          values={educationValues.diploma}
-          disabled={disabledSections.collegeOrDiploma}
+          values={values.diploma}
           isDiplomaStudent={isDiplomaStudent}
-          onDiplomaToggle={handleDiplomaToggle}
-          onSave={(diploma) =>
-            setEducationValues((previous) => ({
-              ...previous,
-              diploma,
-            }))
-          }
+          onDiplomaToggle={onDiplomaToggle}
+          onSave={(diploma) => onSave("diploma", diploma)}
+          isSaving={savingSection === "diploma"}
+          saveError={saveErrors.diploma}
+          onClearSaveError={() => clearSaveError("diploma")}
         />
       ) : (
         <CollegeInfoSection
-          values={educationValues.college}
-          disabled={disabledSections.collegeOrDiploma}
+          values={values.college}
           isDiplomaStudent={isDiplomaStudent}
-          onDiplomaToggle={handleDiplomaToggle}
-          onSave={(college) =>
-            setEducationValues((previous) => ({
-              ...previous,
-              college,
-            }))
-          }
+          onDiplomaToggle={onDiplomaToggle}
+          onSave={(college) => onSave("college", college)}
+          isSaving={savingSection === "college"}
+          saveError={saveErrors.college}
+          onClearSaveError={() => clearSaveError("college")}
         />
       )}
 
-      <DegreeInfoSection
-        title="Graduation"
-        modalTitle="Edit Graduation Information"
-        modalDescription="Update your graduation information."
-        values={educationValues.graduation}
-        disabled={disabledSections.graduation}
-        onSave={(graduation) =>
-          setEducationValues((previous) => ({
-            ...previous,
-            graduation,
-          }))
-        }
+      <GraduationInfoSection
+        values={values.graduation}
+        onSave={(graduation) => onSave("graduation", graduation)}
+        isSaving={savingSection === "graduation"}
+        saveError={saveErrors.graduation}
+        onClearSaveError={() => clearSaveError("graduation")}
       />
 
-      <DegreeInfoSection
-        title="Post-Graduation"
-        modalTitle="Edit Post-Graduation Information"
-        modalDescription="Update your post-graduation information."
-        values={educationValues.postGraduation}
-        disabled={disabledSections.postGraduation}
-        onSave={(postGraduation) =>
-          setEducationValues((previous) => ({
-            ...previous,
-            postGraduation,
-          }))
+      <PostGraduationInfoSection
+        values={values.post_graduation}
+        onSave={(postGraduationValues) =>
+          onSave("post_graduation", postGraduationValues)
         }
+        isSaving={savingSection === "post_graduation"}
+        saveError={saveErrors.post_graduation}
+        onClearSaveError={() => clearSaveError("post_graduation")}
       />
     </div>
   );

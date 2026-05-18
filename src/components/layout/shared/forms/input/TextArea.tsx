@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface TextareaProps {
   placeholder?: string; // Placeholder text
@@ -12,14 +12,14 @@ interface TextareaProps {
 }
 
 const TextArea: React.FC<TextareaProps> = ({
-  placeholder = 'Enter your message',
+  placeholder = "Enter your message",
   rows = 3,
-  value = '',
+  value = "",
   onChange,
-  className = '',
+  className = "",
   disabled = false,
   error = false,
-  hint = '',
+  hint = "",
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (onChange) {
@@ -50,7 +50,7 @@ const TextArea: React.FC<TextareaProps> = ({
       {hint && (
         <p
           className={`mt-2 text-sm ${
-            error ? 'text-error-500' : 'text-text-muted'
+            error ? "text-error-500" : "text-text-muted"
           }`}
         >
           {hint}

@@ -1,4 +1,4 @@
-import {configureStore} from '@reduxjs/toolkit';
+import { configureStore } from "@reduxjs/toolkit";
 import {
   FLUSH,
   PAUSE,
@@ -7,8 +7,8 @@ import {
   REGISTER,
   REHYDRATE,
   persistStore,
-} from 'redux-persist';
-import {rootMiddlewares, rootReducers} from '@/redux/features/rootFeatures';
+} from "redux-persist";
+import { rootMiddlewares, rootReducers } from "@/redux/features/rootFeatures";
 const store = configureStore({
   reducer: rootReducers,
   middleware: (getDefaultMiddlewares) =>

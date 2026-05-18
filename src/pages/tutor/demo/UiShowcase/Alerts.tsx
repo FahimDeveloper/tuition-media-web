@@ -1,7 +1,7 @@
-import PageBreadcrumb from '@/components/layout/shared/PageBreadcrumb';
-import ComponentCard from '@/components/layout/shared/ComponentCard';
-import Alert from '@/components/ui/alert/Alert';
-import PageMeta from '@/components/common/PageMeta';
+import PageBreadcrumb from "@/components/layout/shared/PageBreadcrumb";
+import ComponentCard from "@/components/layout/shared/ComponentCard";
+import Alert from "@/components/ui/alert/Alert";
+import PageMeta from "@/components/common/PageMeta";
 
 export default function Alerts() {
   return (
@@ -43,7 +43,7 @@ export default function Alerts() {
             message="Be cautious when performing this action."
             showLink={false}
           />
-        </ComponentCard>{' '}
+        </ComponentCard>{" "}
         <ComponentCard title="Error Alert">
           <Alert
             variant="error"
@@ -59,7 +59,7 @@ export default function Alerts() {
             message="Be cautious when performing this action."
             showLink={false}
           />
-        </ComponentCard>{' '}
+        </ComponentCard>{" "}
         <ComponentCard title="Info Alert">
           <Alert
             variant="info"
