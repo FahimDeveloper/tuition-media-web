@@ -1,237 +1,194 @@
-export type TeacherGender = "male" | "female" | "other";
-export type TeacherMaritalStatus = "unmarried" | "married";
-export type TeacherBloodGroup =
-  | "A+"
-  | "A-"
-  | "B+"
-  | "B-"
-  | "AB+"
-  | "AB-"
-  | "O+"
-  | "O-";
-export type TeacherIdentificationType =
-  | "passport"
-  | "nid"
-  | "driving_license"
-  | "birth_certificate";
-export type EducationStatus = "graduated" | "studying";
-
-export type TeacherSalaryRange = {
-  min?: number;
-  max?: number;
-};
-
-export type PreferredTeachingLocations = {
-  country?: string;
-  city?: string;
-  area?: string[];
-};
-
-export type PreferredTutoring = {
-  categories?: string[];
-  courses?: string[];
-  subjects?: string[];
-  tutoring_types?: string[];
-  salary_range?: TeacherSalaryRange;
-};
-
-export type TeacherAvailability = {
-  days: string[];
-};
-
-export interface AuthTeacher {
-  _id?: string;
-  full_name: string;
-  email: string;
-  password: string;
-  role: "teacher";
-  phone: string;
-  additional_phone: string;
-  preset_address?: string;
-  permanent_address?: string;
-  preferred_teaching_locations?: PreferredTeachingLocations;
-  about_me?: string;
-  preferred_tutoring?: PreferredTutoring;
-  education?: TeacherEducation;
-  years_of_experience?: number;
-  tutoring_availability?: TeacherAvailability;
-  gender?: TeacherGender;
-  date_of_birth?: string;
-  blood_group?: TeacherBloodGroup;
-  profile_picture?: string;
-  religion?: string;
-  marital_status?: TeacherMaritalStatus;
-  parents_info?: TeacherParentsInfo;
-  identification?: TeacherIdentification;
-  certifications?: TeacherCertification[];
-  is_profile_completed: boolean;
-  is_verified: boolean;
-  is_active: boolean;
-  is_deleted: boolean;
-  created_at?: string;
-  updated_at?: string;
-  will_teach_online?: boolean;
-  isProfileCompleted?: boolean;
-  createdAt?: string;
-  updatedAt?: string;
-  avatar?: string | null;
-  image?: string | null;
-  profile_image?: string | null;
-  profileImage?: string | null;
-}
-
-export type ITeacher = AuthTeacher;
-export type AuthUser = AuthTeacher;
-export type AuthGender = TeacherGender;
-
-export interface PublicTeacher {
+export type TPublicTeacher = {
   _id: string;
+
+  // Overview & Personal Details
+  about_me?: string;
   full_name: string;
-  is_profile_completed?: boolean;
+  gender?: "male" | "female" | "other";
+  religion?: string;
+  date_of_birth?: string | Date;
+  blood_group?: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
+  marital_status?: "unmarried" | "married";
+  serial_number?: string;
+
+  // Tutoring Preferences
+  years_of_experience?: number;
+  preferred_tutoring: {
+    categories: string[];
+    courses: string[];
+    subjects: string[];
+    tutoring_types: string[];
+    salary_range: {
+      min?: number;
+      max?: number;
+    };
+  };
+  tutoring_availability: {
+    days: string[];
+  };
+  preferred_teaching_locations?: {
+    country?: string;
+    city?: string;
+    area: string[];
+  };
+
+  // Academic Credentials
+  education: {
+    school: {
+      name?: string;
+      group?: string;
+      curriculum?: string;
+      board?: string;
+      grade?: string;
+      year_of_passing?: number;
+    };
+    college: {
+      name?: string;
+      group?: string;
+      curriculum?: string;
+      board?: string;
+      grade?: string;
+      year_of_passing?: number;
+    };
+    graduation: {
+      name?: string;
+      department?: string;
+      type?: "public" | "private";
+      grade?: string;
+      status?: string;
+      year_of_passing?: number;
+    };
+    post_graduation: {
+      name?: string;
+      department?: string;
+      type?: "public" | "private";
+      grade?: string;
+      status?: string;
+      year_of_passing?: number;
+    };
+  };
+
+  // others fields
+  profile_completion: {
+    is_completed: boolean;
+    percentage: number;
+  };
   is_verified: boolean;
   is_active: boolean;
-  is_deleted?: boolean;
-  created_at?: string;
-  updated_at?: string;
-  about_me?: string;
-  gender?: TeacherGender;
   profile_picture?: string;
-  years_of_experience?: number;
-  preferred_teaching_locations?: PreferredTeachingLocations;
-  preferred_tutoring?: PreferredTutoring;
-  education?: TeacherEducation;
-  tutoring_availability?: TeacherAvailability;
-}
 
-export type PublicTeachersQuery = {
-  search?: string;
-  preferred_teaching_locations?: PreferredTeachingLocations;
-  preferred_tutoring?: Pick<
-    PreferredTutoring,
-    "categories" | "courses" | "subjects"
-  >;
+  created_at: string;
+  updated_at: string;
 };
 
-export type AuthSession = {
-  user: AuthTeacher;
-  accessToken: string;
-  refreshToken: string;
-};
+export type TTeacher = {
+  _id: string;
 
-export type AuthState = {
-  user: AuthTeacher | null;
-  accessToken: string | null;
-  refreshToken: string | null;
-};
-
-export type AuthSuccessResponse = {
-  message?: string;
-  results: AuthSession;
-};
-
-export type LoginPayload = {
-  email: string;
-  password: string;
-};
-
-export type RegistrationPayload = {
+  // Overview & Personal Details
+  about_me?: string;
   full_name: string;
   phone: string;
+  additional_phone?: string;
   email: string;
-  password: string;
-};
+  gender?: "male" | "female" | "other";
+  religion?: string;
+  date_of_birth?: string | Date;
+  blood_group?: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
+  marital_status?: "unmarried" | "married";
+  serial_number?: string;
+  present_address?: string;
+  permanent_address?: string;
 
-export type TeacherEducation = {
-  school?: {
-    name: string;
-    group: string;
-    board: string;
-    curriculum: string;
-    gpa: string;
-    year_of_passing?: number;
+  // Tutoring Preferences
+  years_of_experience?: number;
+  preferred_tutoring: {
+    categories: string[];
+    courses: string[];
+    subjects: string[];
+    tutoring_types: string[];
+    salary_range: {
+      min?: number;
+      max?: number;
+    };
   };
-  college?: {
-    name: string;
-    gpa?: string;
-    group: string;
-    board: string;
-    curriculum: string;
-    year_of_passing?: number;
-    status: EducationStatus;
-    is_diploma_student?: boolean;
+  tutoring_availability: {
+    days: string[];
   };
-  diploma?: {
-    is_diploma: boolean;
-    name: string;
+  preferred_teaching_locations: {
+    country?: string;
+    city?: string;
+    area: string[];
+  };
+
+  // Academic Credentials
+  education: {
+    school: {
+      name?: string;
+      group?: string;
+      curriculum?: string;
+      board?: string;
+      grade?: string;
+      year_of_passing?: number;
+    };
+    college: {
+      name?: string;
+      group?: string;
+      curriculum?: string;
+      board?: string;
+      grade?: string;
+      year_of_passing?: number;
+    };
+    graduation: {
+      name?: string;
+      department?: string;
+      type?: "public" | "private";
+      grade?: string;
+      status?: string;
+      year_of_passing?: number;
+    };
+    post_graduation: {
+      name?: string;
+      department?: string;
+      type?: "public" | "private";
+      grade?: string;
+      status?: string;
+      year_of_passing?: number;
+    };
+  };
+
+  // Family & Verification Documents
+  parents_info: {
+    father_name?: string;
+    father_phone?: string;
+    mother_name?: string;
+    mother_phone?: string;
+    other_contact_name?: string;
+    other_contact_phone?: string;
+  };
+
+  identification: {
+    type?: "passport" | "nid" | "birth_certificate";
+    number?: string;
+    front_image?: string;
+    back_image?: string;
+  };
+
+  certifications: {
     type: string;
-    department: string;
-    study_level: string;
-    cgpa?: string;
-    session?: string;
-    status: EducationStatus;
+    certificate_url: string;
+  }[];
+
+  // others fields
+  profile_completion?: {
+    is_completed: boolean;
+    percentage: number;
   };
-  graduation?: {
-    name: string;
-    type: string;
-    department: string;
-    study_level: string;
-    gpa?: string;
-    session?: string;
-    status: EducationStatus;
-  };
-  post_graduation?: {
-    name: string;
-    type: string;
-    department: string;
-    study_level: string;
-    gpa?: string;
-    session?: string;
-    status: EducationStatus;
-  };
+  is_verified?: boolean;
+  is_active?: boolean;
+  is_deleted?: boolean;
+  profile_picture?: string;
+  role?: "teacher";
+  // timestamp
+  created_at: string;
+  updated_at: string;
 };
-
-export type TeacherParentsInfo = {
-  father_name: string;
-  father_phone: string;
-  mother_name: string;
-  mother_phone: string;
-  emergency_contact_name: string;
-  emergency_contact_phone: string;
-};
-
-export type TeacherIdentification = {
-  type?: TeacherIdentificationType;
-  number: string;
-  front_image?: string;
-  back_image?: string;
-};
-
-export type TeacherCertification = {
-  type: string;
-  certificate_url: string;
-};
-
-export type TeacherProfilePatchPayload = Partial<
-  Pick<
-    ITeacher,
-    | "full_name"
-    | "phone"
-    | "preset_address"
-    | "permanent_address"
-    | "preferred_teaching_locations"
-    | "about_me"
-    | "preferred_tutoring"
-    | "education"
-    | "years_of_experience"
-    | "tutoring_availability"
-    | "gender"
-    | "date_of_birth"
-    | "blood_group"
-    | "profile_picture"
-    | "religion"
-    | "marital_status"
-    | "parents_info"
-    | "identification"
-    | "certifications"
-  >
->;

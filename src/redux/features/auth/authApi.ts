@@ -1,13 +1,8 @@
 import { authApiSlice } from "@/redux/api/httpSlice";
-import type {
-  AuthSuccessResponse,
-  LoginPayload,
-  RegistrationPayload,
-} from "@/types";
 
 const authApi = authApiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation<AuthSuccessResponse, LoginPayload>({
+    login: builder.mutation({
       query: (credentials) => ({
         url: "/auth/teacher/login",
         method: "POST",
@@ -15,7 +10,7 @@ const authApi = authApiSlice.injectEndpoints({
       }),
     }),
 
-    registration: builder.mutation<AuthSuccessResponse, RegistrationPayload>({
+    registration: builder.mutation({
       query: (credentials) => ({
         url: "/auth/teacher/registration",
         method: "POST",

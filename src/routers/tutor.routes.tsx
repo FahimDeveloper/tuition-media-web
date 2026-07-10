@@ -30,90 +30,90 @@ export const tutorPath: TPath[] = [
     showInSidebar: true,
     element: <TutorDashboard />,
   },
-  {
-    path: "profile",
-    name: "User Profile",
-    icon: UserCircleIcon,
-    showInSidebar: true,
-    element: <UserProfiles />,
-  },
-  {
-    path: "job-board",
-    name: "Job Board",
-    icon: ListIcon,
-    showInSidebar: true,
-    element: <JobBoard />,
-  },
-  {
-    path: "job-board/:id",
-    name: "Job Board Details",
-    showInSidebar: false,
-    element: <JobBoardDetails />,
-  },
-  {
-    // This parent must own the `history` segment so its children resolve under
-    // `/tutor/history/...`. The default redirect to the first child is handled
-    // centrally inside `routesGenerator`.
-    path: "history",
-    name: "History",
-    icon: GridIcon,
-    showInSidebar: false,
-    children: [
-      {
-        path: "current-status",
-        name: "Current Status",
-        showInSidebar: true,
-        element: <CurrentStatus />,
-      },
-      {
-        path: "applied-jobs",
-        name: "Applied Jobs",
-        showInSidebar: false,
-        element: createElement("h1", null, "Applied Jobs"),
-      },
-      {
-        path: "applied-opportunities",
-        name: "Applied Opportunities",
-        showInSidebar: false,
-        element: createElement("h1", null, "Applied Opportunities"),
-      },
-      {
-        path: "shortlisted",
-        name: "Shortlisted Opportunities",
-        element: createElement("h1", null, "Tuition Opportunities"),
-      },
-      {
-        path: "appointed",
-        element: createElement("h1", null, "Tuition Opportunities"),
-      },
-      {
-        path: "confirmed",
-        element: createElement("h1", null, "Tuition Opportunities"),
-      },
-      {
-        path: "payment",
-        element: createElement("h1", null, "Tuition Opportunities"),
-      },
-      {
-        path: "due",
-        element: createElement("h1", null, "Tuition Opportunities"),
-      },
-      {
-        path: "refund",
-        element: createElement("h1", null, "Tuition Opportunities"),
-      },
-      {
-        path: "canceled",
-        element: createElement("h1", null, "Tuition Opportunities"),
-      },
-    ],
-  },
-  {
-    path: "verification",
-    element: createElement("h1", null, "Tuition Jobs"),
-  },
-  {
-    path: "settings",
-    element: createElement("h1", null, "Tuition Jobs"),
-  },
+  // {
+  //   path: "profile",
+  //   name: "User Profile",
+  //   icon: UserCircleIcon,
+  //   showInSidebar: true,
+  //   element: <UserProfiles />,
+  // },
+  // {
+  //   path: "job-board",
+  //   name: "Job Board",
+  //   icon: ListIcon,
+  //   showInSidebar: true,
+  //   element: <JobBoard />,
+  // },
+  // {
+  //   path: "job-board/:id",
+  //   name: "Job Board Details",
+  //   showInSidebar: false,
+  //   element: <JobBoardDetails />,
+  // },
+  // This parent must own the `history` segment so its children resolve under
+  // `/tutor/history/...`. The default redirect to the first child is handled
+  // centrally inside `routesGenerator`.
+  // {
+  //   path: "history",
+  //   name: "History",
+  //   icon: GridIcon,
+  //   showInSidebar: false,
+  //   children: [
+  //     {
+  //       path: "current-status",
+  //       name: "Current Status",
+  //       showInSidebar: true,
+  //       element: <CurrentStatus />,
+  //     },
+  //     {
+  //       path: "applied-jobs",
+  //       name: "Applied Jobs",
+  //       showInSidebar: false,
+  //       element: createElement("h1", null, "Applied Jobs"),
+  //     },
+  //     {
+  //       path: "applied-opportunities",
+  //       name: "Applied Opportunities",
+  //       showInSidebar: false,
+  //       element: createElement("h1", null, "Applied Opportunities"),
+  //     },
+  //     {
+  //       path: "shortlisted",
+  //       name: "Shortlisted Opportunities",
+  //       element: createElement("h1", null, "Tuition Opportunities"),
+  //     },
+  //     {
+  //       path: "appointed",
+  //       element: createElement("h1", null, "Tuition Opportunities"),
+  //     },
+  //     {
+  //       path: "confirmed",
+  //       element: createElement("h1", null, "Tuition Opportunities"),
+  //     },
+  //     {
+  //       path: "payment",
+  //       element: createElement("h1", null, "Tuition Opportunities"),
+  //     },
+  //     {
+  //       path: "due",
+  //       element: createElement("h1", null, "Tuition Opportunities"),
+  //     },
+  //     {
+  //       path: "refund",
+  //       element: createElement("h1", null, "Tuition Opportunities"),
+  //     },
+  //     {
+  //       path: "canceled",
+  //       element: createElement("h1", null, "Tuition Opportunities"),
+  //     },
+  //   ],
+  // },
+  // {
+  //   path: "verification",
+  //   element: createElement("h1", null, "Tuition Jobs"),
+  // },
+  // {
+  //   path: "settings",
+  //   element: createElement("h1", null, "Tuition Jobs"),
+  // },
 ];

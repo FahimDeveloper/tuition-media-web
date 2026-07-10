@@ -1,58 +1,63 @@
-import { useCallback } from "react";
-import { Button, Form, Input, Modal, Typography } from "antd";
+import { useEffect } from "react";
+import { Button, Form, Input, Typography } from "antd";
 import { FiArrowRight } from "react-icons/fi";
+import Swal from "sweetalert2";
+
 import { useCreateLeadMutation } from "@/redux/features/lead/leadApi";
-import { getApiErrorMessage } from "@/utils/api-error.utils";
-import { stripPhoneFormatting } from "@/utils/phone.utils";
 import {
   bangladeshiPhoneRule,
   requiredRule,
 } from "@/validations/form.validation";
+import type { TLead } from "@/types/lead.types";
 
 const { Text } = Typography;
 const { TextArea } = Input;
 
-type LeadFormValues = {
-  name: string;
-  contact: string;
-  details?: string;
-};
-
-type CreateLeadResponse = {
-  message?: string;
-};
+const inputStyles =
+  "border-border! bg-surface-elevated! text-text-strong! shadow-theme-xs! placeholder:text-text-soft! hover:border-brand-300! focus:border-brand-300! focus:shadow-focus-ring! min-h-14! rounded-xl!";
 
 export default function LeadForm() {
-  const [leadForm] = Form.useForm<LeadFormValues>();
-  const [createLead, { isLoading: isCreatingLead }] = useCreateLeadMutation();
+  const [leadForm] = Form.useForm<Partial<TLead>>();
 
-  const handleLeadSubmit = useCallback(
-    async (formValues: LeadFormValues) => {
-      try {
-        const response = (await createLead({
-          ...formValues,
-          contact: stripPhoneFormatting(formValues.contact),
-        }).unwrap()) as CreateLeadResponse;
+  const [createLead, { isLoading, isSuccess, isError, error, reset }] =
+    useCreateLeadMutation();
 
-        Modal.success({
-          title: "Success",
-          content: response?.message || "Success",
-          centered: true,
-          okText: "OK",
-        });
+  /**
+   * Effect to handle Success state
+   */
+  useEffect(() => {
+    if (isSuccess) {
+      Swal.fire({
+        icon: "success",
+        title: "Successfully Sent!",
+        text: "We have received your request and will get back to you shortly.",
+        confirmButtonColor: "#4f46e5",
+      });
+      leadForm.resetFields();
+      reset();
+    }
+  }, [isSuccess, leadForm, reset]);
 
-        leadForm.resetFields();
-      } catch (error) {
-        Modal.error({
-          title: "Oops!..",
-          content: getApiErrorMessage(error, "Something went wrong"),
-          centered: true,
-          okText: "Close",
-        });
-      }
-    },
-    [createLead, leadForm],
-  );
+  /**
+   * Effect to handle Error state
+   */
+  useEffect(() => {
+    if (isError) {
+      Swal.fire({
+        icon: "error",
+        title: "Submission Failed",
+        text:
+          (error as any)?.data?.message ||
+          "Something went wrong. Please try again.",
+      });
+      reset();
+    }
+  }, [isError, error, reset]);
+
+  const handleLeadSubmit = (values: Partial<TLead>) => {
+    const newValues: Partial<TLead> = { lead_source: "website", ...values };
+    createLead(newValues);
+  };
 
   return (
     <Form
@@ -71,7 +76,7 @@ export default function LeadForm() {
           size="large"
           placeholder="Enter your name"
           autoComplete="name"
-          className="border-border! bg-surface-elevated! text-text-strong! shadow-theme-xs! placeholder:text-text-soft! hover:border-brand-300! focus:border-brand-300! focus:shadow-focus-ring! min-h-14! rounded-xl!"
+          className={inputStyles}
         />
       </Form.Item>
 
@@ -92,7 +97,7 @@ export default function LeadForm() {
           placeholder="01 or +8801"
           inputMode="tel"
           autoComplete="tel"
-          className="border-border! bg-surface-elevated! text-text-strong! shadow-theme-xs! placeholder:text-text-soft! hover:border-brand-300! focus:border-brand-300! focus:shadow-focus-ring! min-h-14! rounded-xl!"
+          className={inputStyles}
         />
       </Form.Item>
 
@@ -107,7 +112,7 @@ export default function LeadForm() {
         <TextArea
           rows={3}
           placeholder="Write your message here..."
-          className="border-border! bg-surface-elevated! text-text-strong! shadow-theme-xs! placeholder:text-text-soft! hover:border-brand-300! focus:border-brand-300! focus:shadow-focus-ring! rounded-xl!"
+          className={inputStyles}
         />
       </Form.Item>
 
@@ -116,7 +121,7 @@ export default function LeadForm() {
         type="primary"
         size="large"
         htmlType="submit"
-        loading={isCreatingLead}
+        loading={isLoading}
         className="bg-brand-600! text-text-on-brand! shadow-theme-md! hover:bg-brand-700! hover:shadow-theme-lg! mt-1! min-h-14! rounded-xl! text-base! font-semibold!"
       >
         Book Demo Class

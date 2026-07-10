@@ -1,31 +1,20 @@
-import type { TuitionJob } from "./tuition-job.types";
-
-export type AppliedApplicationStatus =
+type TApplicationStatus =
   | "applied"
   | "shortlisted"
   | "rejected"
-  | "hired";
+  | "hired"
+  | "cancelled";
 
-export type AppliedApplicationJob = Partial<TuitionJob> & {
-  _id?: string;
-  id?: string;
+type TApplicationSource = "website_application" | "admin_sourced";
+
+// Interface matching your Mongoose Schema
+export type TJobApplication = {
+  _id: string;
+  job: string | any; // Use 'string' for IDs or the full 'ITuitionJob' object if populated
+  applicant: string | any; // Use 'string' for IDs or the full 'ITeacher' object if populated
+  status: TApplicationStatus;
+  source: TApplicationSource;
+  managed_by?: string | null;
+  createdAt: string;
+  updatedAt: string;
 };
-
-export interface AppliedApplication {
-  _id?: string;
-  job: string | AppliedApplicationJob;
-  applicant: string;
-  status: AppliedApplicationStatus;
-  createdAt?: string;
-  updatedAt?: string;
-}
-
-export interface AppliedApplicationPayload {
-  job: string;
-  applicant: string;
-}
-
-export interface ApplyTuitionJobResponse {
-  message?: string;
-  results?: AppliedApplication;
-}

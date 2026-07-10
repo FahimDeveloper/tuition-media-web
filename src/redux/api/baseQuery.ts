@@ -1,14 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
+  DefinitionType,
   fetchBaseQuery,
+  type BaseQueryApi,
   type BaseQueryFn,
   type FetchArgs,
-  type FetchBaseQueryError,
-} from "@reduxjs/toolkit/query";
+} from "@reduxjs/toolkit/query/react";
 
-import { baseUrl } from "@/config";
-import { loggedInUser, loggedOutUser } from "@/redux/features/auth/authSlice";
-import type { AuthSuccessResponse } from "@/types";
-import type { RootState } from "@/redux/store";
+import { baseUrl } from "../../config";
+import type { RootState } from "../store";
+import { loggedInUser, loggedOutUser } from "../features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: baseUrl.BASE_URL,
@@ -24,21 +25,16 @@ const baseQuery = fetchBaseQuery({
 
 export const baseQueryWithRefreshToken: BaseQueryFn<
   FetchArgs,
-  unknown,
-  FetchBaseQueryError
-> = async (args, api, extraOptions) => {
+  BaseQueryApi,
+  DefinitionType
+> = async (args, api, extraOptions): Promise<any> => {
   let result = await baseQuery(args, api, extraOptions);
   if (result?.error?.status === 401) {
-    const token = (api.getState() as RootState).auth.refreshToken;
     const res = await fetch(`${baseUrl.AUTH_REFRESH_URL}`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ refresh_token: token }),
+      credentials: "include",
     });
-    const data = (await res.json()) as AuthSuccessResponse;
-
+    const data = await res.json();
     if (data.results) {
       api.dispatch(loggedInUser(data.results));
       result = await baseQuery(args, api, extraOptions);

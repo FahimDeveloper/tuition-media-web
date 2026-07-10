@@ -4,16 +4,16 @@ import { routesGenerator } from "@/utils/routes.utils";
 import { userRole } from "@/utils/role";
 import MainLayout from "@/components/layout/shell/MainLayout";
 import DashboardLayout from "@/components/layout/shell/DashboardLayout";
-import Login from "@/pages/AuthPages/Login";
-import SignUp from "@/pages/AuthPages/SignUp";
+import Login from "@/pages/authPages/Login";
+import SignUp from "@/pages/authPages/SignUp";
 import Home from "@/pages/home/Home";
 import NotFound from "@/pages/errors/NotFound";
-import Tuitions from "@/pages/tuition-jobs/TuitionsJobs";
+import Tuitions from "@/pages/tuitionJobs/TuitionsJobs";
 import PrivateRoute from "@/routers/PrivateRoute";
-import BookDemoClass from "@/pages/book-demo-class/BookDemoClass";
-import TuitionDetailsPage from "@/pages/tuition-jobs/TuitionJobDetails";
-import TutorHub from "@/pages/tutor-hub/TutorHub";
-import TutorHubDetails from "@/pages/tutor-hub/TutorHubDetails";
+import BookDemoClass from "@/pages/bookDemoClass/BookDemoClass";
+import TuitionDetails from "@/pages/tuitionJobs/TuitionJobDetails";
+import TutorHub from "@/pages/tutorHub/TutorHub";
+import TutorHubDetails from "@/pages/tutorHub/TutorHubDetails";
 import RootLayout from "@/components/layout/shell/RootLayout";
 
 const router = createBrowserRouter([
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
           { index: true, element: <Home /> },
           { path: "demo-class", element: <BookDemoClass /> },
           { path: "tuitions", element: <Tuitions /> },
-          { path: "tuitions/:id", element: <TuitionDetailsPage /> },
+          { path: "tuitions/:id", element: <TuitionDetails /> },
           { path: "hub", element: <TutorHub /> },
           { path: "hub/:id", element: <TutorHubDetails /> },
         ],
