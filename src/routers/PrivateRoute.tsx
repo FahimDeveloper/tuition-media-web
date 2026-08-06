@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { useAppSelector } from "@/hooks/useAppHooks";
 import { Navigate } from "react-router-dom";
 
-const PrivetRoute = ({
+const PrivateRoute = ({
   children,
   role,
 }: {
@@ -13,8 +13,8 @@ const PrivetRoute = ({
   if (user && accessToken && role === "tutor") {
     return children;
   } else {
-    return <Navigate to="/login" replace={true} />;
+    return <Navigate to="/login" replace />;
   }
 };
 
-export default PrivetRoute;
+export default PrivateRoute;

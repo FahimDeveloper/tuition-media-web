@@ -1,13 +1,10 @@
-import { authApiSlice } from "@/redux/api/httpSlice";
+import { leadApiSlice } from "@/redux/api/httpSlice";
+import { type TLead } from "@/types/lead.types";
+import { type TGlobalResponse } from "@/types/index.types";
 
-// /leads/create
-// name:
-// contact:
-// details
-
-const leadApi = authApiSlice.injectEndpoints({
+const leadApi = leadApiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    createLead: builder.mutation({
+    createLead: builder.mutation<TGlobalResponse<TLead>, Partial<TLead>>({
       query: (payload) => ({
         url: "/leads/create",
         method: "POST",

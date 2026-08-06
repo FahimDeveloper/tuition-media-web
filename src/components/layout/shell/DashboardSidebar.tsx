@@ -6,8 +6,8 @@ import BrandLogo from "@/components/common/BrandLogo";
 import { ChevronDownIcon } from "@/icons";
 import { useSidebar } from "@/context/dashboard/SidebarContext";
 import { tutorPath } from "@/routers/tutor.routes";
-import type { TSidebarNavItem } from "@/types/path";
-import { navigationGenerator } from "@/utils/navigationGenerator";
+import type { TSidebarNavItem } from "@/types";
+import { navigationGenerator } from "@/utils/navigation.utils";
 
 // The sidebar reads directly from the shared tutor route config so menu items
 // and `/tutor/*` routes stay aligned.

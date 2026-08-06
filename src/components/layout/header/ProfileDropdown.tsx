@@ -4,15 +4,14 @@ import {
   selectCurrentUser,
 } from "@/redux/features/auth/authSlice";
 import { type ReactNode, useEffect, useId, useRef, useState } from "react";
-import {
-  FiChevronDown,
-  FiGrid,
-  FiLogOut,
-  FiSettings,
-  FiUser,
-} from "react-icons/fi";
+import { FiChevronDown, FiGrid, FiLogOut, FiUser } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import {
+  getUserAvatar,
+  getUserDisplayName,
+  getUserInitials,
+} from "@/utils/user-display.utils";
 
 type ProfileAction = {
   label: string;
@@ -34,56 +33,7 @@ const profileActions: ProfileAction[] = [
     description: "Update your personal info",
     icon: <FiUser size={18} />,
   },
-  {
-    label: "Settings",
-    href: "/tutor/settings",
-    description: "Manage preferences and alerts",
-    icon: <FiSettings size={18} />,
-  },
 ];
-
-const getUserDisplayName = (
-  firstName?: string | null,
-  lastName?: string | null,
-  fallbackEmail?: string | null,
-) => {
-  const fullName = [firstName, lastName]
-    .filter((value): value is string => Boolean(value?.trim()))
-    .join(" ")
-    .trim();
-
-  if (fullName) {
-    return fullName;
-  }
-
-  return fallbackEmail?.trim() || "Account";
-};
-
-const getUserInitials = (
-  firstName?: string | null,
-  lastName?: string | null,
-) => {
-  const initials = [firstName, lastName]
-    .filter((value): value is string => Boolean(value?.trim()))
-    .map((value) => value.trim().charAt(0).toUpperCase())
-    .join("");
-
-  if (initials) {
-    return initials.slice(0, 2);
-  }
-
-  return "A";
-};
-
-const getAvatarSource = (
-  avatar?: string | null,
-  image?: string | null,
-  profileImage?: string | null,
-  legacyProfileImage?: string | null,
-) =>
-  [avatar, image, profileImage, legacyProfileImage].find(
-    (value) => typeof value === "string" && value.trim().length > 0,
-  ) ?? null;
 
 type ProfileAvatarProps = {
   avatarSrc: string | null;
@@ -135,28 +85,16 @@ const ProfileDropdown = () => {
   const firstActionRef = useRef<HTMLAnchorElement | null>(null);
   const menuId = useId();
 
-  const displayName = getUserDisplayName(
-    currentUser?.first_name,
-    currentUser?.last_name,
-    currentUser?.email,
-  );
-  const triggerLabel = currentUser?.first_name?.trim() || displayName;
+  const displayName = getUserDisplayName(currentUser);
+  const triggerLabel = displayName;
   const profileBadge =
     currentUser?.role?.trim() ||
     (currentUser?.isProfileCompleted
       ? "Profile complete"
       : "Profile incomplete");
   const avatarAlt = `${displayName} profile`;
-  const userInitials = getUserInitials(
-    currentUser?.first_name,
-    currentUser?.last_name,
-  );
-  const avatarSrc = getAvatarSource(
-    currentUser?.avatar,
-    currentUser?.image,
-    currentUser?.profileImage,
-    currentUser?.profile_image,
-  );
+  const userInitials = getUserInitials(currentUser);
+  const avatarSrc = getUserAvatar(currentUser);
 
   const closeMenu = (shouldFocusTrigger = false) => {
     setIsOpen(false);
@@ -286,14 +224,9 @@ const ProfileDropdown = () => {
               <p className="text-neutral truncate text-sm font-bold">
                 {displayName}
               </p>
-              <p className="bg-brand-50 text-brand-700 dark:bg-brand-500/15 dark:text-brand-300 mt-0.5 inline-flex rounded-full px-2 py-0.5 text-xs font-semibold">
+              <p className="bg-brand-50 text-brand-700 dark:bg-brand-500/15 dark:text-brand-300 mt-0.5 mb-2 inline-flex rounded-full px-2 py-0.5 text-xs font-semibold">
                 {profileBadge}
               </p>
-              {currentUser?.email ? (
-                <p className="text-text-muted mt-1 truncate text-xs">
-                  {currentUser.email}
-                </p>
-              ) : null}
               {currentUser?.phone ? (
                 <p className="text-text-muted truncate text-xs">
                   {currentUser.phone}

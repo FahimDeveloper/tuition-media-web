@@ -1,11 +1,25 @@
-import ProfileSummary from "@/components/layout/tutor/dashboard/ProfileSummary";
-import Stats from "@/components/layout/tutor/dashboard/Stats";
+import { skipToken } from "@reduxjs/toolkit/query";
+import ProfileSummary from "@/pages/tutor/dashboard/components/ProfileSummary";
+import Stats from "@/pages/tutor/dashboard/components/Stats";
 import PageMeta from "@/components/common/PageMeta";
-import WelcomeMessage from "@/components/layout/tutor/dashboard/WelcomeMessage";
-import ProfileComplete from "@/components/layout/tutor/dashboard/ProfileComplete";
-import StatusStatsCards from "@/components/layout/tutor/dashboard/StatusStatsCards";
+import WelcomeMessage from "@/pages/tutor/dashboard/components/WelcomeMessage";
+import ProfileComplete from "@/pages/tutor/dashboard/components/ProfileComplete";
+import StatusStatsCards from "@/pages/tutor/dashboard/components/StatusStatsCards";
+
+import { useAppSelector } from "@/hooks/useAppHooks";
+import { selectCurrentUser } from "@/redux/features/auth/authSlice";
+import { useTeacherProfileQuery } from "@/redux/features/teachers/teachersProfileApi";
+import { calculateTeacherProfileCompletion } from "@/pages/tutor/profile/utils/profileCompletion";
+import { getUserDisplayName } from "@/utils/user-display.utils";
 
 export default function Home() {
+  const currentUser = useAppSelector(selectCurrentUser);
+  const { data: teacherProfile, isLoading } = useTeacherProfileQuery(
+    currentUser?._id ?? skipToken,
+  );
+  const completion = calculateTeacherProfileCompletion(teacherProfile);
+  const displayName = getUserDisplayName(teacherProfile ?? currentUser, "your");
+
   return (
     <>
       <PageMeta
@@ -22,13 +36,17 @@ export default function Home() {
         </div>
 
         <div className="col-span-12 xl:col-span-5">
-          <ProfileComplete />
+          <ProfileComplete
+            progress={completion}
+            name={displayName}
+            loading={isLoading}
+          />
         </div>
 
         <div className="col-span-12 h-full xl:col-span-7">
           <Stats />
         </div>
-        <div className="col-span-12">
+        <div className="col-span-12 hidden">
           <StatusStatsCards />
         </div>
       </div>

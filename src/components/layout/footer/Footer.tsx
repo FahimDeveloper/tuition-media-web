@@ -8,6 +8,7 @@ import {
 } from "react-icons/fi";
 import { Link, NavLink } from "react-router-dom";
 import BrandLogo from "@/components/common/BrandLogo";
+import { FaSquareWhatsapp, FaThreads } from "react-icons/fa6";
 
 type FooterLink = {
   label: string;
@@ -29,14 +30,14 @@ type SocialLink = {
 
 const quickLinks: FooterLink[] = [
   { label: "Home", href: "/" },
-  { label: "Find Tuition", href: "/tuition" },
+  { label: "Find Tuition", href: "/tuitions" },
   { label: "Login", href: "/login" },
   { label: "Create Account", href: "/signup" },
 ];
 
 const supportLinks: FooterLink[] = [
-  { label: "Teacher Profile", href: "/dashboard/profile" },
-  { label: "Dashboard", href: "/dashboard" },
+  { label: "Teacher Profile", href: "/tutor/profile" },
+  { label: "Teacher Dashboard", href: "/tutor" },
   { label: "Privacy Policy", href: "/" },
   { label: "Terms & Conditions", href: "/" },
 ];
@@ -44,8 +45,8 @@ const supportLinks: FooterLink[] = [
 const contactItems: FooterContact[] = [
   {
     label: "Phone",
-    value: "+880 1700-000000",
-    href: "tel:+8801700000000",
+    value: "+880 1330-912517",
+    href: "tel:+8801330912517",
     icon: <FiPhone size={18} />,
   },
   {
@@ -65,13 +66,23 @@ const contactItems: FooterContact[] = [
 const socialLinks: SocialLink[] = [
   {
     label: "Facebook",
-    href: "https://facebook.com",
+    href: "https://www.facebook.com/share/1HCKRY5Dtr/",
     icon: <FiFacebook size={18} />,
   },
   {
     label: "Instagram",
-    href: "https://instagram.com",
+    href: "https://www.instagram.com/tutoriumbd?igsh=ODZ0a3BpYmVzOXVl",
     icon: <FiInstagram size={18} />,
+  },
+  {
+    label: "Instagram",
+    href: "https://www.threads.com/@tutoriumbd",
+    icon: <FaThreads size={18} />,
+  },
+  {
+    label: "Whatsapp",
+    href: "https://wa.me/8801920296949?text=Hello%20Tutorium%20BD",
+    icon: <FaSquareWhatsapp size={18} />,
   },
 ];
 
